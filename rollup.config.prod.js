@@ -15,7 +15,7 @@ export default {
   },
   plugins: [
     copy({
-      targets: [{ src: 'public/*', dest: 'dist/' }],
+      targets: [{ src: 'public/*', dest: 'docs/' }],
     }),
     resolve({
       browser: true,

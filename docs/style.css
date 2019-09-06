@@ -1,0 +1,170 @@
+/* CSS custom properties - GLOBAL VARIABLES */
+:root {
+  --primaryColor: #d3197c;
+  --primaryColorFocus: #a10e5c;
+  --primaryActionColor: #0062e6;
+  --primaryActionColorFocus: #113da6;
+
+  --spacing1x: 8px;
+  --spacing05x: calc(0.5 * var(--spacing1x));
+  --spacing2x: calc(2 * var(--spacing1x));
+  --spacing3x: calc(3 * var(--spacing1x));
+  --spacing4x: calc(4 * var(--spacing1x));
+
+  --pageBgColor: #f7f7f7;
+  --workareaBgColor: #fff;
+
+  --linkColor: var(--primaryActionColor);
+  --linkColorFocus: var(--primaryActionColorFocus);
+
+  --generalTextColor: #414949;
+  --generalTextFontSize: 18px;
+  --generalTextFontWeight: 600;
+  --generalTextFontFamily: "Open Sans", sans-serif;
+  --generalTextLineHeight: 1.43;
+  --generateTextIncreaseRatio: 1.125;
+
+  --text-m: var(--generalTextFontSize);
+  --text-s: calc(var(--text-m) / var(--generateTextIncreaseRatio));
+  --text-xs: calc(var(--text-s) / var(--generateTextIncreaseRatio));
+  --text-xxs: calc(var(--text-xs) / var(--generateTextIncreaseRatio));
+
+  --text-l: calc(var(--generateTextIncreaseRatio) * var(--text-m));
+  --text-xl: calc(var(--generateTextIncreaseRatio) * var(--text-l));
+  --text-xxl: calc(var(--generateTextIncreaseRatio) * var(--text-xl));
+  
+  --generalLabelColor: #939393;
+  --generalLabelFontSize: var(--text-xs);
+
+  --headerBgColor: var(--primaryColor);
+  --headerTextColor: #fff;
+
+  --controlHeight: 42px;
+}
+
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans Regular"), local("OpenSans-Regular"),
+    url(https://fonts.gstatic.com/s/opensans/v16/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2)
+      format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Open Sans SemiBold"), local("OpenSans-SemiBold"),
+    url(https://fonts.gstatic.com/s/opensans/v16/mem5YaGs126MiZpBA-UNirkOUuhpKKSTjw.woff2)
+      format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Open Sans Bold"), local("OpenSans-Bold"),
+    url(https://fonts.gstatic.com/s/opensans/v16/mem5YaGs126MiZpBA-UN7rgOUuhpKKSTjw.woff2)
+      format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 800;
+  src: local("Open Sans ExtraBold"), local("OpenSans-ExtraBold"),
+    url(https://fonts.gstatic.com/s/opensans/v16/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2)
+      format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+body {
+  margin: 0;
+  padding: 10px;
+  font: 16px/1.24 "Open Sans", sans-serif;
+  background: #efefef;
+}
+
+button {
+  background:green;
+  color: #FFF;
+  border:none;
+  height:35px;
+  min-width: 90px;
+  text-align:center;
+  padding: 0 8px;
+}
+
+input[type='text'] {
+  height:35px;
+  width:100%;
+}
+
+.stacked.flex {
+  display:flex;
+  flex-flow: column;
+}
+.stacked.flex > * {
+  margin-bottom: 16px;
+}
+
+.inline_middle.flex > * {
+  margin-right:8px;
+}
+
+pega-mashup {
+  background: #fff;
+}
+
+#pega-mashup,
+pega-mashup {  
+  margin: 8px auto;
+  max-width: 1200px;
+  padding: 16px;
+  width:100%;
+}
+
+.flex {
+  display:flex;
+}
+
+.flex-col {
+  flex-flow: column;
+}
+
+a,
+a:visited {
+  cursor: pointer;
+  text-decoration: none;
+  color: #020BFF;
+}
+
+a:active,
+a:focus,
+a:hover {
+  color: #020BFF;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.field-textinput, .field-textarea {
+  display:flex;
+  flex-flow: column;
+}
+
+.field-textinput > input, .field-textarea > textarea{
+  order:2;
+}
