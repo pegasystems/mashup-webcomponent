@@ -13,7 +13,6 @@ const createCaseLayout = (data, path, onCancel, onCreate) => html`
 const pegaLayout = (data, path) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}/${index}`;
-    console.log(item, tmppath);
     if (item.layout) {
       if (item.layout.groupFormat.trim() === '' || item.layout.groupFormat === 'CENTER') {
         item.layout.groupFormat = 'default';
@@ -49,7 +48,6 @@ const pegaField = (data, path) => {
   if (typeof data === 'undefined' || typeof data.control === 'undefined' || typeof data.control.type === 'undefined') {
     return null;
   }
-  console.log(data);
   switch (data.control.type) {
     case 'pxTextInput':
       return html`

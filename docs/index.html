@@ -11,11 +11,9 @@
     function createCase(e) {
         var el = event.target;
         var mytag = document.createElement("pega-mashup");
-        mytag.setAttribute("url", "https://pw16agenda-dt1.pegacloud.io/prweb");
+        mytag.setAttribute("url", "https://mashup.pega.com/prweb");
         mytag.setAttribute("action", "createNewWork");
         mytag.setAttribute("casetype", "Eas-BobsServ-Work-TestCase");
-        mytag.setAttribute("username", "wssuser1");
-        mytag.setAttribute("password", "rules");
         el.parentNode.appendChild(mytag);
     }
     </script>
@@ -27,16 +25,16 @@
     </div>
     <div class='flex flex-col'>
     <h2>With shadow DOM</h2>
-    <pega-mashup url="https://pw16agenda-dt1.pegacloud.io/prweb" useshadowdom="true" action="workList" username="wssuser1" password="rules"></pega-mashup>
+    <pega-mashup url="https://mashup.pega.com/prweb" useshadowdom="true" action="workList"></pega-mashup>
   </div>
 
   <div class='flex flex-col'>
     <h2>Without shadow DOM</h2>
-    <pega-mashup url="https://pw16agenda-dt1.pegacloud.io/prweb" useshadowdom="false" action="workList" username="wssuser1" password="rules"></pega-mashup>
+    <pega-mashup url="https://mashup.pega.com/prweb" useshadowdom="false" action="workList"></pega-mashup>
   </div>
   <div class='flex flex-col'>
       <h2>Mashup</h2>
-  <script src ='https://pw16agenda-dt1.pegacloud.io/prweb/?pyActivity=pzIncludeMashupScripts'></script>
+  <script src ='https://mashup.pega.com/prweb/PRAuth/WSSDEMO/?pyActivity=pzIncludeMashupScripts'></script>
 
   <div id="pega-mashup" data-pega-gadgetname ='PegaGadget' 
   data-pega-action ='display' 
@@ -48,9 +46,9 @@
   data-pega-applicationname ='BobsServ' 
   data-pega-threadname ='STANDARD' 
   data-pega-resizetype ='stretch' 
-  data-pega-url ='https://pw16agenda-dt1.pegacloud.io/prweb/' 
+  data-pega-url ='https://mashup.pega.com/prweb/PRAuth/WSSDEMO/' 
   data-pega-redirectguests ='true' 
-data-pega-action-param-parameters ='{"pzSkinName":"ClaritySkin_DeepCerise","UserIdentifier":"wssuser1","Password":"cnVsZXM="}' ></div>
+data-pega-action-param-parameters ='{"pzSkinName":"ClaritySkin_DeepCerise"}' ></div>
 </div>
   </body>
 </html>
