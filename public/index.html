@@ -19,36 +19,19 @@
     </script>
   </head>
   <body>
-    <h1>Test</h1>
-    <div class="flex">
+    <main>
+      <h1>This web component uses the DX API to show a case as a Mashup</h1>
+      <div class="flex">
         <button onclick="createCase(event)">Create</button>
-    </div>
-    <div class='flex flex-col'>
-    <h2>With shadow DOM</h2>
-    <pega-mashup url="https://mashup.pega.com/prweb" useshadowdom="true" action="workList"></pega-mashup>
-  </div>
-
-  <div class='flex flex-col'>
-    <h2>Without shadow DOM</h2>
-    <pega-mashup url="https://mashup.pega.com/prweb" useshadowdom="false" action="workList"></pega-mashup>
-  </div>
-  <div class='flex flex-col'>
-      <h2>Mashup</h2>
-  <script src ='https://mashup.pega.com/prweb/PRAuth/WSSDEMO/?pyActivity=pzIncludeMashupScripts'></script>
-
-  <div id="pega-mashup" data-pega-gadgetname ='PegaGadget' 
-  data-pega-action ='display' 
-  data-pega-action-param-harnessname ='pyTodoList' 
-  data-pega-action-param-classname ='Data-Portal' 
-  data-pega-action-param-model ='' 
-  data-pega-action-param-readonly ='true' 
-  data-pega-isdeferloaded ='false' 
-  data-pega-applicationname ='BobsServ' 
-  data-pega-threadname ='STANDARD' 
-  data-pega-resizetype ='stretch' 
-  data-pega-url ='https://mashup.pega.com/prweb/PRAuth/WSSDEMO/' 
-  data-pega-redirectguests ='true' 
-data-pega-action-param-parameters ='{"pzSkinName":"ClaritySkin_DeepCerise"}' ></div>
-</div>
+      </div>
+      <div class='flex flex-col'>
+        <h2>With shadow DOM</h2>
+        <pega-mashup url="https://mashup.pega.com/prweb" useshadowdom="true" action="workList"></pega-mashup>
+      </div>
+      <div class='flex flex-col'>
+        <h2>Without shadow DOM</h2>
+        <pega-mashup url="https://mashup.pega.com/prweb" useshadowdom="false" action="workList"></pega-mashup>
+      </div>
+    </main>
   </body>
 </html>
