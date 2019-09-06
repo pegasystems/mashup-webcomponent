@@ -1,6 +1,6 @@
 # mashup-webcomponent
 
-This project delivers a Web compoennt that leverages the DX API to expose a case type from the Pega Platform through Mashup. A complete demo of the application is available at https://pegasystems.github.io/mashup-component/.
+This project delivers a Web compoennt that leverages the DX API to expose a case type from the Pega Platform through Mashup. A complete demo of the application is available at https://pegasystems.github.io/mashup-webcomponent.
 
 The mashup web component is not a replacement of the Pega Mashup and is limited in terms of Pega UI component that are supported due to using the DX API to generate the UI dynamic. The benefits of the Mashup component are:
    - no need for inner iframe - the case type ui is completely integrated with the main document
