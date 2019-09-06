@@ -1,0 +1,34 @@
+{
+  "name": "cosmos-elements",
+  "version": "0.0.0",
+  "description": "Cosmos Web Elements",
+  "license": "MIT",
+  "scripts": {
+    "dev": "rollup --config rollup.config.dev.js --watch",
+    "build": "rollup --config rollup.config.prod.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/preset-env": "^7.5.5",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "rollup": "^0.67.4",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-copy": "^3.1.0",
+    "rollup-plugin-eslint": "^6.0.0",
+    "rollup-plugin-minify-html-literals": "^1.2.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-watch": "^4.3.1"
+  },
+  "dependencies": {
+    "lit-element": "^2.2.1",
+    "lit-html": "^1.1.1"
+  }
+}

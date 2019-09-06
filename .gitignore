@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+.firebase/
+firebase.json
+build
+.npm
+.eslintcache
+.node_repl_history
+.env
