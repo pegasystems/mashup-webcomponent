@@ -21,7 +21,7 @@ export default class PegaBase extends LitElement {
   displayContent() {
     if (this.caseID !== '') {
       return html`
-        <h2>Assignment - ${this.caseID}</h2>
+        <h2>Processing assignment '${this.caseID}'</h2>
         <div id="case-data"></div>
       `;
     }
@@ -30,7 +30,7 @@ export default class PegaBase extends LitElement {
     }
     if (this.action === 'createNewWork') {
       return html`
-        <h2>New Work - ${this.casetype}</h2>
+        <h2>Create new case of type '${this.casetype}'</h2>
         <div id="case-data"></div>
       `;
     }
@@ -58,8 +58,11 @@ export default class PegaBase extends LitElement {
   };
 
   createCase = () => {
+    this.cases = [];
+    this.caseID = '';
     this.action = 'createNewWork';
-    this.sendData('newwork', this.casetype);
+    this.performUpdate();
+    this.fetchData('newwork', this.casetype);
   };
 
   reloadElement = () => {
