@@ -41,61 +41,13 @@
 
   --controlHeight: 42px;
 }
-
-
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Open Sans Regular"), local("OpenSans-Regular"),
-    url(https://fonts.gstatic.com/s/opensans/v16/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2)
-      format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 600;
-  src: local("Open Sans SemiBold"), local("OpenSans-SemiBold"),
-    url(https://fonts.gstatic.com/s/opensans/v16/mem5YaGs126MiZpBA-UNirkOUuhpKKSTjw.woff2)
-      format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 700;
-  src: local("Open Sans Bold"), local("OpenSans-Bold"),
-    url(https://fonts.gstatic.com/s/opensans/v16/mem5YaGs126MiZpBA-UN7rgOUuhpKKSTjw.woff2)
-      format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 800;
-  src: local("Open Sans ExtraBold"), local("OpenSans-ExtraBold"),
-    url(https://fonts.gstatic.com/s/opensans/v16/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2)
-      format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
-    U+FEFF, U+FFFD;
-}
-
 body {
   margin: 0;
-  padding: 10px;
+  padding: 0;
   font: 16px/1.24 "Open Sans", sans-serif;
   background: #efefef;
+  display:flex;
+  flex-flow: column nowrap;
 }
 
 button {
@@ -108,9 +60,15 @@ button {
   padding: 0 8px;
 }
 
-input[type='text'] {
+input,
+textarea {
+  font: 16px/1.24 "Open Sans", sans-serif;
+}
+
+input[type='text'],
+input[type='password'] {
   height:35px;
-  width:100%;
+  padding-left: 7px;
 }
 
 .stacked.flex {
@@ -125,24 +83,16 @@ input[type='text'] {
   margin-right:8px;
 }
 
-pega-mashup {
-  background: #fff;
-}
-
-#pega-mashup,
-pega-mashup {  
-  margin: 8px auto;
-  max-width: 1200px;
-  padding: 16px;
-  width:100%;
-}
-
 .flex {
   display:flex;
 }
 
 .flex-col {
   flex-flow: column;
+}
+
+.align-center {
+  align-items: center;
 }
 
 a,
@@ -167,4 +117,145 @@ a:hover {
 
 .field-textinput > input, .field-textarea > textarea{
   order:2;
+}
+
+header {
+  background: 25% 50% no-repeat url(./hero-2.jpg);
+  background-size: cover;
+  height: 400px;
+  display: flex;
+  align-items: baseline;
+  padding: 21px 14px 0 14px;
+}
+
+footer {
+  border-top: 1px solid #d5d5d5;
+  padding: 14px 0;
+  display: flex;
+  align-items: baseline;
+}
+
+main {
+  min-height: calc(100vh - 172px);
+  margin-top: -300px;
+  width: 100%;
+}
+
+.workarea {
+  max-width: 1300px;
+  padding: 0 21px;
+  margin: 0 auto 16px auto;
+}
+
+.workarea h1 {
+  color: #FFF;
+}
+
+.logo {
+  height: 30px;
+}
+
+li {
+  list-style: none;
+  margin-right:30px;
+}
+
+ul {
+  display:flex;
+  flex-flow: row nowrap;
+  margin:0;
+  align-items: center;
+  padding: 0 0 0 30px;
+}
+
+header a {
+  color: #FFF;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+header a:hover,
+header a:active,
+header a:focus {
+  color: #FFF;
+}
+
+footer a,
+footer a:hover,
+footer a:active,
+footer a:focus {
+  font-size: 18px;
+  color: #646363;
+}
+
+.container-main-sidebar {
+  display: flex;
+  flex-flow: row nowrap;
+  min-height: 400px;
+}
+.container-main-sidebar > .main,
+.container-main-sidebar > .sidebar {
+  background: #FFF;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  padding: 14px;
+}
+
+.container-main-sidebar > .main {
+  flex: 1;
+  margin-right: 30px;
+}
+.container-main-sidebar > .sidebar {
+  width: 400px;
+}
+
+.toggle {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.toggle + label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 50px;
+	height: 30px;
+	background: #ccc;
+	display: block;
+	border-radius: 30px;
+	position: relative;
+}
+
+.toggle + label:after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 26px;
+	height: 26px;
+	background: #fff;
+	border-radius: 26px;
+	transition: 0.3s;
+}
+
+.toggle:checked + label {
+	background: #020BFF;
+}
+
+.toggle:checked + label:after {
+	left: calc(100% - 2px);
+	transform: translateX(-100%);
+}
+
+table {
+  width:100%;
+}
+
+th {
+  text-align:left;
+}
+
+.right-aligned {
+  text-align:right;
+  justify-content: flex-end;
 }

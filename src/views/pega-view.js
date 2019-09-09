@@ -10,6 +10,12 @@ const createCaseLayout = (data, path, onCancel, onCreate) => html`
   ${pegaCreateAreaActions(onCancel, onCreate)}
 `;
 
+const confirmPageLayout = onCancel => html`
+  <h2>Thank you.</div>
+  <p>Your information has been submitted.</p>
+  <button class="primary" @click="${onCancel}">Go back to worklist</button>
+`;
+
 const pegaLayout = (data, path) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}/${index}`;
@@ -121,14 +127,14 @@ const pegaTextInput = (data, path) => html`
 
 const pegaTextArea = (data, path) => html`
   <div class="field-item field-textarea">
-    <textarea ref="${data.reference}" required="${data.required}" id="${path}" value="${data.value}" placeholder="${data.label}" />
+    <textarea ref="${data.reference}" required="${data.required}" id="${path}" value="${data.value}" placeholder="${data.label}"></textarea>
     ${pegaDisplayLabel(data, path)}
   </div>
 `;
 
 const pegaIcon = (data, path) => html`
   <div class="field-item field-text">
-    <i class="${data.modes[0].iconStyle}" ref="${data.reference}" required="${data.required}" id="${path}" value="${data.value}" />${pegaDisplayLabel(
+    <i class="${data.control.modes[1].iconStyle}" ref="${data.reference}" required="${data.required}" id="${path}" value="${data.value}" />${pegaDisplayLabel(
   data,
   path,
 )}
@@ -171,4 +177,4 @@ const pegaDropDown = (data, path) => html`
     </select>
   </div>
 `;
-export { mainLayout, createCaseLayout };
+export { mainLayout, createCaseLayout, confirmPageLayout };

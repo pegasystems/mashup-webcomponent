@@ -1,31 +1,30 @@
 import { html } from 'lit-html';
 
-const worklist = (cases, reloadHandler) => html`
-  <button id="reload" @click="${reloadHandler}">Reload</button>
+const worklist = (cases, reloadHandler, createCaseHandler) => html`
+  <div class="flex right-aligned">
+    <button id="reload" @click="${reloadHandler}">Reload</button>
+    <button id="create" @click="${createCaseHandler}">Create</button>
+  </div>
   ${cases.length > 0
     ? html`
         <table id="worklist">
           <thead>
             <tr>
-              <th>case ID</th>
-              <th>assignment ID</th>
               <th>Name</th>
-              <th>Routed to</th>
+              <th>case ID</th>
               <th class="right-aligned">Urgency</th>
+              <th class="right-aligned">Action</th>
             </tr>
           </thead>
           <tbody>
             ${cases.map(
     item => html`
                 <tr>
-                  <td>${item.caseID}</td>
-                  <td><a data-type="assignment">${item.ID}</a></td>
                   <td>${item.name}</td>
-                  <td>${item.routedTo}</td>
+                  <td>${item.caseID}</td>
                   <td class="right-aligned">${item.urgency}</td>
+                  <td class="right-aligned"><button data-type="assignment" data-id="${item.ID}">Open</button></td>
                 </tr>
-
-                <tr></tr>
               `,
   )}
           </tbody>

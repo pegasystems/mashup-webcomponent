@@ -298,6 +298,7 @@ export const viewStyle = () => html`
 
     .right-aligned {
       text-align: right;
+      justify-content: flex-end;
     }
     .margin-l-auto {
       margin-left: auto;
@@ -345,6 +346,9 @@ export const viewStyle = () => html`
     }
     .flex.inline_grid_70_30 > div:nth-child(2n + 1) {
       width: 70%;
+    }
+    table {
+      width: 100%;
     }
   </style>
 `;

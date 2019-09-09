@@ -1,8 +1,102 @@
-import { LitElement } from 'lit-element';
+import { html, LitElement, property } from 'lit-element';
 import { render } from 'lit-html';
-import { mainLayout, createCaseLayout } from '../views/pega-view';
+import { mainLayout, createCaseLayout, confirmPageLayout } from '../views/pega-view';
+import { worklist } from '../views/pega-worklist';
 
 export default class PegaBase extends LitElement {
+  @property({ type: String }) url = '';
+
+  @property({ type: String }) caseID = '';
+
+  @property({ type: String }) username = '';
+
+  @property({ type: String }) password = '';
+
+  @property({ type: String }) action = '';
+
+  @property({ type: String }) casetype = '';
+
+  @property({ type: Array }) cases = [];
+
+  displayContent() {
+    if (this.caseID !== '') {
+      return html`
+        <h2>Assignment - ${this.caseID}</h2>
+        <div id="case-data"></div>
+      `;
+    }
+    if (this.action === 'workList') {
+      return worklist(this.cases, this.reloadElement, this.createCase);
+    }
+    if (this.action === 'createNewWork') {
+      return html`
+        <h2>New Work - ${this.casetype}</h2>
+        <div id="case-data"></div>
+      `;
+    }
+    return null;
+  }
+
+  actionAreaCancel = () => {
+    this.cases = [];
+    this.caseID = '';
+    this.action = 'workList';
+    this.fetchData('worklist');
+  };
+
+  actionAreaSave = () => {
+    this.sendData('savecase', this.caseID);
+  };
+
+  actionAreaSubmit = () => {
+    this.sendData('submitcase', this.data.ID, this.data.actions[0].ID);
+  };
+
+  createAreaCancel = () => {
+    this.action = 'workList';
+    this.reloadElement();
+  };
+
+  createCase = () => {
+    this.action = 'createNewWork';
+    this.sendData('newwork', this.casetype);
+  };
+
+  reloadElement = () => {
+    this.cases = [];
+    this.caseID = '';
+    this.fetchData('worklist');
+  };
+
+  firstUpdated() {
+    const mashupWidget = this.getRenderRoot().querySelector('#mashup');
+    if (mashupWidget) {
+      mashupWidget.addEventListener('click', (event) => {
+        const el = event.target;
+        if (el && el.tagName === 'BUTTON') {
+          if (el.getAttribute('data-type') === 'assignment') {
+            this.fetchData('assignment', el.getAttribute('data-id'));
+          }
+        }
+      });
+      mashupWidget.addEventListener('change', (event) => {
+        const el = event.target;
+        const ref = el.getAttribute('ref');
+        if (typeof this.content === 'undefined') {
+          this.content = {};
+        }
+        if (ref !== null && ref !== 'pyID') {
+          this.content[ref] = el.value;
+        }
+      });
+    }
+    if (this.action === 'workList') {
+      this.fetchData('worklist');
+    } else if (this.action === 'createNewWork') {
+      this.fetchData('newwork', this.casetype);
+    }
+  }
+
   fetchData(type, id, actionid) {
     const headers = {
       Accept: 'application/json, text/plain, */*',
@@ -85,7 +179,6 @@ export default class PegaBase extends LitElement {
       method: 'POST',
       headers,
     };
-    let etag = '';
     let apiurl = `${this.url}/api/v1/`;
     switch (type) {
       case 'newwork':
@@ -112,7 +205,6 @@ export default class PegaBase extends LitElement {
     }
     fetch(apiurl, reqHeaders)
       .then((res) => {
-        etag = res.headers.get('etag');
         if (res.ok) {
           if (res.status === 200 || res.status === 201) {
             return res.json();
@@ -122,19 +214,21 @@ export default class PegaBase extends LitElement {
         return Promise.reject(res);
       })
       .then((response) => {
-        switch (type) {
-          case 'newwork':
-          case 'submitcase':
-            console.log('etag ', etag);
-            if (response.ID) {
-              this.caseID = response.ID;
-            }
-            if (response.nextAssignmentID) {
-              this.fetchData('assignment', response.nextAssignmentID);
-            } else if (response.nextPageID) {
-              this.fetchData('page', this.caseID, response.nextPageID);
-            }
-            break;
+        if (type === 'savecase') {
+          this.fetchData('case', this.caseID);
+        }
+        if (response.ID) {
+          this.caseID = response.ID;
+        }
+        if (response.nextAssignmentID) {
+          this.fetchData('assignment', response.nextAssignmentID);
+        } else if (response.nextPageID) {
+          if (response.nextPageID === 'Confirm') {
+            const el = this.getRenderRoot().querySelector('#case-data');
+            render(confirmPageLayout(this.actionAreaCancel), el);
+          } else {
+            this.fetchData('page', this.caseID, response.nextPageID);
+          }
         }
         this.requestUpdate();
       })

@@ -4,7 +4,7 @@ import serve from 'rollup-plugin-serve';
 import { eslint } from 'rollup-plugin-eslint';
 
 export default {
-  input: 'src/components/pega-mashup.js',
+  input: 'src/components/index.js',
   output: {
     file: 'build/cosmos-webelements.js',
     format: 'iife',

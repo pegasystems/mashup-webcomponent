@@ -34,3 +34,9 @@ npm run dev
 ```
 npm run build
 ```
+
+### Lint the Javascript files
+
+```
+npm run lint
+```

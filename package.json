@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js --watch",
-    "build": "rollup --config rollup.config.prod.js"
+    "build": "rollup --config rollup.config.prod.js",
+    "lint": "eslint src/**/*.js --fix; exit 0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -13,7 +14,7 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.1.2",
     "@babel/preset-env": "^7.5.5",
-    "babel-eslint": "^10.0.2",
+    "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
