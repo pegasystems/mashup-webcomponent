@@ -6,7 +6,7 @@ import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { eslint } from 'rollup-plugin-eslint';
 
 export default {
-  input: 'src/components/pega-mashup.js',
+  input: 'src/components/index.js',
   output: {
     file: 'docs/cosmos-webelements.js',
     format: 'iife',
