@@ -71,6 +71,7 @@ input[type='password'] {
   padding-left: 7px;
 }
 
+.default.flex,
 .stacked.flex {
   display:flex;
   flex-flow: column;

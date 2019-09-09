@@ -57,6 +57,10 @@ export default class PegaBase extends LitElement {
     this.reloadElement();
   };
 
+  createAreaSubmit = () => {
+    this.sendData('newwork', this.casetype);
+  };
+
   createCase = () => {
     this.cases = [];
     this.caseID = '';
@@ -164,7 +168,7 @@ export default class PegaBase extends LitElement {
             break;
           case 'newwork':
             this.content = {};
-            render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.createAreaCancel, this.createAreaCreate), el);
+            render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.createAreaCancel, this.createAreaSubmit), el);
             break;
         }
         this.requestUpdate();
