@@ -309,42 +309,42 @@ export const viewStyle = () => html`
     .flex {
       display: flex;
     }
-    .flex.inline_grid_double {
+    .flex.content-inline_grid_double {
       flex-flow: row wrap;
     }
-    .flex.inline_grid_double > div {
+    .flex.content-inline_grid_double > div {
       width: calc(50% - var(--spacing1x));
     }
-    .flex.inline_grid_double > div:nth-child(2n) {
+    .flex.content-inline_grid_double > div:nth-child(2n) {
       margin-left: var(--spacing1x);
     }
-    .flex.inline_grid_double > div:nth-child(2n + 1) {
+    .flex.content-inline_grid_double > div:nth-child(2n + 1) {
       margin-right: var(--spacing1x);
     }
-    .flex.default,
-    .flex.stacked {
+    .flex.content-default,
+    .flex.content-stacked {
       flex-flow: column nowrap;
     }
-    .flex.default > div {
+    .flex.content-default > div {
       min-height: 40px;
       margin-bottom: var(--spacing2x);
     }
-    .flex.stacked > div {
+    .flex.content-stacked > div {
       display: flex;
       flex-flow: column nowrap;
       min-height: 35px;
       margin-bottom: var(--spacing2x);
     }
-    .flex.inline_middle > * {
+    .flex.content-inline_middle > * {
       margin-right: var(--spacing1x);
     }
-    .flex.inline_middle > *:last-child {
+    .flex.content-inline_middle > *:last-child {
       margin-right: 0;
     }
-    .flex.inline_grid_70_30 > div:nth-child(2n) {
+    .flex.content-inline_grid_70_30 > div:nth-child(2n) {
       width: 30%;
     }
-    .flex.inline_grid_70_30 > div:nth-child(2n + 1) {
+    .flex.content-inline_grid_70_30 > div:nth-child(2n + 1) {
       width: 70%;
     }
     table {

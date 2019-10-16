@@ -71,16 +71,16 @@ input[type='password'] {
   padding-left: 7px;
 }
 
-.default.flex,
-.stacked.flex {
+.content-default.flex,
+.content-stacked.flex {
   display:flex;
   flex-flow: column;
 }
-.stacked.flex > * {
+.content-stacked.flex > * {
   margin-bottom: 16px;
 }
 
-.inline_middle.flex > * {
+.content-inline_middle.flex > * {
   margin-right:8px;
 }
 
