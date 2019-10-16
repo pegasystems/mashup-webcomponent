@@ -90,7 +90,7 @@ const pegaField = (data, path) => {
 };
 
 const pegaSubmitAreaActions = (onCancel, onSave, onSubmit) => html`
-  <div class="flex inline_middle margin-t-2x">
+  <div class="flex content-inline_middle margin-t-2x">
     <button path="pzhc pzbutton workareabutton-cancel" @click="${onCancel}">Cancel</button>
     <button class="pzhc pzbutton margin-l-auto" path="workareabutton-save" @click="${onSave}">Save</button>
     <button class="Strong pzhc pzbutton" path="workareabutton-submit" @click="${onSubmit}">Submit</button>
@@ -98,7 +98,7 @@ const pegaSubmitAreaActions = (onCancel, onSave, onSubmit) => html`
 `;
 
 const pegaCreateAreaActions = (onCancel, onCreate) => html`
-  <div class="flex inline_middle margin-t-2x">
+  <div class="flex content-inline_middle margin-t-2x">
     <button path="pzhc pzbutton workareabutton-cancel" @click="${onCancel}">Cancel</button>
     <button class="Strong pzhc pzbutton margin-l-auto primary" path="workareabutton-submit" @click="${onCreate}">Create</button>
   </div>

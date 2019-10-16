@@ -1,7 +1,7 @@
 import { html } from 'lit-html';
 
 const worklist = (cases, reloadHandler, createCaseHandler, openCaseHandler) => html`
-  <div class="flex right-aligned">
+  <div class="flex content-inline_middle right-aligned">
     <button id="reload" @click="${reloadHandler}">Reload</button>
     <button id="create" @click="${createCaseHandler}">Create</button>
   </div>
