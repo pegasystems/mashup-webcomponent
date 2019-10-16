@@ -77,9 +77,11 @@ input[type='password'] {
   flex-flow: column;
 }
 .content-stacked.flex > * {
+  margin-bottom: 8px;
+}
+.content-default.flex > * {
   margin-bottom: 16px;
 }
-
 .content-inline_middle.flex > * {
   margin-right:8px;
 }
