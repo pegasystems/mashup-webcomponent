@@ -5,6 +5,9 @@
   --primaryActionColor: #0062e6;
   --primaryActionColorFocus: #113da6;
 
+  --generalBorderColor: #aaa;
+  --generalBorderRadius: 5px;
+
   --spacing1x: 8px;
   --spacing05x: calc(0.5 * var(--spacing1x));
   --spacing2x: calc(2 * var(--spacing1x));
@@ -33,7 +36,7 @@
   --text-xl: calc(var(--generateTextIncreaseRatio) * var(--text-l));
   --text-xxl: calc(var(--generateTextIncreaseRatio) * var(--text-xl));
   
-  --generalLabelColor: #939393;
+  --generalLabelColor: #aaa;
   --generalLabelFontSize: var(--text-xs);
 
   --headerBgColor: var(--primaryColor);
@@ -63,6 +66,7 @@ button {
 input,
 textarea {
   font: 16px/1.24 "Open Sans", sans-serif;
+  resize: none;
 }
 
 input[type='text'],

@@ -38,16 +38,14 @@ export const viewStyle = () => html`
     }
 
     input[type='text'] {
-      overflow: hidden;
-      border: 1px solid transparent;
-      border-bottom-color: #e5e6e9;
+      border: 1px solid var(--generalBorderColor);
+      border-radius: var(--generalBorderRadius);
+
       font-size: var(--generalTextFontSize);
       color: var(--generalTextColor);
       font-weight: normal;
       text-align: left;
       background-color: transparent;
-      display: block;
-      width: 100%;
       outline: 0;
       padding: var(--spacing05x) var(--spacing1x) 0 var(--spacing1x);
       height: var(--controlHeight);
@@ -57,50 +55,24 @@ export const viewStyle = () => html`
     input[type='text']:active,
     input[type='text']:focus {
       outline: 0;
-      border-bottom: 1px solid var(--primaryColor);
+      border-color: var(--primaryColor);
     }
 
-    .field-textinput {
-      margin: var(--spacing2x) 0 var(--spacing1x) 0;
-      position: relative;
+    .field-item {
       display: flex;
+      flex-flow: column nowrap;
     }
 
-    .field-textinput > label {
-      position: absolute;
-      top: 0;
-      left: var(--spacing1x);
-      transition: all 0.3s ease;
-      padding: 0;
-      margin: 14px 0 0 0;
-      pointer-events: none;
+    .field-item > label {
+      display: block;
       font-size: var(--generalTextFontSize);
       color: var(--generalLabelColor);
     }
 
-    .field-textinput > input:focus,
-    .field-textinput > input:hover,
-    .field-textinput > input:active,
-    .field-textinput > input {
-      transition: all 0.3s linear;
-    }
-
-    .field-textinput > input::placeholder {
-      color: transparent;
-      font-size: 0;
-    }
-
-    .field-textinput > input:active + label,
-    .field-textinput > input:focus + label,
-    .field-textinput > input:not(:placeholder-shown) + label {
-      font-size: 75%;
-      transform: translate3d(0, -100%, 0);
-      margin-top: var(--spacing1x);
-    }
-
     textarea {
+      resize: none;
       overflow: hidden;
-      border: solid #e5e6e9 1px;
+      border: 1px solid var(--generalBorderColor);
       margin: 1px 0px;
       background-image: none;
       background-color: #fff;
@@ -112,8 +84,7 @@ export const viewStyle = () => html`
       background-color: transparent;
       display: block;
       tab-size: 4;
-      width: 100%;
-      border: 1px solid #ccc;
+      border-radius: var(--generalBorderRadius);
       outline: 0;
     }
 
@@ -121,7 +92,7 @@ export const viewStyle = () => html`
     textarea:active,
     textarea:focus {
       outline: 0;
-      border-bottom: 1px solid var(--primaryColor);
+      border-color: var(--primaryColor);
     }
 
     input[type='radio'] {
@@ -209,8 +180,7 @@ export const viewStyle = () => html`
       padding: 0 var(--spacing1x);
       outline: none;
       min-width: 280px;
-      border: 1px solid transparent;
-      border-bottom: solid #e5e6e9 1px;
+      border: 1px solid var(--generalBorderColor);
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;

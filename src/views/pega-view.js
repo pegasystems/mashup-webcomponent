@@ -122,14 +122,14 @@ const pegaDisplayText = (data, path) => html`
 const pegaTextInput = (data, path) => html`
   <div class="content-item field-item field-textinput">
     ${pegaDisplayLabel(data, path)}
-    <input ref="${data.reference}" required="${data.required}" type="text" id="${path}" value="${data.value}" placeholder="${data.label}" />
+    <input ref="${data.reference}" required="${data.required}" type="text" id="${path}" value="${data.value}" />
   </div>
 `;
 
 const pegaTextArea = (data, path) => html`
   <div class="content-item field-item field-textarea">
     ${pegaDisplayLabel(data, path)}
-    <textarea ref="${data.reference}" required="${data.required}" id="${path}" value="${data.value}" placeholder="${data.label}"></textarea>
+    <textarea ref="${data.reference}" rows="3" required="${data.required}" id="${path}" value="${data.value}"></textarea>
   </div>
 `;
 
