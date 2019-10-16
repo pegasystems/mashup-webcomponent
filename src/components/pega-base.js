@@ -26,7 +26,7 @@ export default class PegaBase extends LitElement {
       `;
     }
     if (this.action === 'workList') {
-      return worklist(this.cases, this.reloadElement, this.createCase);
+      return worklist(this.cases, this.reloadElement, this.createCase, this.openCase);
     }
     if (this.action === 'createNewWork') {
       return html`
@@ -37,31 +37,37 @@ export default class PegaBase extends LitElement {
     return null;
   }
 
-  actionAreaCancel = () => {
+  actionAreaCancel = (event) => {
+    event.preventDefault();
     this.cases = [];
     this.caseID = '';
     this.action = 'workList';
     this.fetchData('worklist');
   };
 
-  actionAreaSave = () => {
+  actionAreaSave = (event) => {
+    event.preventDefault();
     this.sendData('savecase', this.caseID);
   };
 
-  actionAreaSubmit = () => {
+  actionAreaSubmit = (event) => {
+    event.preventDefault();
     this.sendData('submitcase', this.data.ID, this.data.actions[0].ID);
   };
 
-  createAreaCancel = () => {
+  createAreaCancel = (event) => {
+    event.preventDefault();
     this.action = 'workList';
-    this.reloadElement();
+    this.reloadElement(event);
   };
 
-  createAreaSubmit = () => {
+  createAreaSubmit = (event) => {
+    event.preventDefault();
     this.sendData('newwork', this.casetype);
   };
 
-  createCase = () => {
+  createCase = (event) => {
+    event.preventDefault();
     this.cases = [];
     this.caseID = '';
     this.action = 'createNewWork';
@@ -69,7 +75,12 @@ export default class PegaBase extends LitElement {
     this.fetchData('newwork', this.casetype);
   };
 
-  reloadElement = () => {
+  openCase = (event) => {
+    event.preventDefault();
+  };
+
+  reloadElement = (event) => {
+    event.preventDefault();
     this.cases = [];
     this.caseID = '';
     this.fetchData('worklist');

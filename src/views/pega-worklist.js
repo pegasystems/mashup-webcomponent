@@ -1,6 +1,6 @@
 import { html } from 'lit-html';
 
-const worklist = (cases, reloadHandler, createCaseHandler) => html`
+const worklist = (cases, reloadHandler, createCaseHandler, openCaseHandler) => html`
   <div class="flex right-aligned">
     <button id="reload" @click="${reloadHandler}">Reload</button>
     <button id="create" @click="${createCaseHandler}">Create</button>
@@ -23,7 +23,9 @@ const worklist = (cases, reloadHandler, createCaseHandler) => html`
                   <td>${item.name}</td>
                   <td>${item.caseID}</td>
                   <td class="right-aligned">${item.urgency}</td>
-                  <td class="right-aligned"><button data-type="assignment" data-id="${item.ID}">Open</button></td>
+                  <td class="right-aligned">
+                    <button @click="${openCaseHandler}" class="Strong pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
+                  </td>
                 </tr>
               `,
   )}
