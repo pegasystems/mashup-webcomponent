@@ -19,6 +19,9 @@ export default class PegaBase extends LitElement {
   @property({ type: Array }) cases = [];
 
   displayContent() {
+    if (!this.casetypes) {
+      this.fetchData('casetypes');
+    }
     if (this.caseID !== '') {
       return html`
         <h2>Processing assignment '${this.caseID}'</h2>
@@ -38,7 +41,7 @@ export default class PegaBase extends LitElement {
   }
 
   actionAreaCancel = (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     this.cases = [];
     this.caseID = '';
     this.action = 'workList';
@@ -46,33 +49,42 @@ export default class PegaBase extends LitElement {
   };
 
   actionAreaSave = (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     this.sendData('savecase', this.caseID);
   };
 
   actionAreaSubmit = (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     this.sendData('submitcase', this.data.ID, this.data.actions[0].ID);
   };
 
   createAreaCancel = (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     this.action = 'workList';
     this.reloadElement(event);
   };
 
   createAreaSubmit = (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     this.sendData('newwork', this.casetype);
   };
 
   createCase = (event) => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     this.cases = [];
     this.caseID = '';
     this.action = 'createNewWork';
     this.performUpdate();
-    this.fetchData('newwork', this.casetype);
+    /* Check if we need to show the New harness or skip the New harness */
+    if (this.casetypes[this.casetype]) {
+      if (this.casetypes[this.casetype].requiresFieldsToCreate === true) {
+        this.fetchData('newwork', this.casetype);
+      } else {
+        this.sendData('newwork', this.casetype);
+      }
+    } else {
+      console.error(`Case '${this.casetype}' is not defined`);
+    }
   };
 
   openCase = (event) => {
@@ -82,6 +94,7 @@ export default class PegaBase extends LitElement {
   reloadElement = (event) => {
     event.preventDefault();
     this.cases = [];
+    this.casetypes = undefined;
     this.caseID = '';
     this.fetchData('worklist');
   };
@@ -111,7 +124,9 @@ export default class PegaBase extends LitElement {
     if (this.action === 'workList') {
       this.fetchData('worklist');
     } else if (this.action === 'createNewWork') {
-      this.fetchData('newwork', this.casetype);
+      if (this.casetypes) {
+        this.fetchData('newwork', this.casetype);
+      }
     }
   }
 
@@ -130,6 +145,9 @@ export default class PegaBase extends LitElement {
     switch (type) {
       case 'worklist':
         apiurl += 'assignments';
+        break;
+      case 'casetypes':
+        apiurl += 'casetypes';
         break;
       case 'newwork':
         apiurl += `casetypes/${id}`;
@@ -158,6 +176,20 @@ export default class PegaBase extends LitElement {
       .then((response) => {
         const el = this.getRenderRoot().querySelector('#case-data');
         switch (type) {
+          case 'casetypes':
+            this.casetypes = {};
+            for (const caseTypeIdx in response.caseTypes) {
+              const obj = response.caseTypes[caseTypeIdx];
+              this.casetypes[obj.ID] = {
+                canCreate: obj.CanCreate,
+                name: obj.name,
+                requiresFieldsToCreate: obj.startingProcesses[0].requiresFieldsToCreate,
+              };
+            }
+            if (this.action === 'createNewWork') {
+              this.createCase();
+            }
+            break;
           case 'worklist':
             this.cases = response.assignments;
             break;
