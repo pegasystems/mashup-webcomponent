@@ -1,15 +1,54 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": "last 2 Chrome version",
-        "modules": false
-      }
-    ]
-  ],
-  "plugins": [
-    ["@babel/plugin-proposal-decorators", { "legacy": true }],
-    ["@babel/plugin-proposal-class-properties", { "loose": true }]
-  ]
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": "last 2 Chrome version",
+            "modules": "cjs"
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-proposal-decorators",
+          {
+            "legacy": true
+          }
+        ],
+        [
+          "@babel/plugin-proposal-class-properties",
+          {
+            "loose": true
+          }
+        ]
+      ]
+    },
+    "build": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": "last 2 Chrome version",
+            "modules": false
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-proposal-decorators",
+          {
+            "legacy": true
+          }
+        ],
+        [
+          "@babel/plugin-proposal-class-properties",
+          {
+            "loose": true
+          }
+        ]
+      ]
+    }
+  }
 }

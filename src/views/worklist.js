@@ -1,13 +1,24 @@
 import { html } from 'lit-html';
+import { ButtonMenu } from './button-menu';
 
-const worklist = (cases, reloadHandler, createCaseHandler, openCaseHandler) => html`
-  <div class="flex content-inline_middle right-aligned">
-    <button id="reload" @click="${reloadHandler}">Reload</button>
-    <button id="create" @click="${createCaseHandler}">Create</button>
+const WorkList = (cases, onDisplayCaseTypes, onReload, onCreate, onOpen) => html`
+  <div class="flex layout-content-inline_middle">
+    <h2>
+      My worklist
+      ${cases.length > 0
+    ? html`
+            (${cases.length})
+          `
+    : ''}
+    </h2>
+    <div class="flex layout-content-inline_middle margin-l-auto">
+      <button class="pzhc pzbutton Simple" @click="${onReload}">Reload</button>
+      ${ButtonMenu('Create', onDisplayCaseTypes, onCreate)}
+    </div>
   </div>
   ${cases.length > 0
     ? html`
-        <table id="worklist">
+        <table>
           <thead>
             <tr>
               <th>Name</th>
@@ -24,7 +35,7 @@ const worklist = (cases, reloadHandler, createCaseHandler, openCaseHandler) => h
                   <td>${item.caseID}</td>
                   <td class="right-aligned">${item.urgency}</td>
                   <td class="right-aligned">
-                    <button @click="${openCaseHandler}" class="Strong pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
+                    <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
                   </td>
                 </tr>
               `,
@@ -37,4 +48,4 @@ const worklist = (cases, reloadHandler, createCaseHandler, openCaseHandler) => h
       `}
 `;
 
-export { worklist };
+export { WorkList };

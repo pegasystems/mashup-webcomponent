@@ -6,9 +6,9 @@ import { eslint } from 'rollup-plugin-eslint';
 export default {
   input: 'src/components/index.js',
   output: {
-    file: 'build/cosmos-webelements.js',
+    file: 'build/pega-mashup-webcomponent.js',
     format: 'iife',
-    name: 'PegaCosmosElements',
+    name: 'PegaMashupWebComponent',
     sourcemap: true,
   },
   plugins: [
@@ -24,7 +24,7 @@ export default {
       open: true,
       openPage: '/index.html',
       verbose: true,
-      contentBase: ['build', 'public'],
+      contentBase: ['build', 'docs'],
       port: 8083,
       headers: {
         'Access-Control-Allow-Origin': '*',

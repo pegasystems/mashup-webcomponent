@@ -13,7 +13,7 @@ class PegaMashupLight extends PegaBase {
 
   render() {
     return html`
-      <div id="mashup">${this.displayContent()}</div>
+      ${this.displayContent()}
     `;
   }
 }

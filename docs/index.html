@@ -1,92 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Cosmos Web Elements</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, viewport-fit=cover" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css" />
-    <script src="./cosmos-webelements.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <a><img src="./u+-logo.svg" alt="U+" class="logo"></a>
-      <nav>
-        <ul>
-          <li><a>Checking &amp; Savings</a></li>
-          <li><a>Credit cards</a></li>
-          <li><a>Loans</a></li>
-          <li><a>Investment</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <div class='workarea'>
-        <h1>This web component uses the DX API to show a case as a Mashup</h1>
-        <div class='container-main-sidebar'>
-          <div class='main'>
+
+<head>
+  <title>Cosmos Web Elements</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, viewport-fit=cover" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./pega-mashup-webcomponent.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <a><img src="./u+-logo.svg" alt="U+" class="logo"></a>
+    <nav>
+      <ul>
+        <li><a>Checking &amp; Savings</a></li>
+        <li><a>Credit cards</a></li>
+        <li><a>Loans</a></li>
+        <li><a>Investment</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class='workarea'>
+      <h1>This web component uses the DX API to show a case as a Mashup</h1>
+      <div class='container-main-sidebar'>
+        <div class='main'>
+        </div>
+        <div class='sidebar layout-content-stacked flex'>
+          <div class='flex align-center'>
+            <span>Use shadow DOM</span>
+            <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">use shadow
+              DOM</label>
           </div>
-          <div class='sidebar content-stacked flex'>
-            <div class='flex align-center'>
-              <span>use shadow DOM</span>
-              <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">use shadow DOM</label>
-            </div>
-            <div class='flex flex-col'>
-              <label for='url'>URL</label>
-              <input type='text' id='url'>
-            </div>
-            <div class='flex flex-col'>
-                <label for='casetype'>Case type</label>
-                <input type='text' id='casetype'>
-            </div>
-            <div class='flex flex-col'>
-                <label for='username'>Username</label>
-                <input type='text' id='username'>
-            </div>
-            <div class='flex flex-col'>
-                <label for='password'>Password</label>
-                <input type='password' id='password'>
-            </div>
-            <button onclick="createMashup('createNewWork')">Create</button>
-            <button onclick="createMashup('workList')">Update</button>
+          <div class='flex flex-col'>
+            <label for='url'>URL</label>
+            <input type='text' id='url'>
           </div>
+          <div class='flex flex-col'>
+            <label for='casetype'>Case type</label>
+            <input type='text' id='casetype'>
+          </div>
+          <div class='flex flex-col'>
+            <label for='username'>Username</label>
+            <input type='text' id='username'>
+          </div>
+          <div class='flex flex-col'>
+            <label for='password'>Password</label>
+            <input type='password' id='password'>
+          </div>
+          <button onclick="createMashup('createNewWork')">Create</button>
+          <button onclick="createMashup('workList')">Update</button>
         </div>
       </div>
-    </main>
-    <footer>
-      <nav>
-        <ul>
-          <li><a>About us</a></li>
-          <li><a>Reviews</a></li>
-          <li><a>Privacy</a></li>
-        </ul>
-      </nav>
-    </footer>
-    <script>
-      var mainEl = document.getElementsByClassName("main")[0];
-      function createMashup(action) {
-          var mytag;
-          if(document.getElementById("switch-shadowDOM").checked === false) {
-            mytag  = document.createElement("pega-mashup-light");
-          } else {
-            mytag  = document.createElement("pega-mashup");
-          }
-          mytag.setAttribute("url", document.getElementById("url").value);
-          mytag.setAttribute("action", action );
-          mytag.setAttribute("casetype", document.getElementById("casetype").value);
-          mytag.setAttribute("username", document.getElementById("username").value);
-          mytag.setAttribute("password", document.getElementById("password").value);
-          if(mainEl.childNodes.length>0) {
-            mainEl.removeChild(mainEl.childNodes[0]);
-          }
-          mainEl.appendChild(mytag);
+    </div>
+  </main>
+  <footer>
+    <nav>
+      <ul>
+        <li><a>About us</a></li>
+        <li><a>Reviews</a></li>
+        <li><a>Privacy</a></li>
+      </ul>
+    </nav>
+  </footer>
+  <script>
+    var mainEl = document.getElementsByClassName("main")[0];
+    function createMashup(action) {
+      var mytag;
+      if (document.getElementById("switch-shadowDOM").checked === false) {
+        mytag = document.createElement("pega-mashup-light");
+      } else {
+        mytag = document.createElement("pega-mashup");
       }
-      document.getElementById("url").value = "https://mashup.pega.com/prweb";
-      document.getElementById("casetype").value = "Eas-BobsServ-Work-TestCase";
-      document.getElementById("username").value = "wssuser2";
-      document.getElementById("password").value = "install@123";
-      createMashup("workList");
-    </script>
-  </body>
+      mytag.setAttribute("url", document.getElementById("url").value);
+      mytag.setAttribute("action", action);
+      if (action === "createNewWork") {
+        mytag.setAttribute("casetype", document.getElementById("casetype").value);
+      }
+      mytag.setAttribute("username", document.getElementById("username").value);
+      mytag.setAttribute("password", document.getElementById("password").value);
+      if (mainEl.childNodes.length > 0) {
+        mainEl.removeChild(mainEl.childNodes[0]);
+      }
+      mainEl.appendChild(mytag);
+    }
+    document.getElementById("url").value = "https://mashup.pega.com/prweb";
+    document.getElementById("casetype").value = "Eas-BobsServ-Work-TestCase";
+    document.getElementById("username").value = "wssuser2";
+    document.getElementById("password").value = "install@123";
+
+    createMashup("workList");
+  </script>
+</body>
+
 </html>

@@ -14,8 +14,7 @@ class PegaMashup extends PegaBase {
 
   render() {
     return html`
-      ${viewStyle()}
-      <div id="mashup">${this.displayContent()}</div>
+      ${viewStyle()} ${this.displayContent()}
     `;
   }
 }
