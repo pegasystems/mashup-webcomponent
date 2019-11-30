@@ -89,13 +89,15 @@ const clearProps = (obj) => {
  */
 const getNewRowProps = (obj, value) => {
   for (const prop in obj) {
-    const el = obj[prop];
-    if (el.fieldID) {
-      value.push(el.fieldID);
-      return;
-    }
-    if (typeof el === 'object') {
-      getNewRowProps(el, value);
+    if (prop === 'fieldID') {
+      value.push(obj.fieldID);
+    } else {
+      const el = obj[prop];
+      if (el.fieldID) {
+        value.push(el.fieldID);
+      } else if (typeof el === 'object') {
+        getNewRowProps(el, value);
+      }
     }
   }
 };
