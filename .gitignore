@@ -5,6 +5,7 @@ node_modules/
 firebase.json
 build
 coverage
+screenshots
 .npm
 .eslintcache
 .node_repl_history
