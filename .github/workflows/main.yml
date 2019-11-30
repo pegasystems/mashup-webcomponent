@@ -20,4 +20,3 @@ jobs:
 
     - name: npm test
       run: npm test
-© 2019 GitHub, Inc.
