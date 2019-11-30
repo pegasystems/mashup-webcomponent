@@ -29,7 +29,7 @@ describe('Integration testing of the Mashup Web Component', () => {
     async () => {
       await page.setViewport({ width: 1920, height: 1080 });
       await page.screenshot({
-        path: './screenshots/home.jpg',
+        path: './test-results/home.jpg',
         fullpage: true,
         type: 'jpeg',
       });
