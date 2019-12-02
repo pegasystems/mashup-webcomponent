@@ -1,3 +1,4 @@
+const { AxePuppeteer } = require('axe-puppeteer');
 import puppeteer from 'puppeteer';
 
 const bDebug = false;
@@ -81,6 +82,16 @@ describe('Integration testing of the Mashup Web Component', () => {
       await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
       await page.waitForSelector('#case-data');
       await page.waitFor(1000);
+
+      const results = await new AxePuppeteer(page).analyze();
+      if (results.violations.length > 0) {
+        console.log('Axe violations:');
+        for (let i = 0; i < results.violations.length; i++) {
+          console.log(results.violations[i]);
+        }
+      } else {
+        console.log('All accessibility tests have passed!');
+      }
     },
     process.env.PAGETIMEOUT,
   );
@@ -152,7 +163,8 @@ describe('Integration testing of the Mashup Web Component', () => {
     'Close the browser when done',
     async () => {
       if (bDebug) await browser.waitForTarget(() => false);
-      browser.close();
+      await page.close();
+      await browser.close();
     },
     process.env.PAGETIMEOUT,
   );
