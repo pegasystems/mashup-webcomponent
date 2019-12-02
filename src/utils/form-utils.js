@@ -1,7 +1,40 @@
+/* eslint-disable no-self-compare */
+
 /**
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
  */
 const pad2char = v => `0${v}`.slice(-2);
+
+const convertTimestampToDate = (v) => {
+  if (v.endsWith(' GMT') && v.length === 23) {
+    return new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T${v.substring(9, 11)}:${v.substring(11, 13)}:${v.substring(13, 19)}Z`);
+  }
+  return null;
+};
+/**
+ * escape and unescape the HTML entities
+ */
+const escapeHTML = str => str.replace(
+  /[&<>'"]/g,
+  tag => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;',
+  }[tag] || tag),
+);
+
+const unescapeHTML = str => str.replace(
+  /&amp;|&lt;|&gt;|&#39;|&quot;/g,
+  tag => ({
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&#39;': "'",
+    '&quot;': '"',
+  }[tag] || tag),
+);
 
 /**
  * set the value of a property in an obj targeted by the path
@@ -137,7 +170,7 @@ const addRowToPageList = (root, path, newrowlist) => {
 const deleteRowFromPageList = (root, path) => {
   let arrayPath = path;
   let deleteIndex;
-  if (path.endsWith(').pyTemplateButton')) {
+  if (path.indexOf(').pyTemplate') !== -1) {
     deleteIndex = arrayPath.substring(path.lastIndexOf('(') + 1, path.lastIndexOf(')'));
     arrayPath = arrayPath.substring(0, path.lastIndexOf('('));
   }
@@ -174,16 +207,26 @@ const getFormData = (form, content) => {
       const ref = el.getAttribute('data-ref');
       if (ref !== null && ref !== 'pyID') {
         if (el.tagName === 'INPUT') {
-          if (el.type === 'checkbox') {
+          const type = el.getAttribute('type');
+          if (type === 'checkbox') {
             setObjectFromRef(content, ref, el.checked);
-          } else if (el.type === 'radio') {
+          } else if (type === 'radio') {
             if (el.checked) {
               setObjectFromRef(content, ref, el.value);
             }
-          } else if (el.type === 'date') {
-            const dt = el.valueAsDate;
-            if (dt) {
-              setObjectFromRef(content, ref, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate() + 1)}/${dt.getFullYear()}`);
+          } else if (type === 'date') {
+            let dt;
+            if (el.valueAsDate) {
+              dt = new Date(el.valueAsDate);
+            }
+            if (!dt || !(dt instanceof Date) || dt.getTime() !== dt.getTime()) {
+              dt = new Date(el.value);
+            }
+            if (dt && dt instanceof Date && dt.getTime() === dt.getTime()) {
+              dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+              setObjectFromRef(content, ref, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate())}/${dt.getFullYear()}`);
+            } else {
+              setObjectFromRef(content, ref, el.value);
             }
           } else {
             setObjectFromRef(content, ref, el.value);
@@ -197,5 +240,16 @@ const getFormData = (form, content) => {
 };
 
 export {
-  setObjectFromRef, getValue, addRowToPageList, clearProps, shouldRefresh, getFormData, deleteRowFromPageList, getNewRowProps,
+  pad2char,
+  convertTimestampToDate,
+  setObjectFromRef,
+  getValue,
+  addRowToPageList,
+  clearProps,
+  shouldRefresh,
+  getFormData,
+  deleteRowFromPageList,
+  getNewRowProps,
+  escapeHTML,
+  unescapeHTML,
 };

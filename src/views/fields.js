@@ -1,5 +1,7 @@
+/* eslint-disable no-self-compare */
 import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { unescapeHTML, pad2char, convertTimestampToDate } from '../utils/form-utils';
 
 const ActionSet = (data, eventType) => {
   let actionAttribute;
@@ -100,6 +102,8 @@ const Field = (data, path) => {
     case 'pxLink':
     case 'pxURL':
       return AddWrapperDiv(data, path, 'field-url', URL(data, path));
+    case 'pxIconDeleteItem':
+      return AddWrapperDiv(data, path, 'field-button', DeleteButton(data, path));
     case 'pxButton':
       return AddWrapperDiv(data, path, 'field-button', Button(data, path));
     case 'pxDate':
@@ -112,9 +116,22 @@ const Field = (data, path) => {
   }
 };
 
-const DisplayText = (data, path) => html`
-  <span class="dataLabelForRead" data-ref="${data.reference}" id="${ifDefined(path)}">${data.value}</span>
-`;
+const DisplayText = (data, path) => {
+  if (data.control.type === 'pxDate' || data.control.type === 'pxDateTime') {
+    let value = convertTimestampToDate(data.value);
+    if (value) {
+      value = value.toDateString();
+    } else {
+      value = data.value;
+    }
+    return html`
+      <span class="dataLabelForRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
+    `;
+  }
+  return html`
+    <span class="dataLabelForRead" data-ref="${data.reference}" id="${ifDefined(path)}">${data.value}</span>
+  `;
+};
 
 const TextInput = (data, path) => html`
   <input
@@ -122,7 +139,7 @@ const TextInput = (data, path) => html`
     ?required="${data.required === true}"
     type="text"
     id="${ifDefined(path)}"
-    value="${data.value}"
+    value="${unescapeHTML(data.value)}"
     data-action-change="${ifDefined(ActionSet(data, 'change'))}"
     data-action-click="${ifDefined(ActionSet(data, 'click'))}"
   />
@@ -173,7 +190,7 @@ const TextArea = (data, path) => html`
     data-action-change="${ifDefined(ActionSet(data, 'change'))}"
     data-action-click="${ifDefined(ActionSet(data, 'click'))}"
   >
-${data.value}</textarea
+${unescapeHTML(data.value)}</textarea
   >
 `;
 
@@ -193,7 +210,7 @@ const URL = (data, path) => html`
 
 const Button = (data, path) => html`
   <button
-    class="${data.control.modes[1].controlFormat} pzhc pzbutton"
+    class="${ifDefined(data.control.modes[1].controlFormat)} pzhc pzbutton"
     id="${ifDefined(path)}"
     data-ref="${ifDefined(getReference(data))}"
     data-action-click="${ifDefined(ActionSet(data, 'click'))}"
@@ -202,13 +219,36 @@ const Button = (data, path) => html`
   </button>
 `;
 
+const DeleteButton = (data, path) => html`
+  <button
+    class="pzhc pzbutton Icon"
+    title="Delete row"
+    id="${ifDefined(path)}"
+    data-ref="${ifDefined(getReference(data))}"
+    data-action-click="deleteRow"
+  ></button>
+`;
+
 const DateTime = (data, path) => {
   let value = data.value;
-  if (data.value.length === 8) {
-    value = `${data.value.substring(0, 4)}-${data.value.substring(4, 6)}-${data.value.substring(6, 8)}`;
+  if (value !== '') {
+    let dt = new Date(value);
+    if (dt instanceof Date && dt.getTime() === dt.getTime()) {
+      dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}`;
+    } else if (data.value.length === 8) {
+      value = `${data.value.substring(0, 4)}-${data.value.substring(4, 6)}-${data.value.substring(6, 8)}`;
+    }
   }
   return html`
-    <input data-ref="${data.reference}" ?required="${data.required === true}" type="date" id="${ifDefined(path)}" value="${value}" />
+    <input
+      data-ref="${data.reference}"
+      ?required="${data.required === true}"
+      pattern="\\d{4}-\\d{2}-\\d{2}"
+      type="date"
+      id="${ifDefined(path)}"
+      value="${value}"
+    />
   `;
 };
 
@@ -269,6 +309,29 @@ const showDataList = data => html`
  * Generate the Combobox component
  */
 const Combobox = (data, path) => {
+  /* If the values are already under the options list - then just use it */
+  if (data.control.modes && data.control.modes[0] && data.control.modes[0].options) {
+    return html`
+      <input
+        data-ref="${data.reference}"
+        list="${data.reference}"
+        ?required="${data.required === true}"
+        type="text"
+        class="combobox loaded"
+        id="${ifDefined(path)}"
+        value="${unescapeHTML(data.value)}"
+      />
+      <datalist id="${data.reference}">
+        ${data.control.modes[0].options.map(
+    item => html`
+            <option value="${item.key}">
+              ${item.key}
+            </option>
+          `,
+  )}
+      </datalist>
+    `;
+  }
   let dataPageID = '';
   if (data.control && data.control.modes && data.control.modes[0] && data.control.modes[0].dataPageID) {
     dataPageID = data.control.modes[0].dataPageID;

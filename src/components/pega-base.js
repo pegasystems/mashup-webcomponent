@@ -31,6 +31,8 @@ export default class PegaBase extends LitElement {
     this.cases = []; /* List of all the cases in your worklist */
     this.dataPages = {}; /* Cache of all the DP requested - key is the name of the DP */
     this.name = ''; /* Name of the current case that is being processed */
+    this.etag = ''; /* eTag that must be sent when doing a save or submit */
+    this.casedata = {}; /* Case data information */
     this.assignmentID = '';
     this.actionID = '';
     this.content = {};
@@ -272,7 +274,6 @@ export default class PegaBase extends LitElement {
       method: 'GET',
       headers,
     };
-    let etag = '';
     let apiurl = `${this.url}/api/v1/`;
     switch (type) {
       case 'worklist':
@@ -302,7 +303,9 @@ export default class PegaBase extends LitElement {
     }
     fetch(apiurl, reqHeaders)
       .then((res) => {
-        etag = res.headers.get('etag');
+        if (type === 'case') {
+          this.etag = res.headers.get('etag');
+        }
         if (res.ok) {
           return res.json();
         }
@@ -339,22 +342,37 @@ export default class PegaBase extends LitElement {
               break;
             case 'case':
               this.casedata = response.content;
-              this.casedata.etag = etag;
               break;
             case 'data':
               this.dataPages[id] = response;
+              if (!actionid.nextElementSibling) {
+                console.error('Error: case data are not present when retrieving the data');
+                break;
+              }
               render(showDataList(response), actionid.nextElementSibling);
               break;
             case 'assignmentaction':
               this.name = response.name;
+              if (!el) {
+                console.error('Error: case data are not present when retrieving the assignmentaction');
+                break;
+              }
               render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
               break;
             case 'page':
+              if (!el) {
+                console.error('Error: case data are not present when retrieving the page');
+                break;
+              }
               render(mainLayout(response.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
               break;
             case 'newwork':
               this.content = {};
               this.name = response.creation_page.name;
+              if (!el) {
+                console.error('Error: case data are not present when retrieving the newwork');
+                break;
+              }
               render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.actionAreaCancel), el);
               break;
           }
@@ -366,16 +384,18 @@ export default class PegaBase extends LitElement {
         }
       })
       .catch((error) => {
-        if (error.status && error.statusText) {
-          this.errorMsg = `Error ${error.status}: ${error.statusText}`;
+        if (error.message.indexOf('JSON.parse') === -1) {
+          if (error.status && error.statusText) {
+            this.errorMsg = `Error ${error.status}: ${error.statusText}`;
+          }
+          if (error.name && error.message) {
+            this.errorMsg = `Error ${error.name}: ${error.message}`;
+          } else if (typeof error === 'string') {
+            this.errorMsg = error;
+          }
+          this.performUpdate();
+          console.error('Error:', error);
         }
-        if (error.name && error.message) {
-          this.errorMsg = `Error ${error.name}: ${error.message}`;
-        } else if (typeof error === 'string') {
-          this.errorMsg = error;
-        }
-        this.performUpdate();
-        console.error('Error:', error);
       });
   }
 
@@ -411,7 +431,7 @@ export default class PegaBase extends LitElement {
         break;
       case 'savecase':
         apiurl += `cases/${id}`;
-        reqHeaders.headers['If-Match'] = this.casedata.etag;
+        reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
           content: this.content,
@@ -419,7 +439,7 @@ export default class PegaBase extends LitElement {
         break;
       case 'refreshassignment':
         apiurl += `assignments/${id}/actions/${actionid}/refresh`;
-        reqHeaders.headers['If-Match'] = this.casedata.etag;
+        reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
           content: this.content,
@@ -427,7 +447,7 @@ export default class PegaBase extends LitElement {
         break;
       case 'refreshcase':
         apiurl += `cases/${id}/actions/${actionid}/refresh`;
-        reqHeaders.headers['If-Match'] = this.casedata.etag;
+        reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
           content: this.content,
@@ -457,6 +477,10 @@ export default class PegaBase extends LitElement {
         } else {
           if (type === 'refreshcase' || type === 'refreshassignment') {
             const el = this.getRenderRoot().querySelector('#case-data');
+            if (!el) {
+              console.error('Error: case data are not present');
+              return;
+            }
             render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
           } else if (type === 'savecase') {
             if (actionid) {

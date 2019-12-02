@@ -217,7 +217,7 @@ describe('testing the getFormData API', () => {
     input.setAttribute('data-ref', 'key1.key2.test');
     input.valueAsDate = new Date('2019/2/1');
     form.elements.push(input);
-    const output = { key1: { key2: { test: '02/02/2019' } } };
+    const output = { key1: { key2: { test: '02/01/2019' } } };
     const content = {};
     getFormData(form, content);
     expect(content).toEqual(output);
