@@ -10,6 +10,10 @@ let browser;
 let page;
 
 describe('Integration testing of the Mashup Web Component', () => {
+  beforeEach(() => {
+    jest.setTimeout(10000);
+  });
+
   test(
     'Open the main test page',
     async () => {
