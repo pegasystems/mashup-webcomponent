@@ -120,7 +120,7 @@ export default class PegaBase extends LitElement {
   displayCasesTypes = () => genCaseTypesList(this.casetypes);
 
   submitForm = (event, type) => {
-    const form = event.target;
+    const form = this.getRenderRoot().querySelector('#case-data');
     this.content = {};
     getFormData(form, this.content);
     if (form.checkValidity()) {

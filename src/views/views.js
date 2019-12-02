@@ -76,7 +76,7 @@ const setFormInlineError = (form, errorMsg) => {
 
 const Layout = (data, path) => html`
   ${data.map((item, index) => {
-    const tmppath = `${path}/${index}`;
+    const tmppath = `${path}-${index}`;
     if (item.layout) {
       if (item.layout.groupFormat.trim() === '' || item.layout.groupFormat === 'CENTER') {
         item.layout.groupFormat = 'default';
