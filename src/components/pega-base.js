@@ -384,7 +384,9 @@ export default class PegaBase extends LitElement {
         }
       })
       .catch((error) => {
-        if (error.message.indexOf('JSON.parse') === -1) {
+        if (error.message && error.message.indexOf('JSON.parse') !== -1) {
+          console.error('Error:', error);
+        } else {
           if (error.status && error.statusText) {
             this.errorMsg = `Error ${error.status}: ${error.statusText}`;
           }
