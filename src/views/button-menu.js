@@ -5,6 +5,8 @@ import { render, html } from 'lit-html';
   onDisplay is called when rendering the list of items in the menu - it must return some html template
   onClick is called when clicking on a menu item */
 const ButtonMenu = (label, onDisplay, onClick) => {
+  if (onClick == null) return null;
+
   const node = document.createElement('ul');
 
   const dismissModalOnClickaway = (event) => {
@@ -41,8 +43,8 @@ const ButtonMenu = (label, onDisplay, onClick) => {
   };
 
   return html`
-  <div class='button-menu' @click="${buttonMenuHandler}"><button @blur="${buttonMenuHandler}" class="pzhc pzbutton Simple">${label}</button></div>
-`;
+    <div class="button-menu" @click="${buttonMenuHandler}"><button @blur="${buttonMenuHandler}" class="pzhc pzbutton Simple">${label}</button></div>
+  `;
 };
 
 export { ButtonMenu };

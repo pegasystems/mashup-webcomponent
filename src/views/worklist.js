@@ -1,10 +1,10 @@
 import { html } from 'lit-html';
 import { ButtonMenu } from './button-menu';
 
-const WorkList = (cases, onDisplayCaseTypes, onReload, onCreate, onOpen) => html`
+const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) => html`
   <div class="flex layout-content-inline_middle">
     <h2>
-      My worklist
+      ${title}
       ${cases.length > 0
     ? html`
             (${cases.length})

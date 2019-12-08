@@ -18,6 +18,10 @@ export default class PegaBase extends LitElement {
 
   @property({ type: String }) password = '';
 
+  @property({ type: String }) title = 'My worklist';
+
+  @property({ type: String }) bShowCreate = 'true';
+
   @property({ type: String }) token = '';
 
   /* 2 actions supported: createNewWork and workList */
@@ -69,7 +73,7 @@ export default class PegaBase extends LitElement {
       return LoadingIndicator();
     }
     if (this.action === 'workList') {
-      return WorkList(this.cases, this.displayCasesTypes, this.reloadWorkList, this.createCase, this.openCase);
+      return WorkList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
     }
     return null;
   }
@@ -498,7 +502,7 @@ export default class PegaBase extends LitElement {
             this.assignmentID = response.nextAssignmentID;
             this.fetchData('assignment', this.assignmentID);
           } else if (response.nextPageID) {
-            if (response.nextPageID === 'Confirm') {
+            if (response.nextPageID === 'Confirm' || response.nextPageID === 'Review') {
               this.bShowConfirm = true;
             } else {
               this.fetchData('page', this.caseID, response.nextPageID);

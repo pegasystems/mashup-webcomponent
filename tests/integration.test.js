@@ -43,7 +43,7 @@ describe('Integration testing of the Mashup Web Component', () => {
       });
       await page.type('#casetype', 'Eas-BobsServ-Work-TestCase');
       await page.click('#update', { waitUntil: 'networkidle0' });
-      await page.waitFor(1000);
+      await page.waitFor(2000);
       const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
       expect(title).toContain('My worklist');
 
@@ -56,7 +56,7 @@ describe('Integration testing of the Mashup Web Component', () => {
         console.log('opening case ' + cases[0]);
         await page.click('pega-mashup-light table button:nth-child(1)');
         await page.waitForSelector('#case-data');
-        await page.waitFor(1000);
+        await page.waitFor(2000);
         await page.screenshot({
           path: `./test-results/test${iTestCount++}.jpg`,
           fullpage: true,
