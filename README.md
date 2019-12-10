@@ -2,6 +2,8 @@
 
 This project delivers a Web component that leverages the DX API to display a case type from the Pega Platform through Mashup. A complete demo of the application is available at https://pegasystems.github.io/mashup-webcomponent.
 
+https://github.com/pegasystems/mashup-webcomponent/workflows/Main%20workflow/badge.svg
+  
 The mashup web component is not a replacement of the Pega Mashup and is limited in terms of supported Pega UI components due to using the DX API to generate the UI dynamic.
 
 The benefits of the Mashup component are:
