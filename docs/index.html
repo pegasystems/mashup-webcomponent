@@ -46,8 +46,15 @@
         <div class='sidebar layout-content-stacked flex'>
           <div class='flex align-center'>
             <span>Use shadow DOM</span>
-            <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">use shadow
-              DOM</label>
+            <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">use shadow DOM</label>
+          </div>
+          <div class='flex align-center'>
+            <span>Hide create button</span>
+            <input class='toggle' type="checkbox" id="hide-create" /><label for="hide-create">hide create button</label>
+          </div>
+          <div class='flex align-center'>
+            <span>Create all case types</span>
+            <input class='toggle' type="checkbox" id="create-all-casetypes" /><label for="create-all-casetypes">Create all case types</label>
           </div>
           <div class='flex flex-col'>
             <label for='url'>URL</label>
@@ -89,9 +96,14 @@
       } else {
         mytag = document.createElement("pega-mashup");
       }
+      if (document.getElementById("hide-create").checked === true) {
+        mytag.setAttribute("bShowCreate", "false");
+      }
       mytag.setAttribute("url", document.getElementById("url").value);
       mytag.setAttribute("action", action);
       if (action === "createNewWork") {
+        mytag.setAttribute("casetype", document.getElementById("casetype").value);
+      } else if (document.getElementById("create-all-casetypes").checked === false) {
         mytag.setAttribute("casetype", document.getElementById("casetype").value);
       }
       mytag.setAttribute("username", document.getElementById("username").value);

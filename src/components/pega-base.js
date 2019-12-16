@@ -324,11 +324,14 @@ export default class PegaBase extends LitElement {
               this.casetypes = {};
               for (const caseTypeIdx in response.caseTypes) {
                 const obj = response.caseTypes[caseTypeIdx];
-                this.casetypes[obj.ID] = {
-                  canCreate: obj.CanCreate,
-                  name: obj.startingProcesses[0].name,
-                  requiresFieldsToCreate: obj.startingProcesses[0].requiresFieldsToCreate,
-                };
+                /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
+                if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.ID) {
+                  this.casetypes[obj.ID] = {
+                    canCreate: obj.CanCreate,
+                    name: obj.startingProcesses[0].name,
+                    requiresFieldsToCreate: obj.startingProcesses[0].requiresFieldsToCreate,
+                  };
+                }
               }
               if (this.action === 'createNewWork') {
                 this.createCase();
