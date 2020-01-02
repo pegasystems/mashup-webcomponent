@@ -324,7 +324,7 @@ const Combobox = (data, path) => {
       <datalist id="${data.reference}">
         ${data.control.modes[0].options.map(
     item => html`
-            <option value="${item.key}">
+            <option value="${item.value}">
               ${item.key}
             </option>
           `,
