@@ -32,7 +32,7 @@ export const viewStyle = () => html`
     h4,
     h5,
     h6 {
-      margin-top: 0;
+      margin: 0;
       color: var(--generalTextColor);
     }
     ul {
@@ -191,11 +191,31 @@ export const viewStyle = () => html`
     .combobox {
       background-size: 16px;
     }
+
+    button.Simple {
+      background: none;
+      color: rgb(0, 0, 0);
+      min-width:0;
+      border:none;
+    }
+
+    button.action-menu,
     select,
     .combobox {
       background: #fff
         url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA0OC4wNiAyOC4wNCcgIHdpZHRoPScxOCcgaGVpZ2h0PSc5Jz48cGF0aCBmaWxsPSIjMTAxMzJFIiBkPSdNNDcuNDEuNTVhMS45MSAxLjkxIDAgMCAwLTIuNyAwbC0yMC43MSAyMi42MS0yMC43NS0yMi42LS4xOC0uMThhMS45MSAxLjkxIDAgMSAwLTIuNTEgMi44OGwyMS44NyAyMy44NGExLjY5IDEuNjkgMCAwIDAgLjEzLjMxIDIuMTUgMi4xNSAwIDAgMCAyLjg1IDAgMS43NSAxLjc1IDAgMCAwIC4xMy0uMzJsMjEuODctMjMuODRhMS45MSAxLjkxIDAgMCAwIDAtMi43eicgdHJhbnNmb3JtPSd0cmFuc2xhdGUoLjEgLjA5KScvPjwvc3ZnPg==')
-        no-repeat 96% 60%;
+        no-repeat calc(100% - 8px) 60%;
+    }
+
+    button.action-menu {
+      padding: 0 28px 0 8px;
+      border: 1px solid #000;
+    }
+    button.action-menu:hover,
+    button.action-menu:active,
+    button.action-menu:focus {
+      background-color:#FFF;
+      color:#000;
     }
 
     input[type='checkbox'] {
@@ -252,6 +272,7 @@ export const viewStyle = () => html`
       border-radius: 5px;
       width: auto;
     }
+
     button.Icon {
       min-width: auto;
     }
@@ -297,7 +318,7 @@ export const viewStyle = () => html`
       text-align: right;
       justify-content: flex-end;
     }
-    .margin-l-auto {
+    .flex.margin-l-auto {
       margin-left: auto;
     }
     .margin-t-2x {
@@ -373,6 +394,8 @@ export const viewStyle = () => html`
       list-style: none;
       padding: 0;
       border: 1px solid rgba(0, 0, 0, 0.2);
+      z-index:2;
+      right:0;
     }
     .button-menu > ul > li {
       margin: 0;

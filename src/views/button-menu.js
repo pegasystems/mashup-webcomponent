@@ -43,7 +43,7 @@ const ButtonMenu = (label, onDisplay, onClick) => {
   };
 
   return html`
-    <div class="button-menu" @click="${buttonMenuHandler}"><button @blur="${buttonMenuHandler}" class="pzhc pzbutton Simple">${label}</button></div>
+    <div class="button-menu" @click="${buttonMenuHandler}"><button @blur="${buttonMenuHandler}" class="pzhc pzbutton Simple action-menu">${label}</button></div>
   `;
 };
 

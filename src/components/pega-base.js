@@ -1,7 +1,7 @@
 import { html, LitElement, property } from 'lit-element';
 import { render } from 'lit-html';
 import {
-  mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors, genCaseTypesList,
+  mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors, genCaseTypesList, genActionsList, CaseHeader,
 } from '../views/views';
 import { showDataList, LoadingIndicator } from '../views/fields';
 import {
@@ -37,6 +37,7 @@ export default class PegaBase extends LitElement {
     this.name = ''; /* Name of the current case that is being processed */
     this.etag = ''; /* eTag that must be sent when doing a save or submit */
     this.casedata = {}; /* Case data information */
+    this.data = {};
     this.assignmentID = '';
     this.actionID = '';
     this.content = {};
@@ -64,7 +65,7 @@ export default class PegaBase extends LitElement {
     }
     if (this.caseID !== '' || this.action === 'createNewWork') {
       return html`
-        <h2>${this.name}</h2>
+        ${CaseHeader(this.name, this.data, this.displayActions, this.runAction)}
         <div class="validation">${this.validationMsg}</div>
         <form id="case-data">${LoadingIndicator()}</form>
       `;
@@ -80,6 +81,7 @@ export default class PegaBase extends LitElement {
 
   resetError = (event) => {
     this.errorMsg = '';
+    this.validationMsg = '';
     this.actionAreaCancel(event);
   };
 
@@ -94,6 +96,9 @@ export default class PegaBase extends LitElement {
     this.bShowConfirm = false;
     this.action = 'workList';
     this.caseID = '';
+    this.data = {};
+    this.name = '';
+    this.casedata = {};
     this.assignmentID = '';
     this.actionID = '';
     this.errorMsg = '';
@@ -116,14 +121,17 @@ export default class PegaBase extends LitElement {
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
       this.content = {};
+      this.validationMsg = '';
       getFormData(form, this.content);
       this.bShowLoader = true;
       this.performUpdate();
-      this.sendData('refresh', this.assignmentID, this.actionID);
+      this.fetchData('assignmentaction', this.assignmentID, this.actionID);
     }
   };
 
   displayCasesTypes = () => genCaseTypesList(this.casetypes);
+
+  displayActions = () => genActionsList(this.name, this.data);
 
   submitForm = (event, type) => {
     const form = this.getRenderRoot().querySelector('#case-data');
@@ -161,6 +169,13 @@ export default class PegaBase extends LitElement {
       this.errorMsg = `Case '${this.casetype}' is not defined`;
       this.performUpdate();
       console.error(`Case '${this.casetype}' is not defined`);
+    }
+  };
+
+  runAction = (el) => {
+    if (el) {
+      this.actionID = el.getAttribute('data-value');
+      this.actionRefresh();
     }
   };
 

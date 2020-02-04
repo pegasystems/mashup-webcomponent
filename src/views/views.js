@@ -2,6 +2,7 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { Field } from './fields';
 import { getNewRowProps } from '../utils/form-utils';
+import { ButtonMenu } from './button-menu';
 
 const SubmitAreaActions = (onCancel, onSave) => html`
   <div class="action-button-area">
@@ -17,6 +18,23 @@ const CreateAreaActions = onCancel => html`
     <button data-submit="create" class="Strong pzhc pzbutton">Create</button>
   </div>
 `;
+
+const CaseHeader = (name, data, onDisplayActions, onCreate) => {
+  if (name === '') return null;
+  if (!data.actions || data.actions.length === 0) {
+    return html`
+      <h2>${name}</h2>
+    `;
+  }
+  return html`
+    <div class="flex layout-content-inline_middle">
+      <h2>${name}</h2>
+      <div class="flex layout-content-inline_middle margin-l-auto">
+        ${ButtonMenu('Actions', onDisplayActions, onCreate)}
+      </div>
+    </div>
+  `;
+};
 
 const mainLayout = (data, path, onCancel, onSave) => html`
   <div>${Layout(data, path)}</div>
@@ -50,6 +68,23 @@ const genCaseTypesList = (data) => {
         <li><a data-value="${i[0]}">${i[1].name}</a></li>
       `,
     );
+  }
+  return html`
+    ${itemList}
+  `;
+};
+
+const genActionsList = (name, data) => {
+  const itemList = [];
+  const keys = Object.entries(data.actions);
+  for (const i of keys) {
+    if (i[1].name !== name) {
+      itemList.push(
+        html`
+          <li><a data-value="${i[1].ID}">${i[1].name}</a></li>
+        `,
+      );
+    }
   }
   return html`
     ${itemList}
@@ -95,7 +130,7 @@ const Layout = (data, path) => html`
       }
       if (item.layout.rows) {
         if (item.layout.header) {
-          /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
+        /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
           return html`
             ${TableTitle(item.layout)}
             <table>
@@ -211,5 +246,5 @@ const List = (data, path) => html`
 `;
 
 export {
-  mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors, genCaseTypesList,
+  mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors, genCaseTypesList, genActionsList, CaseHeader,
 };
