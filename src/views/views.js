@@ -1,49 +1,97 @@
 import { html } from 'lit-html';
-import { ifDefined } from 'lit-html/directives/if-defined';
-import { Field } from './fields';
-import { getNewRowProps } from '../utils/form-utils';
+import { Layout } from './layout';
 import { ButtonMenu } from './button-menu';
+import { AssignmentList } from './assignmentlist';
+import { RelatedCases } from './relatedcases';
 
-const SubmitAreaActions = (onCancel, onSave) => html`
+const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
-    <button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>
+    ${onCancel !== null ? html`<button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
     <button class="pzhc pzbutton" @click="${onSave}">Save</button>
     <button data-submit="submit" class="Strong pzhc pzbutton">Submit</button>
   </div>
 `;
 
-const CreateAreaActions = onCancel => html`
+const SaveActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
-    <button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>
+    ${onCancel !== null ? html`<button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
+    <button class="pzhc pzbutton Strong" @click="${onSave}">Save</button>
+  </div>
+`;
+
+const CloseActionArea = (onCancel) => {
+  if (onCancel === null) return null;
+  return html`
+  <div class="action-button-area">
+    <button class="pzhc pzbutton Strong" @click="${onCancel}">Close</button>
+  </div>`;
+};
+
+
+const CreateActionArea = onCancel => html`
+  <div class="action-button-area">
+    ${onCancel !== null ? html`<button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
     <button data-submit="create" class="Strong pzhc pzbutton">Create</button>
   </div>
 `;
 
-const CaseHeader = (name, data, onDisplayActions, onCreate) => {
-  if (name === '') return null;
-  if (!data.actions || data.actions.length === 0) {
+/* We also have the case priority in ${data.urgency} and the user assigned as ${data.routedTo} */
+const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, onOpen) => {
+  /* Case of openCaseByHandle - not an assignment */
+  if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
-      <h2>${name}</h2>
-    `;
-  }
-  return html`
-    <div class="flex layout-content-inline_middle">
-      <h2>${name}</h2>
+    <div class="flex layout-content-inline_middle main-header">
+      <h2>${casedata.content.pyLabel} (${casedata.content.pyID})</h2>
+      ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
       <div class="flex layout-content-inline_middle margin-l-auto">
-        ${ButtonMenu('Actions', onDisplayActions, onCreate)}
+      ${casedata.actions && casedata.actions.length > 0 ? html`
+      <div class="flex layout-content-inline_middle margin-l-auto">
+        ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
+      </div>` : ''}
       </div>
     </div>
-  `;
+    ${AssignmentList(casedata.assignments, onOpen)}
+    ${RelatedCases(casedata.childCases, onOpen)}
+    <h3>Case information</h3>`;
+  }
+  if (name === '') return '';
+  if (typeof data.caseID === 'undefined') {
+    return html`
+    <div class="flex layout-content-inline_middle main-header">
+      <h3>${name}</h2>
+    </div>`;
+  }
+  const id = data.caseID.split(' ')[1];
+  return html`
+  <div class="flex layout-content-inline_middle main-header">
+    <h2>${data.name} (${id})</h2>
+    ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
+    ${data.actions && data.actions.length > 0 ? html`
+      <div class="flex layout-content-inline_middle margin-l-auto">
+        ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
+      </div>` : ''}
+ </div>
+ <h3>${name}</h3>`;
 };
 
 const mainLayout = (data, path, onCancel, onSave) => html`
   <div>${Layout(data, path)}</div>
-  ${SubmitAreaActions(onCancel, onSave)}
+  ${SubmitActionArea(onCancel, onSave)}
+`;
+
+const reviewLayout = (data, path, onCancel) => html`
+  <div>${Layout(data, path)}</div>
+  ${CloseActionArea(onCancel)}
+`;
+
+const saveCaseLayout = (data, path, onCancel, onSave) => html`
+  <div>${Layout(data, path)}</div>
+  ${SaveActionArea(onCancel, onSave)}
 `;
 
 const createCaseLayout = (data, path, onCancel) => html`
   <div>${Layout(data, path)}</div>
-  ${CreateAreaActions(onCancel)}
+  ${CreateActionArea(onCancel)}
 `;
 
 const genPageValidationErrors = response => html`
@@ -65,7 +113,7 @@ const genCaseTypesList = (data) => {
   for (const i of keys) {
     itemList.push(
       html`
-        <li><a data-value="${i[0]}">${i[1].name}</a></li>
+        <li role="menuitem" tabindex="-1" data-value="${i[0]}">${i[1].name}</li>
       `,
     );
   }
@@ -81,7 +129,7 @@ const genActionsList = (name, data) => {
     if (i[1].name !== name) {
       itemList.push(
         html`
-          <li><a data-value="${i[1].ID}">${i[1].name}</a></li>
+          <li role="menuitem" tabindex="-1" data-value="${i[1].ID}">${i[1].name}</li>
         `,
       );
     }
@@ -109,142 +157,6 @@ const setFormInlineError = (form, errorMsg) => {
   }
 };
 
-const Layout = (data, path) => html`
-  ${data.map((item, index) => {
-    const tmppath = `${path}-${index}`;
-    if (item.layout) {
-      if (item.layout.groupFormat.trim() === '' || item.layout.groupFormat === 'CENTER') {
-        item.layout.groupFormat = 'default';
-      }
-      const format = item.layout.groupFormat.replace(/ /g, '_').toLowerCase();
-      const classname = `flex content content-items-maxwidth layout-content-${format} content-${format}`;
-      if (item.layout.view && item.layout.view.groups) {
-        return html`
-          <div class="${classname}">${Layout(item.layout.view.groups, tmppath)}</div>
-        `;
-      }
-      if (item.layout.groups) {
-        return html`
-          <div class="${classname}">${Layout(item.layout.groups, tmppath)}</div>
-        `;
-      }
-      if (item.layout.rows) {
-        if (item.layout.header) {
-        /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
-          return html`
-            ${TableTitle(item.layout)}
-            <table>
-              <thead>
-                <tr>
-                  ${TableHeader(item.layout.header.groups)}
-                </tr>
-              </thead>
-              <tbody>
-                ${Table(item.layout.rows, tmppath)}
-              </tbody>
-            </table>
-            ${TableAction(item.layout)}
-          `;
-        }
-        return html`
-          ${TableTitle(item.layout)}
-          <div class="rdl">
-            ${List(item.layout.rows, tmppath)}
-          </div>
-          ${TableAction(item.layout)}
-        `;
-      }
-      return null;
-    }
-    if (item.field) {
-      return html`
-        ${Field(item.field, tmppath)}
-      `;
-    }
-    if (item.view && item.view.groups) {
-      return html`
-        ${Layout(item.view.groups, tmppath)}
-      `;
-    }
-    return null;
-  })}
-`;
-
-/* The metadata doesn't provide the type of h2/h3 used */
-const TableTitle = (data) => {
-  if (data.title !== '') {
-    return html`
-      <div class="header-bar">
-        <div class="header-content"><h3 class="header-title">${data.title}</h3></div>
-      </div>
-    `;
-  }
-  return null;
-};
-
-const TableAction = (data, bShowDelete) => {
-  let ref = data.fieldListID;
-
-  /* if the reference starts by a dot, need to remove it */
-  if (data.fieldListID.charAt(0) === '.') {
-    ref = data.fieldListID.substring(1);
-  }
-
-  /* If the array 'newRow' is present, then the table or RDL is editable - automatically add the add button
-     It is preferable to show the delete button on each row - so will not show the button by default */
-  if (data.newRow) {
-    const newRowList = [];
-    getNewRowProps(data.newRow, newRowList);
-    return html`
-      <div class="table-action-area">
-        <button class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}" data-ref=${ref} data-action-click="addRow">Add item</button>
-        ${bShowDelete
-    ? html`
-              <button class="pzhc pzbutton Simple" data-ref=${ref} data-action-click="deleteRow">Delete item</button>
-            `
-    : ''}
-      </div>
-    `;
-  }
-  return null;
-};
-
-const TableHeader = data => html`
-  ${data.map(
-    item => html`
-      <th>${item.caption.value}</th>
-    `,
-  )}
-`;
-
-const Table = data => html`
-  ${data.map(
-    item => html`
-      <tr>
-        ${item.groups.map(
-    tdItem => html`
-            <td>${Field(tdItem.field)}</td>
-          `,
-  )}
-      </tr>
-    `,
-  )}
-`;
-
-const List = (data, path) => html`
-  ${data.map((item, index) => {
-    const tmppath = `${path}/row${index}`;
-    if (item.groups) {
-      return html`
-        <div>
-          ${Layout(item.groups, tmppath)}
-        </div>
-      `;
-    }
-    return null;
-  })}
-`;
-
 export {
-  mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors, genCaseTypesList, genActionsList, CaseHeader,
+  saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors, genCaseTypesList, genActionsList, CaseHeader,
 };

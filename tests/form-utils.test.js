@@ -10,7 +10,46 @@ import {
   deleteRowFromPageList,
   shouldRefresh,
   getFormData,
+  createUID,
+  convertTimestampToDate,
+  escapeHTML,
+  unescapeHTML,
 } from '../src/utils/form-utils';
+
+
+describe('testing the createUID API', () => {
+  test('it should get a unique ID', () => {
+    const input = createUID();
+    const input1 = createUID();
+    expect(input).not.toEqual(input1);
+  });
+});
+
+describe('testing the convertTimestampToDate API', () => {
+  test('it should convert the timestamp', () => {
+    const input = convertTimestampToDate('20200210T170100.650 GMT');
+    expect(input.toGMTString()).toEqual('Mon, 10 Feb 2020 17:01:00 GMT');
+  });
+
+  test('if value is incorrect, it should return null', () => {
+    const input = convertTimestampToDate('20200210T170100');
+    expect(input).toBeNull();
+  });
+});
+
+describe('testing the escapeHTML API', () => {
+  test('it should escape HTML', () => {
+    const input = escapeHTML('foo&bar');
+    expect(input).toEqual('foo&amp;bar');
+  });
+});
+
+describe('testing the unescapeHTML API', () => {
+  test('it should unescape HTML', () => {
+    const input = unescapeHTML('foo&amp;bar');
+    expect(input).toEqual('foo&bar');
+  });
+});
 
 describe('testing the getValue API', () => {
   test('it should return the correct obj for key1.key2.key3', () => {
@@ -60,7 +99,6 @@ describe('testing the clearProps API', () => {
   test('it should clear the values', () => {
     const input = { key1: { key2: { key3: 'test' }, key4: 'eee' }, key5: 'ddd' };
     const output = { key1: { key2: { key3: '' }, key4: '' }, key5: '' };
-    const content = [];
     clearProps(input);
     expect(input).toEqual(output);
   });
@@ -182,7 +220,7 @@ describe('testing the getFormData API', () => {
     form.elements.push(input);
     const input1 = document.createElement('select');
     input1.setAttribute('data-ref', 'key1.key2.test1');
-    var option = document.createElement('option');
+    const option = document.createElement('option');
     option.text = 'foo1';
     input1.add(option);
     input1.value = 'foo1';

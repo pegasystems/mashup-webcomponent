@@ -3,9 +3,19 @@
 /**
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
  */
-const pad2char = v => `0${v}`.slice(-2);
+export const pad2char = v => `0${v}`.slice(-2);
 
-const convertTimestampToDate = (v) => {
+/**
+ * Generate unique id for elements
+ */
+export const createUID = () => `${Math.random()
+  .toString(36)
+  .substr(2, 9)}`;
+
+/**
+ * convert a timestamp like '20200210T170100.650 GMT' into a valid Date object
+ */
+export const convertTimestampToDate = (v) => {
   if (v.endsWith(' GMT') && v.length === 23) {
     return new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T${v.substring(9, 11)}:${v.substring(11, 13)}:${v.substring(13, 19)}Z`);
   }
@@ -14,7 +24,7 @@ const convertTimestampToDate = (v) => {
 /**
  * escape and unescape the HTML entities
  */
-const escapeHTML = str => str.replace(
+export const escapeHTML = str => str.replace(
   /[&<>'"]/g,
   tag => ({
     '&': '&amp;',
@@ -25,7 +35,7 @@ const escapeHTML = str => str.replace(
   }[tag] || tag),
 );
 
-const unescapeHTML = str => str.replace(
+export const unescapeHTML = str => str.replace(
   /&amp;|&lt;|&gt;|&#39;|&quot;/g,
   tag => ({
     '&amp;': '&',
@@ -39,7 +49,7 @@ const unescapeHTML = str => str.replace(
 /**
  * set the value of a property in an obj targeted by the path
  */
-const setObjectFromRef = (root, path, value) => {
+export const setObjectFromRef = (root, path, value) => {
   if (typeof path !== 'string') {
     return;
   }
@@ -76,7 +86,7 @@ const setObjectFromRef = (root, path, value) => {
  * get the value targeted by path - path can be a complex string like .props(1).pyLabel
  * Note that path is using 1 as the starting index
  */
-const getValue = (obj, path) => {
+export const getValue = (obj, path) => {
   if (typeof path !== 'string') {
     return null;
   }
@@ -107,7 +117,7 @@ const getValue = (obj, path) => {
 /**
  * Clear the value of all the string type properties in the object
  */
-const clearProps = (obj) => {
+export const clearProps = (obj) => {
   for (const prop in obj) {
     if (typeof obj[prop] === 'object') {
       clearProps(obj[prop]);
@@ -120,7 +130,7 @@ const clearProps = (obj) => {
 /**
  * Parse the structure of groups, layout to find all the fields that have a fieldID property - add the property to the array list
  */
-const getNewRowProps = (obj, value) => {
+export const getNewRowProps = (obj, value) => {
   for (const prop in obj) {
     if (prop === 'fieldID') {
       value.push(obj.fieldID);
@@ -141,7 +151,7 @@ const getNewRowProps = (obj, value) => {
  * path is the path of the pagelist inside the object
  * if newrowlist is not null, it is a string of properties comma separated
  */
-const addRowToPageList = (root, path, newrowlist) => {
+export const addRowToPageList = (root, path, newrowlist) => {
   let el = getValue(root, path);
   if (el === null) {
     el = [];
@@ -167,7 +177,7 @@ const addRowToPageList = (root, path, newrowlist) => {
 /**
  * Delete a row from a page list - the index of the row is contained in the path .prop1(yy).prop2(xx).pyTemplateButton
  */
-const deleteRowFromPageList = (root, path) => {
+export const deleteRowFromPageList = (root, path) => {
   let arrayPath = path;
   let deleteIndex;
   if (path.indexOf(').pyTemplate') !== -1) {
@@ -189,7 +199,7 @@ const deleteRowFromPageList = (root, path) => {
  * Returns a bool that indicates if the DOMElement el has an action that trigger either a postValue or Refresh
  *  The argument actionType can either take the values of 'click' or 'change'
  */
-const shouldRefresh = (el, actionType) => {
+export const shouldRefresh = (el, actionType) => {
   const action = el.getAttribute(`data-action-${actionType}`);
   if (action && (action === 'postValue' || action === 'refresh')) {
     return true;
@@ -200,7 +210,7 @@ const shouldRefresh = (el, actionType) => {
 /**
  * Retrieve the values of all the form controls in the form and populate them in the content object
  */
-const getFormData = (form, content) => {
+export const getFormData = (form, content) => {
   for (const i in form.elements) {
     const el = form.elements[i];
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
@@ -237,19 +247,4 @@ const getFormData = (form, content) => {
       }
     }
   }
-};
-
-export {
-  pad2char,
-  convertTimestampToDate,
-  setObjectFromRef,
-  getValue,
-  addRowToPageList,
-  clearProps,
-  shouldRefresh,
-  getFormData,
-  deleteRowFromPageList,
-  getNewRowProps,
-  escapeHTML,
-  unescapeHTML,
 };

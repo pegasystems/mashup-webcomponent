@@ -7,13 +7,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, viewport-fit=cover" />
   <!--[if IE]><link rel="icon" href="favicon.ico"><![endif]-->
-  <meta name="description" content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
+  <meta name="description"
+    content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta name="author" content="Pega Front-end Team" />
-  <meta itemprop="name" content="Pega Mashup Web Component"/>
-  <meta itemprop="image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png"/>
+  <meta itemprop="name" content="Pega Mashup Web Component" />
+  <meta itemprop="image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
 
   <meta property="og:title" content="Pega Mashup Web Component" />
-  <meta property="og:description" content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
+  <meta property="og:description"
+    content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta property="og:url" content="https://pegasystems.github.io/mashup-webcomponent/" />
   <meta property="og:image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:site_name" content="Pega Mashup Web Component" />
@@ -43,26 +45,46 @@
       <div class='container-main-sidebar'>
         <div class='main'>
         </div>
-        <div class='sidebar layout-content-stacked flex'>
+        <form class='sidebar layout-content-stacked flex'>
           <div class='flex align-center'>
             <span>Use shadow DOM</span>
-            <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">use shadow DOM</label>
+            <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">Use shadow
+              DOM</label>
+          </div>
+          <div class='flex flex-col'>
+            <label for='action'>Action</label>
+            <select onchange="showFields(event); return false;" id='action'>
+              <option value="workList" selected>Display the worklist</option>
+              <option value="createNewWork">Create a new case</option>
+              <option value="openAssignment">Open an assignment</option>
+              <option value="openWorkByHandle">Open a case</option>
+            </select>
           </div>
           <div class='flex align-center'>
-            <span>Hide create button</span>
-            <input class='toggle' type="checkbox" id="hide-create" /><label for="hide-create">hide create button</label>
+            <span>Hide create button on worklist</span>
+            <input class='toggle' type="checkbox" id="hide-create" /><label for="hide-create">Hide create button on
+              worklist</label>
           </div>
           <div class='flex align-center'>
             <span>Create all case types</span>
-            <input class='toggle' type="checkbox" id="create-all-casetypes" /><label for="create-all-casetypes">Create all case types</label>
+            <input class='toggle' type="checkbox" id="create-all-casetypes" checked />
+            <label for="create-all-casetypes">Create all case types</label>
+          </div>
+          <div class='flex align-center' style='display:none'>
+            <span>Hide cancel button</span>
+            <input class='toggle' type="checkbox" id="hide-cancel" /><label for="hide-cancel">Hide cancel button</label>
+          </div>
+          <div class='flex flex-col' style='display:none'>
+            <label for='casetype'>Case type</label>
+            <input type='text' id='casetype'>
+          </div>
+          <div class='flex flex-col' style='display:none'>
+            <label for='caseid'>Case ID</label>
+            <input type='text' id='caseid'>
           </div>
           <div class='flex flex-col'>
             <label for='url'>URL</label>
             <input type='text' id='url'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='casetype'>Case type</label>
-            <input type='text' id='casetype'>
           </div>
           <div class='flex flex-col'>
             <label for='username'>Username</label>
@@ -72,9 +94,8 @@
             <label for='password'>Password</label>
             <input type='password' id='password'>
           </div>
-          <button id="create" onclick="createMashup('createNewWork')">Create</button>
-          <button id="update" onclick="createMashup('workList')">Update</button>
-        </div>
+          <button id="submit" onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
+        </form>
       </div>
     </div>
   </main>
@@ -89,7 +110,8 @@
   </footer>
   <script>
     var mainEl = document.getElementsByClassName("main")[0];
-    function createMashup(action) {
+    function createMashup() {
+      var action = document.getElementById("action").value;
       var mytag;
       if (document.getElementById("switch-shadowDOM").checked === false) {
         mytag = document.createElement("pega-mashup-light");
@@ -99,26 +121,61 @@
       if (document.getElementById("hide-create").checked === true) {
         mytag.setAttribute("bShowCreate", "false");
       }
+      if (document.getElementById("hide-cancel").checked === true) {
+        mytag.setAttribute("bShowCancel", "false");
+      }
       mytag.setAttribute("url", document.getElementById("url").value);
       mytag.setAttribute("action", action);
-      if (action === "createNewWork") {
+      if (action === "createNewWork" || document.getElementById("create-all-casetypes").checked === false) {
         mytag.setAttribute("casetype", document.getElementById("casetype").value);
-      } else if (document.getElementById("create-all-casetypes").checked === false) {
-        mytag.setAttribute("casetype", document.getElementById("casetype").value);
+      }
+      if (action === "openAssignment" || action === "openWorkByHandle") {
+        mytag.setAttribute("caseid", document.getElementById("caseid").value);
       }
       mytag.setAttribute("username", document.getElementById("username").value);
       mytag.setAttribute("password", document.getElementById("password").value);
       if (mainEl.childNodes.length > 0) {
         mainEl.removeChild(mainEl.childNodes[0]);
       }
+      mytag.addEventListener("message", function (event) {
+        console.log("event was sent by the web component", event.detail);
+        mainEl.removeChild(mainEl.childNodes[0]);
+      })
       mainEl.appendChild(mytag);
     }
+    function showFields(event) {
+      var action = event.target.value;
+      var hideCreate = document.getElementById("hide-create").parentElement;
+      var createAllCasetypes = document.getElementById("create-all-casetypes").parentElement;
+      var hideCancel = document.getElementById("hide-cancel").parentElement;
+      var caseType = document.getElementById("casetype").parentElement;
+      var caseID = document.getElementById("caseid").parentElement;
+      if (action === "workList") {
+        hideCreate.style.display = "";
+        createAllCasetypes.style.display = "";
+        hideCancel.style.display = "none";
+        caseType.style.display = "none";
+        caseID.style.display = "none";
+      } else if (action === "createNewWork") {
+        hideCreate.style.display = "none";
+        createAllCasetypes.style.display = "none";
+        hideCancel.style.display = "";
+        caseType.style.display = "";
+        caseID.style.display = "none";
+      } else {
+        hideCreate.style.display = "none";
+        createAllCasetypes.style.display = "none";
+        hideCancel.style.display = "";
+        caseType.style.display = "none";
+        caseID.style.display = "";
+      }
+    }
+    /* Default values */
     document.getElementById("url").value = "https://mashup.pega.com/prweb";
     document.getElementById("casetype").value = "Eas-BobsServ-Work-TestCase";
     document.getElementById("username").value = "wssuser2";
     document.getElementById("password").value = "install@123";
-
-    createMashup("workList");
+    createMashup();
   </script>
 </body>
 

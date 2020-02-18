@@ -2,7 +2,7 @@ import { html } from 'lit-html';
 import { ButtonMenu } from './button-menu';
 
 const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) => html`
-  <div class="flex layout-content-inline_middle">
+  <div class="flex layout-content-inline_middle main-header">
     <h2>
       ${title}
       ${cases.length > 0
@@ -12,8 +12,9 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
     : ''}
     </h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
-      <button class="pzhc pzbutton Simple" @click="${onReload}">Refresh</button>
-      ${ButtonMenu('Create', onDisplayCaseTypes, onCreate)}
+      <button class="pzhc pzbutton Simple" arial-label='Click to refresh the worklist'
+      title='Click to refresh the worklist' @click="${onReload}">Refresh</button>
+      ${ButtonMenu('Create', 'Create a new case', onDisplayCaseTypes, onCreate)}
     </div>
   </div>
   ${cases.length > 0

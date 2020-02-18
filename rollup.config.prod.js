@@ -29,7 +29,7 @@ export default [
     ],
   },
   {
-    input: 'src/components/pega-mashup-light.js',
+    input: 'src/components/mashup-light.js',
     output: {
       file: 'docs/pega-mashup-light-webcomponent.js',
       format: 'iife',

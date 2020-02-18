@@ -1,5 +1,5 @@
 import { html, customElement } from 'lit-element';
-import PegaBase from './pega-base';
+import PegaBase from './base';
 
 @customElement('pega-mashup-light')
 class PegaMashupLight extends PegaBase {

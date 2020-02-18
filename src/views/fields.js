@@ -2,73 +2,11 @@
 import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { unescapeHTML, pad2char, convertTimestampToDate } from '../utils/form-utils';
+import { ActionSet, AddWrapperDiv, getReference } from '../utils/field-utils';
 
-const ActionSet = (data, eventType) => {
-  let actionAttribute;
-  if (data.control && data.control.actionSets && data.control.actionSets.length > 0) {
-    for (const i in data.control.actionSets) {
-      const elem = data.control.actionSets[i];
-      /* TODO: one action set could contain multiple actions - we just look at the first action */
-      if (elem.events.length > 0 && elem.actions.length > 0 && elem.events[0].event === eventType) {
-        return elem.actions[0].action;
-      }
-    }
-  }
-  return actionAttribute;
-};
-
-const hasActions = (data) => {
-  if (data.control && data.control.actionSets && data.control.actionSets.length > 0) {
-    return true;
-  }
-  return false;
-};
-
-const DisplayLabel = (data, path) => {
-  if (typeof path === 'undefined') return null;
-  const iconrequired = data.required ? 'icon-required' : '';
-  return html`
-    ${data.label !== '' || data.showLabel === true || data.labelReserveSpace === true
-    ? html`
-          <label class="field-caption dataLabelForWrite ${iconrequired}" for="${ifDefined(path)}">${data.label}</label>
-        `
-    : null}
-  `;
-};
-
-/* This is a special case for button - For an action like addRow, deleteRow, it is not possible to get the page name
- * from the action set - so as a workaround, we set the page name inside the tooltip and pass the value as reference
+/**
+ * Render a field - this includes rendering the label and the component
  */
-const getReference = (data) => {
-  if (data.reference !== 'pyTemplateButton') return data.reference;
-  if (data.control && data.control.modes) {
-    return data.control.modes[1].tooltip;
-  }
-  return null;
-};
-
-const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
-  if (typeof path === 'undefined') {
-    return html`
-      ${ComponentTemplate}
-    `;
-  }
-  if (type === 'field-button' && !hasActions(data)) {
-    return null;
-  }
-  return html`
-    <div class="content-item field-item ${type}">
-      ${type === 'field-checkbox'
-    ? html`
-            ${ComponentTemplate}${DisplayLabel(data, path)}
-          `
-    : html`
-            ${DisplayLabel(data, path)}${ComponentTemplate}
-          `}
-    </div>
-  `;
-};
-
 const Field = (data, path) => {
   if (typeof data === 'undefined' || typeof data.control === 'undefined' || typeof data.control.type === 'undefined') {
     return null;
@@ -116,6 +54,9 @@ const Field = (data, path) => {
   }
 };
 
+/**
+ * Formatted Text component
+ */
 const DisplayText = (data, path) => {
   if (data.control.type === 'pxDate' || data.control.type === 'pxDateTime') {
     let value = convertTimestampToDate(data.value);
@@ -133,6 +74,9 @@ const DisplayText = (data, path) => {
   `;
 };
 
+/**
+ * TextInput component
+ */
 const TextInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
@@ -145,6 +89,9 @@ const TextInput = (data, path) => html`
   />
 `;
 
+/**
+ * NumberInput component
+ */
 const NumberInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
@@ -157,6 +104,9 @@ const NumberInput = (data, path) => html`
   />
 `;
 
+/**
+ * CurrencyInput component
+ */
 const CurrencyInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
@@ -169,6 +119,9 @@ const CurrencyInput = (data, path) => html`
   />
 `;
 
+/**
+ * EmailInput component
+ */
 const EmailInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
@@ -181,6 +134,9 @@ const EmailInput = (data, path) => html`
   />
 `;
 
+/**
+ * TextArea component
+ */
 const TextArea = (data, path) => html`
   <textarea
     data-ref="${data.reference}"
@@ -194,6 +150,9 @@ ${unescapeHTML(data.value)}</textarea
   >
 `;
 
+/**
+ * Icon component
+ */
 const Icon = (data, path) => html`
   <i
     class="${data.control.modes[1].iconStyle}"
@@ -204,10 +163,16 @@ const Icon = (data, path) => html`
   />
 `;
 
+/**
+ * URL component
+ */
 const URL = (data, path) => html`
   <a id="${ifDefined(path)}" data-ref="${data.reference}" href="${data.value}">${data.control.label}</a>
 `;
 
+/**
+ * Button component
+ */
 const Button = (data, path) => html`
   <button
     class="${ifDefined(data.control.modes[1].controlFormat)} pzhc pzbutton"
@@ -219,6 +184,9 @@ const Button = (data, path) => html`
   </button>
 `;
 
+/**
+ * DeleteButton component
+ */
 const DeleteButton = (data, path) => html`
   <button
     class="pzhc pzbutton Icon"
@@ -229,6 +197,9 @@ const DeleteButton = (data, path) => html`
   ></button>
 `;
 
+/**
+ * DateTime component
+ */
 const DateTime = (data, path) => {
   let value = data.value;
   if (value !== '') {
@@ -252,6 +223,9 @@ const DateTime = (data, path) => {
   `;
 };
 
+/**
+ * RadioButtons component
+ */
 const RadioButtons = (data, path) => {
   let listValues;
   if (data.control && data.control.modes && data.control.modes[0].options) {
@@ -280,10 +254,16 @@ const RadioButtons = (data, path) => {
   `;
 };
 
+/**
+ * Checkbox component
+ */
 const Checkbox = (data, path) => html`
   <input data-ref="${data.reference}" id=${ifDefined(path)} type="checkbox" ?checked=${data.value === 'true'} />
 `;
 
+/**
+ * Dropdown component
+ */
 const DropDown = (data, path) => html`
   <select data-ref="${data.reference}" id=${ifDefined(path)} ?required="${data.required === true}">
     <option value="" title="Select...">Select...</option>
@@ -295,6 +275,9 @@ const DropDown = (data, path) => html`
   </select>
 `;
 
+/**
+ * Combobox component - render a list of items from a data page
+ */
 const showDataList = data => html`
   ${data.pxResults.map(
     item => html`
@@ -306,7 +289,7 @@ const showDataList = data => html`
 `;
 
 /**
- * Generate the Combobox component
+ * Combobox component
  */
 const Combobox = (data, path) => {
   /* If the values are already under the options list - then just use it */
@@ -352,15 +335,37 @@ const Combobox = (data, path) => {
 };
 
 /**
- * Generate the Loading indicator based on pure CSS
+ * Loading indicator component
  */
 const LoadingIndicator = () => html`
-  <div class="lds-ring">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  <span class="loading">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+  </span>
 `;
 
-export { Field, showDataList, LoadingIndicator };
+const showConfirm = (name, id, status) => html`
+  <div class="flex layout-content-inline_middle main-header">
+    <h2>${name} (${id})</h2>
+    <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>
+  </div>
+  <div class="flex layout-content-inline_middle success">
+    Thank you. Your information has been submitted.
+  </div>
+  <h3>Case information</h3>
+  <div id="case-data">${LoadingIndicator()}</div>`;
+
+const showErrorMessage = (msg, onClose) => html`
+  <div class="error">${msg}
+  ${onClose != null ? html`
+    <button title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
+    <svg width= "24" height="24" viewBox="0 0 24 24" >
+    <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81
+    2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
+    </svg></button>` : ''}
+  </div>`;
+
+export {
+  Field, showDataList, LoadingIndicator, showConfirm, showErrorMessage,
+};

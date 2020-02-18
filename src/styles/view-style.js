@@ -54,11 +54,13 @@ export const viewStyle = () => html`
       padding: var(--spacing05x) var(--spacing1x);
     }
 
-    select,
+
     input {
       height: var(--controlHeight);
     }
-
+    select {
+      height: calc(var(--controlHeight) + var(--spacing1x) + 2px);
+    }
     input:hover,
     input:active,
     input:focus {
@@ -199,6 +201,13 @@ export const viewStyle = () => html`
       border:none;
     }
 
+    button.Simple:hover,
+    button.Simple:active,
+    button.Simple:focus {
+      background-color:rgba(0,0,0,0.1);
+      color:#000;
+    }
+
     button.action-menu,
     select,
     .combobox {
@@ -214,7 +223,7 @@ export const viewStyle = () => html`
     button.action-menu:hover,
     button.action-menu:active,
     button.action-menu:focus {
-      background-color:#FFF;
+      background-color:rgba(0,0,0,0.1);
       color:#000;
     }
 
@@ -271,10 +280,12 @@ export const viewStyle = () => html`
       border: 1px solid var(--primaryColor);
       border-radius: 5px;
       width: auto;
+      background:transparent;
     }
 
     button.Icon {
       min-width: auto;
+      border:none;
     }
 
     button.Icon[data-action-click='deleteRow'] {
@@ -340,6 +351,22 @@ export const viewStyle = () => html`
     .flex.layout-content-stacked {
       flex-flow: column nowrap;
     }
+    .flex.layout-content-inline_grid_30_70 > div:nth-child(2n+1) {
+      width:calc(30% - var(--spacing1x));
+      margin-right: var(--spacing1x);
+    }
+    .flex.layout-content-inline_grid_30_70 > div:nth-child(2n) {
+      width:calc(70% - var(--spacing1x));
+      margin-left: var(--spacing1x);
+    }
+    .flex.layout-content-inline_grid_70_30 > div:nth-child(2n+1) {
+      width:calc(70% - var(--spacing1x));
+      margin-right: var(--spacing1x);
+    }
+    .flex.layout-content-inline_grid_70_30 > div:nth-child(2n) {
+      width:calc(30% - var(--spacing1x));
+      margin-left: var(--spacing1x);
+    }
 
     .flex.layout-content-default > div {
       min-height: 40px;
@@ -353,6 +380,9 @@ export const viewStyle = () => html`
     }
     .flex.layout-content-inline_middle {
       align-items: center;
+    }
+    .flex.main-header {
+      min-height: 50px;
     }
     .flex.layout-content-inline_middle > * {
       margin-right: var(--spacing1x);
@@ -381,6 +411,9 @@ export const viewStyle = () => html`
     table {
       width: 100%;
     }
+    th {
+      text-align:left;
+    }
     .button-menu {
       position: relative;
       display: inline-block;
@@ -394,22 +427,23 @@ export const viewStyle = () => html`
       list-style: none;
       padding: 0;
       border: 1px solid rgba(0, 0, 0, 0.2);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
       z-index:2;
       right:0;
     }
     .button-menu > ul > li {
       margin: 0;
       white-space: nowrap;
-    }
-    .button-menu a {
       display: block;
-      padding: 0.2em 0.8em;
+      padding: 0.4em 1em;
       text-decoration: none;
       color: #333333;
       margin: 0;
     }
-    .button-menu a:hover {
+    .button-menu > ul > li:focus,
+    .button-menu > ul > li:hover {
       background: #bbbbbb;
+      outline:none;
     }
     .icon-required:after {
       vertical-align: middle;
@@ -424,58 +458,89 @@ export const viewStyle = () => html`
       max-width: 640px;
     }
     .field-text > span:empty::after {
-      content: '--';
+      content: '\\2013\\2013';
       color: #808080;
     }
     .validation:not(:empty),
     .error {
       padding: 14px;
-      background: #ce3a3a;
-      color: #fff;
+      background: #FFD9DB;
+      color: #000;
       font-size: 16px;
       border-radius: 8px;
       display: flex;
       margin-bottom: 14px;
+      align-items: center;
     }
 
     .error button {
       margin-left: auto;
-      background: #fff;
-      color: #ce3a3a;
+      background: transparent;
+      color: #000;
+      min-width:auto;
     }
 
-    .lds-ring {
-      margin: 0 auto;
-      width: 80px;
-      height: 80px;
+    .badge_text {
+      background-color: #088488;
+      color: #FFF;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0px 4px;
+      text-align: center;
+      margin-top: 1px;
+      font-size: 10px;
+      line-height: 16px;
+      letter-spacing: 0.05em;
     }
-    .lds-ring div {
-      box-sizing: border-box;
-      display: block;
-      position: absolute;
-      width: 64px;
-      height: 64px;
-      margin: 3px;
-      border: 3px solid #ccc;
+
+    #case-data,
+    #case-data > div:first-child {
+      flex: 1;
+    }
+
+    #case-data {
+      height: 100%;
+      display: flex;
+      flex-flow: column nowrap;
+    }
+
+    .loading {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+      height:100%;
+    }
+
+    .loading > .dot {
+      width: 1rem;
+      height: 1rem;
+      margin: 0 0.5rem;
+      background: #0076D1;
       border-radius: 50%;
-      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-      border-color: #ccc transparent transparent transparent;
+      animation: Loading-ellipsis 1s infinite cubic-bezier(0.4, 0.6, 0.1, 1);
     }
-    .lds-ring div:nth-child(1) {
-      animation-delay: -0.45s;
+
+    .loading > .dot:nth-child(2) {
+      animation-delay: 0.1667s;
     }
-    .lds-ring div:nth-child(2) {
-      animation-delay: -0.3s;
+
+    .loading > .dot:nth-child(3) {
+      animation-delay: 0.3334s;
     }
-    .lds-ring div:nth-child(3) {
-      animation-delay: -0.15s;
-    }
-    @keyframes lds-ring {
+
+    @keyframes Loading-ellipsis {
       0% {
-        transform: rotate(0deg);
+          transform: scale(0);
+          opacity: 0;
+      }
+      50% {
+          transform: scale(1);
+          opacity: 1;
       }
       100% {
-        transform: rotate(360deg);
+          transform: scale(0);
+          opacity: 0;
       }
     }
   </style>
