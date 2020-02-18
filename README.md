@@ -14,15 +14,19 @@ The benefits of the Mashup component are:
 - no need to align your document styles with the Pega Mashup app
   -> the Web component can run as a light DOM and gets all the styling from the core components from the top document or as a shadow DOM
 - improved performance
-  -> The JS file needed to render the UI is very small (less than 30Kb) and is 10X faster to be downloaded and parsed by the browser than the JS files required by Pega Mashup
+  -> The JS file needed to render the UI is small (around 60Kb) and is 10X faster to be downloaded and parsed by the browser than the JS files required by Pega Web Mashup.
 
-This web component is using lit-element and lit-html for the template and rendering of the Web component.
+This web component is using lit-element and lit-html for the template and rendering of the Web component. It supports all modern browsers (Firefox, Chrome and Safari). It does not work on IE11 and Edge.
 
-This web component supports all modern browsers (Firefox, Chrome and Safari). It does not work on IE11 and Edge.
+The Web component supports the following actions:
+- Display the worklist - can open assignments inside the same card
+- Create a case
+- Open an assignment
+- Open a case - will show the review harness of the case along with the list of assignmented and child cases
 
 The docs folder contains the JS library to load to use the Web Component:
 
-- pega-mashup-list-webcomponent.js can be loaded if you only need to use the light DOM component (pega-mashup-light) - it is a smaller file since it does not include any CSS content
+- pega-mashup-light-webcomponent.js can be loaded if you only need to use the light DOM component (pega-mashup-light) - it is a smaller file since it does not include any CSS content
 - pega-mashup-webcomponent.js can be used if you intend to use the Shadow DOM version of the web component (pega-mashup). The file also contains the light DOM component (pega-mashup-light).
 
 ## For developers
