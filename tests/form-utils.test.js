@@ -10,12 +10,12 @@ import {
   deleteRowFromPageList,
   shouldRefresh,
   getFormData,
+  setFormData,
   createUID,
   convertTimestampToDate,
   escapeHTML,
   unescapeHTML,
 } from '../src/utils/form-utils';
-
 
 describe('testing the createUID API', () => {
   test('it should get a unique ID', () => {
@@ -259,5 +259,63 @@ describe('testing the getFormData API', () => {
     const content = {};
     getFormData(form, content);
     expect(content).toEqual(output);
+  });
+});
+
+describe('testing the setFormData API', () => {
+  test('it should set the value on an input field', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    form.elements.push(input);
+    input.setAttribute('data-ref', 'key1.key2.test');
+    const initContent = { 'key1.key2.test': 'foo' };
+    setFormData(form, initContent);
+    expect(input.value).toEqual('foo');
+  });
+
+  test('it should set the value on an checkbox field', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    form.elements.push(input);
+    input.setAttribute('data-ref', 'key1');
+    const initContent = { key1: true };
+    setFormData(form, initContent);
+    expect(input.checked).toBeTruthy();
+  });
+
+  test('it should set the value on an checkbox field', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    form.elements.push(input);
+    input.setAttribute('data-ref', 'key1');
+    const initContent = { key1: { value: 'true' } };
+    setFormData(form, initContent);
+    expect(input.checked).toBeTruthy();
+  });
+
+  test('it should set the value on a radio button', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    input.type = 'radio';
+    form.elements.push(input);
+    input.setAttribute('data-ref', 'key1');
+    input.setAttribute('value', 'foo');
+    const initContent = { key1: { value: 'foo' } };
+    setFormData(form, initContent);
+    expect(input.checked).toBeTruthy();
+  });
+
+  test('it should not the value on a radio button if not match', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    input.type = 'radio';
+    form.elements.push(input);
+    input.setAttribute('data-ref', 'key1');
+    input.setAttribute('value', 'bar');
+    const initContent = { key1: { value: 'foo' } };
+    setFormData(form, initContent);
+    expect(input.checked).toBeFalsy();
   });
 });

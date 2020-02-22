@@ -78,7 +78,7 @@ describe(
         fullpage: true,
         type: 'jpeg',
       });
-      const title = await page.$eval('pega-mashup-light h3', el => el.innerText);
+      const title = await page.$eval('pega-mashup-light h2', el => el.innerText);
       expect(title).toBe('New Case');
       await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
       await page.waitForSelector('#case-data', { visible: true });
@@ -100,11 +100,13 @@ describe(
     }, timeout);
 
     it('Process the case', async () => {
+      await page.waitForSelector('#case-data #Obj-0-3', { visible: true });
       await page.type('#case-data #Obj-0-3', 'this is a test');
       await page.click('#case-data #rb-Obj-0-4-0');
       await page.type('#case-data #Obj-0-5', '22');
       await page.type('#case-data #Obj-0-6', '150');
       await page.type('#case-data #Obj-0-8', '12344', { waitUntil: 'networkidle0' });
+      await page.waitForSelector('#case-data #Obj-0-9', { visible: true });
       await page.type('#case-data #Obj-0-9', '02/02/2022');
       await page.type('#case-data #Obj-0-11', '02/02/2022');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });

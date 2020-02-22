@@ -248,3 +248,38 @@ export const getFormData = (form, content) => {
     }
   }
 };
+
+/**
+ * Retrieve the values of all the form controls in the form and populate them in the content object
+ */
+export const setFormData = (form, content) => {
+  for (const i in form.elements) {
+    const el = form.elements[i];
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+      const ref = el.getAttribute('data-ref');
+      if (ref !== null && ref !== 'pyID' && content[ref]) {
+        const myobj = content[ref];
+        if (typeof myobj === 'object') {
+          if (el.type === 'radio') {
+            if (el.value === myobj.value) el.checked = true;
+          } else if (el.type === 'checkbox') {
+            if (myobj.value === true || myobj.value === 'true') el.checked = true;
+          } else if (myobj.value) {
+            el.value = myobj.value;
+          }
+          if (myobj.disabled) el.disabled = true;
+        } else if (typeof myobj === 'string') {
+          if (el.type === 'radio') {
+            if (el.value === myobj) el.checked = true;
+          } else if (el.type === 'checkbox') {
+            if (myobj === 'true') el.checked = true;
+          } else {
+            el.value = myobj;
+          }
+        } else if (typeof myobj === 'boolean' && el.type === 'checkbox') {
+          if (myobj === true) el.checked = true;
+        }
+      }
+    }
+  }
+};

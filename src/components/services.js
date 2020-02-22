@@ -2,14 +2,15 @@ import { render } from 'lit-html';
 import {
   saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors,
 } from '../views/views';
+import { setFormData } from '../utils/form-utils';
 import { showDataList } from '../views/fields';
 import PegaElement from './element';
 
 /**
-   * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
-   * It will update the case-data element using the lit-html render function
-   *
-   */
+ * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
+ * It will update the case-data element using the lit-html render function
+ *
+ */
 export default class PegaServices extends PegaElement {
   /**
    * fetch the data using the DX API
@@ -116,7 +117,9 @@ export default class PegaServices extends PegaElement {
               break;
             case 'case':
               this.casedata = response;
-              if (this.name === '') { this.name = this.casedata.content.pyLabel; }
+              if (this.name === '') {
+                this.name = this.casedata.content.pyLabel;
+              }
               this.casepyStatusWork = this.casedata.content.pyStatusWork;
               this.requestUpdate();
               if (this.assignmentID === '') {
@@ -180,6 +183,10 @@ export default class PegaServices extends PegaElement {
               }
               render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null), el);
               el.focus();
+              const form = this.getRenderRoot().querySelector('#case-data');
+              if (form) {
+                setFormData(form, this.initialContent);
+              }
               break;
           }
         } catch (e) {

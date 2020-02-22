@@ -26,6 +26,9 @@ export default class PegaElement extends LitElement {
   /* JWT Token for authentication  */
   @property({ type: String }) token = '';
 
+  /* Initial content when creating a new case - you can pass an object as { prop1: 'value1', prop2: 'value2' }  */
+  @property({ type: Object }) initialContent = '';
+
   /* 4 actions supported: createNewWork, workList, openAssignment and openWorkByHandle */
   @property({ type: String }) action = '';
 

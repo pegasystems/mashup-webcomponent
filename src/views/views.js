@@ -58,7 +58,7 @@ const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, on
   if (typeof data.caseID === 'undefined') {
     return html`
     <div class="flex layout-content-inline_middle main-header">
-      <h3>${name}</h2>
+      <h2>${name}</h2>
     </div>`;
   }
   const id = data.caseID.split(' ')[1];

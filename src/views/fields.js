@@ -216,9 +216,12 @@ const DateTime = (data, path) => {
       data-ref="${data.reference}"
       ?required="${data.required === true}"
       pattern="\\d{4}-\\d{2}-\\d{2}"
+      placeholder="mm/dd/yyyy"
       type="date"
       id="${ifDefined(path)}"
       value="${value}"
+      data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+    data-action-click="${ifDefined(ActionSet(data, 'click'))}"
     />
   `;
 };
@@ -246,6 +249,7 @@ const RadioButtons = (data, path) => {
             value="${item.value}"
             ?required="${data.required === true}"
             ?checked="${item.value === data.value}"
+            data-action-change="${ifDefined(ActionSet(data, 'change'))}"
           />
           <label for="${innerpath}">${item.value}</label>
         </div>
@@ -258,14 +262,24 @@ const RadioButtons = (data, path) => {
  * Checkbox component
  */
 const Checkbox = (data, path) => html`
-  <input data-ref="${data.reference}" id=${ifDefined(path)} type="checkbox" ?checked=${data.value === 'true'} />
+  <input
+  data-ref="${data.reference}" id=${ifDefined(path)}
+  type="checkbox" ?checked=${data.value === 'true'}
+  data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+  data-action-click="${ifDefined(ActionSet(data, 'click'))}"
+  />
 `;
 
 /**
  * Dropdown component
  */
 const DropDown = (data, path) => html`
-  <select data-ref="${data.reference}" id=${ifDefined(path)} ?required="${data.required === true}">
+  <select
+  data-ref="${data.reference}"
+  id=${ifDefined(path)}
+  ?required="${data.required === true}"
+  data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+  data-action-click="${ifDefined(ActionSet(data, 'click'))}">
     <option value="" title="Select...">Select...</option>
     ${data.control.modes[0].options.map(
     item => html`
@@ -303,6 +317,8 @@ const Combobox = (data, path) => {
         class="combobox loaded"
         id="${ifDefined(path)}"
         value="${unescapeHTML(data.value)}"
+        data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+        data-action-click="${ifDefined(ActionSet(data, 'click'))}"
       />
       <datalist id="${data.reference}">
         ${data.control.modes[0].options.map(
@@ -329,6 +345,8 @@ const Combobox = (data, path) => {
       class="combobox"
       id="${ifDefined(path)}"
       value="${data.value}"
+      data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+      data-action-click="${ifDefined(ActionSet(data, 'click'))}"
     />
     <datalist id="${data.reference}"></datalist>
   `;

@@ -39,9 +39,9 @@ export default class PegaBase extends PegaServices {
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-    ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase)}
-    <div class="validation">${this.validationMsg}</div>
-      <form id="case-data">${LoadingIndicator()}</form>
+        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase)}
+        <div class="validation">${this.validationMsg}</div>
+        <form id="case-data">${LoadingIndicator()}</form>
       `;
     }
     if (this.action === 'workList') {
@@ -68,6 +68,7 @@ export default class PegaBase extends PegaServices {
     this.bShowNew = false;
     this.caseID = '';
     this.data = {};
+    this.content = {};
     this.casedata = {};
     this.casepyStatusWork = '';
     this.assignmentID = '';
@@ -78,9 +79,11 @@ export default class PegaBase extends PegaServices {
     if (this.action === 'workList') {
       this.fetchData('worklist');
     } else {
-      this.dispatchEvent(new CustomEvent('message', {
-        detail: { type: 'cancel' },
-      }));
+      this.dispatchEvent(
+        new CustomEvent('message', {
+          detail: { type: 'cancel' },
+        }),
+      );
     }
   };
 
@@ -120,10 +123,12 @@ export default class PegaBase extends PegaServices {
   displayActions = () => {
     if (this.data.actions) {
       return genActionsList(this.name, this.data);
-    } if (this.casedata.actions) {
+    }
+    if (this.casedata.actions) {
       return genActionsList(this.name, this.casedata);
-    } return null;
-  }
+    }
+    return null;
+  };
 
   submitForm = (event, type) => {
     const form = this.getRenderRoot().querySelector('#case-data');
@@ -155,6 +160,7 @@ export default class PegaBase extends PegaServices {
         this.name = `New ${el.textContent} `;
       }
     }
+    this.content = this.initialContent;
     this.caseID = '';
     this.data = {};
     this.casedata = {};
@@ -267,13 +273,11 @@ export default class PegaBase extends PegaServices {
     }
   };
 
-  keydownHandler = (event) => {
+  keyupHandler = (event) => {
     const el = event.target;
     if (el.tagName === 'TEXTAREA') {
-      setTimeout(() => {
-        el.style.cssText = 'height:auto; padding:0';
-        el.style.cssText = `height: ${el.scrollHeight} px`;
-      }, 0);
+      el.style.cssText = 'height:auto; padding:0;';
+      el.style.cssText = `height:${el.scrollHeight}px`;
     }
   };
 
@@ -296,7 +300,7 @@ export default class PegaBase extends PegaServices {
       mashupWidget.addEventListener('click', this.clickHandler);
       mashupWidget.addEventListener('focusin', this.focusHandler);
       mashupWidget.addEventListener('change', this.changeHandler);
-      mashupWidget.addEventListener('keydown', this.keydownHandler);
+      mashupWidget.addEventListener('keyup', this.keyupHandler);
     }
     if (this.action === 'workList') {
       this.fetchData('worklist');

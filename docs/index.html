@@ -137,11 +137,17 @@
       if (mainEl.childNodes.length > 0) {
         mainEl.removeChild(mainEl.childNodes[0]);
       }
+      /* Uncomment to pass some initial values when creating a case */
+      /*
+      var initContent = { FirstName: 'test', Description: { value: 'tttttt', disabled: true }, ProjectStatus: 'Planning and Budgeting', Type: 'Propane gas fired', IsBoolean: true, Sex: { value: 'Male', disabled: true } };
+      mytag.initialContent = initContent;
+      */
+
+      mainEl.appendChild(mytag);
       mytag.addEventListener("message", function (event) {
         console.log("event was sent by the web component", event.detail);
         mainEl.removeChild(mainEl.childNodes[0]);
-      })
-      mainEl.appendChild(mytag);
+      });
     }
     function showFields(event) {
       var action = event.target.value;
