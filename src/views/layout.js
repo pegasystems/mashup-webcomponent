@@ -2,7 +2,7 @@ import { html } from 'lit-html';
 import { Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
 
-const Layout = (data, path) => html`
+const Layout = (data, path, isReadOnly) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}-${index}`;
     if (item.layout) {
@@ -13,48 +13,48 @@ const Layout = (data, path) => html`
       const classname = `flex content content-items-maxwidth layout-content-${format} content-${format}`;
       if (item.layout.view && item.layout.view.groups) {
         return html`
-          <div class="${classname}">${Layout(item.layout.view.groups, tmppath)}</div>
+          <div class="${classname}">${Layout(item.layout.view.groups, tmppath, isReadOnly)}</div>
         `;
       }
       if (item.layout.groups) {
         return html`
-          <div class="${classname}">${Layout(item.layout.groups, tmppath)}</div>
+          <div class="${classname}">${Layout(item.layout.groups, tmppath, isReadOnly)}</div>
         `;
       }
       if (item.layout.rows) {
         if (item.layout.header) {
         /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
-          return html`${SimpleTable(item, tmppath)}`;
+          return html`${SimpleTable(item, tmppath, isReadOnly)}`;
         }
-        return html`${SimpleList(item, tmppath)}`;
+        return html`${SimpleList(item, tmppath, isReadOnly)}`;
       }
       return null;
     }
     if (item.field) {
-      return html`${Field(item.field, tmppath)}`;
+      return html`${Field(item.field, tmppath, isReadOnly)}`;
     }
     if (item.view && item.view.groups) {
-      return html`${Layout(item.view.groups, tmppath)}`;
+      return html`${Layout(item.view.groups, tmppath, isReadOnly)}`;
     }
     return null;
   })}
 `;
 
-const SimpleList = (item, path) => html`
+const SimpleList = (item, path, isReadOnly) => html`
 ${ListTitle(item.layout)}
           <div class="rdl">
-            ${List(item.layout.rows, path)}
+            ${List(item.layout.rows, path, isReadOnly)}
           </div>
-          ${ListAction(item.layout)}
+          ${ListAction(item.layout, false, isReadOnly)}
 `;
 
-const List = (data, path) => html`
+const List = (data, path, isReadOnly) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}/row${index}`;
     if (item.groups) {
       return html`
         <div>
-          ${Layout(item.groups, tmppath)}
+          ${Layout(item.groups, tmppath, isReadOnly)}
         </div>
       `;
     }

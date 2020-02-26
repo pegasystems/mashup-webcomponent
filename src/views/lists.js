@@ -3,7 +3,7 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 import { Field } from './fields';
 import { getNewRowProps } from '../utils/form-utils';
 
-export const SimpleTable = (item, path) => html`
+export const SimpleTable = (item, path, isReadOnly) => html`
   ${ListTitle(item.layout)}
   <table>
     <thead>
@@ -15,7 +15,7 @@ export const SimpleTable = (item, path) => html`
       ${Table(item.layout.rows, path)}
     </tbody>
   </table>
-  ${ListAction(item.layout)}
+  ${ListAction(item.layout, false, isReadOnly)}
 `;
 /* The metadata doesn't provide the type of h2/h3 used */
 export const ListTitle = (data) => {
@@ -29,7 +29,7 @@ export const ListTitle = (data) => {
   return null;
 };
 
-export const ListAction = (data, bShowDelete) => {
+export const ListAction = (data, bShowDelete, isReadOnly) => {
   let ref = data.fieldListID;
 
   /* if the reference starts by a dot, need to remove it */
@@ -39,7 +39,7 @@ export const ListAction = (data, bShowDelete) => {
 
   /* If the array 'newRow' is present, then the table or RDL is editable - automatically add the add button
      It is preferable to show the delete button on each row - so will not show the button by default */
-  if (data.newRow) {
+  if (data.newRow && isReadOnly !== true) {
     const newRowList = [];
     getNewRowProps(data.newRow, newRowList);
     return html`
@@ -59,7 +59,7 @@ export const ListAction = (data, bShowDelete) => {
 
 const TableHeader = data => html`
   ${data.map(item => html`
-    <th>${item.caption.value}</th>`)}
+    <th>${item.caption ? html`${item.caption.value}` : ''}</th>`)}
 `;
 
 const Table = data => html`

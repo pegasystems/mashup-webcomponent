@@ -80,7 +80,7 @@ const mainLayout = (data, path, onCancel, onSave) => html`
 `;
 
 const reviewLayout = (data, path, onCancel) => html`
-  <div>${Layout(data, path)}</div>
+  <div>${Layout(data, path, true)}</div>
   ${CloseActionArea(onCancel)}
 `;
 
@@ -102,7 +102,9 @@ const genPageValidationErrors = response => html`
           <li>${item.Path.substring(1)}: ${item.ValidationMessage}</li>
         `;
     }
-    return null;
+    return html`
+    <li>${item.ValidationMessage}</li>
+  `;
   })}
   </ul>
 `;
