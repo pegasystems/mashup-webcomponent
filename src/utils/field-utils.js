@@ -59,7 +59,7 @@ export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
     return null;
   }
   return html`
-    <div class="content-item field-item ${type}">
+    <div class="flex content-item field-item ${type}">
       ${type === 'field-checkbox'
     ? html`
             ${ComponentTemplate}${DisplayLabel(data, path)}

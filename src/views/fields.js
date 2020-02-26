@@ -66,11 +66,11 @@ const DisplayText = (data, path) => {
       value = data.value;
     }
     return html`
-      <span class="dataLabelForRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
+      <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
     `;
   }
   return html`
-    <span class="dataLabelForRead" data-ref="${data.reference}" id="${ifDefined(path)}">${data.value}</span>
+    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${data.value}</span>
   `;
 };
 
