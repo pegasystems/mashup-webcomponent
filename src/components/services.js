@@ -3,7 +3,7 @@ import {
   saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors,
 } from '../views/views';
 import { setFormData } from '../utils/form-utils';
-import { showDataList } from '../views/fields';
+import { showDataList, LoadingIndicator } from '../views/fields';
 import PegaElement from './element';
 
 /**
@@ -16,7 +16,10 @@ export default class PegaServices extends PegaElement {
    * fetch the data using the DX API
    *
    */
-  fetchData(type, id, actionid, target) {
+  fetchData(type, props) {
+    const {
+      id, actionid, target, element,
+    } = props || {};
     let authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
     if (this.token !== '') {
       authToken = `Bearer ${this.token}`;
@@ -111,9 +114,14 @@ export default class PegaServices extends PegaElement {
             case 'assignment':
               this.data = response;
               this.caseID = response.caseID;
-              this.actionID = response.actions[0].ID;
-              this.fetchData('case', this.caseID);
-              this.fetchData('assignmentaction', id, this.actionID);
+              this.fetchData('case', { id: this.caseID });
+              if (response.actions.length > 0 && response.actions[0].ID) {
+                this.actionID = response.actions[0].ID;
+
+                this.fetchData('assignmentaction', { id, actionid: this.actionID });
+              } else {
+                this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
+              }
               break;
             case 'case':
               this.casedata = response;
@@ -123,16 +131,16 @@ export default class PegaServices extends PegaElement {
               this.casepyStatusWork = this.casedata.content.pyStatusWork;
               this.requestUpdate();
               if (this.assignmentID === '') {
-                this.fetchData('view', this.caseID, 'pyCaseInformation');
+                this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
               }
               break;
             case 'data':
               this.dataPages[id] = response;
-              if (!actionid.nextElementSibling) {
+              if (!element.nextElementSibling) {
                 console.error('Error: case data are not present when retrieving the data');
                 break;
               }
-              render(showDataList(response), actionid.nextElementSibling);
+              render(showDataList(response), element.nextElementSibling);
               break;
             case 'caseaction':
               if (!el) {
@@ -226,7 +234,15 @@ export default class PegaServices extends PegaElement {
       });
   }
 
-  sendData(type, id, actionid, target) {
+  sendData(type, props) {
+    const {
+      id, actionid, target, refreshFor,
+    } = props;
+    let el = this.getRenderRoot().querySelector('#case-data');
+    if (el && type.indexOf('refresh') !== 0) {
+      render(LoadingIndicator(), el);
+      this.performUpdate();
+    }
     let authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
     if (this.token !== '') {
       authToken = `Bearer ${this.token}`;
@@ -267,8 +283,22 @@ export default class PegaServices extends PegaElement {
           content: this.content,
         });
         break;
+      case 'refreshnew':
+        apiurl += `casetypes/${id}/refresh`;
+        if (refreshFor && refreshFor !== '') {
+          apiurl += `?refreshFor=${refreshFor}`;
+        }
+        reqHeaders.headers['If-Match'] = this.etag;
+        reqHeaders.method = 'PUT';
+        reqHeaders.body = JSON.stringify({
+          content: this.content,
+        });
+        break;
       case 'refreshassignment':
         apiurl += `assignments/${id}/actions/${actionid}/refresh`;
+        if (refreshFor && refreshFor !== '') {
+          apiurl += `?refreshFor=${refreshFor}`;
+        }
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
@@ -277,6 +307,9 @@ export default class PegaServices extends PegaElement {
         break;
       case 'refreshcase':
         apiurl += `cases/${id}/actions/${actionid}/refresh`;
+        if (refreshFor && refreshFor !== '') {
+          apiurl += `?refreshFor=${refreshFor}`;
+        }
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
@@ -305,31 +338,37 @@ export default class PegaServices extends PegaElement {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
           }
         } else {
-          if (type === 'refreshcase' || type === 'refreshassignment') {
-            const el = this.getRenderRoot().querySelector('#case-data');
+          if (type === 'refreshcase' || type === 'refreshassignment' || type === 'refreshnew') {
+            el = this.getRenderRoot().querySelector('#case-data');
             if (!el) {
               console.error('Error: case data are not present');
               return;
             }
-            render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
+            if (type === 'refreshnew') {
+              render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null), el);
+            } else {
+              render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
+            }
           } else if (type === 'savecase') {
-            this.fetchData('case', this.caseID, '', target);
+            this.fetchData('case', { id: this.caseID, target });
             if (this.assignmentID !== '') {
-              this.fetchData('assignment', this.assignmentID);
+              this.fetchData('assignment', { id: this.assignmentID });
             }
           }
           if (response.ID) {
             this.caseID = response.ID;
           }
           if (response.nextAssignmentID) {
+            this.bShowNew = false;
             this.assignmentID = response.nextAssignmentID;
-            this.fetchData('assignment', this.assignmentID);
+            this.fetchData('assignment', { id: this.assignmentID });
           } else if (response.nextPageID) {
             if (response.nextPageID === 'Confirm' || response.nextPageID === 'Review') {
               this.bShowConfirm = true;
-              this.fetchData('view', this.caseID, 'pyCaseInformation');
+              this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
+              this.fetchData('case', { id: this.caseID }); /* To get the updated status */
             } else {
-              this.fetchData('page', this.caseID, response.nextPageID);
+              this.fetchData('page', { id: this.caseID, actionid: response.nextPageID });
             }
           }
         }

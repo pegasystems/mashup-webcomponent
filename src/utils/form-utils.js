@@ -19,6 +19,11 @@ export const convertTimestampToDate = (v) => {
   if (v.endsWith(' GMT') && v.length === 23) {
     return new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T${v.substring(9, 11)}:${v.substring(11, 13)}:${v.substring(13, 19)}Z`);
   }
+  if (v.length === 8) {
+    let dt = new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T00:00:00.000Z`);
+    dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+    return dt;
+  }
   return null;
 };
 /**
@@ -186,7 +191,12 @@ export const deleteRowFromPageList = (root, path) => {
   }
   const el = getValue(root, arrayPath);
   if (!Array.isArray(el)) return;
-  if (el.length === 1) return;
+  if (el.length === 1) {
+    for (const i in el[0]) {
+      if (i !== 'pxObjClass') el[0][i] = '';
+    }
+    return;
+  }
   if (deleteIndex) {
     if (el.length < deleteIndex) return;
     el.splice(deleteIndex - 1, 1);
@@ -201,10 +211,22 @@ export const deleteRowFromPageList = (root, path) => {
  */
 export const shouldRefresh = (el, actionType) => {
   const action = el.getAttribute(`data-action-${actionType}`);
-  if (action && (action === 'postValue' || action === 'refresh')) {
+  if (action && (action === 'postValue' || action.indexOf('refresh') === 0)) {
     return true;
   }
   return false;
+};
+
+/**
+ * Returns the refreshFor value
+ *  The argument actionType can either take the values of 'click' or 'change'
+ */
+export const getRefreshFor = (el, actionType) => {
+  const action = el.getAttribute(`data-action-${actionType}`);
+  if (action && action.indexOf('refresh') === 0) {
+    return action.replace('refresh-', '');
+  }
+  return '';
 };
 
 /**
@@ -282,4 +304,19 @@ export const setFormData = (form, content) => {
       }
     }
   }
+};
+
+/**
+ * Retrieve the content of init data
+ */
+export const getInitData = (casedata) => {
+  if (typeof casedata.content === 'undefined') return {};
+  const content = {};
+  for (const i in casedata.content) {
+    const el = casedata.content[i];
+    if (typeof el === 'object' && i.indexOf('px') !== 0 && !Array.isArray(el)) {
+      content[i] = el;
+    }
+  }
+  return content;
 };

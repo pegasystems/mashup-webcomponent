@@ -351,6 +351,10 @@ export const viewStyle = () => html`
     .flex.layout-content-stacked {
       flex-flow: column nowrap;
     }
+    .flex.layout-content-inline_grid_double {
+      flex-flow: row nowrap;
+    }
+
     .flex.layout-content-inline_grid_30_70 > div:nth-child(2n+1) {
       width:calc(30% - var(--spacing1x));
       margin-right: var(--spacing1x);
@@ -374,7 +378,6 @@ export const viewStyle = () => html`
     }
     .flex.layout-content-stacked > div {
       display: flex;
-      flex-flow: column nowrap;
       min-height: 35px;
       margin-bottom: var(--spacing2x);
     }
@@ -384,6 +387,7 @@ export const viewStyle = () => html`
     .flex.main-header {
       min-height: 50px;
     }
+    .flex.layout-content-inline > *,
     .flex.layout-content-inline_middle > * {
       margin-right: var(--spacing1x);
     }
@@ -413,6 +417,10 @@ export const viewStyle = () => html`
     }
     th {
       text-align:left;
+    }
+    td > input {
+      width: -webkit-fill-available;
+      inline-size: -moz-available;
     }
     .button-menu {
       position: relative;

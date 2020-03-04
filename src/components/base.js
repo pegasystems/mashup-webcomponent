@@ -5,7 +5,7 @@ import {
   showDataList, LoadingIndicator, showConfirm, showErrorMessage,
 } from '../views/fields';
 import {
-  getFormData, shouldRefresh, addRowToPageList, deleteRowFromPageList,
+  getFormData, getInitData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList,
 } from '../utils/form-utils';
 import { WorkList } from '../views/worklist';
 import PegaServices from './services';
@@ -29,9 +29,9 @@ export default class PegaBase extends PegaServices {
         this.assignmentID = this.caseID;
       }
       if (this.assignmentID !== '') {
-        this.fetchData('assignment', this.assignmentID);
+        this.fetchData('assignment', { id: this.assignmentID });
       } else if (this.caseID !== '') {
-        this.fetchData('case', this.caseID);
+        this.fetchData('case', { id: this.caseID });
       }
     }
     if (this.bShowConfirm) {
@@ -93,12 +93,12 @@ export default class PegaBase extends PegaServices {
     event.target.disabled = true;
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
-      this.content = {};
+      this.content = getInitData(this.casedata);
       getFormData(form, this.content);
       if (this.assignmentID !== '') {
-        this.sendData('savecase', this.caseID, '', event.target);
+        this.sendData('savecase', { id: this.caseID, actionid: '', target: event.target });
       } else {
-        this.sendData('savecase', this.caseID, this.actionID, event.target);
+        this.sendData('savecase', { id: this.caseID, actionid: this.actionID, target: event.target });
       }
     }
   };
@@ -106,14 +106,14 @@ export default class PegaBase extends PegaServices {
   actionRefresh = () => {
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
-      this.content = {};
+      this.content = getInitData(this.casedata);
       this.validationMsg = '';
       getFormData(form, this.content);
       this.performUpdate();
       if (this.assignmentID !== '') {
-        this.fetchData('assignmentaction', this.assignmentID, this.actionID);
+        this.fetchData('assignmentaction', { id: this.assignmentID, actionid: this.actionID });
       } else {
-        this.fetchData('caseaction', this.caseID, this.actionID);
+        this.fetchData('caseaction', { id: this.caseID, actionid: this.actionID });
       }
     }
   };
@@ -132,13 +132,13 @@ export default class PegaBase extends PegaServices {
 
   submitForm = (event, type) => {
     const form = this.getRenderRoot().querySelector('#case-data');
-    this.content = {};
+    this.content = getInitData(this.casedata);
     getFormData(form, this.content);
     if (form.checkValidity()) {
       if (type !== 'create') {
-        this.sendData('submitassignment', this.data.ID, this.actionID);
+        this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
       } else {
-        this.sendData('newwork', this.casetype);
+        this.sendData('newwork', { id: this.casetype });
       }
     } else {
       form.reportValidity();
@@ -154,6 +154,8 @@ export default class PegaBase extends PegaServices {
       let el = event.target;
       if (event.path && event.path.length > 0) {
         el = event.path[0];
+      } else if (event.originalTarget) {
+        el = event.originalTarget;
       }
       if (el) {
         this.casetype = el.getAttribute('data-value');
@@ -167,9 +169,9 @@ export default class PegaBase extends PegaServices {
     /* Check if we need to show the New harness or skip the New harness */
     if (this.casetypes[this.casetype]) {
       if (this.casetypes[this.casetype].requiresFieldsToCreate === 'true') {
-        this.fetchData('newwork', this.casetype);
+        this.fetchData('newwork', { id: this.casetype });
       } else {
-        this.sendData('newwork', this.casetype);
+        this.sendData('newwork', { id: this.casetype });
       }
     } else {
       this.errorMsg = `Case '${this.casetype}' is not defined`;
@@ -182,6 +184,8 @@ export default class PegaBase extends PegaServices {
     let el = event.target;
     if (event.path && event.path.length > 0) {
       el = event.path[0];
+    } else if (event.originalTarget) {
+      el = event.originalTarget;
     }
     if (el && el.getAttribute('data-value') !== null) {
       this.actionID = el.getAttribute('data-value');
@@ -216,20 +220,20 @@ export default class PegaBase extends PegaServices {
     if (this.dataPages[pageID]) {
       render(showDataList(this.dataPages[pageID]), el.nextElementSibling);
     } else {
-      this.fetchData('data', pageID, el);
+      this.fetchData('data', { id: pageID, element: el });
     }
   };
 
-  refreshAssignment = (el) => {
+  refreshAssignment = (el, refreshFor) => {
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
-      this.content = {};
+      this.content = getInitData(this.casedata);
       getFormData(form, this.content);
       /* If el is defined - it could be a addRow or deleteRow action */
       if (el) {
         const action = el.getAttribute('data-action-click');
         const ref = el.getAttribute('data-ref');
-        if (ref) {
+        if (ref !== null && action != null) {
           if (action === 'addRow') {
             addRowToPageList(this.content, ref, el.getAttribute('data-newrow'));
           } else if (action === 'deleteRow') {
@@ -237,26 +241,31 @@ export default class PegaBase extends PegaServices {
           }
         }
       }
-      this.sendData('refreshassignment', this.assignmentID, this.actionID);
+      if (this.bShowNew === true) {
+        this.sendData('refreshnew', { id: this.casetype, refreshFor });
+      } else {
+        this.sendData('refreshassignment', { id: this.assignmentID, actionid: this.actionID, refreshFor });
+      }
     }
   };
 
   clickHandler = (event) => {
     const el = event.target;
+    const action = el.getAttribute('data-action-click');
     if (el.classList.contains('combobox') && !el.classList.contains('loaded')) {
       this.getData(el.getAttribute('data-pageid'), el);
     }
     if (shouldRefresh(el, 'click')) {
-      this.refreshAssignment();
+      this.refreshAssignment(el, getRefreshFor(el, 'click'));
       event.preventDefault();
     } else if (el.tagName === 'BUTTON') {
       // always preventDefault on buttons */
       event.preventDefault();
       if (el.getAttribute('data-submit') !== null) {
         this.submitForm(event, el.getAttribute('data-submit'));
-      } else if (el.getAttribute('data-action-click') === 'addRow') {
+      } else if (action === 'addRow') {
         this.refreshAssignment(el);
-      } else if (el.getAttribute('data-action-click') === 'deleteRow') {
+      } else if (action === 'deleteRow') {
         this.refreshAssignment(el);
       }
     }
@@ -266,10 +275,12 @@ export default class PegaBase extends PegaServices {
     let el = event.target;
     if (event.path && event.path.length > 0) {
       el = event.path[0];
+    } else if (event.originalTarget) {
+      el = event.originalTarget;
     }
     el.setCustomValidity('');
     if (shouldRefresh(el, 'change')) {
-      this.refreshAssignment();
+      this.refreshAssignment(el, getRefreshFor(el, 'change'));
     }
   };
 
@@ -306,7 +317,7 @@ export default class PegaBase extends PegaServices {
       this.fetchData('worklist');
     } else if (this.action === 'createNewWork') {
       if (this.casetypes && this.casetypes[this.casetype]) {
-        this.fetchData('newwork', this.casetype);
+        this.fetchData('newwork', { id: this.casetype });
       }
     }
   }

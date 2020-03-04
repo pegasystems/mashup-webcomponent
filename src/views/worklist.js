@@ -12,7 +12,7 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
     : ''}
     </h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
-      <button class="pzhc pzbutton Simple" arial-label='Click to refresh the worklist'
+      <button type='button' class="pzhc pzbutton Simple" arial-label='Click to refresh the worklist'
       title='Click to refresh the worklist' @click="${onReload}">Refresh</button>
       ${ButtonMenu('Create', 'Create a new case', onDisplayCaseTypes, onCreate)}
     </div>

@@ -6,16 +6,16 @@ import { RelatedCases } from './relatedcases';
 
 const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
-    ${onCancel !== null ? html`<button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    <button class="pzhc pzbutton" @click="${onSave}">Save</button>
-    <button data-submit="submit" class="Strong pzhc pzbutton">Submit</button>
+    ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
+    <button type="button" class="pzhc pzbutton" @click="${onSave}">Save</button>
+    <button type="button" data-submit="submit" class="Strong pzhc pzbutton">Submit</button>
   </div>
 `;
 
 const SaveActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
-    ${onCancel !== null ? html`<button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    <button class="pzhc pzbutton Strong" @click="${onSave}">Save</button>
+    ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
+    <button type="button" class="pzhc pzbutton Strong" @click="${onSave}">Save</button>
   </div>
 `;
 
@@ -23,15 +23,15 @@ const CloseActionArea = (onCancel) => {
   if (onCancel === null) return null;
   return html`
   <div class="action-button-area">
-    <button class="pzhc pzbutton Strong" @click="${onCancel}">Close</button>
+    <button type="button" class="pzhc pzbutton Strong" @click="${onCancel}">Close</button>
   </div>`;
 };
 
 
 const CreateActionArea = onCancel => html`
   <div class="action-button-area">
-    ${onCancel !== null ? html`<button class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    <button data-submit="create" class="Strong pzhc pzbutton">Create</button>
+    ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
+    <button type="button" data-submit="create" class="Strong pzhc pzbutton">Create</button>
   </div>
 `;
 
@@ -54,13 +54,7 @@ const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, on
     ${RelatedCases(casedata.childCases, onOpen)}
     <h3>Case information</h3>`;
   }
-  if (name === '') return '';
-  if (typeof data.caseID === 'undefined') {
-    return html`
-    <div class="flex layout-content-inline_middle main-header">
-      <h2>${name}</h2>
-    </div>`;
-  }
+  if (name === '' || typeof data.caseID === 'undefined') return '';
   const id = data.caseID.split(' ')[1];
   return html`
   <div class="flex layout-content-inline_middle main-header">

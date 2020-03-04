@@ -49,6 +49,8 @@ const Field = (data, path) => {
       return AddWrapperDiv(data, path, 'field-datetime', DateTime(data, path));
     case 'pxAutoComplete':
       return AddWrapperDiv(data, path, 'field-combobox', Combobox(data, path));
+    case 'pxSlider':
+      return AddWrapperDiv(data, path, 'field-slider', Slider(data, path));
     default:
       return null;
   }
@@ -61,7 +63,7 @@ const DisplayText = (data, path) => {
   if (data.control.type === 'pxDate' || data.control.type === 'pxDateTime') {
     let value = convertTimestampToDate(data.value);
     if (value) {
-      value = value.toDateString();
+      value = value.toLocaleDateString();
     } else {
       value = data.value;
     }
@@ -70,7 +72,7 @@ const DisplayText = (data, path) => {
     `;
   }
   return html`
-    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${data.value}</span>
+    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${unescapeHTML(data.value)}</span>
   `;
 };
 
@@ -89,6 +91,20 @@ const TextInput = (data, path) => html`
   />
 `;
 
+/**
+ * Slider component
+ */
+const Slider = (data, path) => html`
+  <input
+    data-ref="${data.reference}"
+    ?required="${data.required === true}"
+    type="range"
+    id="${ifDefined(path)}"
+    value="${unescapeHTML(data.value)}"
+    data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+    data-action-click="${ifDefined(ActionSet(data, 'click'))}"
+  />
+`;
 /**
  * NumberInput component
  */
@@ -175,6 +191,7 @@ const URL = (data, path) => html`
  */
 const Button = (data, path) => html`
   <button
+  type='button' 
     class="${ifDefined(data.control.modes[1].controlFormat)} pzhc pzbutton"
     id="${ifDefined(path)}"
     data-ref="${ifDefined(getReference(data))}"
@@ -189,6 +206,7 @@ const Button = (data, path) => html`
  */
 const DeleteButton = (data, path) => html`
   <button
+  type='button' 
     class="pzhc pzbutton Icon"
     title="Delete row"
     id="${ifDefined(path)}"
@@ -377,7 +395,7 @@ const showConfirm = (name, id, status) => html`
 const showErrorMessage = (msg, onClose) => html`
   <div class="error">${msg}
   ${onClose != null ? html`
-    <button title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
+    <button type='button' title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
     <svg width= "24" height="24" viewBox="0 0 24 24" >
     <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81
     2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />

@@ -36,7 +36,7 @@
   --text-xl: calc(var(--generateTextIncreaseRatio) * var(--text-l));
   --text-xxl: calc(var(--generateTextIncreaseRatio) * var(--text-xl));
   
-  --generalLabelColor: rgba(0,0,0,.6)a;
+  --generalLabelColor: rgba(0,0,0,.6);
   --generalLabelFontSize: var(--text-xs);
 
   --headerBgColor: var(--primaryColor);
@@ -72,15 +72,20 @@ ul {
   margin:0;
 }
 
+h2,
 h3 {
-  padding-bottom: 5px;
+  margin-bottom: var(--spacing1x);
+}
+.main-header ~ h3 {
+  padding-bottom: var(--spacing05x);
   border-bottom: 1px solid rgba(0,0,0,0.2);
-  margin-bottom: 8px;
-  margin-top: 8px;
+  margin-bottom: var(--spacing1x);
+  margin-top: var(--spacing1x);
 }
 
 td > input {
   width: -webkit-fill-available;
+  inline-size: -moz-available;
 }
 
 button {
@@ -114,8 +119,13 @@ button.Simple {
     background: #fff
     url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNSAyNSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjE1Ij48dGl0bGU+ZXZlbnRzPC90aXRsZT48ZyBpZD0iYnVkaWNvbi1ldmVudHMiPjxwYXRoIGQ9Ik0yNCwySDE5Vi41YS41LjUsMCwwLDAtMSwwVjJIN1YuNWEuNS41LDAsMCwwLTEsMFYySDFBMSwxLDAsMCwwLDAsM1YyM2ExLDEsMCwwLDAsMSwxSDI0YTEsMSwwLDAsMCwxLTFWM0ExLDEsMCwwLDAsMjQsMlptMCwyMUgxVjhIMjRaTTI0LDdIMVYzSDI0Wm0tOSw2SDEzVjExaDJabTUsMEgxOFYxMWgyWk03LDE4SDVWMTZIN1ptNSwwSDEwVjE2aDJaIi8+PC9nPjwvc3ZnPg==')
   no-repeat;
+  }
+
+  .field-combobox > input[type="text"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
 }
-}
+
 @supports (-moz-appearance:none) {
   input[type="date"] {
     background: #fff
@@ -127,11 +137,16 @@ button.Simple {
 
 select,
 button.action-menu {
+  padding: 0 28px 0 8px;
+  border: 1px solid #000;
+}
+
+.field-combobox > input,
+select,
+button.action-menu {
   background: #fff
     url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA0OC4wNiAyOC4wNCcgIHdpZHRoPScxOCcgaGVpZ2h0PSc5Jz48cGF0aCBmaWxsPSIjMTAxMzJFIiBkPSdNNDcuNDEuNTVhMS45MSAxLjkxIDAgMCAwLTIuNyAwbC0yMC43MSAyMi42MS0yMC43NS0yMi42LS4xOC0uMThhMS45MSAxLjkxIDAgMSAwLTIuNTEgMi44OGwyMS44NyAyMy44NGExLjY5IDEuNjkgMCAwIDAgLjEzLjMxIDIuMTUgMi4xNSAwIDAgMCAyLjg1IDAgMS43NSAxLjc1IDAgMCAwIC4xMy0uMzJsMjEuODctMjMuODRhMS45MSAxLjkxIDAgMCAwIDAtMi43eicgdHJhbnNmb3JtPSd0cmFuc2xhdGUoLjEgLjA5KScvPjwvc3ZnPg==')
     no-repeat calc(100% - 8px) 60%;
-  padding: 0 28px 0 8px;
-  border: 1px solid #000;
 }
 
 button.pzhc.pzbutton.Icon[data-action-click='deleteRow'] {
@@ -213,6 +228,7 @@ select {
 .layout-content-default.flex > * {
   margin-bottom: 16px;
 }
+.layout-content-inline.flex > *,
 .layout-content-inline_middle.flex > * {
   margin-right:8px;
 }
@@ -225,8 +241,8 @@ select {
 .flex.main-header {
   min-height: 50px;
 }
-.flex.main-header > h3 {
-  flex:1;
+.flex.main-header > h2 {
+  margin-bottom:0;
 }
 .flex {
   display:flex;

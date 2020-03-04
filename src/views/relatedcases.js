@@ -18,7 +18,7 @@ export const RelatedCases = (cases, onOpen) => {
         <tr>
           <td>${item.ID}</td>
           <td class="right-aligned">
-            <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
+            <button type='button' @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
           </td>
         </tr>`)}
   </tbody >

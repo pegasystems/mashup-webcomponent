@@ -17,8 +17,8 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
 
 
   const unmountHanders = () => {
-    document.body.removeEventListener('click', dismissModalOnClickaway, true);
-    document.body.removeEventListener('keydown', keydownHandler, true);
+    document.body.removeEventListener('click', dismissModalOnClickaway);
+    document.body.removeEventListener('keydown', keydownHandler);
     if (node) {
       if (node.previousElementSibling) {
         node.previousElementSibling.setAttribute('aria-expanded', 'false');
@@ -50,6 +50,8 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
       let el = event.target;
       if (event.path && event.path.length > 0) {
         el = event.path[0];
+      } else if (event.originalTarget) {
+        el = event.originalTarget;
       }
       if (el && el.nextElementSibling === node) return;
       if (el.parentNode === node) {
@@ -76,8 +78,8 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
         render(onDisplay(), node);
         focusMenuItem = el.nextElementSibling.firstElementChild;
         focusMenuItem.focus();
-        document.body.addEventListener('click', dismissModalOnClickaway, true);
-        document.body.addEventListener('keydown', keydownHandler, true);
+        document.body.addEventListener('click', dismissModalOnClickaway);
+        document.body.addEventListener('keydown', keydownHandler);
       } else {
         unmountHanders();
       }
@@ -89,7 +91,7 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
 
   return html`
     <div class="button-menu">
-    <button id="${`menubutton-${uuid}`}" aria-haspopup="true" aria-controls="${`menu-overlay-${uuid}`}" aria-expanded="false"
+    <button type='button' id="${`menubutton-${uuid}`}" aria-haspopup="true" aria-controls="${`menu-overlay-${uuid}`}" aria-expanded="false"
     @click="${buttonMenuHandler}" @keydown="${buttonMenuHandler}" @blur="${buttonMenuHandler}"
     class="pzhc pzbutton Simple action-menu" title="${ariaLabel}" aria-label="${ariaLabel}">${label}</button>
     </div>

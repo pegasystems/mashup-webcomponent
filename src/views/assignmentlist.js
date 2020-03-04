@@ -22,7 +22,7 @@ export const AssignmentList = (assignments, onOpen) => {
           <td>${item.instructions !== '' ? item.instructions : item.name}</td>
           <td>${item.routedTo}</td>
           <td class="right-aligned">
-            <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
+            <button type='button' @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
           </td>
         </tr>`)
 }

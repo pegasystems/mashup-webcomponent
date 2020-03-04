@@ -8,7 +8,11 @@ export const ActionSet = (data, eventType) => {
       const elem = data.control.actionSets[i];
       /* TODO: one action set could contain multiple actions - we just look at the first action */
       if (elem.events.length > 0 && elem.actions.length > 0 && elem.events[0].event === eventType) {
-        return elem.actions[0].action;
+        let action = elem.actions[0].action;
+        if (action === 'refresh' && elem.actions[0].refreshFor !== '') {
+          action += `-${elem.actions[0].refreshFor}`;
+        }
+        return action;
       }
     }
   }

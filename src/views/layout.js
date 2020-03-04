@@ -17,6 +17,22 @@ const Layout = (data, path, isReadOnly) => html`
         `;
       }
       if (item.layout.groups) {
+        if (typeof item.layout.title === 'string' && item.layout.title !== '' && typeof item.layout.titleFormat) {
+          switch (item.layout.titleFormat) {
+            case 'h2':
+              return html`<div class="${classname}"><h2>${item.layout.title}</h2>
+                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+            case 'h3':
+              return html`<div class="${classname}"><h3>${item.layout.title}</h3>
+                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+            case 'h4':
+              return html`<div class="${classname}"><h4>${item.layout.title}</h4>
+                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+            default:
+              return html`<div class="${classname}"><h2>${item.layout.title}</h2>
+                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+          }
+        }
         return html`
           <div class="${classname}">${Layout(item.layout.groups, tmppath, isReadOnly)}</div>
         `;

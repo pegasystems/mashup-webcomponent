@@ -31,10 +31,11 @@ export const ListTitle = (data) => {
 
 export const ListAction = (data, bShowDelete, isReadOnly) => {
   let ref = data.fieldListID;
+  if (typeof data.reference !== 'undefined') ref = data.reference;
 
   /* if the reference starts by a dot, need to remove it */
-  if (data.fieldListID.charAt(0) === '.') {
-    ref = data.fieldListID.substring(1);
+  if (ref.charAt(0) === '.') {
+    ref = ref.substring(1);
   }
 
   /* If the array 'newRow' is present, then the table or RDL is editable - automatically add the add button
@@ -44,11 +45,11 @@ export const ListAction = (data, bShowDelete, isReadOnly) => {
     getNewRowProps(data.newRow, newRowList);
     return html`
       <div class="table-action-area">
-        <button class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
+        <button type="button" class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
         data-ref=${ref} data-action-click="addRow">Add item</button>
         ${bShowDelete
     ? html`
-              <button class="pzhc pzbutton Simple" data-ref=${ref} data-action-click="deleteRow">Delete item</button>
+              <button type="button" class="pzhc pzbutton Simple" data-ref=${ref} data-action-click="deleteRow">Delete item</button>
             `
     : ''}
       </div>
