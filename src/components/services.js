@@ -1,8 +1,8 @@
 import { render } from 'lit-html';
 import {
-  saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, setFormInlineError, genPageValidationErrors,
+  saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
 } from '../views/views';
-import { setFormData } from '../utils/form-utils';
+import { setFormData, setFormInlineError } from '../utils/form-utils';
 import { showDataList, LoadingIndicator } from '../views/fields';
 import PegaElement from './element';
 
@@ -12,6 +12,55 @@ import PegaElement from './element';
  *
  */
 export default class PegaServices extends PegaElement {
+  /* Clear the loading indicator */
+  clearLoadingIndicator() {
+    const el = this.getRenderRoot().querySelector('#case-data');
+    if (el && el.querySelector('.loading') !== null) {
+      render(null, el);
+    }
+  }
+
+  /* Send an external event outside of the element */
+  sendExternalEvent(type) {
+    this.dispatchEvent(
+      new CustomEvent('message', {
+        detail: { type },
+      }),
+    );
+  }
+
+  /* Generic handler for error message */
+  genErrorMessage(error) {
+    this.clearLoadingIndicator();
+    if (error.message && error.message.indexOf('JSON.parse') !== -1) {
+      console.error('Error:', error);
+    } else if (error.message && error.message.indexOf('Unexpected token') !== -1) {
+      this.errorMsg = 'Error 404: Resource not found';
+      this.performUpdate();
+      console.error(this.errorMsg);
+    } else {
+      if (error.status) {
+        if (error.statusText !== '') {
+          this.errorMsg = `Error ${error.status}: ${error.statusText}`;
+        } else if (error.status === 401) {
+          this.errorMsg = 'Error 401: Authentication error';
+        } else if (error.status === 500) {
+          this.errorMsg = 'Error 500: Internal server error';
+        } else {
+          this.errorMsg = `Error ${error.status}`;
+        }
+      } else if (error.name && error.message) {
+        this.errorMsg = `Error ${error.name}: ${error.message}`;
+      } else if (typeof error === 'string') {
+        this.errorMsg = error;
+      } else {
+        this.errorMsg = 'Critical error';
+      }
+      this.performUpdate();
+      console.error('Error:', error);
+    }
+  }
+
   /**
    * fetch the data using the DX API
    *
@@ -84,6 +133,7 @@ export default class PegaServices extends PegaElement {
         try {
           if (response.errors && response.errors.length > 0) {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
+            this.clearLoadingIndicator();
             this.performUpdate();
             console.error('Error:', response);
             return;
@@ -204,33 +254,7 @@ export default class PegaServices extends PegaElement {
         }
       })
       .catch((error) => {
-        if (error.message && error.message.indexOf('JSON.parse') !== -1) {
-          console.error('Error:', error);
-        } else if (error.message && error.message.indexOf('Unexpected token') !== -1) {
-          this.errorMsg = 'Error 404: Resource not found';
-          this.performUpdate();
-          console.error(this.errorMsg);
-        } else {
-          if (error.status) {
-            if (error.statusText !== '') {
-              this.errorMsg = `Error ${error.status}: ${error.statusText}`;
-            } else if (error.status === 401) {
-              this.errorMsg = 'Error 401: Authentication error';
-            } else if (error.status === 500) {
-              this.errorMsg = 'Error 500: Internal server error';
-            } else {
-              this.errorMsg = `Error ${error.status}`;
-            }
-          } else if (error.name && error.message) {
-            this.errorMsg = `Error ${error.name}: ${error.message}`;
-          } else if (typeof error === 'string') {
-            this.errorMsg = error;
-          } else {
-            this.errorMsg = 'Critical error';
-          }
-          this.performUpdate();
-          console.error('Error:', error);
-        }
+        this.genErrorMessage(error);
       });
   }
 
@@ -238,11 +262,6 @@ export default class PegaServices extends PegaElement {
     const {
       id, actionid, target, refreshFor,
     } = props;
-    let el = this.getRenderRoot().querySelector('#case-data');
-    if (el && type.indexOf('refresh') !== 0) {
-      render(LoadingIndicator(), el);
-      this.performUpdate();
-    }
     let authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
     if (this.token !== '') {
       authToken = `Bearer ${this.token}`;
@@ -337,9 +356,10 @@ export default class PegaServices extends PegaElement {
           } else {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
           }
+          this.clearLoadingIndicator();
         } else {
+          const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'refreshcase' || type === 'refreshassignment' || type === 'refreshnew') {
-            el = this.getRenderRoot().querySelector('#case-data');
             if (!el) {
               console.error('Error: case data are not present');
               return;
@@ -350,6 +370,7 @@ export default class PegaServices extends PegaElement {
               render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
             }
           } else if (type === 'savecase') {
+            this.sendExternalEvent(type);
             this.fetchData('case', { id: this.caseID, target });
             if (this.assignmentID !== '') {
               this.fetchData('assignment', { id: this.assignmentID });
@@ -359,10 +380,20 @@ export default class PegaServices extends PegaElement {
             this.caseID = response.ID;
           }
           if (response.nextAssignmentID) {
+            if (el) {
+              render(LoadingIndicator(), el);
+              this.performUpdate();
+            }
             this.bShowNew = false;
             this.assignmentID = response.nextAssignmentID;
+            this.sendExternalEvent(type);
             this.fetchData('assignment', { id: this.assignmentID });
           } else if (response.nextPageID) {
+            if (el) {
+              render(LoadingIndicator(), el);
+              this.performUpdate();
+            }
+            this.sendExternalEvent(type);
             if (response.nextPageID === 'Confirm' || response.nextPageID === 'Review') {
               this.bShowConfirm = true;
               this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
@@ -375,16 +406,7 @@ export default class PegaServices extends PegaElement {
         this.requestUpdate();
       })
       .catch((error) => {
-        if (error.status && error.statusText) {
-          this.errorMsg = `Error ${error.status}: ${error.statusText}`;
-        }
-        if (error.name && error.message) {
-          this.errorMsg = `Error ${error.name}: ${error.message}`;
-        } else if (typeof error === 'string') {
-          this.errorMsg = error;
-        }
-        this.performUpdate();
-        console.error('Error:', error);
+        this.genErrorMessage(error);
       });
   }
 }

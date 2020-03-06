@@ -139,14 +139,19 @@
       }
       /* Uncomment to pass some initial values when creating a case */
       /*
-      var initContent = { FirstName: 'test', Description: { value: 'tttttt', disabled: true }, ProjectStatus: 'Planning and Budgeting', Type: 'Propane gas fired', IsBoolean: true, Sex: { value: 'Male', disabled: true } };
+      var initContent = { Type: "Oiiuiul fired", Age: "Less than 5 years", ExpectedEndDate: "Timing is flexible", IsAuthorizedMakeChanges: true, IsInterestedInFinancing: false, Description: "tttttt",
+      ProjectType: "Replace existing central heating system", ProjectStatus: "Ready to Hire", LocationType: "Home/Residence" };
+      var initContent1 = { FirstName: 'test', Description: { value: 'tttttt', disabled: true }, ProjectStatus: 'Planning and Budgeting', 
+      Type: 'Propane gas fired', IsBoolean: true, Sex: { value: 'Male', disabled: true } };
       mytag.initialContent = initContent;
       */
 
       mainEl.appendChild(mytag);
       mytag.addEventListener("message", function (event) {
         console.log("event was sent by the web component", event.detail);
-        mainEl.removeChild(mainEl.childNodes[0]);
+        if(event.detail === "cancel") {
+          mainEl.removeChild(mainEl.childNodes[0]);
+        }
       });
     }
     function showFields(event) {

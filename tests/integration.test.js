@@ -132,6 +132,7 @@ describe(
         fullpage: true,
         type: 'jpeg',
       });
+      await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
       await page.waitForSelector('pega-mashup-light .action-button-area > .Strong', { visible: true });
       console.log(`generate screenshot test${iTestCount}.jpg`);

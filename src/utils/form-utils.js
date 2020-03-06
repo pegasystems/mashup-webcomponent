@@ -320,3 +320,22 @@ export const getInitData = (casedata) => {
   }
   return content;
 };
+
+/* set an error on every form fields */
+export const setFormInlineError = (form, errorMsg) => {
+  for (const i in form.elements) {
+    const el = form.elements[i];
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+      const ref = `.${el.getAttribute('data-ref')}`;
+      if (ref !== null && ref !== 'pyID') {
+        for (const err in errorMsg) {
+          if (errorMsg[err].Path === ref) {
+            el.setCustomValidity(errorMsg[err].ValidationMessage);
+            el.reportValidity();
+            break;
+          }
+        }
+      }
+    }
+  }
+};

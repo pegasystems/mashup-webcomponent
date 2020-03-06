@@ -641,3 +641,17 @@ pega-mashup-light > #case-data > div:first-child {
       opacity: 0;
   }
 }
+
+@media only screen and (max-width: 700px) {
+  .container-main-sidebar {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .container-main-sidebar > .main {
+    margin-right:0;
+    margin-bottom:16px;
+  }
+  .container-main-sidebar > .sidebar {
+    width: auto;
+  } 
+}
