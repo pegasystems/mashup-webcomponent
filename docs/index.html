@@ -20,9 +20,182 @@
   <meta property="og:image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:site_name" content="Pega Mashup Web Component" />
   <meta property="og:type" content="article" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
+  <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #efefef;
+        display:flex;
+        flex-flow: column nowrap;
+      }
 
+      button,
+      input,
+      textarea,
+      select,
+      body {
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        line-height: 1.24;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      ul {
+        margin:0;
+      }
+
+      header {
+        background: #3C8712 25% 50% no-repeat url(./hero-2.jpg);
+        background-size: cover;
+        height: 400px;
+        display: flex;
+        align-items: baseline;
+        padding: 16px 16px 0 16px;
+      }
+
+      footer {
+        border-top: 1px solid #d5d5d5;
+        padding: 16px 0;
+      }
+
+      footer > nav > ul,
+      footer > nav > ul > li {
+        display:inline;
+        padding:0 16px;
+      }
+
+      main {
+        min-height: calc(100vh - 172px);
+        margin-top: -300px;
+        width: 100%;
+      }
+
+      .workarea {
+        max-width: 1300px;
+        padding: 0 21px;
+        margin: 0 auto 16px auto;
+      }
+
+      .workarea h1 {
+        color: #FFF;
+        margin-bottom: 16px;
+      }
+
+      .logo {
+        height: 30px;
+      }
+
+      header li {
+        list-style: none;
+        margin-right:30px;
+      }
+
+      header ul {
+        display:flex;
+        flex-flow: row nowrap;
+        margin:0;
+        align-items: center;
+        padding: 0 0 0 30px;
+      }
+
+      header a {
+        color: #FFF;
+        font-weight: 700;
+        letter-spacing: .7px;
+        text-transform: uppercase;
+      }
+      header a:hover,
+      header a:active,
+      header a:focus {
+        color: #FFF;
+      }
+
+      footer a,
+      footer a:hover,
+      footer a:active,
+      footer a:focus {
+        font-size: 18px;
+        color: #646363;
+      }
+
+      .container-main-sidebar {
+        display: flex;
+        flex-flow: row nowrap;
+        min-height: 400px;
+      }
+      .container-main-sidebar > .main,
+      .container-main-sidebar > .sidebar {
+        background: #FFF;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+      }
+
+      .container-main-sidebar > .main {
+        flex: 1;
+        margin-right: 30px;
+      }
+      .container-main-sidebar > .sidebar {
+        width: 400px;
+      }
+
+      .toggle {
+        height: 0;
+        width: 0;
+        height: 0!important;
+        width: 0;
+        padding: 0;
+        font-size: 0;
+        opacity: 0;
+        margin-left:8px;
+      }
+
+      .toggle + label {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 50px;
+        height: 30px;
+        background: #ccc;
+        display: block;
+        border-radius: 30px;
+        position: relative;
+        border: 1px solid #ccc;
+      }
+
+      .toggle + label:after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 26px;
+        height: 26px;
+        background: #fff;
+        border-radius: 26px;
+        transition: 0.3s;
+      }
+
+      .toggle:checked + label {
+        background: #020BFF;
+      }
+
+      .toggle:checked + label:after {
+        left: calc(100% - 2px);
+        transform: translateX(-100%);
+      }
+
+      .toggle:focus + label,
+      .toggle:hover + label,
+      .toggle:active + label {
+        border-color: #020BFF;
+      }
+  </style>
   <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
 </head>
 
 <body>
