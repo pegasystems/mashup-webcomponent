@@ -21,10 +21,8 @@
   <meta property="og:site_name" content="Pega Mashup Web Component" />
   <meta property="og:type" content="article" />
 
+  <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
-  <script src="./pega-mashup-webcomponent.js" defer></script>
 </head>
 
 <body>
@@ -108,6 +106,7 @@
       </ul>
     </nav>
   </footer>
+  <script src="./pega-mashup-webcomponent.js"></script>
   <script>
     var mainEl = document.getElementsByClassName("main")[0];
     function createMashup() {
