@@ -57,12 +57,14 @@ describe(
         await page.click('pega-mashup-light table button:nth-child(1)', { waitUntil: 'networkidle0' });
         await page.waitForSelector('#case-data', { visible: true });
         await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
-        console.log(`generate screenshot test${iTestCount}.jpg`);
-        await page.screenshot({
-          path: `./test-results/test${iTestCount++}.jpg`,
-          fullpage: true,
-          type: 'jpeg',
-        });
+        if (bDebug) {
+          console.log(`generate screenshot test${iTestCount}.jpg`);
+          await page.screenshot({
+            path: `./test-results/test${iTestCount++}.jpg`,
+            fullpage: true,
+            type: 'jpeg',
+          });
+        }
       }
     }, timeout);
 
@@ -76,22 +78,26 @@ describe(
       await page.waitForSelector('#case-data', { visible: true });
       await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
       console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
+      if (bDebug) {
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
       const title = await page.$eval('pega-mashup-light h2', el => el.innerText);
       expect(title).toBe('New:');
       await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
       await page.waitForSelector('#case-data', { visible: true });
       await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
-      console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
+      if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
       const results = await new AxePuppeteer(page).analyze();
       if (results.violations.length > 0) {
         console.log('Axe violations:');
@@ -114,33 +120,41 @@ describe(
       await page.type('#case-data #Obj-0-9', '02/02/2022');
       await page.type('#case-data #Obj-0-11', '02/02/2022');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
+      await page.waitFor(1000);
       await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
-      console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
+      if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
     }, timeout);
 
     it('Process the case - step2', async () => {
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
+      await page.waitFor(1000);
       await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
-      console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
-      await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
+      if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
+      await page.waitFor(1000);
       await page.waitForSelector('pega-mashup-light .action-button-area > .Strong', { visible: true });
-      console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
+      if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
     }, timeout);
 
     it('Check if the shadow DOM component correctly renders', async () => {
@@ -149,12 +163,14 @@ describe(
       });
       await page.select('#action', 'workList');
       await page.click('#submit', { waitUntil: 'networkidle0' });
-      console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
+      if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
       const title = await page.evaluate(() => document.querySelector('pega-mashup').shadowRoot.querySelector('h2').innerText);
       expect(title).toContain('My worklist');
     }, timeout);

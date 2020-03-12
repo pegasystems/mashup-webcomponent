@@ -7,7 +7,7 @@ import { RelatedCases } from './relatedcases';
 const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
     ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    <button type="button" class="pzhc pzbutton" @click="${onSave}">Save</button>
+    ${onSave !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onSave}">Save</button>` : ''}
     <button type="button" data-submit="submit" class="Strong pzhc pzbutton">Submit</button>
   </div>
 `;
@@ -15,7 +15,7 @@ const SubmitActionArea = (onCancel, onSave) => html`
 const SaveActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
     ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    <button type="button" class="pzhc pzbutton Strong" @click="${onSave}">Save</button>
+    ${onSave !== null ? html`<button type="button" class="pzhc pzbutton Strong" @click="${onSave}">Save</button>` : ''}
   </div>
 `;
 
@@ -23,7 +23,7 @@ const CloseActionArea = (onCancel) => {
   if (onCancel === null) return null;
   return html`
   <div class="action-button-area">
-    <button type="button" class="pzhc pzbutton Strong" @click="${onCancel}">Close</button>
+  ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton Strong" @click="${onCancel}">Close</button>` : ''}
   </div>`;
 };
 

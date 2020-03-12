@@ -1,5 +1,7 @@
 import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
+import { unescapeHTML } from './form-utils';
+
 
 export const ActionSet = (data, eventType) => {
   let actionAttribute;
@@ -47,7 +49,7 @@ const DisplayLabel = (data, path) => {
   return html`
     ${data.label !== '' || data.showLabel === true || data.labelReserveSpace === true
     ? html`
-          <label class="field-caption dataLabelForWrite ${iconrequired}" for="${ifDefined(path)}">${data.label}</label>
+          <label class="field-caption dataLabelForWrite ${iconrequired}" for="${ifDefined(path)}">${unescapeHTML(data.label)}</label>
         `
     : null}
   `;

@@ -197,7 +197,9 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the assignmentaction');
                 break;
               }
-              render(saveCaseLayout(response.view.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null, this.actionAreaSave), el);
+              render(saveCaseLayout(response.view.groups, 'Obj',
+                this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+                this.bShowSave === 'true' ? this.actionAreaSave : null), el);
               el.focus();
               break;
             case 'assignmentaction':
@@ -207,7 +209,9 @@ export default class PegaServices extends PegaElement {
                 break;
               }
               this.requestUpdate();
-              render(mainLayout(response.view.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null, this.actionAreaSave), el);
+              render(mainLayout(response.view.groups, 'Obj',
+                this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+                this.bShowSave === 'true' ? this.actionAreaSave : null), el);
               el.focus();
               break;
             case 'page':
@@ -357,6 +361,10 @@ export default class PegaServices extends PegaElement {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
           }
           this.clearLoadingIndicator();
+          if (target) {
+            target.disabled = false;
+            target.textContent = 'Save';
+          }
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'refreshcase' || type === 'refreshassignment' || type === 'refreshnew') {
@@ -367,7 +375,7 @@ export default class PegaServices extends PegaElement {
             if (type === 'refreshnew') {
               render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null), el);
             } else {
-              render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.actionAreaSave), el);
+              render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.bShowSave === 'true' ? this.actionAreaSave : null), el);
             }
           } else if (type === 'savecase') {
             this.sendExternalEvent(type);

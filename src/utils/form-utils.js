@@ -36,17 +36,21 @@ export const escapeHTML = str => str.replace(
     '<': '&lt;',
     '>': '&gt;',
     "'": '&#39;',
+    '(': '&#40;',
+    ')': '&#41;',
     '"': '&quot;',
   }[tag] || tag),
 );
 
 export const unescapeHTML = str => str.replace(
-  /&amp;|&lt;|&gt;|&#39;|&quot;/g,
+  /&amp;|&lt;|&gt;|&#39;|&#40;|&#41;|&quot;/g,
   tag => ({
     '&amp;': '&',
     '&lt;': '<',
     '&gt;': '>',
     '&#39;': "'",
+    '&#40;': '(',
+    '&#41;': ')',
     '&quot;': '"',
   }[tag] || tag),
 );
@@ -314,7 +318,7 @@ export const getInitData = (casedata) => {
   const content = {};
   for (const i in casedata.content) {
     const el = casedata.content[i];
-    if (typeof el === 'object' && i.indexOf('px') !== 0 && !Array.isArray(el)) {
+    if (typeof el === 'object' && i.indexOf('px') !== 0 && !Array.isArray(el) && i !== 'pyWorkParty') {
       content[i] = el;
     }
   }

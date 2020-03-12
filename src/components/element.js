@@ -19,9 +19,11 @@ export default class PegaElement extends LitElement {
      create by setting the value of casetype  */
   @property({ type: String }) bShowCreate = 'true';
 
-  /* hide the close or cancel actions when the action type is not workList - Note that if this parameter is set to true,
-     a message will be sent by the web component  */
+  /* hide the close or cancel actions when the action type is not workList  */
   @property({ type: String }) bShowCancel = 'true';
+
+  /* hide the save action  */
+  @property({ type: String }) bShowSave = 'true';
 
   /* JWT Token for authentication  */
   @property({ type: String }) token = '';

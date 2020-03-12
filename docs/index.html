@@ -195,7 +195,7 @@
         border-color: #020BFF;
       }
   </style>
-  <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body>
@@ -244,6 +244,10 @@
           <div class='flex align-center' style='display:none'>
             <span>Hide cancel button</span>
             <input class='toggle' type="checkbox" id="hide-cancel" /><label for="hide-cancel">Hide cancel button</label>
+          </div>
+          <div class='flex align-center' style='display:none'>
+            <span>Hide save button</span>
+            <input class='toggle' type="checkbox" id="hide-save" /><label for="hide-save">Hide save button</label>
           </div>
           <div class='flex flex-col' style='display:none'>
             <label for='casetype'>Case type</label>
@@ -296,6 +300,9 @@
       if (document.getElementById("hide-cancel").checked === true) {
         mytag.setAttribute("bShowCancel", "false");
       }
+      if (document.getElementById("hide-save").checked === true) {
+        mytag.setAttribute("bShowSave", "false");
+      }
       mytag.setAttribute("url", document.getElementById("url").value);
       mytag.setAttribute("action", action);
       if (action === "createNewWork" || document.getElementById("create-all-casetypes").checked === false) {
@@ -331,24 +338,28 @@
       var hideCreate = document.getElementById("hide-create").parentElement;
       var createAllCasetypes = document.getElementById("create-all-casetypes").parentElement;
       var hideCancel = document.getElementById("hide-cancel").parentElement;
+      var hideSave = document.getElementById("hide-save").parentElement;
       var caseType = document.getElementById("casetype").parentElement;
       var caseID = document.getElementById("caseid").parentElement;
       if (action === "workList") {
         hideCreate.style.display = "";
         createAllCasetypes.style.display = "";
         hideCancel.style.display = "none";
+        hideSave.style.display = "none";
         caseType.style.display = "none";
         caseID.style.display = "none";
       } else if (action === "createNewWork") {
         hideCreate.style.display = "none";
         createAllCasetypes.style.display = "none";
         hideCancel.style.display = "";
+        hideSave.style.display = "";
         caseType.style.display = "";
         caseID.style.display = "none";
       } else {
         hideCreate.style.display = "none";
         createAllCasetypes.style.display = "none";
         hideCancel.style.display = "";
+        hideSave.style.display = "";
         caseType.style.display = "none";
         caseID.style.display = "";
       }
