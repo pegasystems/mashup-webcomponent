@@ -15,7 +15,7 @@ const SubmitActionArea = (onCancel, onSave) => html`
 const SaveActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
     ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    ${onSave !== null ? html`<button type="button" class="pzhc pzbutton Strong" @click="${onSave}">Save</button>` : ''}
+    <button type="button" class="pzhc pzbutton Strong" @click="${onSave}">Save</button>
   </div>
 `;
 
