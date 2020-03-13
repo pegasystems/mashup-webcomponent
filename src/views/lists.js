@@ -38,15 +38,15 @@ export const ListAction = (data, bShowDelete, isReadOnly) => {
     ref = ref.substring(1);
   }
 
-  /* If the array 'newRow' is present, then the table or RDL is editable - automatically add the add button
-     It is preferable to show the delete button on each row - so will not show the button by default */
+  /* If the array 'newRow' is present, then the table or RDL is editable - add the 'add row' button
+    if the data-testID is set to 'add-row'.  It is preferable to show the delete button on each row - so will not show the button by default */
   if (data.newRow && isReadOnly !== true) {
     const newRowList = [];
     getNewRowProps(data.newRow, newRowList);
     return html`
       <div class="table-action-area">
-        <button type="button" class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
-        data-ref=${ref} data-action-click="addRow">Add item</button>
+        ${data.testID === 'add-row' ? html`<button type="button" class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
+        data-ref=${ref} data-action-click="addRow">Add item</button>` : ''}
         ${bShowDelete
     ? html`
               <button type="button" class="pzhc pzbutton Simple" data-ref=${ref} data-action-click="deleteRow">Delete item</button>
