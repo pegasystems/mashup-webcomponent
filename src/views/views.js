@@ -12,13 +12,12 @@ const SubmitActionArea = (onCancel, onSave) => html`
   </div>
 `;
 
-const SaveActionArea = (onCancel, onSave) => html`
+const LocalActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
     ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
-    <button type="button" class="pzhc pzbutton Strong" @click="${onSave}">Save</button>
+    <button type="button" data-submit="save" class="pzhc pzbutton Strong" @click="${onSave}">Submit</button>
   </div>
 `;
-
 const CloseActionArea = (onCancel) => {
   if (onCancel === null) return null;
   return html`
@@ -36,7 +35,7 @@ const CreateActionArea = onCancel => html`
 `;
 
 /* We also have the case priority in ${data.urgency} and the user assigned as ${data.routedTo} */
-const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, onOpen) => {
+export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, onOpen) => {
   /* Case of openCaseByHandle - not an assignment */
   if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
@@ -68,27 +67,27 @@ const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, on
  <h3>${name}</h3>`;
 };
 
-const mainLayout = (data, path, onCancel, onSave) => html`
+export const mainLayout = (data, path, onCancel, onSave) => html`
   <div>${Layout(data, path)}</div>
   ${SubmitActionArea(onCancel, onSave)}
 `;
 
-const reviewLayout = (data, path, onCancel) => html`
+export const reviewLayout = (data, path, onCancel) => html`
   <div>${Layout(data, path, true)}</div>
   ${CloseActionArea(onCancel)}
 `;
 
-const saveCaseLayout = (data, path, onCancel, onSave) => html`
+export const saveCaseLayout = (data, path, onCancel, onSave) => html`
   <div>${Layout(data, path)}</div>
-  ${SaveActionArea(onCancel, onSave)}
+  ${LocalActionArea(onCancel, onSave)}
 `;
 
-const createCaseLayout = (data, path, onCancel) => html`
+export const createCaseLayout = (data, path, onCancel) => html`
   <div>${Layout(data, path)}</div>
   ${CreateActionArea(onCancel)}
 `;
 
-const genPageValidationErrors = response => html`
+export const genPageValidationErrors = response => html`
   <ul>
     ${response.errors[0].ValidationMessages.map((item) => {
     if (item.Path) {
@@ -103,7 +102,7 @@ const genPageValidationErrors = response => html`
   </ul>
 `;
 
-const genCaseTypesList = (data) => {
+export const genCaseTypesList = (data) => {
   const itemList = [];
   const keys = Object.entries(data);
   for (const i of keys) {
@@ -118,7 +117,7 @@ const genCaseTypesList = (data) => {
   `;
 };
 
-const genActionsList = (name, data) => {
+export const genActionsList = (name, data) => {
   const itemList = [];
   const keys = Object.entries(data.actions);
   for (const i of keys) {
@@ -133,8 +132,4 @@ const genActionsList = (name, data) => {
   return html`
     ${itemList}
   `;
-};
-
-export {
-  saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors, genCaseTypesList, genActionsList, CaseHeader,
 };

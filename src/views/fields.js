@@ -11,7 +11,7 @@ const Field = (data, path) => {
   if (typeof data === 'undefined' || typeof data.control === 'undefined' || typeof data.control.type === 'undefined') {
     return null;
   }
-  if (data.readOnly === true) {
+  if (data.readOnly === true || data.control.type === 'pxHidden') {
     return AddWrapperDiv(data, path, 'field-text', DisplayText(data, path));
   }
   switch (data.control.type) {
@@ -63,12 +63,48 @@ const DisplayText = (data, path) => {
   if (data.control.type === 'pxDate' || data.control.type === 'pxDateTime') {
     let value = convertTimestampToDate(data.value);
     if (value) {
-      value = value.toLocaleDateString();
+      if (data.control && data.control.modes.length === 2) {
+        let options = {};
+        switch (data.control.modes[1].dateFormat) {
+          case 'DateTime-Short-YYYY':
+          case 'Date-DayMonthYear-Custom':
+          case 'Date-Mediun':
+            options = {
+              year: 'numeric', month: 'short', day: 'numeric',
+            };
+            break;
+          case 'Date-Short':
+            options = {
+              year: 'numeric', month: 'numeric', day: 'numeric',
+            };
+            break;
+          case 'Date-Long':
+            options = {
+              year: 'numeric', month: 'long', day: 'numeric',
+            };
+            break;
+          case 'Date-Full':
+            options = {
+              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            };
+            break;
+          default:
+            options = {};
+            break;
+        }
+        value = value.toLocaleDateString(undefined, options);
+      } else {
+        value = value.toLocaleDateString();
+      }
     } else {
       value = data.value;
     }
     return html`
       <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
+    `;
+  } if (data.control.type === 'pxHidden') {
+    return html`
+    <input type="text" style="display:none" data-ref="${data.reference}" id="${ifDefined(path)}" value="${unescapeHTML(data.value)}"/>
     `;
   }
   return html`

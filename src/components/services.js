@@ -199,7 +199,7 @@ export default class PegaServices extends PegaElement {
               }
               render(saveCaseLayout(response.view.groups, 'Obj',
                 this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-                this.bShowSave === 'true' ? this.actionAreaSave : null), el);
+                this.actionAreaSave), el);
               el.focus();
               break;
             case 'assignmentaction':

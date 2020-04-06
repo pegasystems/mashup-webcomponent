@@ -89,8 +89,10 @@ export default class PegaBase extends PegaServices {
 
   actionAreaSave = (event) => {
     if (event) event.preventDefault();
-    event.target.textContent = 'Saving...';
-    event.target.disabled = true;
+    if (event.target.getAttribute('data-submit') === null) {
+      event.target.textContent = 'Saving...';
+      event.target.disabled = true;
+    }
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
       this.content = getInitData(this.casedata);
@@ -261,7 +263,7 @@ export default class PegaBase extends PegaServices {
     } else if (el.tagName === 'BUTTON') {
       // always preventDefault on buttons */
       event.preventDefault();
-      if (el.getAttribute('data-submit') !== null) {
+      if (el.getAttribute('data-submit') !== null && el.getAttribute('data-submit') !== 'save') {
         this.submitForm(event, el.getAttribute('data-submit'));
       } else if (action === 'addRow') {
         this.refreshAssignment(el);

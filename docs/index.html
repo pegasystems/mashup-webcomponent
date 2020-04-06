@@ -332,9 +332,20 @@
           mainEl.removeChild(mainEl.childNodes[0]);
         }
       });
+
+      const mainconfig = {
+        url : document.getElementById("url").value,
+        casetype:document.getElementById("casetype").value,
+        caseid:document.getElementById("caseid").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        action: document.getElementById("action").value
+      };
+      localStorage.setItem('defaultcfg', JSON.stringify(mainconfig));
     }
     function showFields(event) {
-      var action = event.target.value;
+      var action = document.getElementById("action").value;
+      if(event) action = event.target.value;
       var hideCreate = document.getElementById("hide-create").parentElement;
       var createAllCasetypes = document.getElementById("create-all-casetypes").parentElement;
       var hideCancel = document.getElementById("hide-cancel").parentElement;
@@ -365,10 +376,26 @@
       }
     }
     /* Default values */
-    document.getElementById("url").value = "https://mashup.pega.com/prweb";
-    document.getElementById("casetype").value = "Eas-BobsServ-Work-TestCase";
-    document.getElementById("username").value = "wssuser2";
-    document.getElementById("password").value = "install@123";
+    // Retrieve the object from storage
+    let defaultCfg = {
+      url : "https://mashup.pega.com/prweb",
+      casetype:"Eas-BobsServ-Work-TestCase",
+      caseid:"",
+      username: "wssuser2",
+      password: "install@123",
+      action : "workList"
+    };
+    const defaultSettings = localStorage.getItem('defaultcfg');
+    if (defaultSettings != null) {
+      defaultCfg = JSON.parse(defaultSettings);
+    }
+    document.getElementById("url").value = defaultCfg.url;
+    document.getElementById("casetype").value = defaultCfg.casetype;
+    document.getElementById("caseid").value = defaultCfg.caseid;
+    document.getElementById("username").value = defaultCfg.username;
+    document.getElementById("password").value = defaultCfg.password;
+    document.getElementById("action").value = defaultCfg.action;
+    showFields();
     createMashup();
   </script>
 </body>

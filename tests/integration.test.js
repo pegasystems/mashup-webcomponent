@@ -110,15 +110,15 @@ describe(
     }, timeout);
 
     it('Process the case - step1', async () => {
-      await page.waitForSelector('#case-data #Obj-0-3', { visible: true });
-      await page.type('#case-data #Obj-0-3', 'this is a test');
-      await page.click('#case-data #rb-Obj-0-4-0');
-      await page.type('#case-data #Obj-0-5', '22');
-      await page.type('#case-data #Obj-0-6', '150');
-      await page.type('#case-data #Obj-0-8', '12344', { waitUntil: 'networkidle0' });
-      await page.waitForSelector('#case-data #Obj-0-9', { visible: true });
-      await page.type('#case-data #Obj-0-9', '02/02/2022');
-      await page.type('#case-data #Obj-0-11', '02/02/2022');
+      await page.waitForSelector('#case-data #Obj-0-4', { visible: true });
+      await page.type('#case-data #Obj-0-4', 'this is a test');
+      await page.click('#case-data #rb-Obj-0-5-0');
+      await page.type('#case-data #Obj-0-6', '22');
+      await page.type('#case-data #Obj-0-7', '150');
+      await page.type('#case-data #Obj-0-9', '12344', { waitUntil: 'networkidle0' });
+      await page.waitForSelector('#case-data #Obj-0-10', { visible: true });
+      await page.type('#case-data #Obj-0-10', '02/02/2022');
+      await page.type('#case-data #Obj-0-12', '02/02/2022');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
       await page.waitFor(1000);
       await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
