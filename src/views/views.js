@@ -1,6 +1,7 @@
 import { html } from 'lit-html';
 import { Layout } from './layout';
 import { ButtonMenu } from './button-menu';
+import { AttachmentButton } from './attachments';
 import { AssignmentList } from './assignmentlist';
 import { RelatedCases } from './relatedcases';
 
@@ -18,6 +19,7 @@ const LocalActionArea = (onCancel, onSave) => html`
     <button type="button" data-submit="save" class="pzhc pzbutton Strong" @click="${onSave}">Submit</button>
   </div>
 `;
+
 const CloseActionArea = (onCancel) => {
   if (onCancel === null) return null;
   return html`
@@ -25,7 +27,6 @@ const CloseActionArea = (onCancel) => {
   ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton Strong" @click="${onCancel}">Close</button>` : ''}
   </div>`;
 };
-
 
 const CreateActionArea = onCancel => html`
   <div class="action-button-area">
@@ -35,7 +36,7 @@ const CreateActionArea = onCancel => html`
 `;
 
 /* We also have the case priority in ${data.urgency} and the user assigned as ${data.routedTo} */
-export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, onOpen) => {
+export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, onOpen, onDisplayAttachments) => {
   /* Case of openCaseByHandle - not an assignment */
   if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
@@ -45,6 +46,7 @@ export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCre
       <div class="flex layout-content-inline_middle margin-l-auto">
       ${casedata.actions && casedata.actions.length > 0 ? html`
       <div class="flex layout-content-inline_middle margin-l-auto">
+        ${AttachmentButton(onDisplayAttachments)}
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
       </div>` : ''}
       </div>
@@ -61,6 +63,7 @@ export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCre
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
     ${data.actions && data.actions.length > 0 ? html`
       <div class="flex layout-content-inline_middle margin-l-auto">
+        ${AttachmentButton(onDisplayAttachments)}
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
       </div>` : ''}
  </div>

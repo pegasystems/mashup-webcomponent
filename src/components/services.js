@@ -2,6 +2,7 @@ import { render } from 'lit-html';
 import {
   saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
 } from '../views/views';
+import { genAttachmentsList } from '../views/attachments';
 import { setFormData, setFormInlineError } from '../utils/form-utils';
 import { showDataList, LoadingIndicator } from '../views/fields';
 import PegaElement from './element';
@@ -81,7 +82,9 @@ export default class PegaServices extends PegaElement {
     const reqHeaders = {
       method: 'GET',
       headers,
+      redirect: 'follow',
     };
+    const attachSvc = `${this.url}/PRRestService/api_attachments_beta/v1`;
     let apiurl = `${this.url}/api/v1/`;
     switch (type) {
       case 'worklist':
@@ -114,6 +117,15 @@ export default class PegaServices extends PegaElement {
       case 'caseaction':
         apiurl += `cases/${id}/actions/${actionid}`;
         break;
+      case 'attachment':
+        apiurl = `${attachSvc}/attachments/${id}`;
+        break;
+      case 'attachments':
+        apiurl = `${attachSvc}/cases/${id}/attachments`;
+        break;
+      case 'attachmentcategories':
+        apiurl = `${attachSvc}/cases/${id}/attachment_categories`;
+        break;
     }
     fetch(apiurl, reqHeaders)
       .then((res) => {
@@ -123,6 +135,8 @@ export default class PegaServices extends PegaElement {
             target.disabled = false;
             target.textContent = 'Save';
           }
+        } else if (type === 'attachment') {
+          return res.text();
         }
         if (res.ok || res.status === 404) {
           return res.json();
@@ -250,6 +264,17 @@ export default class PegaServices extends PegaElement {
                 setFormData(form, this.initialContent);
               }
               break;
+            case 'attachments':
+              let files = response.attachments;
+              if (!files) files = [];
+              render(genAttachmentsList(target, files, this.caseID, this, this.fetchData, this.sendData), target);
+              break;
+            case 'attachmentcategories':
+              this.attachmentcategories = response.attachment_categories;
+              break;
+            case 'attachment':
+              target(response);
+              break;
           }
         } catch (e) {
           this.errorMsg = `Error: ${e}`;
@@ -278,7 +303,9 @@ export default class PegaServices extends PegaElement {
     const reqHeaders = {
       method: 'POST',
       headers,
+      redirect: 'follow',
     };
+    const attachSvc = `${this.url}/PRRestService/api_attachments_beta/v1`;
     let apiurl = `${this.url}/api/v1/`;
     this.validationMsg = '';
     switch (type) {
@@ -339,9 +366,29 @@ export default class PegaServices extends PegaElement {
           content: this.content,
         });
         break;
+      case 'uploadattachment':
+        apiurl = `${attachSvc}/upload/attachments`;
+        delete headers['Content-Type']; /* Important to not defined the content-type for multi-form */
+        const formData = new FormData();
+        formData.append('File', actionid, actionid.name);
+        reqHeaders.body = formData;
+        break;
+      case 'attachments':
+        apiurl = `${attachSvc}/cases/${id}/attachments`;
+        reqHeaders.body = JSON.stringify({
+          attachments: actionid,
+        });
+        break;
+      case 'deleteattachment':
+        apiurl = `${attachSvc}/attachments/${id}`;
+        reqHeaders.method = 'DELETE';
+        break;
     }
     fetch(apiurl, reqHeaders)
       .then((res) => {
+        if (type === 'deleteattachment' || type === 'attachments') {
+          return res.text();
+        }
         if (res.status === 200 || res.status === 201 || (res.status >= 400 && res.status < 500)) {
           return res.json();
         }
@@ -383,6 +430,22 @@ export default class PegaServices extends PegaElement {
             if (this.assignmentID !== '') {
               this.fetchData('assignment', { id: this.assignmentID });
             }
+          } else if (type === 'deleteattachment' || type === 'attachments') {
+            this.fetchData('attachments', { id: this.caseID, target });
+          } else if (type === 'uploadattachment') {
+            let filepartidx = actionid.name.lastIndexOf('.');
+            if (filepartidx === -1) filepartidx = actionid.name.length;
+            const fileExt = actionid.name.substring(filepartidx + 1);
+            const meta = [{
+              type: 'File',
+              category: actionid.category,
+              attachmentFieldName: 'File',
+              fileType: fileExt,
+              name: actionid.displayName,
+              ID: response.ID,
+            }];
+            this.sendData('attachments', { id: this.caseID, actionid: meta, target });
+            return;
           }
           if (response.ID) {
             this.caseID = response.ID;

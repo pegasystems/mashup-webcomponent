@@ -1,6 +1,8 @@
 import { html } from 'lit-element';
 import { render } from 'lit-html';
-import { genActionsList, CaseHeader, genCaseTypesList } from '../views/views';
+import {
+  genActionsList, CaseHeader, genCaseTypesList,
+} from '../views/views';
 import {
   showDataList, LoadingIndicator, showConfirm, showErrorMessage,
 } from '../views/fields';
@@ -39,7 +41,7 @@ export default class PegaBase extends PegaServices {
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase)}
+        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase, this.displayAttachments)}
         <div class="validation">${this.validationMsg}</div>
         <form id="case-data">${LoadingIndicator()}</form>
       `;
@@ -70,6 +72,7 @@ export default class PegaBase extends PegaServices {
     this.data = {};
     this.content = {};
     this.casedata = {};
+    this.attachmentcategories = [];
     this.casepyStatusWork = '';
     this.assignmentID = '';
     this.actionID = '';
@@ -130,6 +133,11 @@ export default class PegaBase extends PegaServices {
       return genActionsList(this.name, this.casedata);
     }
     return null;
+  };
+
+  displayAttachments = (el) => {
+    this.fetchData('attachmentcategories', { id: this.caseID });
+    this.fetchData('attachments', { id: this.caseID, target: el });
   };
 
   submitForm = (event, type) => {
@@ -228,16 +236,18 @@ export default class PegaBase extends PegaServices {
 
   refreshAssignment = (el, refreshFor) => {
     const form = this.getRenderRoot().querySelector('#case-data');
+    let node = el;
     if (form) {
       this.content = getInitData(this.casedata);
       getFormData(form, this.content);
-      /* If el is defined - it could be a addRow or deleteRow action */
-      if (el) {
-        const action = el.getAttribute('data-action-click');
-        const ref = el.getAttribute('data-ref');
+      /* If node is defined - it could be a addRow or deleteRow action */
+      if (node) {
+        if (node.tagName === 'svg') node = node.parentNode;
+        const action = node.getAttribute('data-action-click');
+        const ref = node.getAttribute('data-ref');
         if (ref !== null && action != null) {
           if (action === 'addRow') {
-            addRowToPageList(this.content, ref, el.getAttribute('data-newrow'));
+            addRowToPageList(this.content, ref, node.getAttribute('data-newrow'));
           } else if (action === 'deleteRow') {
             deleteRowFromPageList(this.content, ref);
           }
@@ -252,7 +262,8 @@ export default class PegaBase extends PegaServices {
   };
 
   clickHandler = (event) => {
-    const el = event.target;
+    let el = event.target;
+    if (el.tagName === 'svg') el = el.parentNode;
     const action = el.getAttribute('data-action-click');
     if (el.classList.contains('combobox') && !el.classList.contains('loaded')) {
       this.getData(el.getAttribute('data-pageid'), el);

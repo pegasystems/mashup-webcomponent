@@ -3,6 +3,7 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { unescapeHTML, pad2char, convertTimestampToDate } from '../utils/form-utils';
 import { ActionSet, AddWrapperDiv, getReference } from '../utils/field-utils';
+import { trashIcon, timesIcon } from './icons';
 
 /**
  * Render a field - this includes rendering the label and the component
@@ -225,30 +226,31 @@ const URL = (data, path) => html`
 /**
  * Button component
  */
-const Button = (data, path) => html`
+const Button = (data, path) => {
+  const action = ActionSet(data, 'click');
+  if (action === 'deleteRow') return DeleteButton(data, path);
+  return html`
   <button
   type='button' 
     class="${ifDefined(data.control.modes[1].controlFormat)} pzhc pzbutton"
     id="${ifDefined(path)}"
     data-ref="${ifDefined(getReference(data))}"
-    data-action-click="${ifDefined(ActionSet(data, 'click'))}"
-  >
-    ${data.control.label}
-  </button>
-`;
+    data-action-click="${ifDefined(action)}"
+  >${data.control.label}</button>`;
+};
 
 /**
  * DeleteButton component
  */
 const DeleteButton = (data, path) => html`
   <button
-  type='button' 
+    type='button' 
     class="pzhc pzbutton Icon"
     title="Delete row"
     id="${ifDefined(path)}"
     data-ref="${ifDefined(getReference(data))}"
     data-action-click="deleteRow"
-  ></button>
+  >${trashIcon()}</button>
 `;
 
 /**
@@ -432,10 +434,7 @@ const showErrorMessage = (msg, onClose) => html`
   <div class="error">${msg}
   ${onClose != null ? html`
     <button type='button' title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
-    <svg width= "24" height="24" viewBox="0 0 24 24" >
-    <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81
-    2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
-    </svg></button>` : ''}
+    ${timesIcon()}</button>` : ''}
   </div>`;
 
 export {

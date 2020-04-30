@@ -2,6 +2,7 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { Field } from './fields';
 import { getNewRowProps } from '../utils/form-utils';
+import { plusIcon } from './icons';
 
 export const SimpleTable = (item, path, isReadOnly) => html`
   ${ListTitle(item.layout)}
@@ -15,7 +16,7 @@ export const SimpleTable = (item, path, isReadOnly) => html`
       ${Table(item.layout.rows, path)}
     </tbody>
   </table>
-  ${ListAction(item.layout, false, isReadOnly)}
+  ${ListAction(item.layout, isReadOnly)}
 `;
 /* The metadata doesn't provide the type of h2/h3 used */
 export const ListTitle = (data) => {
@@ -29,7 +30,7 @@ export const ListTitle = (data) => {
   return null;
 };
 
-export const ListAction = (data, bShowDelete, isReadOnly) => {
+export const ListAction = (data, isReadOnly) => {
   let ref = data.fieldListID;
   if (typeof data.reference !== 'undefined') ref = data.reference;
 
@@ -39,19 +40,14 @@ export const ListAction = (data, bShowDelete, isReadOnly) => {
   }
 
   /* If the array 'newRow' is present, then the table or RDL is editable - add the 'add row' button
-    if the data-testID is set to 'add-row'.  It is preferable to show the delete button on each row - so will not show the button by default */
+    if the data-testID is set to 'add-row'.  It is preferable to show the delete button on each row - so will not show the delete action here */
   if (data.newRow && isReadOnly !== true) {
     const newRowList = [];
     getNewRowProps(data.newRow, newRowList);
     return html`
       <div class="table-action-area">
         ${data.testID === 'add-row' ? html`<button type="button" class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
-        data-ref=${ref} data-action-click="addRow">Add item</button>` : ''}
-        ${bShowDelete
-    ? html`
-              <button type="button" class="pzhc pzbutton Simple" data-ref=${ref} data-action-click="deleteRow">Delete item</button>
-            `
-    : ''}
+        data-ref=${ref} data-action-click="addRow">${plusIcon()}Add item</button>` : ''}
       </div>
     `;
   }

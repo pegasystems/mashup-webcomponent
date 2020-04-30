@@ -216,6 +216,7 @@ export const viewStyle = () => html`
         no-repeat calc(100% - 8px) 60%;
     }
 
+    select,
     button.action-menu {
       padding: 0 28px 0 8px;
       border: 1px solid #000;
@@ -288,12 +289,6 @@ export const viewStyle = () => html`
       border:none;
     }
 
-    button.Icon[data-action-click='deleteRow'] {
-      background: #fff
-        url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyNiI+PHBhdGggZD0iTTIxLjQ4OCAzLjI3NmgtNC45NjNsLS41MTItMi4wMDhjLS4wNS0uMzctLjI1Ni0uNjM0LS41MTItLjg5OEMxNS4xOTUuMTA2IDE0LjgzNyAwIDE0LjQ4IDBINy41MmMtLjM1OCAwLS42NjUuMTA2LS45NzIuMzE3LS4zMDcuMjY0LS41MTIuNTI4LS41NjMuODk4bC0uNTEyIDIuMDZILjUxMmMtLjM1OCAwLS41MTIuMTYtLjUxMi41MjhzLjE1My41MjguNTEyLjUyOEgyLjE1bC45NzIgMjAuMTM0Yy4wNS40MjMuMjA1Ljc5My41MTIgMS4wNTcuMjU2LjMxNy42MTQuNDc2IDEuMDc0LjQ3NmgxMi42MzdhMS40OCAxLjQ4IDAgMCAwIDEuMTI2LS40NzZjLjI1Ni0uMjY0LjQxLS42MzQuNDYtMS4wNTdsLjk3Mi0yMC4xMzRoMS41ODZjLjM1OCAwIC41MTItLjE2LjUxMi0uNTI4cy0uMTUzLS41MjgtLjUxMi0uNTI4em0tMTQuODg4IDBsLjQxLTEuNzQ0YS41LjUgMCAwIDEgLjUxMi0uNDIzaDYuOTU4YS41LjUgMCAwIDEgLjUxMi40MjNsLjQxIDEuNzQ0SDYuNnptMTIuMjggMS4wNTdsLS45NzIgMjAuMDhjLS4wNS4zMTctLjI1Ni40NzYtLjU2My40NzZINC43MDdjLS4zMDcgMC0uNTEyLS4xNi0uNTYzLS40NzZsLS45NzItMjAuMDhIMTguODh6TTcuMzE2IDE4Ljk3MnYtOC42NjdjMC0uMzcuMjA1LS41MjguNTYzLS41MjhzLjUxMi4xNi41MTIuNTI4djguNjY3YzAgLjM3LS4xNTMuNTI4LS41MTIuNTI4cy0uNTYzLS4xNi0uNTYzLS41Mjh6bTYuMjkzIDB2LTguNjY3YzAtLjM3LjE1My0uNTI4LjUxMi0uNTI4cy41NjMuMTYuNTYzLjUyOHY4LjY2N2MwIC4zNy0uMjA1LjUyOC0uNTYzLjUyOHMtLjUxMi0uMTYtLjUxMi0uNTI4em0tMy4xMiAxLjA1N1Y5LjI0OGMwLS4zNy4xNTMtLjU4LjUxMi0uNThzLjUxMi4yMS41MTIuNTh2MTAuNzhjMCAuMzctLjE1My41OC0uNTEyLjU4cy0uNTEyLS4yMS0uNTEyLS41OHoiIGZpbGw9IiMyOTVlZDkiLz48L3N2Zz4=')
-        no-repeat 0 0;
-      border: none;
-    }
     button:active {
       outline: none;
       background-color: var(--primaryColorFocus);
@@ -337,6 +332,13 @@ export const viewStyle = () => html`
     }
     .flex {
       display: flex;
+    }
+    .flex-col {
+      flex-flow: column;
+    }
+    .flex-all {
+      flex:1;
+      margin-right: 8px;
     }
     .flex.layout-content-inline_grid_double > div {
       width: calc(50% - var(--spacing1x));
@@ -512,6 +514,107 @@ export const viewStyle = () => html`
       flex-flow: column nowrap;
     }
 
+    .modal {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background: rgba(6,6,6,0.3);
+      z-index: 2;
+      transition: opacity .400s ease-in-out;
+    }
+    .modal > div {
+      height: 60vh;
+      max-width: 800px;
+      width: 80vw;
+      margin: 15vh auto;
+      background: #FFF;
+      border: 1px solid rgba(0,0,0,.2);
+      border-radius: 10px;
+      box-shadow: 4px 4px 5px rgba(0,0,0,.3);
+      display: flex;
+      flex-flow: column nowrap;
+      padding-bottom: 16px;
+    }
+    .modal > div > .main-header {
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(0,0,0,.2);
+    }
+    .attach-files {
+      margin: 16px 16px 0;
+      display:flex;
+      flex-flow:column;
+      flex:1;
+      overflow-y: auto;
+    }
+    .file-upload {
+      background: rgba(0,116,212,0.05);
+      border: 1px dashed #0076D1;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .drop-file-hover {
+      background: rgba(0,116,212,0.15);
+    }
+    .file-upload input {
+      display:none;
+    }
+    .row-item {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      margin-top: 8px;
+      width:100%;
+    }
+    .upload-content {
+      display: flex;
+      flex-flow: column;
+      align-items: flex-start;
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    .list-items .empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      justify-content: center;
+    }
+    .list-item-title {
+      display: flex;
+      flex-flow: column nowrap;
+      flex: 1;
+    }
+    .list-item-meta {
+      font-size:14px;
+    }
+    .list-item-meta > span:after {
+      content: '|';
+      margin:0 3px;
+    }
+    .list-item-meta > span:last-child:after {
+      content: '';
+    }
+    .doc-icon {
+      position: relative;
+      margin-right: 8px;
+    }
+    .doc-icon > svg {
+      width: 30px;
+      height: 30px;
+    }
+    .doc-icon > span {
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      bottom: 8px;
+      font-size: 9px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    
     .loading {
       display: flex;
       flex-flow: row nowrap;

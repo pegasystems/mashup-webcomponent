@@ -28,6 +28,7 @@
         background: #efefef;
         display:flex;
         flex-flow: column nowrap;
+        position:relative;
       }
 
       button,
@@ -59,6 +60,12 @@
         padding: 16px 16px 0 16px;
       }
 
+      header > div {
+        margin-left: auto;
+        display:flex;
+        align-items: center;
+      }
+
       footer {
         border-top: 1px solid #d5d5d5;
         padding: 16px 0;
@@ -80,6 +87,7 @@
         max-width: 1300px;
         padding: 0 21px;
         margin: 0 auto 16px auto;
+        overflow: hidden;
       }
 
       .workarea h1 {
@@ -110,6 +118,7 @@
         letter-spacing: .7px;
         text-transform: uppercase;
       }
+      header span,
       header a:hover,
       header a:active,
       header a:focus {
@@ -139,10 +148,19 @@
 
       .container-main-sidebar > .main {
         flex: 1;
-        margin-right: 30px;
       }
       .container-main-sidebar > .sidebar {
-        width: 400px;
+        width: 300px;
+        margin-left: 30px;
+        transition: width 0.4s, transform ease-in-out 0.2s 0.2s;
+      }
+
+      .container-main-sidebar > .sidebar.hide {
+        transform: translateX(450px);
+        width: 0;
+        transition: transform ease-in-out 0.2s, width 0.4s 0.2s;
+        margin-left: 0;
+        padding: 0;
       }
 
       .toggle {
@@ -194,21 +212,57 @@
       .toggle:active + label {
         border-color: #020BFF;
       }
+
+      @media only screen and (max-width: 800px) {
+        .container-main-sidebar > .sidebar {
+          position: fixed;
+          right:0;
+          top: 62px;
+        }
+        .logo {
+          height:20px;
+        }
+        body {
+          font-size: 14px;
+          height:100vh;
+        }
+        .workarea h1 {
+          font-size: 16px;
+          color: #000;
+        }
+        header {
+          height:auto;
+          font-size:14px;
+          padding: 16px;
+        }
+        main {
+          min-height: auto;
+          margin-top: 8px;
+          flex: 1;
+          overflow: auto;
+        }
+        header li {
+          margin-right:8px
+        }
+      }
   </style>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body>
   <header>
-    <a><img src="./u+-logo.svg" alt="U+" class="logo"></a>
-    <nav aria-label="navigation for header">
-      <ul>
-        <li><a>Checking &amp; Savings</a></li>
-        <li><a>Credit cards</a></li>
-        <li><a>Loans</a></li>
-        <li><a>Investment</a></li>
-      </ul>
-    </nav>
+      <a><img src="./u+-logo.svg" alt="U+" class="logo"></a>
+      <nav aria-label="navigation for header">
+        <ul>
+          <li><a>Link1</a></li>
+          <li><a>Link2</a></li>
+          <li><a>Link3</a></li>
+        </ul>
+      </nav>
+      <div>
+        <span>Show settings</span>
+        <input checked onchange="toggleSettings();" class='toggle' id="show-settings" type="checkbox"/><label for="show-settings">Show settings</label>
+      </div>
   </header>
   <main>
     <div class='workarea'>
@@ -285,6 +339,11 @@
   </footer>
   <script src="./pega-mashup-webcomponent.js"></script>
   <script>
+
+    function toggleSettings() {
+      document.querySelector(".sidebar").classList.toggle("hide");
+    }
+
     var mainEl = document.getElementsByClassName("main")[0];
     function createMashup() {
       var action = document.getElementById("action").value;

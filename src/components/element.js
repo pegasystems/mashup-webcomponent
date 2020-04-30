@@ -22,6 +22,9 @@ export default class PegaElement extends LitElement {
   /* hide the close or cancel actions when the action type is not workList  */
   @property({ type: String }) bShowCancel = 'true';
 
+  /* hide the attachments button  */
+  @property({ type: String }) bShowAttachments = 'true';
+
   /* hide the save action  */
   @property({ type: String }) bShowSave = 'true';
 
@@ -47,6 +50,7 @@ export default class PegaElement extends LitElement {
     this.casepyStatusWork = '';
     this.casedata = {}; /* Case data information */
     this.data = {};
+    this.attachmentcategories = [];
     this.assignmentID = '';
     this.actionID = '';
     this.content = {};

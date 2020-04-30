@@ -61,7 +61,7 @@ ${ListTitle(item.layout)}
           <div class="rdl">
             ${List(item.layout.rows, path, isReadOnly)}
           </div>
-          ${ListAction(item.layout, false, isReadOnly)}
+          ${ListAction(item.layout, isReadOnly)}
 `;
 
 const List = (data, path, isReadOnly) => html`
