@@ -477,7 +477,7 @@ pega-mashup-light > #case-data > div:first-child {
 }
 .row-item {
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   align-items: center;
   margin-top: 8px;
   width:100%;

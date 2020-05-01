@@ -514,7 +514,7 @@ export const viewStyle = () => html`
       flex-flow: column nowrap;
     }
 
-    .modal {
+    .mashup-modal {
       position: absolute;
       top: 0;
       bottom: 0;
@@ -524,7 +524,7 @@ export const viewStyle = () => html`
       z-index: 2;
       transition: opacity .400s ease-in-out;
     }
-    .modal > div {
+    .mashup-modal > div {
       height: 60vh;
       max-width: 800px;
       width: 80vw;
@@ -537,7 +537,7 @@ export const viewStyle = () => html`
       flex-flow: column nowrap;
       padding-bottom: 16px;
     }
-    .modal > div > .main-header {
+    .mashup-modal > div > .main-header {
       padding: 0 16px;
       border-bottom: 1px solid rgba(0,0,0,.2);
     }
@@ -563,7 +563,7 @@ export const viewStyle = () => html`
     }
     .row-item {
       display: flex;
-      flex-flow: row;
+      flex-flow: row wrap;
       align-items: center;
       margin-top: 8px;
       width:100%;
@@ -607,10 +607,10 @@ export const viewStyle = () => html`
     }
     .doc-icon > span {
       position: absolute;
-      left: 2px;
-      right: 2px;
+      left: 1px;
+      right: 1px;
       bottom: 8px;
-      font-size: 9px;
+      font-size: 7px;
       text-transform: uppercase;
       text-align: center;
     }
