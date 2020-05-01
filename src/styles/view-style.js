@@ -162,7 +162,7 @@ export const viewStyle = () => html`
       display: flex;
       flex-flow: row wrap;
     }
-
+    a,
     a:link,
     a:visited {
       color: var(--linkColor);
@@ -352,6 +352,7 @@ export const viewStyle = () => html`
     .flex.layout-content-default,
     .flex.layout-content-stacked {
       flex-flow: column nowrap;
+      width: 100%;
     }
     .flex.layout-content-inline_grid_double {
       flex-flow: row nowrap;
@@ -654,5 +655,27 @@ export const viewStyle = () => html`
           opacity: 0;
       }
     }
+
+    @media only screen and (max-width: 640px) {
+      .flex.layout-content-inline_grid_70_30,
+      .flex.layout-content-inline_grid_30_70,
+      .flex.layout-content-inline_grid_double {
+        flex-flow: column nowrap;
+      }
+      .flex.layout-content-inline_grid_70_30 > div:nth-child(2n+1),
+      .flex.layout-content-inline_grid_70_30 > div:nth-child(2n),
+      .flex.layout-content-inline_grid_30_70 > div:nth-child(2n+1),
+      .flex.layout-content-inline_grid_30_70 > div:nth-child(2n),
+      .flex.layout-content-inline_grid_double > div:nth-child(2n),
+      .flex.layout-content-inline_grid_double > div:nth-child(2n+1) {
+        width:100%;
+        margin-right: 0;
+        margin-left: 0;
+      }
+      button {
+        min-width: auto;
+        padding: 0 var(--spacing1x);
+      }
+    } 
   </style>
 `;
