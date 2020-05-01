@@ -428,7 +428,7 @@ pega-mashup-light > #case-data > div:first-child {
   margin-bottom:16px;
 }
 
-.modal {
+.mashup-modal {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -438,7 +438,7 @@ pega-mashup-light > #case-data > div:first-child {
   z-index: 2;
   transition: opacity .400s ease-in-out;
 }
-.modal > div {
+.mashup-modal > div {
   height: 60vh;
   max-width: 800px;
   width: 80vw;
@@ -451,7 +451,7 @@ pega-mashup-light > #case-data > div:first-child {
   flex-flow: column nowrap;
   padding-bottom: 16px;
 }
-.modal > div > .main-header {
+.mashup-modal > div > .main-header {
   padding: 0 16px;
   border-bottom: 1px solid rgba(0,0,0,.2);
 }
@@ -521,10 +521,10 @@ pega-mashup-light > #case-data > div:first-child {
 }
 .doc-icon > span {
   position: absolute;
-  left: 2px;
-  right: 2px;
+  left: 1px;
+  right: 1px;
   bottom: 8px;
-  font-size: 9px;
+  font-size: 7px;
   text-transform: uppercase;
   text-align: center;
 }

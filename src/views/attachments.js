@@ -9,7 +9,7 @@ import {
 export const AttachmentButton = (onDisplay) => {
   const node = document.createElement('div');
   node.setAttribute('role', 'modal');
-  node.setAttribute('class', 'modal');
+  node.setAttribute('class', 'mashup-modal');
   const modalnode = document.createElement('div');
   node.appendChild(modalnode);
 
@@ -35,7 +35,7 @@ export const AttachmentButton = (onDisplay) => {
       if (el) {
         const closeBtn = el.closest('button');
         if ((closeBtn === null || closeBtn.getAttribute('data-action-id') !== 'close') &&
-            !el.classList.contains('modal') && el.closest('.attach-content') !== null) return;
+            !el.classList.contains('mashup-modal') && el.closest('.attach-content') !== null) return;
       }
       unmountHanders();
     }
@@ -85,11 +85,14 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
   }
 
   const downloadContent = (filedata) => {
+    if (typeof filedata === 'undefined' ||
+    (typeof filedata === 'string' && filedata === '')) return;
     if (data[id].category === 'URL') {
       window.open(filedata);
       return;
     }
-    const filename = data[id].fileName;
+    let filename = data[id].fileName;
+    if (typeof filename === 'undefined') filename = data[id].name;
     const sampleArr = base64ToArrayBuffer(filedata);
     const blob = new Blob([sampleArr], { type: 'octet/stream' });
     const elem = window.document.createElement('a');
@@ -164,11 +167,11 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
     for (let i = 0; i < tmpFiles.length; i++) {
       const file = tmpFiles[i];
       delete file.editing;
+      file.loading = true;
       if (file.type === 'URL') {
         data.unshift(file);
         senddata.call(webcomp, 'attachments', { id: caseID, actionid: [file], target });
       } else {
-        file.uploading = true;
         data.unshift({ name: file.displayName, extension: file.extension, loading: true });
         senddata.call(webcomp, 'uploadattachment', { actionid: file, target });
       }
@@ -243,22 +246,22 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
         return html`
       <div class='flex content-item field-item'>
         <label for='url-name'>Name</label>
-        <input id='url-name' data-prop-id='name' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.name}" aria-label='name'/>
+        <input type='text' id='url-name' data-prop-id='name' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.name}" aria-label='name'/>
       </div>
       <div class='flex content-item field-item'>
         <label for='url-url'>URL</label>
-        <input id='url-url' data-prop-id='url' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.url}" aria-label='URL'/>
+        <input type='text' id='url-url' data-prop-id='url' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.url}" aria-label='URL'/>
       </div>`;
       }
       return html`
-      <input data-prop-id='displayName' class='flex-all' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.displayName}" aria-label='name'/>
+      <input type='text' data-prop-id='displayName' class='flex-all' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.displayName}" aria-label='name'/>
       ${renderAttachmentCategories(itemid, item.category)}
       <span class='flex-all'>${item.name}</span>
       <span>${Math.round(item.size / 1000)}Kb</span>
-      <button data-id="${itemid}" @click="${deleteUploadedFile}" class='pzhc pzbutton Simple' title='Delete'>${trashIcon()}</button>`;
+      <button type='button' data-id="${itemid}" @click="${deleteUploadedFile}" class='pzhc pzbutton Simple' title='Delete'>${trashIcon()}</button>`;
     }
     return html`${renderItemTitle(itemid, item)}
-    <button data-id="${itemid}" @click="${deleteAttachment}" class='pzhc pzbutton Simple' title='Delete'>${trashIcon()}</button>`;
+    <button type='button' data-id="${itemid}" @click="${deleteAttachment}" class='pzhc pzbutton Simple' title='Delete'>${trashIcon()}</button>`;
   };
 
   const renderAttachment = (filelist) => {
@@ -270,7 +273,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
       const keys = Object.entries(filelist);
       for (const i of keys) {
         let extension = i[1].extension;
-        if (i[1].type === 'URL') extension = 'URL';
+        if (typeof extension === 'undefined') extension = i[1].type;
         if (i[1].type === 'URL' && i[1].editing) {
           itemList.push(
             html`<div class='flex layout-content-stacked content-items-maxwidth'>
@@ -280,7 +283,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
         } else {
           itemList.push(
             html`<div class='row-item'>
-              <span class='doc-icon'>${documentIcon()}<span>${extension.substring(0, 4)}</span></span>
+              <span class='doc-icon'>${documentIcon()}<span>${extension.substring(0, 5)}</span></span>
               ${renderItemAction(i[0], i[1])}
             </div>`,
           );
