@@ -3,7 +3,7 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { unescapeHTML, pad2char, convertTimestampToDate } from '../utils/form-utils';
 import { ActionSet, AddWrapperDiv, getReference } from '../utils/field-utils';
-import { trashIcon, timesIcon } from './icons';
+import { trashIcon } from './icons';
 
 /**
  * Render a field - this includes rendering the label and the component
@@ -419,24 +419,6 @@ const LoadingIndicator = () => html`
   </span>
 `;
 
-const showConfirm = (name, id, status) => html`
-  <div class="flex layout-content-inline_middle main-header">
-    <h2>${name} (${id})</h2>
-    <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>
-  </div>
-  <div class="flex layout-content-inline_middle success">
-    Thank you. Your information has been submitted.
-  </div>
-  <h3>Case information</h3>
-  <div id="case-data">${LoadingIndicator()}</div>`;
-
-const showErrorMessage = (msg, onClose) => html`
-  <div class="error">${msg}
-  ${onClose != null ? html`
-    <button type='button' title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
-    ${timesIcon()}</button>` : ''}
-  </div>`;
-
 export {
-  Field, showDataList, LoadingIndicator, showConfirm, showErrorMessage,
+  Field, showDataList, LoadingIndicator,
 };

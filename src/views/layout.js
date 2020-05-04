@@ -1,8 +1,10 @@
 import { html } from 'lit-html';
-import { Field } from './fields';
+import { LoadingIndicator, Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
+import { AttachmentButton } from './attachments';
+import { timesIcon, paperclipIcon } from './icons';
 
-const Layout = (data, path, isReadOnly) => html`
+const Layout = (data, path, isReadOnly, webcomp) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}-${index}`;
     if (item.layout) {
@@ -13,55 +15,62 @@ const Layout = (data, path, isReadOnly) => html`
       const classname = `flex content content-items-maxwidth layout-content-${format} content-${format}`;
       if (item.layout.view && item.layout.view.groups) {
         return html`
-          <div class="${classname}">${Layout(item.layout.view.groups, tmppath, isReadOnly)}</div>
+          <div class="${classname}">${Layout(item.layout.view.groups, tmppath, isReadOnly, webcomp)}</div>
         `;
       }
       if (item.layout.groups) {
+        let headerStr = '';
         if (typeof item.layout.title === 'string' && item.layout.title !== '' && typeof item.layout.titleFormat) {
           switch (item.layout.titleFormat) {
             case 'h2':
-              return html`<div class="${classname}"><h2>${item.layout.title}</h2>
-                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+              headerStr = html`<div class="${classname}"><h2>${item.layout.title}</h2>`;
+              break;
             case 'h3':
-              return html`<div class="${classname}"><h3>${item.layout.title}</h3>
-                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+              headerStr = html`<div class="${classname}"><h3>${item.layout.title}</h3>`;
+              break;
             case 'h4':
-              return html`<div class="${classname}"><h4>${item.layout.title}</h4>
-                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+              headerStr = html`<div class="${classname}"><h4>${item.layout.title}</h4>`;
+              break;
             default:
-              return html`<div class="${classname}"><h2>${item.layout.title}</h2>
-                      ${Layout(item.layout.groups, tmppath, isReadOnly)}</div>`;
+              headerStr = html`<div class="${classname}"><h2>${item.layout.title}</h2>`;
+              break;
           }
         }
         return html`
-          <div class="${classname}">${Layout(item.layout.groups, tmppath, isReadOnly)}</div>
+          <div class="${classname}">${headerStr}${Layout(item.layout.groups, tmppath, isReadOnly, webcomp)}</div>
         `;
       }
       if (item.layout.rows) {
         if (item.layout.header) {
         /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
-          return html`${SimpleTable(item, tmppath, isReadOnly)}`;
+          return SimpleTable(item, tmppath, isReadOnly);
         }
-        return html`${SimpleList(item, tmppath, isReadOnly)}`;
+        return SimpleList(item, tmppath, isReadOnly);
       }
       return null;
     }
     if (item.field) {
-      return html`${Field(item.field, tmppath, isReadOnly)}`;
+      if (item.field.control && item.field.control.type === 'pxAttachContent') {
+        return AttachmentButton('Upload file', 'Upload file', webcomp.displayAttachments);
+      }
+      return Field(item.field, tmppath, isReadOnly);
     }
     if (item.view && item.view.groups) {
-      return html`${Layout(item.view.groups, tmppath, isReadOnly)}`;
+      if (item.view.viewID === 'pyAttachFieldOptional' && item.view.appliesTo === 'Embed-Attach-File') {
+        return AttachmentButton('Upload file', 'Upload file', webcomp.displayAttachments);
+      }
+      return Layout(item.view.groups, tmppath, isReadOnly, webcomp);
     }
     return null;
   })}
 `;
 
 const SimpleList = (item, path, isReadOnly) => html`
-${ListTitle(item.layout)}
-          <div class="rdl">
-            ${List(item.layout.rows, path, isReadOnly)}
-          </div>
-          ${ListAction(item.layout, isReadOnly)}
+  ${ListTitle(item.layout)}
+  <div class="rdl">
+    ${List(item.layout.rows, path, isReadOnly)}
+  </div>
+  ${ListAction(item.layout, isReadOnly)}
 `;
 
 const List = (data, path, isReadOnly) => html`
@@ -78,6 +87,27 @@ const List = (data, path, isReadOnly) => html`
   })}
 `;
 
+const showConfirm = (name, id, status, onDisplayAttachments) => html`
+  <div class="flex layout-content-inline_middle main-header">
+    <h2>${name} (${id})</h2>
+    <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>
+    ${onDisplayAttachments ? html`<div class="flex layout-content-inline_middle margin-l-auto">
+        ${AttachmentButton('Attachments', paperclipIcon(), onDisplayAttachments)}
+      </div>` : ''}
+  </div>
+  <div class="flex layout-content-inline_middle success">
+    Thank you. Your information has been submitted.
+  </div>
+  <h3>Case information</h3>
+  <div id="case-data">${LoadingIndicator()}</div>`;
+
+const showErrorMessage = (msg, onClose) => html`
+  <div class="error">${msg}
+  ${onClose != null ? html`
+    <button type='button' title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
+    ${timesIcon()}</button>` : ''}
+  </div>`;
+
 export {
-  Layout,
+  Layout, showConfirm, showErrorMessage,
 };

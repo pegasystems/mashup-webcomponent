@@ -4,6 +4,7 @@ import { ButtonMenu } from './button-menu';
 import { AttachmentButton } from './attachments';
 import { AssignmentList } from './assignmentlist';
 import { RelatedCases } from './relatedcases';
+import { paperclipIcon } from './icons';
 
 const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
@@ -46,7 +47,7 @@ export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCre
       <div class="flex layout-content-inline_middle margin-l-auto">
       ${casedata.actions && casedata.actions.length > 0 ? html`
       <div class="flex layout-content-inline_middle margin-l-auto">
-        ${AttachmentButton(onDisplayAttachments)}
+        ${onDisplayAttachments ? AttachmentButton('Attachments', paperclipIcon(), onDisplayAttachments) : ''}
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
       </div>` : ''}
       </div>
@@ -63,30 +64,30 @@ export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCre
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
     ${data.actions && data.actions.length > 0 ? html`
       <div class="flex layout-content-inline_middle margin-l-auto">
-        ${AttachmentButton(onDisplayAttachments)}
+        ${onDisplayAttachments ? AttachmentButton('Attachments', paperclipIcon(), onDisplayAttachments) : ''}
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
       </div>` : ''}
  </div>
  <h3>${name}</h3>`;
 };
 
-export const mainLayout = (data, path, onCancel, onSave) => html`
-  <div>${Layout(data, path)}</div>
+export const mainLayout = (data, path, onCancel, onSave, webcomp) => html`
+  <div>${Layout(data, path, false, webcomp)}</div>
   ${SubmitActionArea(onCancel, onSave)}
 `;
 
-export const reviewLayout = (data, path, onCancel) => html`
-  <div>${Layout(data, path, true)}</div>
+export const reviewLayout = (data, path, onCancel, webcomp) => html`
+  <div>${Layout(data, path, true, webcomp)}</div>
   ${CloseActionArea(onCancel)}
 `;
 
-export const saveCaseLayout = (data, path, onCancel, onSave) => html`
-  <div>${Layout(data, path)}</div>
+export const saveCaseLayout = (data, path, onCancel, onSave, webcomp) => html`
+  <div>${Layout(data, path, false, webcomp)}</div>
   ${LocalActionArea(onCancel, onSave)}
 `;
 
-export const createCaseLayout = (data, path, onCancel) => html`
-  <div>${Layout(data, path)}</div>
+export const createCaseLayout = (data, path, onCancel, webcomp) => html`
+  <div>${Layout(data, path, false, webcomp)}</div>
   ${CreateActionArea(onCancel)}
 `;
 

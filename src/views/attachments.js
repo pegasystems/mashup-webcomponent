@@ -1,76 +1,19 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable max-len */
 import { render, html } from 'lit-html';
 import { LoadingIndicator } from './fields';
 import {
-  paperclipIcon, penIcon, trashIcon, timesIcon, documentIcon, checkIcon,
+  paperclipIcon, trashIcon, timesIcon, documentIcon,
 } from './icons';
+import { displayModal } from './modal-manager';
 
-export const AttachmentButton = (onDisplay) => {
-  const node = document.createElement('div');
-  node.setAttribute('role', 'modal');
-  node.setAttribute('class', 'mashup-modal');
-  const modalnode = document.createElement('div');
-  node.appendChild(modalnode);
-
-  const unmountHanders = () => {
-    document.body.removeEventListener('click', dismissModalOnClickaway);
-    if (node) {
-      if (node.previousElementSibling) {
-        node.previousElementSibling.focus();
-      }
-      node.remove();
-    }
+export const AttachmentButton = (title, label, onDisplay) => {
+  const attachmentButtonHandler = (modalnode) => {
+    render(genAttachmentsList(modalnode, []), modalnode); // render the modal and display the loading screen
+    onDisplay(modalnode); // Call the API to retrieve the attachments
   };
-
-  const dismissModalOnClickaway = (event) => {
-    if (event) {
-      let el = event.target;
-      if (el.download) return;
-      if (event.path && event.path.length > 0) {
-        el = event.path[0];
-      } else if (event.originalTarget) {
-        el = event.originalTarget;
-      }
-      if (el) {
-        const closeBtn = el.closest('button');
-        if ((closeBtn === null || closeBtn.getAttribute('data-action-id') !== 'close') &&
-            !el.classList.contains('mashup-modal') && el.closest('.attach-content') !== null) return;
-      }
-      unmountHanders();
-    }
-  };
-
-  const attachmentButtonHandler = (event) => {
-    event.preventDefault();
-    const el = event.target;
-    const nodeEl = el.closest('.attach-content');
-    if (nodeEl !== null) {
-      if (nodeEl.children.length === 1) {
-        node.style.opacity = 0;
-        nodeEl.appendChild(node);
-        render(genAttachmentsList(node, []), modalnode);
-        onDisplay(modalnode);
-        document.body.addEventListener('click', dismissModalOnClickaway);
-        /* Force update so that animation can be trigger */
-        const tmpval = node.offsetHeight;
-        node.style = '';
-      } else {
-        unmountHanders();
-      }
-      return;
-    }
-    unmountHanders();
-  };
-
-  return html`
-    <div class='attach-content'>
-    <button type="button" @click="${attachmentButtonHandler}" class="pzhc pzbutton Simple" title="Attachments">${paperclipIcon()}</button>
-    </div>
-  `;
+  return displayModal(title, label, attachmentButtonHandler);
 };
 
-export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, senddata, tmpFiles) => {
+export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
   let id = 0; /* used for actions like download or delete */
 
   function base64ToArrayBuffer(base64) {
@@ -107,7 +50,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
     event.stopPropagation();
     const el = event.target;
     id = el.getAttribute('data-id');
-    fetchdata.call(webcomp, 'attachment', { id: data[id].ID, target: downloadContent });
+    webcomp.fetchData.call(webcomp, 'attachment', { id: data[id].ID, target: downloadContent });
   };
 
   const deleteAttachment = (event) => {
@@ -115,7 +58,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
     event.stopPropagation();
     const el = event.target.closest('button');
     id = el.getAttribute('data-id');
-    senddata.call(webcomp, 'deleteattachment', { id: data[id].ID, target });
+    webcomp.sendData.call(webcomp, 'deleteattachment', { id: data[id].ID, target });
   };
 
   const deleteUploadedFile = (event) => {
@@ -123,7 +66,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
     const el = event.target.closest('button');
     id = parseInt(el.getAttribute('data-id'), 10);
     tmpFiles.splice(id, 1);
-    render(genAttachmentsList(target, data, caseID, webcomp, fetchdata, senddata, tmpFiles), target);
+    render(genAttachmentsList(target, data, caseID, webcomp, tmpFiles), target);
   };
 
   const updateUploadedFile = (event) => {
@@ -170,13 +113,13 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
       file.loading = true;
       if (file.type === 'URL') {
         data.unshift(file);
-        senddata.call(webcomp, 'attachments', { id: caseID, actionid: [file], target });
+        webcomp.sendData.call(webcomp, 'attachments', { id: caseID, actionid: [file], target });
       } else {
         data.unshift({ name: file.displayName, extension: file.extension, loading: true });
-        senddata.call(webcomp, 'uploadattachment', { actionid: file, target });
+        webcomp.sendData.call(webcomp, 'uploadattachment', { actionid: file, target });
       }
     }
-    render(genAttachmentsList(target, data, caseID, webcomp, fetchdata, senddata), target);
+    render(genAttachmentsList(target, data, caseID, webcomp), target);
   };
 
   const renderFilesToBeUploaded = (el, files) => {
@@ -191,13 +134,13 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
       file.category = 'File';
       newfiles.push(file);
     }
-    render(genAttachmentsList(target, data, caseID, webcomp, fetchdata, senddata, newfiles), target);
+    render(genAttachmentsList(target, data, caseID, webcomp, newfiles), target);
   };
 
   const uploadFile = (event) => {
     event.stopPropagation();
     let el = event.target;
-    if (el.tagName === 'A') {
+    if (el.tagName === 'BUTTON') {
       el = event.target.parentNode.parentNode.firstElementChild;
       el.click();
       return;
@@ -210,12 +153,12 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
     const newfiles = [{
       type: 'URL', category: 'URL', name: '', url: '', editing: true,
     }];
-    render(genAttachmentsList(target, data, caseID, webcomp, fetchdata, senddata, newfiles), target);
+    render(genAttachmentsList(target, data, caseID, webcomp, newfiles), target);
   };
 
   const cancelUpload = (event) => {
     event.stopPropagation();
-    render(genAttachmentsList(target, data, caseID, webcomp, fetchdata, senddata), target);
+    render(genAttachmentsList(target, data, caseID, webcomp), target);
   };
 
   const renderAttachmentCategories = (itemid, value) => html`
@@ -233,7 +176,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
     createTime = createTime.toLocaleDateString(undefined, options);
     return html`
     <div class='list-item-title'>
-      <a data-id="${itemid}" @click="${downloadAttachment}">${item.name}</a>
+      <button type='button' class='pzhc pzButton Icon'  data-id="${itemid}" @click="${downloadAttachment}">${item.name}</button>
       ${item.loading ? '' : html`
       <span class='list-item-meta'><span>${item.createdBy}</span><span>${createTime}</span><span>category: ${item.category}</span></span>`}
     </div>`;
@@ -254,7 +197,8 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
       </div>`;
       }
       return html`
-      <input type='text' data-prop-id='displayName' class='flex-all' @change="${updateUploadedFile}" data-id="${itemid}" value="${item.displayName}" aria-label='name'/>
+      <input type='text' data-prop-id='displayName' class='flex-all' @change="${updateUploadedFile}" 
+      data-id="${itemid}" value="${item.displayName}" aria-label='name'/>
       ${renderAttachmentCategories(itemid, item.category)}
       <span class='flex-all'>${item.name}</span>
       <span>${Math.round(item.size / 1000)}Kb</span>
@@ -310,7 +254,8 @@ export const genAttachmentsList = (target, data, caseID, webcomp, fetchdata, sen
         <div class="file-upload">
           <input @change="${uploadFile}" type="file" multiple="">
           ${paperclipIcon()}
-          <span>Drag and drop files, attach <a @click="${uploadFile}">files</a> or add a <a @click="${enterURL}">link</a></span>
+          <span>Drag and drop files, attach <button type='button' class='pzhc pzButton Icon' @click="${uploadFile}">files</button>
+           or add a <button type='button' class='pzhc pzButton Icon' @click="${enterURL}">link</button></span>
         </div>
         ${renderAttachment(data)}
       </form>

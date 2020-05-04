@@ -213,7 +213,7 @@ export default class PegaServices extends PegaElement {
               }
               render(saveCaseLayout(response.view.groups, 'Obj',
                 this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-                this.actionAreaSave), el);
+                this.actionAreaSave, this), el);
               el.focus();
               break;
             case 'assignmentaction':
@@ -225,7 +225,7 @@ export default class PegaServices extends PegaElement {
               this.requestUpdate();
               render(mainLayout(response.view.groups, 'Obj',
                 this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-                this.bShowSave === 'true' ? this.actionAreaSave : null), el);
+                this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
               el.focus();
               break;
             case 'page':
@@ -233,7 +233,7 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the page');
                 break;
               }
-              render(mainLayout(response.groups, 'Obj'), el);
+              render(mainLayout(response.groups, 'Obj', this), el);
               el.focus();
               break;
             case 'view':
@@ -244,10 +244,10 @@ export default class PegaServices extends PegaElement {
               this.content = {};
               if (actionid === 'pyCaseInformation') {
                 this.name = response.name;
-                render(reviewLayout(response.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null), el);
+                render(reviewLayout(response.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null, this), el);
               } else {
                 this.name = response.name;
-                render(mainLayout(response.groups, 'Obj'), el);
+                render(mainLayout(response.groups, 'Obj', this), el);
               }
               el.focus();
               break;
@@ -267,7 +267,7 @@ export default class PegaServices extends PegaElement {
             case 'attachments':
               let files = response.attachments;
               if (!files) files = [];
-              render(genAttachmentsList(target, files, this.caseID, this, this.fetchData, this.sendData), target);
+              render(genAttachmentsList(target, files, this.caseID, this), target);
               break;
             case 'attachmentcategories':
               this.attachmentcategories = response.attachment_categories;
@@ -420,9 +420,10 @@ export default class PegaServices extends PegaElement {
               return;
             }
             if (type === 'refreshnew') {
-              render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null), el);
+              render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj',
+                this.bShowCancel === 'true' ? this.actionAreaCancel : null, this), el);
             } else {
-              render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.bShowSave === 'true' ? this.actionAreaSave : null), el);
+              render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
             }
           } else if (type === 'savecase') {
             this.sendExternalEvent(type);

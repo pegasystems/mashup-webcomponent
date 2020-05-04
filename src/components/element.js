@@ -23,7 +23,7 @@ export default class PegaElement extends LitElement {
   @property({ type: String }) bShowCancel = 'true';
 
   /* hide the attachments button  */
-  @property({ type: String }) bShowAttachments = 'true';
+  @property({ type: String }) bShowAttachments = 'false';
 
   /* hide the save action  */
   @property({ type: String }) bShowSave = 'true';

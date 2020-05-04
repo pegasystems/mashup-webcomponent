@@ -70,14 +70,22 @@ button {
   min-width: 90px;
   padding: 0 8px;
   cursor:pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
+
 button.Simple {
   background: none;
   color: rgb(0, 0, 0);
   min-width:0;
+  outline: none;
+}
+
+button.Icon {
+  background: none;
+  min-width: 0;
+  display: inline-block;
+  padding: 0;
+  height: auto;
+  width: fit-content;
 }
 
 @supports (-webkit-appearance:none) {
@@ -231,20 +239,35 @@ select {
 .align-center {
   align-items: center;
 }
-
+button.Icon,
 a,
 a:visited {
   cursor: pointer;
   text-decoration: none;
-  color: #020BFF;
+  color: var(--linkColor);
+  outline:none;
 }
-
+button.Icon:active,
+button.Icon:focus,
+button.Icon:hover,
 a:active,
 a:focus,
 a:hover {
-  color: #020BFF;
-  cursor: pointer;
   text-decoration: underline;
+}
+
+button.Simple:active,
+button.Simple:focus,
+button.Simple:hover,
+button.Icon:active,
+button.Icon:focus,
+button.Icon:hover,
+a:active,
+a:focus,
+a:hover {
+  color: var(--linkColorFocus);
+  cursor: pointer;
+  outline:none;
 }
 
 .field-item {

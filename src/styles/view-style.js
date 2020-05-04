@@ -162,20 +162,29 @@ export const viewStyle = () => html`
       display: flex;
       flex-flow: row wrap;
     }
+    button.Icon,
     a,
     a:link,
     a:visited {
       color: var(--linkColor);
       cursor: pointer;
       text-decoration: none;
+      outline:none;
     }
-
+    button.Simple:hover,
+    button.Simple:active,
+    button.Simple:focus,
+    button.Icon:active,
+    button.Icon:focus,
+    button.Icon:hover,
     a:active,
     a:focus,
     a:hover {
       cursor: pointer;
       color: var(--linkColorFocus);
       text-decoration: underline;
+      background-color: transparent;
+      outline:none;
     }
 
     select:hover,
@@ -201,11 +210,14 @@ export const viewStyle = () => html`
       border:none;
     }
 
-    button.Simple:hover,
-    button.Simple:active,
-    button.Simple:focus {
-      background-color:rgba(0,0,0,0.1);
-      color:#000;
+    button.Icon {
+      background: none;
+      min-width: 0;
+      display: inline-block;
+      padding: 0;
+      height: auto;
+      width: fit-content;
+      border:none;
     }
 
     button.action-menu,
@@ -282,11 +294,6 @@ export const viewStyle = () => html`
       border-radius: 5px;
       width: auto;
       background:transparent;
-    }
-
-    button.Icon {
-      min-width: auto;
-      border:none;
     }
 
     button:active {

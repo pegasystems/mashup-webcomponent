@@ -304,6 +304,10 @@
             <span>Hide save button</span>
             <input class='toggle' type="checkbox" id="hide-save" /><label for="hide-save">Hide save button</label>
           </div>
+          <div class='flex align-center'>
+            <span>Support attachments</span>
+            <input class='toggle' type="checkbox" id="show-attachments" checked/><label for="show-attachments">Support attachments</label>
+          </div>
           <div class='flex flex-col' style='display:none'>
             <label for='casetype'>Case type</label>
             <input type='text' id='casetype'>
@@ -353,6 +357,9 @@
         mytag = document.createElement("pega-mashup-light");
       } else {
         mytag = document.createElement("pega-mashup");
+      }
+      if (document.getElementById("show-attachments").checked === true) {
+        mytag.setAttribute("bShowAttachments", "true");
       }
       if (document.getElementById("hide-create").checked === true) {
         mytag.setAttribute("bShowCreate", "false");

@@ -4,8 +4,11 @@ import {
   genActionsList, CaseHeader, genCaseTypesList,
 } from '../views/views';
 import {
-  showDataList, LoadingIndicator, showConfirm, showErrorMessage,
+  showDataList, LoadingIndicator,
 } from '../views/fields';
+import {
+  showConfirm, showErrorMessage,
+} from '../views/layout';
 import {
   getFormData, getInitData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList,
 } from '../utils/form-utils';
@@ -37,11 +40,13 @@ export default class PegaBase extends PegaServices {
       }
     }
     if (this.bShowConfirm) {
-      return showConfirm(this.casedata.content.pyLabel, this.casedata.content.pyID, this.casepyStatusWork);
+      return showConfirm(this.casedata.content.pyLabel, this.casedata.content.pyID, this.casepyStatusWork,
+        this.bShowAttachments === 'true' ? this.displayAttachments : null);
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase, this.displayAttachments)}
+        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase,
+    this.bShowAttachments === 'true' ? this.displayAttachments : null)}
         <div class="validation">${this.validationMsg}</div>
         <form id="case-data">${LoadingIndicator()}</form>
       `;
