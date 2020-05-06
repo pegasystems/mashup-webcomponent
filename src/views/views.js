@@ -46,11 +46,9 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
       <h2>${casedata.content.pyLabel} (${casedata.content.pyID})</h2>
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
       <div class="flex layout-content-inline_middle margin-l-auto">
-      ${casedata.actions && casedata.actions.length > 0 ? html`
-      <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
-        ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
-      </div>` : ''}
+        ${casedata.actions && casedata.actions.length > 0 ? html`
+          ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}` : ''}
       </div>
     </div>
     ${AssignmentList(casedata.assignments, onOpen)}
@@ -63,12 +61,12 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
   <div class="flex layout-content-inline_middle main-header">
     <h2>${data.name} (${id})</h2>
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
-    ${data.actions && data.actions.length > 0 ? html`
-      <div class="flex layout-content-inline_middle margin-l-auto">
-        ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
-        ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
-      </div>` : ''}
- </div>
+    <div class="flex layout-content-inline_middle margin-l-auto">
+      ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
+      ${data.actions && data.actions.length > 0 ? html`
+        ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}` : ''}
+    </div>
+  </div>
  <h3>${name}</h3>`;
 };
 
