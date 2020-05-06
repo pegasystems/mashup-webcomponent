@@ -50,6 +50,7 @@ export default class PegaElement extends LitElement {
     this.casepyStatusWork = '';
     this.casedata = {}; /* Case data information */
     this.data = {};
+    this.numAttachments = 0;
     this.attachmentcategories = [];
     this.assignmentID = '';
     this.actionID = '';

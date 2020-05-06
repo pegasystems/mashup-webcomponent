@@ -6,9 +6,12 @@ import { html } from 'lit-html';
 
   The onOpen function will receive the node DOM element of the modal content that can be used for render
 */
-export const displayModal = (title, label, onOpen) => {
+export const displayModal = (title, label, format, onOpen) => {
   const node = document.createElement('div');
-  node.setAttribute('role', 'modal');
+  node.setAttribute('role', 'alertdialog');
+  node.setAttribute('aria-modal', 'true');
+  node.setAttribute('aria-labelledby', title);
+  node.setAttribute('aria-describedby', '');
   node.setAttribute('class', 'mashup-modal');
   const modalnode = document.createElement('div');
   node.appendChild(modalnode);
@@ -17,6 +20,7 @@ export const displayModal = (title, label, onOpen) => {
     document.body.removeEventListener('click', dismissModalOnClickaway);
     if (node) {
       if (node.previousElementSibling) {
+        node.previousElementSibling.removeAttribute('aria-hidden');
         node.previousElementSibling.focus();
       }
       node.remove();
@@ -45,9 +49,10 @@ export const displayModal = (title, label, onOpen) => {
     event.preventDefault();
     event.stopPropagation();
     const el = event.target;
-    const nodeEl = el.closest('.modal-content');
+    const nodeEl = el.closest('.modalcontent');
     if (nodeEl !== null) {
       if (nodeEl.children.length === 1) {
+        nodeEl.firstElementChild.setAttribute('aria-hidden', 'true');
         node.style.opacity = 0;
         nodeEl.appendChild(node);
         onOpen(modalnode);
@@ -65,7 +70,7 @@ export const displayModal = (title, label, onOpen) => {
   };
 
   return html`
-  <div class='modal-content'>
-    <button type="button" @click="${modalClickHandler}" class="pzhc pzbutton Simple" title="${title}">${label}</button>
+  <div class='modalcontent'>
+    <button type="button" @click="${modalClickHandler}" class="pzhc pzbutton ${format}" title="${title}">${label}</button>
   </div>`;
 };

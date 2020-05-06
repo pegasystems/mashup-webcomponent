@@ -162,7 +162,7 @@ export const viewStyle = () => html`
       display: flex;
       flex-flow: row wrap;
     }
-    button.Icon,
+    button.Light,
     a,
     a:link,
     a:visited {
@@ -174,9 +174,9 @@ export const viewStyle = () => html`
     button.Simple:hover,
     button.Simple:active,
     button.Simple:focus,
-    button.Icon:active,
-    button.Icon:focus,
-    button.Icon:hover,
+    button.Light:active,
+    button.Light:focus,
+    button.Light:hover,
     a:active,
     a:focus,
     a:hover {
@@ -208,6 +208,7 @@ export const viewStyle = () => html`
       color: rgb(0, 0, 0);
       min-width:0;
       border:none;
+      display:flex;
     }
 
     button.Icon {
@@ -621,6 +622,17 @@ export const viewStyle = () => html`
       font-size: 7px;
       text-transform: uppercase;
       text-align: center;
+    }
+    .count-badge {
+      min-width: 24px;
+      line-height: 24px;
+      border-radius: 12px;
+      background-color: #e9eef3;
+      color: rgba(0,0,0,.6);
+      font-weight: 600;
+      font-size: 12px;
+      margin-top: -9px;
+      margin-left: -3px;
     }
     
     .loading {

@@ -5,12 +5,12 @@ import {
 } from './icons';
 import { displayModal } from './modal-manager';
 
-export const AttachmentButton = (title, label, onDisplay) => {
+export const AttachmentButton = (title, label, format, onDisplay) => {
   const attachmentButtonHandler = (modalnode) => {
     render(genAttachmentsList(modalnode, []), modalnode); // render the modal and display the loading screen
     onDisplay(modalnode); // Call the API to retrieve the attachments
   };
-  return displayModal(title, label, attachmentButtonHandler);
+  return displayModal(title, label, format, attachmentButtonHandler);
 };
 
 export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
@@ -36,10 +36,17 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     }
     let filename = data[id].fileName;
     if (typeof filename === 'undefined') filename = data[id].name;
-    const sampleArr = base64ToArrayBuffer(filedata);
-    const blob = new Blob([sampleArr], { type: 'octet/stream' });
     const elem = window.document.createElement('a');
-    elem.href = window.URL.createObjectURL(blob);
+    if (data[id].category === 'Correspondence') {
+      filename = `${data[id].name}.html`;
+      const content = `<html><head><title>${data[id].name}</title></head><body>${filedata}</body></html>`;
+      const blob = new Blob([content], { type: 'text' });
+      elem.href = window.URL.createObjectURL(blob);
+    } else {
+      const sampleArr = base64ToArrayBuffer(filedata);
+      const blob = new Blob([sampleArr], { type: 'octet/stream' });
+      elem.href = window.URL.createObjectURL(blob);
+    }
     elem.download = filename;
     document.body.appendChild(elem);
     elem.click();
@@ -176,7 +183,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     createTime = createTime.toLocaleDateString(undefined, options);
     return html`
     <div class='list-item-title'>
-      <button type='button' class='pzhc pzButton Icon'  data-id="${itemid}" @click="${downloadAttachment}">${item.name}</button>
+      <button type='button' class='pzhc pzButton Light'  data-id="${itemid}" @click="${downloadAttachment}">${item.name}</button>
       ${item.loading ? '' : html`
       <span class='list-item-meta'><span>${item.createdBy}</span><span>${createTime}</span><span>category: ${item.category}</span></span>`}
     </div>`;
@@ -250,12 +257,13 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
       </div>`;
     }
     return html`
-      <form @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"  @drop="${handleDrop}" class='attach-files list-items'>
+      <form id="modalcontent" @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"  
+      @drop="${handleDrop}" class='attach-files list-items'>
         <div class="file-upload">
           <input @change="${uploadFile}" type="file" multiple="">
-          ${paperclipIcon()}
-          <span>Drag and drop files, attach <button type='button' class='pzhc pzButton Icon' @click="${uploadFile}">files</button>
-           or add a <button type='button' class='pzhc pzButton Icon' @click="${enterURL}">link</button></span>
+          ${paperclipIcon()}<span> Drag and drop files, attach 
+          <button type='button' aria-labelledby='click to attach a file' class='pzhc pzButton Light' @click="${uploadFile}">files</button> or add a 
+          <button type='button' aria-labelledby='click to add a URL link' class='pzhc pzButton Light' @click="${enterURL}">link</button></span>
         </div>
         ${renderAttachment(data)}
       </form>

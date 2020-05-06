@@ -45,7 +45,7 @@ export default class PegaBase extends PegaServices {
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.displayActions, this.runAction, this.openCase,
+        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null)}
         <div class="validation">${this.validationMsg}</div>
         <form id="case-data">${LoadingIndicator()}</form>
@@ -82,6 +82,7 @@ export default class PegaBase extends PegaServices {
     this.assignmentID = '';
     this.actionID = '';
     this.errorMsg = '';
+    this.numAttachments = 0;
     this.validationMsg = '';
     this.name = '';
     if (this.action === 'workList') {

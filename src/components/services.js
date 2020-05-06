@@ -189,6 +189,7 @@ export default class PegaServices extends PegaElement {
               break;
             case 'case':
               this.casedata = response;
+              this.numAttachments = 0;
               if (this.name === '') {
                 this.name = this.casedata.content.pyLabel;
               }
@@ -196,6 +197,9 @@ export default class PegaServices extends PegaElement {
               this.requestUpdate();
               if (this.assignmentID === '') {
                 this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
+              }
+              if (this.bShowAttachments === 'true') {
+                this.fetchData('attachments', { id: this.caseID });
               }
               break;
             case 'data':
@@ -267,7 +271,11 @@ export default class PegaServices extends PegaElement {
             case 'attachments':
               let files = response.attachments;
               if (!files) files = [];
-              render(genAttachmentsList(target, files, this.caseID, this), target);
+              this.numAttachments = files.length;
+              if (target) {
+                render(genAttachmentsList(target, files, this.caseID, this), target);
+              }
+              this.requestUpdate();
               break;
             case 'attachmentcategories':
               this.attachmentcategories = response.attachment_categories;
@@ -440,7 +448,6 @@ export default class PegaServices extends PegaElement {
             const meta = [{
               type: 'File',
               category: actionid.category,
-              attachmentFieldName: 'File',
               fileType: fileExt,
               name: actionid.displayName,
               ID: response.ID,

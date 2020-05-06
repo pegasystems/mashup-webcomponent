@@ -16,7 +16,7 @@ export const DemoModal = () => {
         class="pzhc pzbutton Simple" title="Close">${timesIcon()}</button>
       </div>
     </div>
-    <div>This is a demo modal</div>
+    <div id="modalcontent">This is a demo modal</div>
   `;
 
   return displayModal('Demo', 'open modal', demoButtonHandler);

@@ -37,8 +37,9 @@ const CreateActionArea = onCancel => html`
 `;
 
 /* We also have the case priority in ${data.urgency} and the user assigned as ${data.routedTo} */
-export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCreate, onOpen, onDisplayAttachments) => {
+export const CaseHeader = (name, data, casedata, status, numAttachments, onDisplayActions, onCreate, onOpen, onDisplayAttachments) => {
   /* Case of openCaseByHandle - not an assignment */
+  const attachmentsLabel = html`${paperclipIcon()}<span class='count-badge'>${numAttachments}</span>`;
   if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
     <div class="flex layout-content-inline_middle main-header">
@@ -47,7 +48,7 @@ export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCre
       <div class="flex layout-content-inline_middle margin-l-auto">
       ${casedata.actions && casedata.actions.length > 0 ? html`
       <div class="flex layout-content-inline_middle margin-l-auto">
-        ${onDisplayAttachments ? AttachmentButton('Attachments', paperclipIcon(), onDisplayAttachments) : ''}
+        ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
       </div>` : ''}
       </div>
@@ -64,7 +65,7 @@ export const CaseHeader = (name, data, casedata, status, onDisplayActions, onCre
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
     ${data.actions && data.actions.length > 0 ? html`
       <div class="flex layout-content-inline_middle margin-l-auto">
-        ${onDisplayAttachments ? AttachmentButton('Attachments', paperclipIcon(), onDisplayAttachments) : ''}
+        ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}
       </div>` : ''}
  </div>

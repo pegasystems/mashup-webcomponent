@@ -51,13 +51,13 @@ const Layout = (data, path, isReadOnly, webcomp) => html`
     }
     if (item.field) {
       if (item.field.control && item.field.control.type === 'pxAttachContent') {
-        return AttachmentButton('Upload file', 'Upload file', webcomp.displayAttachments);
+        return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
       }
       return Field(item.field, tmppath, isReadOnly);
     }
     if (item.view && item.view.groups) {
       if (item.view.viewID === 'pyAttachFieldOptional' && item.view.appliesTo === 'Embed-Attach-File') {
-        return AttachmentButton('Upload file', 'Upload file', webcomp.displayAttachments);
+        return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
       }
       return Layout(item.view.groups, tmppath, isReadOnly, webcomp);
     }
@@ -92,7 +92,7 @@ const showConfirm = (name, id, status, onDisplayAttachments) => html`
     <h2>${name} (${id})</h2>
     <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>
     ${onDisplayAttachments ? html`<div class="flex layout-content-inline_middle margin-l-auto">
-        ${AttachmentButton('Attachments', paperclipIcon(), onDisplayAttachments)}
+        ${AttachmentButton('Attachments', paperclipIcon(), 'Simple', onDisplayAttachments)}
       </div>` : ''}
   </div>
   <div class="flex layout-content-inline_middle success">
@@ -104,7 +104,7 @@ const showConfirm = (name, id, status, onDisplayAttachments) => html`
 const showErrorMessage = (msg, onClose) => html`
   <div class="error">${msg}
   ${onClose != null ? html`
-    <button type='button' title="Click to close the banner" class="pzhc pzbutton Icon" @click="${onClose}">
+    <button type='button' title="Click to close the banner" class="pzhc pzbutton Light" @click="${onClose}">
     ${timesIcon()}</button>` : ''}
   </div>`;
 
