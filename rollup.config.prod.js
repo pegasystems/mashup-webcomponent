@@ -6,9 +6,9 @@ import { eslint } from 'rollup-plugin-eslint';
 
 export default [
   {
-    input: 'src/components/index.js',
+    input: 'src/main/index.js',
     output: {
-      file: 'docs/pega-mashup-webcomponent.js',
+      file: 'docs/pega-mashup-webcomponent-all.js',
       format: 'iife',
       name: 'PegaMashupWebComponent',
       sourcemap: false,
@@ -29,11 +29,34 @@ export default [
     ],
   },
   {
-    input: 'src/components/mashup-light.js',
+    input: 'src/main/mashup-light.js',
     output: {
       file: 'docs/pega-mashup-light-webcomponent.js',
       format: 'iife',
-      name: 'PegaMashupListWebComponent',
+      name: 'PegaMashupLightWebComponent',
+      sourcemap: false,
+    },
+    plugins: [
+      resolve({
+        browser: true,
+      }),
+      eslint({
+        fix: true,
+      }),
+      minifyHTML(),
+      babel({
+        exclude: 'node_modules/**',
+        extensions: ['.js'],
+      }),
+      terser(),
+    ],
+  },
+  {
+    input: 'src/main/mashup-lightv2.js',
+    output: {
+      file: 'docs/pega-mashup-light-webcomponentv2.js',
+      format: 'iife',
+      name: 'PegaMashupLightWebComponentv2',
       sourcemap: false,
     },
     plugins: [

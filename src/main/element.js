@@ -9,7 +9,7 @@ export default class PegaElement extends LitElement {
   /* Username for authentication  */
   @property({ type: String }) username = '';
 
-  /* This is for development only  */
+  /* This is for development and test only - use JWT token or oauth instead */
   @property({ type: String }) password = '';
 
   /* Title of the my worklist card  */
@@ -28,8 +28,17 @@ export default class PegaElement extends LitElement {
   /* hide the save action  */
   @property({ type: String }) bShowSave = 'true';
 
+  /* Authentication type - supported values: basic, jwttoken, oauth2password, oauth2clientcredentials  */
+  @property({ type: String }) authentication = '';
+
   /* JWT Token for authentication  */
   @property({ type: String }) token = '';
+
+  /* oAuth clientid for authentication  */
+  @property({ type: String }) clientid = '';
+
+  /* oAuth clientsecret for authentication  */
+  @property({ type: String }) clientsecret = '';
 
   /* Initial content when creating a new case - you can pass an object as { prop1: 'value1', prop2: 'value2' }  */
   @property({ type: Object }) initialContent = '';
@@ -40,6 +49,9 @@ export default class PegaElement extends LitElement {
   /* only used if the action createNewWork or workList are used - for the action workList, this is used to filter
      the list of case that you can create */
   @property({ type: String }) casetype = '';
+
+  /* Name of the portal - only required for the v2 api to get the list of case types and your worklist */
+  @property({ type: String }) portalName = '';
 
   constructor() {
     super();

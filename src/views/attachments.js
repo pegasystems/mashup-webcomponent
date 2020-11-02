@@ -1,5 +1,5 @@
 import { render, html } from 'lit-html';
-import { LoadingIndicator } from './fields';
+import { LoadingIndicator } from './loading';
 import {
   paperclipIcon, trashIcon, timesIcon, documentIcon,
 } from './icons';
@@ -183,7 +183,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     createTime = createTime.toLocaleDateString(undefined, options);
     return html`
     <div class='list-item-title'>
-      <button type='button' class='pzhc pzButton Light'  data-id="${itemid}" @click="${downloadAttachment}">${item.name}</button>
+      <button type='button' class='Light'  data-id="${itemid}" @click="${downloadAttachment}">${item.name}</button>
       ${item.loading ? '' : html`
       <span class='list-item-meta'><span>${item.createdBy}</span><span>${createTime}</span><span>category: ${item.category}</span></span>`}
     </div>`;
@@ -262,8 +262,8 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
         <div class="file-upload">
           <input @change="${uploadFile}" type="file" multiple="">
           ${paperclipIcon()}<span> Drag and drop files, attach 
-          <button type='button' aria-labelledby='click to attach a file' class='pzhc pzButton Light' @click="${uploadFile}">files</button> or add a 
-          <button type='button' aria-labelledby='click to add a URL link' class='pzhc pzButton Light' @click="${enterURL}">link</button></span>
+          <button type='button' aria-labelledby='click to attach a file' class='Light' @click="${uploadFile}">files</button> or add a 
+          <button type='button' aria-labelledby='click to add a URL link' class='Light' @click="${enterURL}">link</button></span>
         </div>
         ${renderAttachment(data)}
       </form>

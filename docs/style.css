@@ -78,6 +78,7 @@ button.Simple {
   min-width:0;
   outline: none;
   display:flex;
+  align-items: center;
 }
 
 button.Light {
@@ -166,7 +167,8 @@ select {
 }
 
 .layout-content-default.flex,
-.layout-content-stacked.flex {
+.layout-content-stacked.flex,
+.layout-content-stacked_with_labels_left {
   display:flex;
   flex-flow: column;
   width: 100%;
@@ -203,6 +205,15 @@ select {
 }
 .layout-content-default.flex > * {
   margin-bottom: 16px;
+}
+.layout-content-stacked_with_labels_left  > .field-item {
+  flex-flow: row;
+  margin-bottom: var(--spacing1x);
+}
+.layout-content-stacked_with_labels_left  > .field-item > label {
+  margin-right: var(--spacing1x);
+  margin-bottom: 0;
+  width: 200px;
 }
 .layout-content-inline.flex > *,
 .layout-content-inline_middle.flex > * {
@@ -368,23 +379,25 @@ table .pzhc.pzbutton:active {
   color:#000;
   min-width:auto;
 }
+#case-data > div:first-child,
 .content-items-maxwidth > .content-item {
   max-width: 640px;
 }
 
 pega-mashup,
+pega-mashup-v2,
 pega-mashup-light,
-pega-mashup-light > #case-data {
+pega-mashup-light-v2,
+#case-data {
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
 }
 
-pega-mashup-light > #case-data,
-pega-mashup-light > #case-data > div:first-child {
+#case-data,
+#case-data > div:first-child {
   flex:1;
 }
-
 .button-menu {
   position: relative;
   display: inline-block;

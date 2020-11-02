@@ -1,8 +1,8 @@
 import { html, customElement } from 'lit-element';
-import PegaBase from './base';
+import PegaBase from '../interpreter/v2/base';
 
-@customElement('pega-mashup-light')
-class PegaMashupLight extends PegaBase {
+@customElement('pega-mashup-light-v2')
+class PegaMashupLightv2 extends PegaBase {
   createRenderRoot() {
     return this;
   }
@@ -17,4 +17,4 @@ class PegaMashupLight extends PegaBase {
     `;
   }
 }
-export default PegaMashupLight;
+export default PegaMashupLightv2;

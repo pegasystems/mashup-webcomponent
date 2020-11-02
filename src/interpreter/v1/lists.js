@@ -1,8 +1,8 @@
 import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { Field } from './fields';
-import { getNewRowProps } from '../utils/form-utils';
-import { plusIcon } from './icons';
+import { getNewRowProps } from '../../utils/form-utils';
+import { plusIcon } from '../../views/icons';
 
 export const SimpleTable = (item, path, isReadOnly) => html`
   ${ListTitle(item.layout)}

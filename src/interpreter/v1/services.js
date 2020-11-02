@@ -1,11 +1,12 @@
 import { render } from 'lit-html';
 import {
   saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
-} from '../views/views';
-import { genAttachmentsList } from '../views/attachments';
-import { setFormData, setFormInlineError } from '../utils/form-utils';
-import { showDataList, LoadingIndicator } from '../views/fields';
-import PegaElement from './element';
+} from './views';
+import { genAttachmentsList } from '../../views/attachments';
+import { setFormData, setFormInlineError } from '../../utils/form-utils';
+import { showDataList } from '../../views/datalist';
+import { LoadingIndicator } from '../../views/loading';
+import PegaElement from '../../main/element';
 
 /**
  * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
@@ -37,7 +38,7 @@ export default class PegaServices extends PegaElement {
       console.error('Error:', error);
     } else if (error.message && error.message.indexOf('Unexpected token') !== -1) {
       this.errorMsg = 'Error 404: Resource not found';
-      this.performUpdate();
+      this.requestUpdate();
       console.error(this.errorMsg);
     } else {
       if (error.status) {
@@ -57,7 +58,7 @@ export default class PegaServices extends PegaElement {
       } else {
         this.errorMsg = 'Critical error';
       }
-      this.performUpdate();
+      this.requestUpdate();
       console.error('Error:', error);
     }
   }
@@ -70,21 +71,22 @@ export default class PegaServices extends PegaElement {
     const {
       id, actionid, target, element,
     } = props || {};
-    let authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
+    let authToken = '';
+    if (this.authentication === '' || this.authentication === 'basic') {
+      authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
+    }
     if (this.token !== '') {
       authToken = `Bearer ${this.token}`;
     }
     const headers = {
-      Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json;charset=UTF-8',
       Authorization: authToken,
     };
     const reqHeaders = {
       method: 'GET',
       headers,
-      redirect: 'follow',
+      mode: 'cors',
     };
-    const attachSvc = `${this.url}/PRRestService/api_attachments_beta/v1`;
     let apiurl = `${this.url}/api/v1/`;
     switch (type) {
       case 'worklist':
@@ -118,13 +120,13 @@ export default class PegaServices extends PegaElement {
         apiurl += `cases/${id}/actions/${actionid}`;
         break;
       case 'attachment':
-        apiurl = `${attachSvc}/attachments/${id}`;
+        apiurl += `attachments/${id}`;
         break;
       case 'attachments':
-        apiurl = `${attachSvc}/cases/${id}/attachments`;
+        apiurl += `cases/${id}/attachments`;
         break;
       case 'attachmentcategories':
-        apiurl = `${attachSvc}/cases/${id}/attachment_categories`;
+        apiurl += `cases/${id}/attachment_categories`;
         break;
     }
     fetch(apiurl, reqHeaders)
@@ -148,7 +150,13 @@ export default class PegaServices extends PegaElement {
           if (response.errors && response.errors.length > 0) {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
             this.clearLoadingIndicator();
-            this.performUpdate();
+            this.requestUpdate();
+            console.error('Error:', response);
+            return;
+          } if (response.errorDetails && response.errorDetails.length > 0) {
+            this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
+            this.clearLoadingIndicator();
+            this.requestUpdate();
             console.error('Error:', response);
             return;
           }
@@ -162,8 +170,8 @@ export default class PegaServices extends PegaElement {
                 if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.ID) {
                   this.casetypes[obj.ID] = {
                     canCreate: obj.CanCreate,
-                    name: obj.startingProcesses[0].name,
-                    requiresFieldsToCreate: obj.startingProcesses[0].requiresFieldsToCreate,
+                    name: obj.name,
+                    requiresFieldsToCreate: false,
                   };
                 }
               }
@@ -181,7 +189,6 @@ export default class PegaServices extends PegaElement {
               this.fetchData('case', { id: this.caseID });
               if (response.actions.length > 0 && response.actions[0].ID) {
                 this.actionID = response.actions[0].ID;
-
                 this.fetchData('assignmentaction', { id, actionid: this.actionID });
               } else {
                 this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
@@ -286,7 +293,7 @@ export default class PegaServices extends PegaElement {
           }
         } catch (e) {
           this.errorMsg = `Error: ${e}`;
-          this.performUpdate();
+          this.requestUpdate();
           console.error('Error:', e);
         }
       })
@@ -299,24 +306,35 @@ export default class PegaServices extends PegaElement {
     const {
       id, actionid, target, refreshFor,
     } = props;
-    let authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
+    let authToken = '';
+    if (this.authentication === '' || this.authentication === 'basic') {
+      authToken = `Basic ${btoa(`${this.username}:${this.password}`)}`;
+    }
     if (this.token !== '') {
       authToken = `Bearer ${this.token}`;
     }
     const headers = {
-      Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json;charset=UTF-8',
       Authorization: authToken,
     };
     const reqHeaders = {
       method: 'POST',
       headers,
-      redirect: 'follow',
+      mode: 'cors',
     };
-    const attachSvc = `${this.url}/PRRestService/api_attachments_beta/v1`;
     let apiurl = `${this.url}/api/v1/`;
     this.validationMsg = '';
     switch (type) {
+      case 'authenticate':
+        if (this.authentication === 'oauth2password') {
+          reqHeaders.body = `grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}` +
+          `&username=${this.username}&password=${this.password}`;
+        } else if (this.authentication === 'oauth2clientcredentials') {
+          reqHeaders.body = `grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`;
+        }
+        reqHeaders.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        apiurl = `${this.url}/PRRestService/oauth2/v1/token`;
+        break;
       case 'newwork':
         apiurl += 'cases';
         reqHeaders.body = JSON.stringify({
@@ -325,10 +343,10 @@ export default class PegaServices extends PegaElement {
         });
         break;
       case 'submitassignment':
-        apiurl += `assignments/${id}?actionID=${actionid}`;
         reqHeaders.body = JSON.stringify({
           content: this.content,
         });
+        apiurl += `assignments/${id}?actionID=${actionid}`;
         break;
       case 'savecase':
         apiurl += `cases/${id}`;
@@ -375,20 +393,20 @@ export default class PegaServices extends PegaElement {
         });
         break;
       case 'uploadattachment':
-        apiurl = `${attachSvc}/upload/attachments`;
+        apiurl += 'attachments/upload';
         delete headers['Content-Type']; /* Important to not defined the content-type for multi-form */
         const formData = new FormData();
         formData.append('File', actionid, actionid.name);
         reqHeaders.body = formData;
         break;
       case 'attachments':
-        apiurl = `${attachSvc}/cases/${id}/attachments`;
+        apiurl += `cases/${id}/attachments`;
         reqHeaders.body = JSON.stringify({
           attachments: actionid,
         });
         break;
       case 'deleteattachment':
-        apiurl = `${attachSvc}/attachments/${id}`;
+        apiurl += `attachments/${id}`;
         reqHeaders.method = 'DELETE';
         break;
     }
@@ -414,6 +432,22 @@ export default class PegaServices extends PegaElement {
             this.validationMsg = genPageValidationErrors(response);
           } else {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
+          }
+          this.clearLoadingIndicator();
+          if (target) {
+            target.disabled = false;
+            target.textContent = 'Save';
+          }
+        } else if (response.access_token) {
+          this.token = response.access_token;
+        } else if (response.errorDetails && response.errorDetails.length > 0) {
+          /* Only look at the first error... not sure if the other errors are relevant */
+          if (response.errorDetails[0].localizedValue) {
+            // const form = this.getRenderRoot().querySelector('#case-data');
+            // setFormInlineError(form, response.errorDetails[0].localizedValue);
+            this.validationMsg = genPageValidationErrors(response);
+          } else {
+            this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
           }
           this.clearLoadingIndicator();
           if (target) {
@@ -461,7 +495,7 @@ export default class PegaServices extends PegaElement {
           if (response.nextAssignmentID) {
             if (el) {
               render(LoadingIndicator(), el);
-              this.performUpdate();
+              this.requestUpdate();
             }
             this.bShowNew = false;
             this.assignmentID = response.nextAssignmentID;
@@ -470,7 +504,7 @@ export default class PegaServices extends PegaElement {
           } else if (response.nextPageID) {
             if (el) {
               render(LoadingIndicator(), el);
-              this.performUpdate();
+              this.requestUpdate();
             }
             this.sendExternalEvent(type);
             if (response.nextPageID === 'Confirm' || response.nextPageID === 'Review') {

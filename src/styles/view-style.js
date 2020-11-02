@@ -209,6 +209,7 @@ export const viewStyle = () => html`
       min-width:0;
       border:none;
       display:flex;
+      align-items: center;
     }
 
     button.Icon {
@@ -358,14 +359,14 @@ export const viewStyle = () => html`
       margin-right: var(--spacing1x);
     }
     .flex.layout-content-default,
-    .flex.layout-content-stacked {
+    .flex.layout-content-stacked,
+    .layout-content-stacked_with_labels_left {
       flex-flow: column nowrap;
       width: 100%;
     }
     .flex.layout-content-inline_grid_double {
       flex-flow: row nowrap;
     }
-
     .flex.layout-content-inline_grid_30_70 > div:nth-child(2n+1) {
       width:calc(30% - var(--spacing1x));
       margin-right: var(--spacing1x);
@@ -382,7 +383,6 @@ export const viewStyle = () => html`
       width:calc(30% - var(--spacing1x));
       margin-left: var(--spacing1x);
     }
-
     .flex.layout-content-default > div {
       min-height: 40px;
       margin-bottom: var(--spacing2x);
@@ -391,6 +391,15 @@ export const viewStyle = () => html`
       display: flex;
       min-height: 35px;
       margin-bottom: var(--spacing2x);
+    }
+    .layout-content-stacked_with_labels_left  > .field-item {
+      flex-flow: row;
+      margin-bottom: var(--spacing1x);
+    }
+    .layout-content-stacked_with_labels_left  > .field-item > label {
+      margin-right: var(--spacing1x);
+      margin-bottom: 0;
+      width: 200px;
     }
     .flex.layout-content-inline_middle {
       align-items: center;
@@ -473,6 +482,7 @@ export const viewStyle = () => html`
       color: #d91c29;
       padding-left: 3px;
     }
+    #case-data > div:first-child,
     .content-items-maxwidth > .content-item {
       max-width: 640px;
     }

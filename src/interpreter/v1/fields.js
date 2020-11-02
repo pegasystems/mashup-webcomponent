@@ -1,18 +1,18 @@
 /* eslint-disable no-self-compare */
 import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
-import { unescapeHTML, pad2char, convertTimestampToDate } from '../utils/form-utils';
-import { ActionSet, AddWrapperDiv, getReference } from '../utils/field-utils';
-import { trashIcon } from './icons';
+import { unescapeHTML, pad2char, convertTimestampToDate } from '../../utils/form-utils';
+import { ActionSet, AddWrapperDiv, getReference } from '../../utils/field-utils';
+import { trashIcon } from '../../views/icons';
 
 /**
  * Render a field - this includes rendering the label and the component
  */
-const Field = (data, path) => {
+export const Field = (data, path, isReadOnly) => {
   if (typeof data === 'undefined' || typeof data.control === 'undefined' || typeof data.control.type === 'undefined') {
     return null;
   }
-  if (data.readOnly === true || data.control.type === 'pxHidden') {
+  if (isReadOnly === true || data.readOnly === true || data.control.type === 'pxHidden') {
     return AddWrapperDiv(data, path, 'field-text', DisplayText(data, path));
   }
   switch (data.control.type) {
@@ -292,6 +292,7 @@ const RadioButtons = (data, path) => {
   } else if (data.type === 'True-False') {
     listValues = [{ value: 'true' }, { value: 'false' }];
   }
+  if (typeof listValues === 'undefined') return null;
   return html`
     ${listValues.map((item, index) => {
     const innerpath = `rb-${path}-${index}`;
@@ -329,34 +330,31 @@ const Checkbox = (data, path) => html`
 /**
  * Dropdown component
  */
-const DropDown = (data, path) => html`
-  <select
-  data-ref="${data.reference}"
-  id=${ifDefined(path)}
-  ?required="${data.required === true}"
-  data-action-change="${ifDefined(ActionSet(data, 'change'))}"
-  data-action-click="${ifDefined(ActionSet(data, 'click'))}">
-    <option value="" title="Select...">Select...</option>
-    ${data.control.modes[0].options.map(
+const DropDown = (data, path) => {
+  if (data.control && data.control.modes[0] && data.control.modes[0].options) {
+    return html`<select
+      data-ref="${data.reference}"
+      id=${ifDefined(path)}
+      ?required="${data.required === true}"
+      data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+      data-action-click="${ifDefined(ActionSet(data, 'click'))}">
+        <option value="" title="Select...">Select...</option>
+        ${data.control.modes[0].options.map(
     item => html`
-        <option ?selected=${item.value === data.value}>${item.value}</option>
-      `,
+            <option ?selected=${item.value === data.value}>${item.value}</option>
+          `,
   )}
-  </select>
-`;
-
-/**
- * Combobox component - render a list of items from a data page
- */
-const showDataList = data => html`
-  ${data.pxResults.map(
-    item => html`
-      <option>
-        ${item.pyUserName}
-      </option>
-    `,
-  )}
-`;
+      </select>`;
+  }
+  return html`<input
+      type='text'
+      data-ref="${data.reference}"
+      id=${ifDefined(path)}
+      ?required="${data.required === true}"
+      data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+      data-action-click="${ifDefined(ActionSet(data, 'click'))}">
+      </input>`;
+};
 
 /**
  * Combobox component
@@ -406,19 +404,4 @@ const Combobox = (data, path) => {
     />
     <datalist id="${data.reference}"></datalist>
   `;
-};
-
-/**
- * Loading indicator component
- */
-const LoadingIndicator = () => html`
-  <span class="loading">
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-  </span>
-`;
-
-export {
-  Field, showDataList, LoadingIndicator,
 };

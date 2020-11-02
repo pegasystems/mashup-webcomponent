@@ -1,10 +1,9 @@
 import { html } from 'lit-html';
-import { LoadingIndicator, Field } from './fields';
+import { Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
-import { AttachmentButton } from './attachments';
-import { timesIcon, paperclipIcon } from './icons';
+import { AttachmentButton } from '../../views/attachments';
 
-const Layout = (data, path, isReadOnly, webcomp) => html`
+export const Layout = (data, path, isReadOnly, webcomp) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}-${index}`;
     if (item.layout) {
@@ -86,28 +85,3 @@ const List = (data, path, isReadOnly) => html`
     return null;
   })}
 `;
-
-const showConfirm = (name, id, status, onDisplayAttachments) => html`
-  <div class="flex layout-content-inline_middle main-header">
-    <h2>${name} (${id})</h2>
-    <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>
-    ${onDisplayAttachments ? html`<div class="flex layout-content-inline_middle margin-l-auto">
-        ${AttachmentButton('Attachments', paperclipIcon(), 'Simple', onDisplayAttachments)}
-      </div>` : ''}
-  </div>
-  <div class="flex layout-content-inline_middle success">
-    Thank you. Your information has been submitted.
-  </div>
-  <h3>Case information</h3>
-  <div id="case-data">${LoadingIndicator()}</div>`;
-
-const showErrorMessage = (msg, onClose) => html`
-  <div class="error">${msg}
-  ${onClose != null ? html`
-    <button type='button' title="Click to close the banner" class="pzhc pzbutton Light" @click="${onClose}">
-    ${timesIcon()}</button>` : ''}
-  </div>`;
-
-export {
-  Layout, showConfirm, showErrorMessage,
-};

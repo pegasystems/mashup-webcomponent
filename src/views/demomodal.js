@@ -2,7 +2,9 @@ import { render, html } from 'lit-html';
 import { displayModal } from './modal-manager';
 import { timesIcon } from './icons';
 
-/* This is a simple example of opening a modal using the modal manager */
+/* This is a simple example of opening a modal using the modal manager - to use this example
+   just includes this component and include the DemoModal in an html template. This will render
+   a button labelled 'open modal' and when clicked with display a modal dialog */
 export const DemoModal = () => {
   const demoButtonHandler = (modalnode) => {
     render(modalContent(), modalnode);

@@ -1,10 +1,9 @@
 import { html } from 'lit-html';
 import { Layout } from './layout';
-import { ButtonMenu } from './button-menu';
-import { AttachmentButton } from './attachments';
-import { AssignmentList } from './assignmentlist';
-import { RelatedCases } from './relatedcases';
-import { paperclipIcon } from './icons';
+import { ButtonMenu } from '../../views/button-menu';
+import { AttachmentButton } from '../../views/attachments';
+import { RelatedCases } from '../../views/relatedcases';
+import { paperclipIcon } from '../../views/icons';
 
 const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
@@ -35,6 +34,36 @@ const CreateActionArea = onCancel => html`
     <button type="button" data-submit="create" class="Strong pzhc pzbutton">Create</button>
   </div>
 `;
+
+const AssignmentList = (assignments, onOpen) => {
+  if (!assignments || assignments.length === 0) return null;
+  return html`
+  <h3>
+    Assignments
+  </h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Task</th>
+        <th>Assigned to</th>
+        <th class="right-aligned">Action</th>
+      </tr>
+    </thead>
+      <tbody>
+        ${assignments.map(item => html`
+        <tr>
+          <td>${item.urgency}</td>
+          <td>${item.instructions !== '' ? item.instructions : item.name}</td>
+          <td>${item.routedTo}</td>
+          <td class="right-aligned">
+            <button type='button' @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
+          </td>
+        </tr>`)
+}
+  </tbody >
+  </table > `;
+};
 
 /* We also have the case priority in ${data.urgency} and the user assigned as ${data.routedTo} */
 export const CaseHeader = (name, data, casedata, status, numAttachments, onDisplayActions, onCreate, onOpen, onDisplayAttachments) => {
@@ -90,7 +119,14 @@ export const createCaseLayout = (data, path, onCancel, webcomp) => html`
   ${CreateActionArea(onCancel)}
 `;
 
-export const genPageValidationErrors = response => html`
+export const genPageValidationErrors = (response) => {
+  if (response.errorDetails) {
+    return html`
+    <ul>
+      ${response.errorDetails.map(item => html`<li>${item.localizedValue}</li>`)}
+    </ul>`;
+  }
+  return html`
   <ul>
     ${response.errors[0].ValidationMessages.map((item) => {
     if (item.Path) {
@@ -102,8 +138,8 @@ export const genPageValidationErrors = response => html`
     <li>${item.ValidationMessage}</li>
   `;
   })}
-  </ul>
-`;
+  </ul>`;
+};
 
 export const genCaseTypesList = (data) => {
   const itemList = [];

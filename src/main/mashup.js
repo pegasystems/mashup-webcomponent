@@ -1,5 +1,5 @@
 import { html, customElement } from 'lit-element';
-import PegaBase from './base';
+import PegaBase from '../interpreter/v1/base';
 import { viewStyle } from '../styles/view-style';
 
 @customElement('pega-mashup')

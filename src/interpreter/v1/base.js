@@ -1,33 +1,41 @@
 import { html } from 'lit-element';
 import { render } from 'lit-html';
+import PegaServices from './services';
 import {
   genActionsList, CaseHeader, genCaseTypesList,
-} from '../views/views';
-import {
-  showDataList, LoadingIndicator,
-} from '../views/fields';
-import {
-  showConfirm, showErrorMessage,
-} from '../views/layout';
+} from './views';
+import { showDataList } from '../../views/datalist';
+import { LoadingIndicator } from '../../views/loading';
+import { showConfirm } from '../../views/confirm';
+import { showErrorMessage } from '../../views/errormsg';
 import {
   getFormData, getInitData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList,
-} from '../utils/form-utils';
-import { WorkList } from '../views/worklist';
-import PegaServices from './services';
+} from '../../utils/form-utils';
+import { WorkList } from '../../views/worklist';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
+    console.log('displayContent v1');
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
       return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
+    }
+    /* No need to continue if authentication has not be done */
+    if ((this.authentication === 'oauth2password' || this.authentication === 'oauth2clientcredentials') && this.token === '') {
+      this.sendData('authenticate', {});
+      return null;
     }
     /* We need to fetch the list of cases for the createNewWork and workList actions */
     if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList')) {
       this.fetchData('casetypes');
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
+        if (this.casetypes[this.casetype]) {
+          this.fetchData('newwork', { id: this.casetype });
+        }
       } else if (this.action === 'workList') {
         this.bShowCancel = 'true';
+        this.fetchData('worklist');
       }
     } else if (this.name === '') {
       if (this.action === 'openAssignment' && this.assignmentID === '') {
@@ -65,7 +73,7 @@ export default class PegaBase extends PegaServices {
 
   reloadWorkList = (event) => {
     this.cases = [];
-    this.performUpdate();
+    this.requestUpdate();
     this.actionAreaCancel(event);
   };
 
@@ -120,7 +128,7 @@ export default class PegaBase extends PegaServices {
       this.content = getInitData(this.casedata);
       this.validationMsg = '';
       getFormData(form, this.content);
-      this.performUpdate();
+      this.requestUpdate();
       if (this.assignmentID !== '') {
         this.fetchData('assignmentaction', { id: this.assignmentID, actionid: this.actionID });
       } else {
@@ -193,7 +201,7 @@ export default class PegaBase extends PegaServices {
       this.errorMsg = `Case '${this.casetype}' is not defined`;
       console.error(`Case '${this.casetype}' is not defined`);
     }
-    this.performUpdate();
+    this.requestUpdate();
   };
 
   runAction = (event) => {
@@ -229,7 +237,7 @@ export default class PegaBase extends PegaServices {
     if (casedata != null) {
       render(LoadingIndicator(), casedata);
     }
-    this.performUpdate();
+    this.requestUpdate();
   };
 
   getData = (pageID, el) => {
@@ -324,20 +332,13 @@ export default class PegaBase extends PegaServices {
    * - Apply the action requested when creating the element
    */
   firstUpdated() {
-    console.log('Initialization of the Web Component');
+    console.log('Initialization of the Web Component v1');
     const mashupWidget = this.getRenderRoot();
     if (mashupWidget) {
       mashupWidget.addEventListener('click', this.clickHandler);
       mashupWidget.addEventListener('focusin', this.focusHandler);
       mashupWidget.addEventListener('change', this.changeHandler);
       mashupWidget.addEventListener('keyup', this.keyupHandler);
-    }
-    if (this.action === 'workList') {
-      this.fetchData('worklist');
-    } else if (this.action === 'createNewWork') {
-      if (this.casetypes && this.casetypes[this.casetype]) {
-        this.fetchData('newwork', { id: this.casetype });
-      }
     }
   }
 }

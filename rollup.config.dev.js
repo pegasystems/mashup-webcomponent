@@ -4,9 +4,9 @@ import serve from 'rollup-plugin-serve';
 import { eslint } from 'rollup-plugin-eslint';
 
 export default {
-  input: 'src/components/index.js',
+  input: 'src/main/index.js',
   output: {
-    file: 'build/pega-mashup-webcomponent.js',
+    file: 'build/pega-mashup-webcomponent-all.js',
     format: 'iife',
     name: 'PegaMashupWebComponent',
     sourcemap: true,
