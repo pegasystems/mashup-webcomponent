@@ -145,7 +145,7 @@ export const genCaseTypesList = (data) => {
   const itemList = [];
   const keys = Object.entries(data);
   for (const i of keys) {
-    if (i[1].canCreate) {
+    if (i[1].canCreate === 'true') {
       itemList.push(
         html`
           <li role="menuitem" tabindex="-1" data-value="${i[0]}">${i[1].name}</li>
