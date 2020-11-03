@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env BABEL_ENV=build rollup --config rollup.config.dev.js --watch",
-    "build": "cross-env BABEL_ENV=build rollup --config rollup.config.prod.js",
+    "build": "cross-env BABEL_ENV=build rollup --config rollup.config.prod.js && workbox generateSW",
     "lint": "eslint src/**/*.js --fix; exit 0",
     "test": "mkdir -p test-results && cross-env BABEL_ENV=test jest",
     "test:watch": "cross-env BABEL_ENV=test jest --watch",
@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "lit-element": "^2.4.0",
-    "lit-html": "^1.3.0"
+    "lit-html": "^1.3.0",
+    "workbox-cli": "^5.1.4"
   }
 }

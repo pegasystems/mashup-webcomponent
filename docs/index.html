@@ -374,9 +374,18 @@
   </footer>
   <script src="./pega-mashup-webcomponent-all.js"></script>
   <script>
-
     function toggleSettings() {
       document.querySelector(".settings").classList.toggle("hide");
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('SW registered: ', registration);
+        }).catch(registrationError => {
+          console.log('SW registration failed: ', registrationError);
+        });
+      });
     }
 
     var mainEl = document.getElementsByClassName("main")[0];
