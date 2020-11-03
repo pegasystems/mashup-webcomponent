@@ -21,6 +21,17 @@
   <meta property="og:image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:site_name" content="Pega Mashup Web Component" />
   <meta property="og:type" content="article" />
+  <script>
+        if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(registration => {
+          console.log('SW registered: ', registration);
+        }).catch(registrationError => {
+          console.log('SW registration failed: ', registrationError);
+        });
+      });
+    }
+  </script>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
   <style>
       body {
@@ -375,17 +386,6 @@
     function toggleSettings() {
       document.querySelector(".settings").classList.toggle("hide");
     }
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(registration => {
-          console.log('SW registered: ', registration);
-        }).catch(registrationError => {
-          console.log('SW registration failed: ', registrationError);
-        });
-      });
-    }
-
     var mainEl = document.getElementsByClassName("main")[0];
     function createMashup() {
       var action = document.getElementById("action").value;
