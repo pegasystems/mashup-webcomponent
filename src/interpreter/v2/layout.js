@@ -20,7 +20,7 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
         `;
       case 'Details':
         return html`
-          <div class="flex content-stacked_with_labels_left">
+          <div class="flex layout-content-stacked_with_labels_left">
             ${Layout(data.children[0].children, `${path}-0`, isReadOnly, webcomp, context)}
           </div>
         `;

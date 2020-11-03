@@ -360,7 +360,7 @@ export const viewStyle = () => html`
     }
     .flex.layout-content-default,
     .flex.layout-content-stacked,
-    .layout-content-stacked_with_labels_left {
+    .flex.layout-content-stacked_with_labels_left {
       flex-flow: column nowrap;
       width: 100%;
     }

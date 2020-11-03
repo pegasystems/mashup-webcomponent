@@ -145,11 +145,13 @@ export const genCaseTypesList = (data) => {
   const itemList = [];
   const keys = Object.entries(data);
   for (const i of keys) {
-    itemList.push(
-      html`
-        <li role="menuitem" tabindex="-1" data-value="${i[0]}">${i[1].name}</li>
-      `,
-    );
+    if (i[1].canCreate) {
+      itemList.push(
+        html`
+          <li role="menuitem" tabindex="-1" data-value="${i[0]}">${i[1].name}</li>
+        `,
+      );
+    }
   }
   return html`
     ${itemList}

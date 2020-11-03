@@ -69,12 +69,20 @@ describe(
     }, timeout);
 
     it('Create a new case', async () => {
+      await page.evaluate(() => {
+        document.querySelector('#show-settings').click();
+      });
+      await page.waitForSelector('#action', { visible: true });
       await page.select('#action', 'createNewWork');
+      await page.waitForSelector('#casetype', { visible: true });
       await page.evaluate(() => {
         document.querySelector('#casetype').value = '';
       });
-      await page.type('#casetype', 'Eas-BobsServ-Work-TestCase');
+      await page.type('#casetype', 'Eas-BobsServ-Work-Demotest');
       await page.click('#submit', { waitUntil: 'networkidle0' });
+      await page.evaluate(() => {
+        document.querySelector('#show-settings').click();
+      });
       await page.waitForSelector('#case-data', { visible: true });
       await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
       console.log(`generate screenshot test${iTestCount}.jpg`);
@@ -86,7 +94,10 @@ describe(
         });
       }
       const title = await page.$eval('pega-mashup-light h2', el => el.innerText);
-      expect(title).toBe('New:');
+      expect(title).toContain('demotest (D-');
+      await page.type('#case-data #Obj-0-4', 'this is a test');
+      await page.type('#case-data #Obj-0-5', 'this is a test2');
+      await page.type('#case-data #Obj-0-6', 'this is a test3');
       await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
       await page.waitForSelector('#case-data', { visible: true });
       await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
@@ -110,15 +121,13 @@ describe(
     }, timeout);
 
     it('Process the case - step1', async () => {
-      await page.waitForSelector('#case-data #Obj-0-4', { visible: true });
-      await page.type('#case-data #Obj-0-4', 'this is a test');
-      await page.click('#case-data #rb-Obj-0-5-0');
-      await page.type('#case-data #Obj-0-6', '22');
-      await page.type('#case-data #Obj-0-7', '150');
-      await page.type('#case-data #Obj-0-9', '12344', { waitUntil: 'networkidle0' });
-      await page.waitForSelector('#case-data #Obj-0-10', { visible: true });
-      await page.type('#case-data #Obj-0-10', '02/02/2022');
-      await page.type('#case-data #Obj-0-12', '02/02/2022');
+      await page.waitForSelector('#case-data #Obj-0-1', { visible: true });
+      let title = await page.$eval('#case-data #Obj-0-1', el => el.value);
+      expect(title).toBe('this is a test');
+      title = await page.$eval('#case-data #Obj-0-2', el => el.value);
+      expect(title).toBe('this is a test2');
+      title = await page.$eval('#case-data #Obj-0-3', el => el.value);
+      expect(title).toBe('this is a test3');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
       await page.waitFor(1000);
       await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
@@ -158,6 +167,9 @@ describe(
     }, timeout);
 
     it('Check if the shadow DOM component correctly renders', async () => {
+      await page.evaluate(() => {
+        document.querySelector('#show-settings').click();
+      });
       await page.evaluate(() => {
         document.getElementById('switch-shadowDOM').click();
       });

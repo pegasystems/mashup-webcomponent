@@ -16,6 +16,7 @@ import { WorkList } from '../../views/worklist';
 export default class PegaBase extends PegaServices {
   displayContent() {
     console.log('displayContent v2');
+    this.bShowCancel = 'false';
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
       return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
