@@ -29,6 +29,29 @@ export default [
     ],
   },
   {
+    input: 'src/main/mashup-light-all.js',
+    output: {
+      file: 'docs/pega-mashup-webcomponent-light-all.js',
+      format: 'iife',
+      name: 'PegaMashupWebComponent',
+      sourcemap: false,
+    },
+    plugins: [
+      resolve({
+        browser: true,
+      }),
+      eslint({
+        fix: true,
+      }),
+      minifyHTML(),
+      babel({
+        exclude: 'node_modules/**',
+        extensions: ['.js'],
+      }),
+      terser(),
+    ],
+  },
+  {
     input: 'src/main/mashup-light.js',
     output: {
       file: 'docs/pega-mashup-light-webcomponent.js',
