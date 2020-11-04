@@ -31,6 +31,7 @@
   navigator.serviceWorker.register('sw.js')
   .then(function(registration) {
     registration.addEventListener('updatefound', function() {
+      console.log('Service worker registration updatefound');
       registration.waiting.postMessage({ action: 'skipWaiting' });
     });
   })
