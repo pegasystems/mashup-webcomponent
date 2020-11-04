@@ -27,7 +27,9 @@
   <script>
   if ('serviceWorker' in navigator) {
   const notifyAboutUpdate = (worker) => {
-    worker.postMessage({ action: 'skipWaiting' });
+    if(worker && worker.postMessage) {
+      worker.postMessage({ action: 'skipWaiting' });
+    }
   };
 
   navigator.serviceWorker.register('sw.js')
@@ -42,8 +44,29 @@
   });
   }
   </script>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
   <style>
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN7rgOUuhpKKSTjw.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2) format('woff2');
+}
+
       body {
         margin: 0;
         padding: 0;
@@ -266,7 +289,7 @@
 
 <body>
   <header>
-      <a><img src="./u+-logo.svg" alt="U+" class="logo" width="130" height="30"></a>
+      <a href="#"><img src="./u+-logo.svg" alt="U+" class="logo" width="130" height="30"></a>
       <nav aria-label="navigation for header">
         <ul>
           <li><a href="#">Link1</a></li>
