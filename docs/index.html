@@ -14,25 +14,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="pegamashupweb">
   <link rel="apple-touch-icon" href="apple-touch-icon-152x152.png">
-  <meta name="description"
-    content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
+  <meta name="description" content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta name="author" content="Pega Front-end Team" />
   <meta itemprop="name" content="Pega Mashup Web Component" />
   <meta itemprop="image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:title" content="Pega Mashup Web Component" />
-  <meta property="og:description"
-    content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
+  <meta property="og:description" content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta property="og:url" content="https://pegasystems.github.io/mashup-webcomponent/" />
   <meta property="og:image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:site_name" content="Pega Mashup Web Component" />
   <meta property="og:type" content="article" />
   <script>
   if ('serviceWorker' in navigator) {
+  const notifyAboutUpdate = (worker) => {
+    worker.postMessage({ action: 'skipWaiting' });
+  };
+
   navigator.serviceWorker.register('sw.js')
   .then(function(registration) {
     registration.addEventListener('updatefound', function() {
-      console.log('Service worker registration updatefound');
-      registration.waiting.postMessage({ action: 'skipWaiting' });
+      console.log('New content is available; please refresh.');
+      notifyAboutUpdate(registration.waiting);
     });
   })
   .catch(function(error) {
