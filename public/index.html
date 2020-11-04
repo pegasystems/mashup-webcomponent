@@ -10,6 +10,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4DBA87">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="pegamashupweb">
+  <link rel="apple-touch-icon" href="apple-touch-icon-152x152.png">
   <meta name="description"
     content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta name="author" content="Pega Front-end Team" />
@@ -23,15 +27,17 @@
   <meta property="og:site_name" content="Pega Mashup Web Component" />
   <meta property="og:type" content="article" />
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(registration => {
-          console.log('SW registered: ', registration);
-        }).catch(registrationError => {
-          console.log('SW registration failed: ', registrationError);
-        });
-      });
-    }
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+  .then(function(registration) {
+    registration.addEventListener('updatefound', function() {
+      registration.waiting.postMessage({ action: 'skipWaiting' });
+    });
+  })
+  .catch(function(error) {
+    console.log('Service worker registration failed:', error);
+  });
+  }
   </script>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
   <style>
