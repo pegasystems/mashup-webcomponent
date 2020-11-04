@@ -1,5 +1,6 @@
 /* CSS custom properties - GLOBAL VARIABLES */
 :root {
+  --brandColor: #295ed9;
   --primaryColor: #0062e6;
   --primaryColorFocus: #113da6;
   --primaryActionColor: #0062e6;
@@ -44,8 +45,6 @@
 
   --controlHeight: 32px;
 }
-
-
 h2,
 h3 {
   margin-bottom: var(--spacing1x);
@@ -63,7 +62,7 @@ td > input {
 }
 
 button {
-  background:green;
+  background: var(--brandColor);
   color: #FFF;
   border:none;
   height:36px;

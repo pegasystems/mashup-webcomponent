@@ -67,222 +67,237 @@
   src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2) format('woff2');
 }
 
-      body {
-        margin: 0;
-        padding: 0;
-        background: #efefef;
-        display:flex;
-        flex-flow: column nowrap;
-        position:relative;
-      }
+body {
+  margin: 0;
+  padding: 0;
+  background: #efefef;
+  display:flex;
+  flex-flow: column nowrap;
+  position:relative;
+}
 
-      button,
-      input,
-      textarea,
-      select,
-      body {
-        font-family: "Open Sans", sans-serif;
-        font-size: 16px;
-        line-height: 1.24;
-      }
+.sr-only {
+  border: 0; 
+  clip: rect(0 0 0 0); 
+  clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+  -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+  height: 1px; 
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+}
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      ul {
-        margin:0;
-      }
+button,
+input,
+textarea,
+select,
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.24;
+}
 
-      header {
-        background: #3C8712;
-        height: 400px;
-        display: flex;
-        align-items: baseline;
-        padding: 16px 16px 0 16px;
-      }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
+  margin:0;
+}
 
-      header > div {
-        margin-left: auto;
-        display:flex;
-        align-items: center;
-      }
+header {
+  background: var(--brandColor);
+  height: 400px;
+  display: flex;
+  align-items: baseline;
+  padding: 16px 16px 0 16px;
+}
 
-      footer {
-        border-top: 1px solid #d5d5d5;
-        padding: 16px 0;
-      }
+header > div {
+  margin-left: auto;
+  display:flex;
+  align-items: center;
+}
 
-      footer > nav > ul,
-      footer > nav > ul > li {
-        display:inline;
-        padding:0 16px;
-      }
+footer {
+  border-top: 1px solid #d5d5d5;
+  padding: 16px 0;
+}
 
-      main {
-        min-height: calc(100vh - 172px);
-        margin-top: -300px;
-        width: 100%;
-      }
+footer > nav > ul,
+footer > nav > ul > li {
+  display:inline;
+  padding:0 16px;
+}
 
-      .workarea {
-        max-width: 900px;
-        padding: 0 21px;
-        margin: 0 auto 16px auto;
-        overflow: hidden;
-      }
+main {
+  min-height: calc(100vh - 172px);
+  margin-top: -300px;
+  width: 100%;
+}
 
-      .workarea h1 {
-        color: #FFF;
-        margin-bottom: 16px;
-      }
+.workarea {
+  max-width: 900px;
+  padding: 0 21px;
+  margin: 0 auto 16px auto;
+  overflow: hidden;
+}
 
-      .logo {
-        height: 30px;
-      }
+.workarea h1 {
+  color: #FFF;
+  margin-bottom: 16px;
+}
 
-      header li {
-        list-style: none;
-        margin-right:30px;
-      }
+.logo {
+  height: 30px;
+}
 
-      header ul {
-        display:flex;
-        flex-flow: row nowrap;
-        margin:0;
-        align-items: center;
-        padding: 0 0 0 30px;
-      }
+header li {
+  list-style: none;
+  margin-right:30px;
+}
 
-      header a {
-        color: #FFF;
-        font-weight: 700;
-        letter-spacing: .7px;
-        text-transform: uppercase;
-      }
-      header span,
-      header a:hover,
-      header a:active,
-      header a:focus {
-        color: #FFF;
-      }
+header ul {
+  display:flex;
+  flex-flow: row nowrap;
+  margin:0;
+  align-items: center;
+  padding: 0 0 0 30px;
+}
 
-      footer a,
-      footer a:hover,
-      footer a:active,
-      footer a:focus {
-        font-size: 18px;
-        color: #646363;
-      }
+header a {
+  color: #FFF;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+header span,
+header a:hover,
+header a:active,
+header a:focus {
+  color: #FFF;
+}
 
-      .main {
-        background: #FFF;
-        border-radius: 8px;
-        padding: 16px;
-        display:grid;
-        min-height: 400px;
-      }
-      .settings {
-        position: fixed;
-        right:0;
-        top: 62px;
-        bottom:0;
-        overflow-y: auto;
-        transition: transform ease-in-out 0.2s;
-      }
+footer a,
+footer a:hover,
+footer a:active,
+footer a:focus {
+  font-size: 18px;
+  color: #646363;
+}
 
-      .settings.hide {
-        transform: translateX(450px);
-        transition: transform ease-in-out 0.2s;
-      }
+.main {
+  background: #FFF;
+  border-radius: 8px;
+  padding: 16px;
+  display:grid;
+  min-height: 400px;
+}
+.settings {
+  position: fixed;
+  right:0;
+  top: 62px;
+  bottom:0;
+  overflow-y: auto;
+  transition: transform ease-in-out 0.2s;
+}
 
-      .settings > div.flex {
-        background: #96ef91;
-        padding: 16px;
-        max-width: 300px;
-        width: auto;
-      }
+.settings.hide {
+  transform: translateX(450px);
+  transition: transform ease-in-out 0.2s;
+}
 
-      .toggle {
-        height: 0;
-        width: 0;
-        height: 0!important;
-        width: 0;
-        padding: 0;
-        font-size: 0;
-        opacity: 0;
-        margin-left:8px;
-      }
+.settings > form {
+  background: #FFF;
+  border:1px solid #ccc;
+  padding: 16px;
+  max-width: 300px;
+  width: auto;
+}
 
-      .toggle + label {
-        cursor: pointer;
-        text-indent: -9999px;
-        width: 50px;
-        height: 30px;
-        background: #ccc;
-        display: block;
-        border-radius: 30px;
-        position: relative;
-        border: 1px solid #ccc;
-      }
+.toggle {
+  height: 0;
+  width: 0;
+  height: 0!important;
+  width: 0;
+  padding: 0;
+  font-size: 0;
+  opacity: 0;
+  margin-left:8px;
+}
 
-      .toggle + label:after {
-        content: '';
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 26px;
-        height: 26px;
-        background: #fff;
-        border-radius: 26px;
-        transition: 0.3s;
-      }
+.toggle + label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 50px;
+  height: 30px;
+  background: #ccc;
+  display: block;
+  border-radius: 30px;
+  position: relative;
+  border: 1px solid #ccc;
+}
 
-      .toggle:checked + label {
-        background: #020BFF;
-      }
+.toggle + label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 26px;
+  transition: 0.3s;
+}
 
-      .toggle:checked + label:after {
-        left: calc(100% - 2px);
-        transform: translateX(-100%);
-      }
+.toggle:checked + label {
+  background: #020BFF;
+}
 
-      .toggle:focus + label,
-      .toggle:hover + label,
-      .toggle:active + label {
-        border-color: #020BFF;
-      }
+.toggle:checked + label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
 
-      @media only screen and (max-width: 800px) {
-        .logo {
-          height:20px;
-        }
-        body {
-          font-size: 14px;
-          height:100vh;
-          overflow:hidden;
-        }
-        .workarea h1 {
-          font-size: 16px;
-          color: #000;
-        }
-        header {
-          height:auto;
-          font-size:14px;
-          padding: 16px;
-        }
-        main {
-          min-height: auto;
-          margin-top: 8px;
-          flex: 1;
-          overflow: auto;
-        }
-        header nav {
-          display:none;
-        }
-      }
+.toggle:focus + label,
+.toggle:hover + label,
+.toggle:active + label {
+  border-color: #020BFF;
+}
+
+@media only screen and (max-width: 800px) {
+  .logo {
+    height:20px;
+  }
+  body {
+    font-size: 14px;
+    height:100vh;
+    overflow:hidden;
+  }
+  .workarea h1 {
+    font-size: 16px;
+    color: #000;
+  }
+  header {
+    height:auto;
+    font-size:14px;
+    padding: 16px;
+  }
+  main {
+    min-height: auto;
+    margin-top: 8px;
+    flex: 1;
+    overflow: auto;
+  }
+  header nav {
+    display:none;
+  }
+}
   </style>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
@@ -305,10 +320,11 @@
   <main>
     <div class='workarea'>
       <h1>This web component uses the DX API to show a case as a Mashup</h1>
-      <div class='main'>
-      </div>
-      <form class='settings hide'>
-        <h2 style='visibility: hidden;'>Settings</h2>
+      <div class='main'></div>
+      <div class='settings hide'>
+      <form>
+        <h2 class='sr-only'>Settings</h2>
+        
         <div class='layout-content-stacked flex'>
           <h3>General</h3>
           <div class='flex flex-col'>
@@ -403,6 +419,7 @@
           <button id="submit" onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
         </div>
       </form>
+    </div>
     </div>
   </main>
   <footer>
