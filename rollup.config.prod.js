@@ -1,6 +1,8 @@
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
+import cleaner from 'rollup-plugin-cleaner';
+import copy from 'rollup-plugin-copy';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
 import { eslint } from 'rollup-plugin-eslint';
 
@@ -14,6 +16,16 @@ export default [
       sourcemap: false,
     },
     plugins: [
+      cleaner({
+        targets: [
+          './docs/',
+        ],
+      }),
+      copy({
+        targets: [
+          { src: 'public/*', dest: 'docs' },
+        ],
+      }),
       resolve({
         browser: true,
       }),

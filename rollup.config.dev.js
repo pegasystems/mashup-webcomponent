@@ -24,7 +24,7 @@ export default {
       open: true,
       openPage: '/index.html',
       verbose: true,
-      contentBase: ['build', 'docs'],
+      contentBase: ['build', 'public'],
       port: 8083,
       headers: {
         'Access-Control-Allow-Origin': '*',
