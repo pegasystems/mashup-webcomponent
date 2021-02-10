@@ -53,8 +53,6 @@ export const viewStyle = () => html`
       outline: 0;
       padding: var(--spacing05x) var(--spacing1x);
     }
-
-
     input {
       height: var(--controlHeight);
     }
@@ -170,6 +168,10 @@ export const viewStyle = () => html`
       cursor: pointer;
       text-decoration: none;
       outline:none;
+      min-width: 0;
+      border: none;
+      padding: 0;
+      display:content
     }
     button.Simple:hover,
     button.Simple:active,
@@ -533,8 +535,16 @@ export const viewStyle = () => html`
       flex-flow: column nowrap;
     }
 
+    .success {
+      background-color: #DAF2E3;
+      color:#000;
+      text-align: center;
+      padding: 8px 16px;
+      margin-bottom:16px;
+    }
+
     .mashup-modal {
-      position: absolute;
+      position: fixed;
       top: 0;
       bottom: 0;
       right: 0;
