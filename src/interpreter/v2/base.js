@@ -16,7 +16,7 @@ import { WorkList } from '../../views/worklist';
 export default class PegaBase extends PegaServices {
   displayContent() {
     console.log('displayContent v2');
-    this.bShowCancel = 'false';
+    this.bShowSave = 'false';
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
       return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
@@ -46,14 +46,15 @@ export default class PegaBase extends PegaServices {
       }
     }
     if (this.bShowConfirm) {
-      return showConfirm(this.casedata.content.pyLabel, this.casedata.content.pyID, this.casepyStatusWork,
+      const id = this.data.ID.split(' ')[1];
+      return showConfirm(this.casedata.name, id, this.casepyStatusWork,
         this.bShowAttachments === 'true' ? this.displayAttachments : null);
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
         ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null)}
-        <div class="validation">${this.validationMsg}</div>
+        <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data">${LoadingIndicator()}</form>
       `;
     }
@@ -304,6 +305,7 @@ export default class PegaBase extends PegaServices {
       el = event.originalTarget;
     }
     el.setCustomValidity('');
+    el.classList.remove('error-field');
     if (shouldRefresh(el, 'change')) {
       this.refreshAssignment(el, getRefreshFor(el, 'change'));
     }

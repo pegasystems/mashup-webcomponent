@@ -14,7 +14,7 @@ export const RelatedCases = (cases, onOpen) => {
       </tr>
     </thead>
       <tbody>
-        ${cases.map(item => html`
+        ${cases.map((item) => html`
         <tr>
           <td>${item.ID}</td>
           <td class="right-aligned">

@@ -15,7 +15,6 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
   node.setAttribute('aria-labelledby', `menubutton-${uuid}`);
   node.setAttribute('tabindex', '-1');
 
-
   const unmountHanders = () => {
     document.body.removeEventListener('click', dismissModalOnClickaway);
     document.body.removeEventListener('keydown', keydownHandler);

@@ -38,6 +38,11 @@ export const viewStyle = () => html`
     ul {
       margin: 0;
     }
+    fieldset {
+      border: none;
+      padding:0;
+      margin:0;
+    }
 
     select,
     textarea,
@@ -75,13 +80,13 @@ export const viewStyle = () => html`
       flex-flow: column nowrap;
     }
 
-    .flex.content > .field-checkbox > label,
+    .flex.content > .field-checkbox > .field-caption,
     .flex.content > .field-checkbox,
     .flex.content > .field-button {
       display: inline-block;
     }
 
-    .field-item > label {
+    .field-item .field-caption {
       display: block;
       font-size: var(--generalTextFontSize);
       color: var(--generalLabelColor);
@@ -173,20 +178,31 @@ export const viewStyle = () => html`
       padding: 0;
       display:content
     }
-    button.Simple:hover,
-    button.Simple:active,
-    button.Simple:focus,
-    button.Light:active,
-    button.Light:focus,
-    button.Light:hover,
+    button.pzhc:focus,
+    button.pzhc:active,
     a:active,
-    a:focus,
+    a:focus {
+      cursor: pointer;
+      color: var(--linkColorFocus);
+      text-decoration: none;
+      outline:-webkit-focus-ring-color auto 1px;
+    }
+
+    button.pzhc:hover {
+      cursor: pointer;
+      color: var(--linkColorFocus);
+    }
+
     a:hover {
       cursor: pointer;
       color: var(--linkColorFocus);
       text-decoration: underline;
-      background-color: transparent;
-      outline:none;
+    }
+    
+    button.Strong:hover,
+    button.Strong:focus,
+    button.Strong:active {
+      color: #FFF;
     }
 
     select:hover,
@@ -353,6 +369,7 @@ export const viewStyle = () => html`
     }
     .flex.layout-content-inline_grid_double > div {
       width: calc(50% - var(--spacing1x));
+      margin-bottom: var(--spacing1x);
     }
     .flex.layout-content-inline_grid_double > div:nth-child(2n) {
       margin-left: var(--spacing1x);
@@ -367,23 +384,27 @@ export const viewStyle = () => html`
       width: 100%;
     }
     .flex.layout-content-inline_grid_double {
-      flex-flow: row nowrap;
+      flex-flow: row wrap;
     }
     .flex.layout-content-inline_grid_30_70 > div:nth-child(2n+1) {
       width:calc(30% - var(--spacing1x));
       margin-right: var(--spacing1x);
+      margin-bottom: var(--spacing1x);
     }
     .flex.layout-content-inline_grid_30_70 > div:nth-child(2n) {
       width:calc(70% - var(--spacing1x));
       margin-left: var(--spacing1x);
+      margin-bottom: var(--spacing1x);
     }
     .flex.layout-content-inline_grid_70_30 > div:nth-child(2n+1) {
       width:calc(70% - var(--spacing1x));
       margin-right: var(--spacing1x);
+      margin-bottom: var(--spacing1x);
     }
     .flex.layout-content-inline_grid_70_30 > div:nth-child(2n) {
       width:calc(30% - var(--spacing1x));
       margin-left: var(--spacing1x);
+      margin-bottom: var(--spacing1x);
     }
     .flex.layout-content-default > div {
       min-height: 40px;
@@ -398,7 +419,7 @@ export const viewStyle = () => html`
       flex-flow: row;
       margin-bottom: var(--spacing1x);
     }
-    .layout-content-stacked_with_labels_left  > .field-item > label {
+    .layout-content-stacked_with_labels_left  > .field-item .field-caption {
       margin-right: var(--spacing1x);
       margin-bottom: 0;
       width: 200px;
@@ -415,12 +436,6 @@ export const viewStyle = () => html`
     }
     .flex.layout-content-inline_middle > *:last-child {
       margin-right: 0;
-    }
-    .flex.layout-content-inline_grid_70_30 > div:nth-child(2n) {
-      width: 30%;
-    }
-    .flex.layout-content-inline_grid_70_30 > div:nth-child(2n + 1) {
-      width: 70%;
     }
     .action-button-area {
       display: flex;
@@ -484,7 +499,6 @@ export const viewStyle = () => html`
       color: #d91c29;
       padding-left: 3px;
     }
-    #case-data > div:first-child,
     .content-items-maxwidth > .content-item {
       max-width: 640px;
     }
@@ -511,6 +525,10 @@ export const viewStyle = () => html`
       min-width:auto;
     }
 
+    .error-field {
+      outline: red 1px solid;
+    }
+    
     .badge_text {
       background-color: #088488;
       color: #FFF;

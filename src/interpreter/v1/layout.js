@@ -11,7 +11,7 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
         item.layout.groupFormat = 'default';
       }
       const format = item.layout.groupFormat.replace(/ /g, '_').toLowerCase();
-      const classname = `flex content content-items-maxwidth layout-content-${format} content-${format}`;
+      const classname = `flex content layout-content-${format} content-${format}`;
       if (item.layout.view && item.layout.view.groups) {
         return html`
           <div class="${classname}">${Layout(item.layout.view.groups, tmppath, isReadOnly, webcomp)}</div>
@@ -22,21 +22,21 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
         if (typeof item.layout.title === 'string' && item.layout.title !== '' && typeof item.layout.titleFormat) {
           switch (item.layout.titleFormat) {
             case 'h2':
-              headerStr = html`<div class="${classname}"><h2>${item.layout.title}</h2>`;
+              headerStr = html`<h2>${item.layout.title}</h2>`;
               break;
             case 'h3':
-              headerStr = html`<div class="${classname}"><h3>${item.layout.title}</h3>`;
+              headerStr = html`<h3>${item.layout.title}</h3>`;
               break;
             case 'h4':
-              headerStr = html`<div class="${classname}"><h4>${item.layout.title}</h4>`;
+              headerStr = html`<h4>${item.layout.title}</h4>`;
               break;
             default:
-              headerStr = html`<div class="${classname}"><h2>${item.layout.title}</h2>`;
+              headerStr = html`<h2>${item.layout.title}</h2>`;
               break;
           }
         }
         return html`
-          <div class="${classname}">${headerStr}${Layout(item.layout.groups, tmppath, isReadOnly, webcomp)}</div>
+        ${headerStr}<div class="${classname}">${Layout(item.layout.groups, tmppath, isReadOnly, webcomp)}</div>
         `;
       }
       if (item.layout.rows) {
@@ -74,7 +74,7 @@ const SimpleList = (item, path, isReadOnly) => html`
 
 const List = (data, path, isReadOnly) => html`
   ${data.map((item, index) => {
-    const tmppath = `${path}/row${index}`;
+    const tmppath = `${path}-row${index}`;
     if (item.groups) {
       return html`
         <div>

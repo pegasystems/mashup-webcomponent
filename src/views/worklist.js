@@ -30,7 +30,7 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
           </thead>
           <tbody>
             ${cases.map(
-    item => html`
+    (item) => html`
                 <tr>
                   <td>${item.name}</td>
                   <td>${item.caseID}</td>

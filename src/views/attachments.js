@@ -170,7 +170,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
 
   const renderAttachmentCategories = (itemid, value) => html`
     <select data-id="${itemid}" @change="${updateUploadedFile}" class='flex-all' aria-label='category'>
-    ${webcomp.attachmentcategories.map(item => html`
+    ${webcomp.attachmentcategories.map((item) => html`
       <option ?selected=${item.ID === value}>${item.ID}</option>
     `)}
     </select>`;

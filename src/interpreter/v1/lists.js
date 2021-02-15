@@ -54,15 +54,15 @@ export const ListAction = (data, isReadOnly) => {
   return null;
 };
 
-const TableHeader = data => html`
-  ${data.map(item => html`
+const TableHeader = (data) => html`
+  ${data.map((item) => html`
     <th>${item.caption ? html`${item.caption.value}` : ''}</th>`)}
 `;
 
-const Table = data => html`
-  ${data.map(item => html`
+const Table = (data) => html`
+  ${data.map((item) => html`
     <tr>
-      ${item.groups.map(tdItem => html`
+      ${item.groups.map((tdItem) => html`
       <td>${Field(tdItem.field)}</td>`)}
     </tr>`)}
 `;

@@ -3,7 +3,7 @@
 /**
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
  */
-export const pad2char = v => `0${v}`.slice(-2);
+export const pad2char = (v) => `0${v}`.slice(-2);
 
 /**
  * Generate unique id for elements
@@ -24,14 +24,19 @@ export const convertTimestampToDate = (v) => {
     dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
     return dt;
   }
+  if (v.length === 10) { // Convert MM/DD/YYYY
+    let dt = new Date(`${v.substring(6, 10)}-${v.substring(0, 2)}-${v.substring(3, 5)}T00:00:00.000Z`);
+    dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+    return dt;
+  }
   return null;
 };
 /**
  * escape and unescape the HTML entities
  */
-export const escapeHTML = str => str.replace(
+export const escapeHTML = (str) => str.replace(
   /[&<>'"]/g,
-  tag => ({
+  (tag) => ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -42,9 +47,9 @@ export const escapeHTML = str => str.replace(
   }[tag] || tag),
 );
 
-export const unescapeHTML = str => str.replace(
+export const unescapeHTML = (str) => str.replace(
   /&amp;|&lt;|&gt;|&#39;|&#40;|&#41;|&quot;/g,
-  tag => ({
+  (tag) => ({
     '&amp;': '&',
     '&lt;': '<',
     '&gt;': '>',
@@ -177,7 +182,7 @@ export const addRowToPageList = (root, path, newrowlist) => {
   } else {
     /* if newrow is not provided - we take the data from the first row */
     if (el.length === 0) return;
-    const newRow = Object.assign({}, el[0]);
+    const newRow = { ...el[0] };
     clearProps(newRow);
     el.push(newRow);
   }
@@ -335,6 +340,13 @@ export const setFormInlineError = (form, errorMsg) => {
         for (const err in errorMsg) {
           if (errorMsg[err].Path === ref) {
             el.setCustomValidity(errorMsg[err].ValidationMessage);
+            el.classList.add('error-field');
+            el.reportValidity();
+            break;
+          }
+          if (errorMsg[err].erroneousInputOutputFieldInPage === ref) {
+            el.setCustomValidity(errorMsg[err].localizedValue);
+            el.classList.add('error-field');
             el.reportValidity();
             break;
           }

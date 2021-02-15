@@ -55,7 +55,7 @@ export default class PegaBase extends PegaServices {
       return html`
         ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null)}
-        <div class="validation">${this.validationMsg}</div>
+        <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data">${LoadingIndicator()}</form>
       `;
     }
@@ -306,6 +306,7 @@ export default class PegaBase extends PegaServices {
       el = event.originalTarget;
     }
     el.setCustomValidity('');
+    el.classList.remove('error-field');
     if (shouldRefresh(el, 'change')) {
       this.refreshAssignment(el, getRefreshFor(el, 'change'));
     }

@@ -12,6 +12,9 @@ export const Field = (data, path, isReadOnly) => {
   if (typeof data === 'undefined' || typeof data.control === 'undefined' || typeof data.control.type === 'undefined') {
     return null;
   }
+  if (data.customAttributes && data.customAttributes.display === 'none') {
+    return null;
+  }
   if (isReadOnly === true || data.readOnly === true || data.control.type === 'pxHidden') {
     return AddWrapperDiv(data, path, 'field-text', DisplayText(data, path));
   }
@@ -103,13 +106,24 @@ const DisplayText = (data, path) => {
     return html`
       <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
     `;
-  } if (data.control.type === 'pxHidden') {
+  }
+  if (data.control.type === 'pxHidden') {
     return html`
     <input type="text" style="display:none" data-ref="${data.reference}" id="${ifDefined(path)}" value="${unescapeHTML(data.value)}"/>
     `;
   }
+  let value = data.value;
+  if (data.control && data.control.modes.length === 2 && data.control.modes[0].listSource === 'locallist') {
+    for (const it in data.control.modes[0].options) {
+      const elem = data.control.modes[0].options[it];
+      if (elem.key === value) { value = elem.value; }
+    }
+  }
+  if (data.control.type === 'pxCurrency') {
+    value = `$${value}`;
+  }
   return html`
-    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${unescapeHTML(data.value)}</span>
+    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${unescapeHTML(value)}</span>
   `;
 };
 
@@ -301,11 +315,11 @@ const RadioButtons = (data, path) => {
           <input
             data-ref="${data.reference}"
             name=${ifDefined(path)}
-            id=${innerpath}
+            id="${innerpath}"
             type="radio"
-            value="${item.value}"
+            value="${item.key}"
             ?required="${data.required === true}"
-            ?checked="${item.value === data.value}"
+            ?checked="${item.key === data.value}"
             data-action-change="${ifDefined(ActionSet(data, 'change'))}"
           />
           <label for="${innerpath}">${item.value}</label>
@@ -319,12 +333,17 @@ const RadioButtons = (data, path) => {
  * Checkbox component
  */
 const Checkbox = (data, path) => html`
+<div>
   <input
-  data-ref="${data.reference}" id=${ifDefined(path)}
-  type="checkbox" ?checked=${data.value === 'true'}
+  data-ref="${data.reference}" 
+  id="${ifDefined(path)}"
+  type="checkbox" 
+  ?checked=${data.value === 'true'}
   data-action-change="${ifDefined(ActionSet(data, 'change'))}"
   data-action-click="${ifDefined(ActionSet(data, 'click'))}"
   />
+  <label for="${ifDefined(path)}">${data.control.label}</label>
+  </div>
 `;
 
 /**
@@ -340,8 +359,8 @@ const DropDown = (data, path) => {
       data-action-click="${ifDefined(ActionSet(data, 'click'))}">
         <option value="" title="Select...">Select...</option>
         ${data.control.modes[0].options.map(
-    item => html`
-            <option ?selected=${item.value === data.value}>${item.value}</option>
+    (item) => html`
+            <option ?selected=${item.key === data.value} value='${item.key}'>${item.value}</option>
           `,
   )}
       </select>`;
@@ -376,7 +395,7 @@ const Combobox = (data, path) => {
       />
       <datalist id="${data.reference}">
         ${data.control.modes[0].options.map(
-    item => html`
+    (item) => html`
             <option value="${item.value}">
               ${item.key}
             </option>

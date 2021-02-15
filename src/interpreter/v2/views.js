@@ -27,7 +27,7 @@ const CloseActionArea = (onCancel) => {
   </div>`;
 };
 
-const CreateActionArea = onCancel => html`
+const CreateActionArea = (onCancel) => html`
   <div class="action-button-area">
     ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
     <button type="button" data-submit="create" class="Strong pzhc pzbutton">Create</button>
@@ -50,7 +50,7 @@ const AssignmentList = (assignments, onOpen) => {
       </tr>
     </thead>
       <tbody>
-        ${assignments.map(item => html`
+        ${assignments.map((item) => html`
         <tr>
           <td>${item.urgency}</td>
           <td>${item.name}</td>
@@ -69,9 +69,10 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
   /* Case of openCaseByHandle - not an assignment */
   const attachmentsLabel = html`${paperclipIcon()}<span class='count-badge'>${numAttachments}</span>`;
   if (typeof data.caseID === 'undefined' && casedata.content) {
+    const id = casedata.content.pyID.split(' ')[1];
     return html`
     <div class="flex layout-content-inline_middle main-header">
-      <h2>${casedata.content.pyLabel} (${casedata.content.pyID})</h2>
+      <h2>${data.data.caseInfo.name} (${id})</h2>
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
@@ -86,7 +87,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
   const id = data.caseID.split(' ')[1];
   return html`
   <div class="flex layout-content-inline_middle main-header">
-    <h2>${data.name} (${id})</h2>
+    <h2>${data.data.caseInfo.name} (${id})</h2>
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
@@ -121,22 +122,13 @@ export const genPageValidationErrors = (response) => {
   if (response.errorDetails) {
     return html`
     <ul>
-      ${response.errorDetails.map(item => html`<li>${item.localizedValue}</li>`)}
+      ${response.errorDetails.map((item) => {
+    if (item.message === 'Error_Validation_Fail') return null;
+    return html`<li>${item.localizedValue}</li>`;
+  })}
     </ul>`;
   }
-  return html`
-  <ul>
-    ${response.errors[0].ValidationMessages.map((item) => {
-    if (item.Path) {
-      return html`
-          <li>${item.Path.substring(1)}: ${item.ValidationMessage}</li>
-        `;
-    }
-    return html`
-    <li>${item.ValidationMessage}</li>
-  `;
-  })}
-  </ul>`;
+  return null;
 };
 
 export const genCaseTypesList = (data) => {

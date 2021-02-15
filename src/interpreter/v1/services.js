@@ -153,12 +153,6 @@ export default class PegaServices extends PegaElement {
             this.requestUpdate();
             console.error('Error:', response);
             return;
-          } if (response.errorDetails && response.errorDetails.length > 0) {
-            this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
-            this.clearLoadingIndicator();
-            this.requestUpdate();
-            console.error('Error:', response);
-            return;
           }
           const el = this.getRenderRoot().querySelector('#case-data');
           switch (type) {
@@ -440,20 +434,6 @@ export default class PegaServices extends PegaElement {
           }
         } else if (response.access_token) {
           this.token = response.access_token;
-        } else if (response.errorDetails && response.errorDetails.length > 0) {
-          /* Only look at the first error... not sure if the other errors are relevant */
-          if (response.errorDetails[0].localizedValue) {
-            // const form = this.getRenderRoot().querySelector('#case-data');
-            // setFormInlineError(form, response.errorDetails[0].localizedValue);
-            this.validationMsg = genPageValidationErrors(response);
-          } else {
-            this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
-          }
-          this.clearLoadingIndicator();
-          if (target) {
-            target.disabled = false;
-            target.textContent = 'Save';
-          }
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'refreshcase' || type === 'refreshassignment' || type === 'refreshnew') {

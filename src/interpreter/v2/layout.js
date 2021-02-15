@@ -4,6 +4,9 @@ import { Field } from './fields';
 export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
   if (data.config && data.config.template) {
+    if (data.config.template === 'TwoColumn' && data.children.length === 1) {
+      data.config.template = 'OneColumn';
+    }
     switch (data.config.template) {
       case 'TwoColumn':
         return html`

@@ -119,17 +119,19 @@ export default class PegaServices extends PegaElement {
         if (res.ok || res.status === 404) {
           return res.json();
         }
+        if (res.status === 401) {
+          this.token = '';
+          this.sendData('authenticate', { ...props, type, cmd: 'fetchData' });
+          return res.json();
+        }
         return Promise.reject(res);
       })
       .then((response) => {
         try {
           if (response.errors && response.errors.length > 0) {
-            this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
-            this.clearLoadingIndicator();
-            this.requestUpdate();
-            console.error('Error:', response);
             return;
-          } if (response.errorDetails && response.errorDetails.length > 0) {
+          }
+          if (response.errorDetails && response.errorDetails.length > 0) {
             this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
             this.clearLoadingIndicator();
             this.requestUpdate();
@@ -174,7 +176,7 @@ export default class PegaServices extends PegaElement {
               this.data.caseID = this.caseID;
               this.data.ID = id;
               this.actionID = this.casedata.content.pyViewName;
-              this.casepyStatusWork = this.casedata.content.pyStatusWork;
+              this.casepyStatusWork = this.casedata.status;
               this.data.actions = this.casedata.availableActions;
               this.name = this.casedata.stageLabel;
               render(mainLayout(response.uiResources.resources.views[this.actionID], 'Obj',
@@ -188,10 +190,14 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the page');
                 break;
               }
+              this.data = response;
               this.casedata = response.data.caseInfo;
+              this.data.name = this.casedata.content.pyLabel ? this.casedata.content.pyLabel : this.casedata.name;
               this.casedata.actions = this.casedata.availableActions;
               this.casedata.content.pyID = this.casedata.ID;
-              this.casepyStatusWork = this.casedata.content.pyStatusWork;
+              this.data.ID = this.casedata.ID;
+              this.casepyStatusWork = this.casedata.status;
+              this.name = this.casedata.stageLabel;
               this.content = {};
               if (this.bShowAttachments === 'true') {
                 this.fetchData('attachments', { id: this.caseID });
@@ -316,6 +322,10 @@ export default class PegaServices extends PegaElement {
           this.etag = res.headers.get('etag');
         }
         if (res.status === 200 || res.status === 201 || (res.status >= 400 && res.status < 500) || res.status === 500) {
+          if (res.status === 401) {
+            this.token = '';
+            this.sendData('authenticate', { ...props, type, cmd: 'sendData' });
+          }
           return res.json();
         }
         if (res.ok) {
@@ -325,26 +335,20 @@ export default class PegaServices extends PegaElement {
       })
       .then((response) => {
         if (response.errors && response.errors.length > 0) {
-          /* Only look at the first error... not sure if the other errors are relevant */
-          if (response.errors[0].ValidationMessages) {
-            const form = this.getRenderRoot().querySelector('#case-data');
-            setFormInlineError(form, response.errors[0].ValidationMessages);
-            this.validationMsg = genPageValidationErrors(response);
-          } else {
-            this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
-          }
-          this.clearLoadingIndicator();
-          if (target) {
-            target.disabled = false;
-            target.textContent = 'Save';
-          }
-        } else if (response.access_token) {
+          return;
+        } if (response.access_token) {
           this.token = response.access_token;
+          if (props !== {} && props.type && props.cmd) {
+            if (props.cmd === 'sendData') {
+              this.sendData(props.type, props);
+            } else {
+              this.fetchData(props.type, props);
+            }
+          }
         } else if (response.errorDetails && response.errorDetails.length > 0) {
-          /* Only look at the first error... not sure if the other errors are relevant */
           if (response.errorDetails[0].localizedValue) {
-            // const form = this.getRenderRoot().querySelector('#case-data');
-            // setFormInlineError(form, response.errorDetails[0].localizedValue);
+            const form = this.getRenderRoot().querySelector('#case-data');
+            setFormInlineError(form, response.errorDetails);
             this.validationMsg = genPageValidationErrors(response);
           } else {
             this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
@@ -353,6 +357,10 @@ export default class PegaServices extends PegaElement {
           if (target) {
             target.disabled = false;
             target.textContent = 'Save';
+          }
+          if (type === 'submitassignment') {
+            /* In case of error - the etag is invalid - we need to get a new one */
+            this.fetchData('assignment', { id: this.assignmentID });
           }
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
@@ -382,7 +390,7 @@ export default class PegaServices extends PegaElement {
             this.sendExternalEvent(type);
             this.data = response;
             this.casedata.content = response.data.caseInfo.content;
-            this.data.name = this.casedata.content.pyLabel;
+            this.data.name = this.casedata.content.pyLabel ? this.casedata.content.pyLabel : this.casedata.name;
             this.caseID = this.casedata.content.pzInsKey;
             this.data.caseID = response.data.caseInfo.ID;
             this.data.ID = this.assignmentID;

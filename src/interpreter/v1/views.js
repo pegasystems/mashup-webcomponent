@@ -28,7 +28,7 @@ const CloseActionArea = (onCancel) => {
   </div>`;
 };
 
-const CreateActionArea = onCancel => html`
+const CreateActionArea = (onCancel) => html`
   <div class="action-button-area">
     ${onCancel !== null ? html`<button type="button" class="pzhc pzbutton" @click="${onCancel}">Cancel</button>` : ''}
     <button type="button" data-submit="create" class="Strong pzhc pzbutton">Create</button>
@@ -51,7 +51,7 @@ const AssignmentList = (assignments, onOpen) => {
       </tr>
     </thead>
       <tbody>
-        ${assignments.map(item => html`
+        ${assignments.map((item) => html`
         <tr>
           <td>${item.urgency}</td>
           <td>${item.instructions !== '' ? item.instructions : item.name}</td>
@@ -100,22 +100,22 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
 };
 
 export const mainLayout = (data, path, onCancel, onSave, webcomp) => html`
-  <div>${Layout(data, path, false, webcomp)}</div>
+  <div class="flex layout-content-stacked">${Layout(data, path, false, webcomp)}</div>
   ${SubmitActionArea(onCancel, onSave)}
 `;
 
 export const reviewLayout = (data, path, onCancel, webcomp) => html`
-  <div>${Layout(data, path, true, webcomp)}</div>
+  <div class="flex layout-content-stacked">${Layout(data, path, true, webcomp)}</div>
   ${CloseActionArea(onCancel)}
 `;
 
 export const saveCaseLayout = (data, path, onCancel, onSave, webcomp) => html`
-  <div>${Layout(data, path, false, webcomp)}</div>
+  <div class="flex layout-content-stacked">${Layout(data, path, false, webcomp)}</div>
   ${LocalActionArea(onCancel, onSave)}
 `;
 
 export const createCaseLayout = (data, path, onCancel, webcomp) => html`
-  <div>${Layout(data, path, false, webcomp)}</div>
+  <div class="flex layout-content-stacked">${Layout(data, path, false, webcomp)}</div>
   ${CreateActionArea(onCancel)}
 `;
 
@@ -123,7 +123,7 @@ export const genPageValidationErrors = (response) => {
   if (response.errorDetails) {
     return html`
     <ul>
-      ${response.errorDetails.map(item => html`<li>${item.localizedValue}</li>`)}
+      ${response.errorDetails.map((item) => html`<li>${item.localizedValue}</li>`)}
     </ul>`;
   }
   return html`
@@ -133,6 +133,9 @@ export const genPageValidationErrors = (response) => {
       return html`
           <li>${item.Path.substring(1)}: ${item.ValidationMessage}</li>
         `;
+    }
+    if (item.ValidationMessage.indexOf('Validation failed') === 0) {
+      return null;
     }
     return html`
     <li>${item.ValidationMessage}</li>

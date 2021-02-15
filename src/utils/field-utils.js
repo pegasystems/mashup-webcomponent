@@ -2,7 +2,6 @@ import { html } from 'lit-html';
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { unescapeHTML } from './form-utils';
 
-
 export const ActionSet = (data, eventType) => {
   let actionAttribute;
   if (data.control && data.control.actionSets && data.control.actionSets.length > 0) {
@@ -28,7 +27,6 @@ export const hasActions = (data) => {
   return false;
 };
 
-
 /* This is a special case for button - For an action like addRow, deleteRow, it is not possible to get the page name
  * from the action set - so as a workaround, we set the page name inside the tooltip and pass the value as reference
  */
@@ -43,16 +41,22 @@ export const getReference = (data) => {
 /**
  * Label component
  */
-const DisplayLabel = (data, path) => {
+const DisplayLabel = (data, path, type) => {
   if (typeof path === 'undefined') return null;
-  const iconrequired = data.required ? 'icon-required' : '';
-  return html`
-    ${data.label !== '' || data.showLabel === true || data.labelReserveSpace === true
-    ? html`
-          <label class="field-caption dataLabelForWrite ${iconrequired}" for="${ifDefined(path)}">${unescapeHTML(data.label)}</label>
-        `
-    : null}
-  `;
+  const iconrequired = data.required && data.readOnly !== true ? 'icon-required' : '';
+  if (type === 'field-checkbox') {
+    if (data.label !== '' || data.showLabel === true) {
+      return html`<div class="field-caption dataLabelForWrite ${iconrequired}">${unescapeHTML(data.label)}</div>`;
+    }
+    return null;
+  }
+  if (type === 'field-text' && data.readOnly === true && data.control.type === 'pxCheckbox' && data.control.label) {
+    return html`<label>${unescapeHTML(data.control.label)}</label>`;
+  }
+  if (data.label !== '' || data.showLabel === true || data.labelReserveSpace === true) {
+    return html`<label class="field-caption dataLabelForWrite ${iconrequired}" for="${ifDefined(path)}">${unescapeHTML(data.label)}</label>`;
+  }
+  return null;
 };
 
 export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
@@ -64,15 +68,12 @@ export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
   if (type === 'field-button' && !hasActions(data)) {
     return null;
   }
+  if (type === 'field-radiogroup') {
+    return html`
+    <div class="flex content-item field-item ${type}"><fieldset><legend>${DisplayLabel(data, path, type)}</legend>${ComponentTemplate}</fielset></div>
+  `;
+  }
   return html`
-    <div class="flex content-item field-item ${type}">
-      ${type === 'field-checkbox'
-    ? html`
-            ${ComponentTemplate}${DisplayLabel(data, path)}
-          `
-    : html`
-            ${DisplayLabel(data, path)}${ComponentTemplate}
-          `}
-    </div>
+    <div class="flex content-item field-item ${type}">${DisplayLabel(data, path, type)}${ComponentTemplate}</div>
   `;
 };

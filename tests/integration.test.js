@@ -7,7 +7,7 @@ const bHeadless = true;
 const dir = process.cwd();
 const URL = `file://${dir}/docs/index.html`;
 // const URL = 'https://pegasystems.github.io/mashup-webcomponent/index.html';
-const timeout = 150000;
+const timeout = 20000;
 let iTestCount = 1;
 
 describe(
@@ -45,11 +45,11 @@ describe(
         fullpage: true,
         type: 'jpeg',
       });
-      const title = await page.$eval('pega-mashup-light h2', el => el.innerText);
+      const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
       expect(title).toContain('My worklist');
       const cases = await page.evaluate(() => {
         const caseslist = Array.from(document.querySelectorAll('pega-mashup-light table button'));
-        return caseslist.map(el => el.getAttribute('data-id'));
+        return caseslist.map((el) => el.getAttribute('data-id'));
       });
       console.log(`Number of opened cases ${cases.length}`);
       if (cases.length > 0) {
@@ -78,7 +78,7 @@ describe(
       await page.evaluate(() => {
         document.querySelector('#casetype').value = '';
       });
-      await page.type('#casetype', 'Eas-BobsServ-Work-Demotest');
+      await page.type('#casetype', 'OPGO8L-CarInsur-Work-CarInsuranceQuote');
       await page.click('#submit', { waitUntil: 'networkidle0' });
       await page.evaluate(() => {
         document.querySelector('#show-settings').click();
@@ -93,11 +93,12 @@ describe(
           type: 'jpeg',
         });
       }
-      const title = await page.$eval('pega-mashup-light h2', el => el.innerText);
-      expect(title).toContain('demotest (D-');
-      await page.type('#case-data #Obj-0-4', 'this is a test');
-      await page.type('#case-data #Obj-0-5', 'this is a test2');
-      await page.type('#case-data #Obj-0-6', 'this is a test3');
+      const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
+      expect(title).toContain('Car Insurance quote (C-');
+      await page.type('#case-data #Obj-0-0-0-0', 'john');
+      await page.type('#case-data #Obj-0-0-0-1', 'smith');
+      await page.type('#case-data #Obj-0-0-0-2', '03/03/2000');
+      await page.type('#case-data #Obj-0-0-0-5', '567892345');
       await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
       await page.waitForSelector('#case-data', { visible: true });
       await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
@@ -121,41 +122,33 @@ describe(
     }, timeout);
 
     it('Process the case - step1', async () => {
-      await page.waitForSelector('#case-data #Obj-0-1', { visible: true });
-      let title = await page.$eval('#case-data #Obj-0-1', el => el.value);
-      expect(title).toBe('this is a test');
-      title = await page.$eval('#case-data #Obj-0-2', el => el.value);
-      expect(title).toBe('this is a test2');
-      title = await page.$eval('#case-data #Obj-0-3', el => el.value);
-      expect(title).toBe('this is a test3');
+      let title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
+      expect(title).toBe('Drivers');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(1000);
-      await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
-      if (bDebug) {
-        console.log(`generate screenshot test${iTestCount}.jpg`);
-        await page.screenshot({
-          path: `./test-results/test${iTestCount++}.jpg`,
-          fullpage: true,
-          type: 'jpeg',
-        });
-      }
-    }, timeout);
+      await page.waitFor(500);
+      await page.waitForSelector('#case-data', { visible: true });
 
-    it('Process the case - step2', async () => {
+      title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
+      expect(title).toBe('Cars');
+      await page.type('#case-data #Obj-0-row0-0-0-0', 'Omega');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(1000);
-      await page.waitForSelector("pega-mashup-light button[data-submit='submit']", { visible: true });
-      if (bDebug) {
-        console.log(`generate screenshot test${iTestCount}.jpg`);
-        await page.screenshot({
-          path: `./test-results/test${iTestCount++}.jpg`,
-          fullpage: true,
-          type: 'jpeg',
-        });
-      }
+      await page.waitFor(500);
+      await page.waitForSelector('#case-data', { visible: true });
+
+      title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
+      expect(title).toBe('Select coverage');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(1000);
-      await page.waitForSelector('pega-mashup-light .action-button-area > .Strong', { visible: true });
+      await page.waitFor(500);
+      await page.waitForSelector('#case-data', { visible: true });
+
+      title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
+      expect(title).toBe('Review');
+      await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
+      await page.waitFor(500);
+      await page.waitForSelector('#case-data', { visible: true });
+
+      title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
+      expect(title).toBe('Case information');
       if (bDebug) {
         console.log(`generate screenshot test${iTestCount}.jpg`);
         await page.screenshot({
@@ -170,11 +163,15 @@ describe(
       await page.evaluate(() => {
         document.querySelector('#show-settings').click();
       });
+      await page.waitForSelector('#action', { visible: true });
+      await page.select('#action', 'workList');
       await page.evaluate(() => {
         document.getElementById('switch-shadowDOM').click();
       });
-      await page.select('#action', 'workList');
       await page.click('#submit', { waitUntil: 'networkidle0' });
+      await page.evaluate(() => {
+        document.querySelector('#show-settings').click();
+      });
       if (bDebug) {
         console.log(`generate screenshot test${iTestCount}.jpg`);
         await page.screenshot({
