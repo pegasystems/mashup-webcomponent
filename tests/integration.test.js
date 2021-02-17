@@ -39,12 +39,14 @@ describe(
     }, timeout);
 
     it('Check if the worklist correctly renders', async () => {
-      console.log(`generate screenshot test${iTestCount}.jpg`);
-      await page.screenshot({
-        path: `./test-results/test${iTestCount++}.jpg`,
-        fullpage: true,
-        type: 'jpeg',
-      });
+      if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
+        await page.screenshot({
+          path: `./test-results/test${iTestCount++}.jpg`,
+          fullpage: true,
+          type: 'jpeg',
+        });
+      }
       const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
       expect(title).toContain('My worklist');
       const cases = await page.evaluate(() => {
@@ -85,8 +87,8 @@ describe(
       });
       await page.waitForSelector('#case-data', { visible: true });
       await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
-      console.log(`generate screenshot test${iTestCount}.jpg`);
       if (bDebug) {
+        console.log(`generate screenshot test${iTestCount}.jpg`);
         await page.screenshot({
           path: `./test-results/test${iTestCount++}.jpg`,
           fullpage: true,
@@ -99,9 +101,6 @@ describe(
       await page.type('#case-data #Obj-0-0-0-1', 'smith');
       await page.type('#case-data #Obj-0-0-0-2', '03/03/2000');
       await page.type('#case-data #Obj-0-0-0-5', '567892345');
-      await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
-      await page.waitForSelector('#case-data', { visible: true });
-      await page.waitForFunction(() => !document.querySelector('.loading'), { polling: 'mutation' });
       if (bDebug) {
         console.log(`generate screenshot test${iTestCount}.jpg`);
         await page.screenshot({
@@ -119,32 +118,35 @@ describe(
       } else {
         console.log('All accessibility tests have passed!');
       }
+      await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
+      await page.waitForSelector('#case-data', { visible: true });
+      await page.waitForTimeout(1000);
     }, timeout);
 
     it('Process the case - step1', async () => {
       let title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Drivers');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(500);
+      await page.waitForTimeout(500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Cars');
       await page.type('#case-data #Obj-0-row0-0-0-0', 'Omega');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(500);
+      await page.waitForTimeout(500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Select coverage');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(500);
+      await page.waitForTimeout(500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Review');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitFor(500);
+      await page.waitForTimeout(500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
