@@ -51,7 +51,7 @@ const DisplayLabel = (data, path, type) => {
     return null;
   }
   if (type === 'field-text' && data.readOnly === true && data.control.type === 'pxCheckbox' && data.control.label) {
-    return html`<label>${unescapeHTML(data.control.label)}</label>`;
+    return html`<label class="field-caption dataLabelForWrite">${unescapeHTML(data.control.label)}</label>`;
   }
   if (data.label !== '' || data.showLabel === true || data.labelReserveSpace === true) {
     return html`<label class="field-caption dataLabelForWrite ${iconrequired}" for="${ifDefined(path)}">${unescapeHTML(data.label)}</label>`;

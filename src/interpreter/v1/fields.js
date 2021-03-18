@@ -48,9 +48,13 @@ export const Field = (data, path, isReadOnly) => {
       return AddWrapperDiv(data, path, 'field-button', DeleteButton(data, path));
     case 'pxButton':
       return AddWrapperDiv(data, path, 'field-button', Button(data, path));
-    case 'pxDate':
     case 'pxDateTime':
-      return AddWrapperDiv(data, path, 'field-datetime', DateTime(data, path));
+      if (data.type === 'TimeOfDay') {
+        return AddWrapperDiv(data, path, 'field-time', TimeInput(data, path));
+      } if (data.type === 'Date') {
+        return AddWrapperDiv(data, path, 'field-date', DateInputInput(data, path));
+      }
+      return AddWrapperDiv(data, path, 'field-datetime', DateTimeInput(data, path));
     case 'pxAutoComplete':
       return AddWrapperDiv(data, path, 'field-combobox', Combobox(data, path));
     case 'pxSlider':
@@ -64,7 +68,7 @@ export const Field = (data, path, isReadOnly) => {
  * Formatted Text component
  */
 const DisplayText = (data, path) => {
-  if (data.control.type === 'pxDate' || data.control.type === 'pxDateTime') {
+  if (data.control.type === 'pxDate') {
     let value = convertTimestampToDate(data.value);
     if (value) {
       if (data.control && data.control.modes.length === 2) {
@@ -96,9 +100,58 @@ const DisplayText = (data, path) => {
             options = {};
             break;
         }
-        value = value.toLocaleDateString(undefined, options);
+        value = new Intl.DateTimeFormat([], options).format(value);
       } else {
-        value = value.toLocaleDateString();
+        value = new Intl.DateTimeFormat().format(value);
+      }
+    } else {
+      value = data.value;
+    }
+    return html`
+      <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
+    `;
+  }
+  if (data.control.type === 'pxDateTime') {
+    let value = convertTimestampToDate(data.value);
+    if (value) {
+      if (data.control && data.control.modes.length === 2) {
+        let options = {};
+        switch (data.control.modes[1].dateTimeFormat) {
+          case 'DateTime-Short-YYYY':
+            options = {
+              year: 'numeric',
+              month: 'numeric',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+            };
+            break;
+          default:
+            options = {};
+            break;
+        }
+        value = new Intl.DateTimeFormat([], options).format(value);
+      } else {
+        value = new Intl.DateTimeFormat().format(value);
+      }
+    } else {
+      value = data.value;
+    }
+    return html`
+      <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${value}</span>
+    `;
+  }
+  if (data.control.type === 'pxTime') {
+    let value = convertTimestampToDate(data.value);
+    if (value) {
+      if (data.control && data.control.modes.length === 2) {
+        const options = {
+          hour: 'numeric',
+          minute: 'numeric',
+        };
+        value = new Intl.DateTimeFormat([], options).format(value);
+      } else {
+        value = new Intl.DateTimeFormat().format(value);
       }
     } else {
       value = data.value;
@@ -270,10 +323,37 @@ const DeleteButton = (data, path) => html`
 /**
  * DateTime component
  */
-const DateTime = (data, path) => {
+const DateTimeInput = (data, path) => {
   let value = data.value;
-  if (value !== '') {
-    let dt = new Date(value);
+  if (value !== '') { /* Should be formatted as yyyy-MM-ddThh:mm */
+    let dt = convertTimestampToDate(value);
+    if (dt instanceof Date && dt.getTime() === dt.getTime()) {
+      dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}T${pad2char(dt.getHours())}:${pad2char(dt.getMinutes())}`;
+    } else if (data.value.length === 8) {
+      value = `${data.value.substring(0, 4)}-${data.value.substring(4, 6)}-${data.value.substring(6, 8)}T00:00`;
+    }
+  }
+  return html`
+    <input
+      data-ref="${data.reference}"
+      ?required="${data.required === true}"
+      type="datetime-local"
+      id="${ifDefined(path)}"
+      value="${value}"
+      data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+    data-action-click="${ifDefined(ActionSet(data, 'click'))}"
+    />
+  `;
+};
+
+/**
+ * Date component
+ */
+const DateInputInput = (data, path) => {
+  let value = data.value;
+  if (value !== '') { /* Should be formatted as yyyy-MM-dd */
+    let dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
       dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
       value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}`;
@@ -285,13 +365,38 @@ const DateTime = (data, path) => {
     <input
       data-ref="${data.reference}"
       ?required="${data.required === true}"
-      pattern="\\d{4}-\\d{2}-\\d{2}"
-      placeholder="mm/dd/yyyy"
       type="date"
       id="${ifDefined(path)}"
       value="${value}"
       data-action-change="${ifDefined(ActionSet(data, 'change'))}"
     data-action-click="${ifDefined(ActionSet(data, 'click'))}"
+    />
+  `;
+};
+
+/**
+ * Time component
+ */
+const TimeInput = (data, path) => {
+  let value = data.value;
+  if (value !== '') { /* Should be formatted as hh:mm:ss */
+    let dt = convertTimestampToDate(value);
+    if (dt instanceof Date && dt.getTime() === dt.getTime()) {
+      dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+      value = `${pad2char(dt.getHours())}-${pad2char(dt.getMinutes())}-${pad2char(dt.getSeconds())}`;
+    } else if (data.value.length === 8) {
+      value = `${data.value.substring(9, 10)}:${data.value.substring(10, 11)}:${data.value.substring(11, 12)}`;
+    }
+  }
+  return html`
+    <input
+      data-ref="${data.reference}"
+      ?required="${data.required === true}"
+      type="time"
+      id="${ifDefined(path)}"
+      value="${value}"
+      data-action-change="${ifDefined(ActionSet(data, 'change'))}"
+      data-action-click="${ifDefined(ActionSet(data, 'click'))}"
     />
   `;
 };

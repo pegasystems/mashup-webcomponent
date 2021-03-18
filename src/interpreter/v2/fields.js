@@ -62,7 +62,7 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
     data.config.value = `${data.config.value}`;
   }
   if (isReadOnly === true || data.config.readOnly === 'true') {
-    return AddWrapperDiv(data.config, path, 'field-text', DisplayText(data.config, path));
+    return AddWrapperDiv(data.config, path, 'field-text', DisplayText(data.config, data.type, path));
   }
   switch (data.type) {
     case 'Decimal':
@@ -83,11 +83,11 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
     case 'Dropdown':
       return AddWrapperDiv(data.config, path, 'field-dropdown', DropDown(data.config, path));
     case 'DateTime':
-      return AddWrapperDiv(data.config, path, 'field-datetime', DateTime(data.config, path));
+      return AddWrapperDiv(data.config, path, 'field-datetime', DateTimeInput(data.config, path));
     case 'Date':
-      return AddWrapperDiv(data.config, path, 'field-datetime', pxDate(data.config, path));
+      return AddWrapperDiv(data.config, path, 'field-date', DateInput(data.config, path));
     case 'Time':
-      return AddWrapperDiv(data.config, path, 'field-datetime', Time(data.config, path));
+      return AddWrapperDiv(data.config, path, 'field-time', TimeInput(data.config, path));
 
     default:
       return null;
@@ -97,9 +97,48 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
 /**
  * Formatted Text component
  */
-const DisplayText = (data, path) => html`
-    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${unescapeHTML(data.value)}</span>
+const DisplayText = (data, type, path) => {
+  let value = data.value;
+  if (type === 'Date') {
+    value = convertTimestampToDate(data.value);
+    if (value) {
+      const options = {
+        year: 'numeric', month: 'short', day: 'numeric',
+      };
+      value = new Intl.DateTimeFormat([], options).format(value);
+    } else {
+      value = data.value;
+    }
+  } else if (type === 'DateTime') {
+    value = convertTimestampToDate(data.value);
+    if (value) {
+      const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      };
+      value = new Intl.DateTimeFormat([], options).format(value);
+    } else {
+      value = data.value;
+    }
+  } else if (type === 'Time') {
+    value = convertTimestampToDate(data.value);
+    if (value) {
+      const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+      };
+      value = new Intl.DateTimeFormat([], options).format(value);
+    } else {
+      value = data.value;
+    }
+  }
+  return html`
+    <span class="dataValueRead" data-ref="${data.reference}" id="${ifDefined(path)}">${unescapeHTML(value)}</span>
   `;
+};
 
 /**
  * TextInput component
@@ -221,15 +260,15 @@ const DropDown = (data, path) => html`<select
 /**
  * DateTime component
  */
-const DateTime = (data, path) => {
+const DateTimeInput = (data, path) => {
   let value = data.value;
-  if (value !== '') {
+  if (value !== '') { /* Should be formatted as yyyy-MM-ddThh:mm */
     let dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
       dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}`;
+      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}T${pad2char(dt.getHours())}:${pad2char(dt.getMinutes())}`;
     } else if (data.value.length === 8) {
-      value = `${data.value.substring(0, 4)}-${data.value.substring(4, 6)}-${data.value.substring(6, 8)}`;
+      value = `${data.value.substring(0, 4)}-${data.value.substring(4, 6)}-${data.value.substring(6, 8)}T00:00`;
     }
   }
   return html`
@@ -238,7 +277,7 @@ const DateTime = (data, path) => {
       ?required="${data.required === 'true'}"
       pattern="\\d{4}-\\d{2}-\\d{2}"
       placeholder="mm/dd/yyyy"
-      type="date"
+      type="datetime-local"
       id="${ifDefined(path)}"
       value="${value}"
     />
@@ -248,9 +287,9 @@ const DateTime = (data, path) => {
 /**
  * Date component
  */
-const pxDate = (data, path) => {
+const DateInput = (data, path) => {
   let value = data.value;
-  if (value !== '') {
+  if (value !== '') { /* Should be formatted as yyyy-MM-dd */
     let dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
       dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
@@ -263,8 +302,6 @@ const pxDate = (data, path) => {
     <input
       data-ref="${data.reference}"
       ?required="${data.required === 'true'}"
-      pattern="\\d{4}-\\d{2}-\\d{2}"
-      placeholder="mm/dd/yyyy"
       type="date"
       id="${ifDefined(path)}"
       value="${value}"
@@ -275,20 +312,21 @@ const pxDate = (data, path) => {
 /**
  * Time component
  */
-const Time = (data, path) => {
+const TimeInput = (data, path) => {
   let value = data.value;
-  if (value !== '') {
+  if (value !== '') { /* Should be formatted as hh:mm:ss */
     let dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
       dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}`;
+      value = `${pad2char(dt.getHours())}-${pad2char(dt.getMinutes())}-${pad2char(dt.getSeconds())}`;
+    } else if (data.value.length === 8) {
+      value = `${data.value.substring(9, 10)}:${data.value.substring(10, 11)}:${data.value.substring(11, 12)}`;
     }
   }
   return html`
     <input
       data-ref="${data.reference}"
       ?required="${data.required === 'true'}"
-      placeholder="HH:MM"
       type="time"
       id="${ifDefined(path)}"
       value="${value}"
