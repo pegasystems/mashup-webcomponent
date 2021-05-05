@@ -6,7 +6,7 @@ import { html } from 'lit-html';
 
   The onOpen function will receive the node DOM element of the modal content that can be used for render
 */
-export const displayModal = (title, label, format, onOpen) => {
+export const displayModal = (title, label, format, onOpen, onCancel) => {
   const node = document.createElement('div');
   node.setAttribute('role', 'alertdialog');
   node.setAttribute('aria-modal', 'true');
@@ -24,6 +24,9 @@ export const displayModal = (title, label, format, onOpen) => {
         node.previousElementSibling.focus();
       }
       node.remove();
+    }
+    if (onCancel) {
+      onCancel();
     }
   };
 

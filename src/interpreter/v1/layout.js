@@ -2,6 +2,7 @@ import { html } from 'lit-html';
 import { Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
 import { AttachmentButton } from '../../views/attachments';
+import { ShowLocalAction } from '../../views/local-action';
 
 export const Layout = (data, path, isReadOnly, webcomp) => html`
   ${data.map((item, index) => {
@@ -51,6 +52,11 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
     if (item.field) {
       if (item.field.control && item.field.control.type === 'pxAttachContent') {
         return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
+      }
+      if (item.field.control.actionSets[0] && item.field.control.actionSets[0].actions[0] &&
+        item.field.control.actionSets[0].actions[0].action === 'localAction') {
+        const currentaction = webcomp.actionID;
+        return ShowLocalAction(item.field, webcomp.displayLocalAction, () => { webcomp.reloadAssignment(currentaction); });
       }
       return Field(item.field, tmppath, isReadOnly);
     }

@@ -248,7 +248,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
   const renderFilesAttached = () => {
     if (typeof tmpFiles !== 'undefined' && tmpFiles.length > 0) {
       return html`
-      <div class='attach-files list-items'>
+      <div id="modalcontent" class='attach-files list-items'>
         <div class='upload-content'>${renderAttachment(tmpFiles)}</div>
         <div class="action-button-area">
           <button type="button" class="pzhc pzbutton" @click="${cancelUpload}">Cancel</button>

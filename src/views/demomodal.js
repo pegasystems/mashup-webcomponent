@@ -21,5 +21,5 @@ export const DemoModal = () => {
     <div id="modalcontent">This is a demo modal</div>
   `;
 
-  return displayModal('Demo', 'open modal', demoButtonHandler);
+  return displayModal('Demo', 'open modal', '', demoButtonHandler);
 };

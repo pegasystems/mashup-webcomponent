@@ -79,6 +79,14 @@ export default class PegaBase extends PegaServices {
 
   actionAreaCancel = (event) => {
     if (event) event.preventDefault();
+    /* If the cancel button is in a modal dialog - just close the modal */
+    if (event.target && event.target.closest('.mashup-modal') !== null) {
+      const Btn = event.target.closest('.mashup-modal').querySelector('button');
+      if (Btn !== null) {
+        Btn.click();
+        return;
+      }
+    }
     this.bShowConfirm = false;
     this.bShowNew = false;
     this.caseID = '';
@@ -154,20 +162,53 @@ export default class PegaBase extends PegaServices {
     this.fetchData('attachments', { id: this.caseID, target: el });
   };
 
-  submitForm = (event, type) => {
+  displayLocalAction = (flowAction, el) => {
     const form = this.getRenderRoot().querySelector('#case-data');
-    this.content = getInitData(this.casedata);
-    getFormData(form, this.content);
-    if (form.checkValidity()) {
-      if (type !== 'create') {
-        this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
+    if (form) {
+      this.content = getInitData(this.casedata);
+      getFormData(form, this.content);
+      if (this.assignmentID !== '') {
+        const that = this;
+        this.sendData('savecase', { id: this.caseID }, () => {
+          this.actionID = flowAction;
+          that.fetchData('assignmentaction', { id: this.assignmentID, actionid: flowAction, target: el });
+        });
+      }
+    }
+  };
+
+  reloadAssignment = (actionid) => {
+    this.actionID = actionid;
+    this.fetchData('assignmentaction', { id: this.assignmentID, actionid });
+  }
+
+  submitForm = (event, type) => {
+    event.preventDefault();
+
+    /* If the cancel button is in a modal dialog - just close the modal */
+    if (event.target && event.target.closest('.mashup-modal') !== null) {
+      const form = event.target.closest('#modalcontent');
+      this.content = getInitData(this.casedata);
+      getFormData(form, this.content);
+      if (form.checkValidity()) {
+        this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID, target: form });
       } else {
-        this.sendData('newwork', { id: this.casetype });
+        form.reportValidity();
       }
     } else {
-      form.reportValidity();
+      const form = this.getRenderRoot().querySelector('#case-data');
+      this.content = getInitData(this.casedata);
+      getFormData(form, this.content);
+      if (form.checkValidity()) {
+        if (type !== 'create') {
+          this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
+        } else {
+          this.sendData('newwork', { id: this.casetype });
+        }
+      } else {
+        form.reportValidity();
+      }
     }
-    event.preventDefault();
     return false;
   };
 

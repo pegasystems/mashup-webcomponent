@@ -572,10 +572,11 @@ export const viewStyle = () => html`
       transition: opacity .400s ease-in-out;
     }
     .mashup-modal > div {
-      height: 60vh;
+      max-height: 90vh;
+      min-height: 300px;
       max-width: 800px;
       width: 80vw;
-      margin: 15vh auto;
+      margin: 5vh auto;
       background: #FFF;
       border: 1px solid rgba(0,0,0,.2);
       border-radius: 10px;
@@ -588,10 +589,17 @@ export const viewStyle = () => html`
       padding: 0 16px;
       border-bottom: 1px solid rgba(0,0,0,.2);
     }
-    .attach-files {
+    .mashup-modal .validation {
+      margin: 0 16px;
+    }
+    #modalcontent {
       margin: 16px 16px 0;
       display:flex;
       flex-flow:column;
+      flex:1;
+      overflow-y: hidden;
+    }
+    #modalcontent > .flex {
       flex:1;
       overflow-y: auto;
     }

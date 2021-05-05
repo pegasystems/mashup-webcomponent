@@ -3,6 +3,7 @@ import {
   saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
 } from './views';
 import { genAttachmentsList } from '../../views/attachments';
+import { RenderLocalAction } from '../../views/local-action';
 import { setFormData, setFormInlineError } from '../../utils/form-utils';
 import { showDataList } from '../../views/datalist';
 import { LoadingIndicator } from '../../views/loading';
@@ -222,16 +223,24 @@ export default class PegaServices extends PegaElement {
               el.focus();
               break;
             case 'assignmentaction':
-              this.name = response.name;
               if (!el) {
                 console.error('Error: case data are not present when retrieving the assignmentaction');
                 break;
               }
-              this.requestUpdate();
-              render(mainLayout(response.view.groups, 'Obj',
-                this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-                this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
-              el.focus();
+              if (target) {
+                this.actionID = actionid;
+                render(RenderLocalAction(response.name, mainLayout(response.view.groups, 'Obj',
+                  this.actionAreaCancel,
+                  null, this)), target);
+                target.focus();
+              } else {
+                this.name = response.name;
+                this.requestUpdate();
+                render(mainLayout(response.view.groups, 'Obj',
+                  this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+                  this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
+                el.focus();
+              }
               break;
             case 'page':
               if (!el) {
@@ -296,7 +305,7 @@ export default class PegaServices extends PegaElement {
       });
   }
 
-  sendData(type, props) {
+  sendData(type, props, callback) {
     const {
       id, actionid, target, refreshFor,
     } = props;
@@ -421,14 +430,19 @@ export default class PegaServices extends PegaElement {
         if (response.errors && response.errors.length > 0) {
           /* Only look at the first error... not sure if the other errors are relevant */
           if (response.errors[0].ValidationMessages) {
-            const form = this.getRenderRoot().querySelector('#case-data');
-            setFormInlineError(form, response.errors[0].ValidationMessages);
-            this.validationMsg = genPageValidationErrors(response);
+            if (target && target.id === 'modalcontent') {
+              setFormInlineError(target, response.errors[0].ValidationMessages);
+              render(genPageValidationErrors(response), target.previousElementSibling);
+            } else {
+              const form = this.getRenderRoot().querySelector('#case-data');
+              setFormInlineError(form, response.errors[0].ValidationMessages);
+              this.validationMsg = genPageValidationErrors(response);
+            }
           } else {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
           }
           this.clearLoadingIndicator();
-          if (target) {
+          if (target && target.tagName === 'BUTTON') {
             target.disabled = false;
             target.textContent = 'Save';
           }
@@ -450,6 +464,10 @@ export default class PegaServices extends PegaElement {
           } else if (type === 'savecase') {
             this.sendExternalEvent(type);
             this.fetchData('case', { id: this.caseID, target });
+            if (callback) {
+              callback();
+              return;
+            }
             if (this.assignmentID !== '') {
               this.fetchData('assignment', { id: this.assignmentID });
             }
