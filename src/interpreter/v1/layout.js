@@ -53,7 +53,8 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
       if (item.field.control && item.field.control.type === 'pxAttachContent') {
         return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
       }
-      if (item.field.control.actionSets[0] && item.field.control.actionSets[0].actions[0] &&
+      if (item.field.control && item.field.control.actionSets && item.field.control.actionSets.length > 0 &&
+          item.field.control.actionSets[0] && item.field.control.actionSets[0].actions[0] &&
         item.field.control.actionSets[0].actions[0].action === 'localAction') {
         const currentaction = webcomp.actionID;
         return ShowLocalAction(item.field, webcomp.displayLocalAction, () => { webcomp.reloadAssignment(currentaction); });
