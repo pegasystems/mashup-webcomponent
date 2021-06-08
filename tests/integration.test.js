@@ -97,10 +97,8 @@ describe(
       }
       const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
       expect(title).toContain('Car Insurance quote (C-');
-      await page.type('#case-data #Obj-0-0-0-0', 'john');
-      await page.type('#case-data #Obj-0-0-0-1', 'smith');
-      await page.type('#case-data #Obj-0-0-0-2', '03/03/2000');
-      await page.type('#case-data #Obj-0-0-0-5', '567892345');
+      await page.type('#case-data #Obj-0-1', 'john');
+      await page.type('#case-data #Obj-0-2', 'smith');
       if (bDebug) {
         console.log(`generate screenshot test${iTestCount}.jpg`);
         await page.screenshot({
@@ -125,6 +123,14 @@ describe(
 
     it('Process the case - step1', async () => {
       let title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
+      expect(title).toBe('Personal details');
+      await page.type('#case-data #Obj-0-0-0-2', '03/03/2000');
+      await page.type('#case-data #Obj-0-0-0-5', '567892345');
+      await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
+      await page.waitForTimeout(500);
+      await page.waitForSelector('#case-data', { visible: true });
+
+      title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Drivers');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
       await page.waitForTimeout(500);

@@ -167,8 +167,7 @@ const DisplayText = (data, path) => {
   }
   let value = data.value;
   if (data.control && data.control.modes.length === 2 && data.control.modes[0].listSource === 'locallist') {
-    for (const it in data.control.modes[0].options) {
-      const elem = data.control.modes[0].options[it];
+    for (const elem of data.control.modes[0].options) {
       if (elem.key === value) { value = elem.value; }
     }
   }

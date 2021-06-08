@@ -159,8 +159,7 @@ export default class PegaServices extends PegaElement {
           switch (type) {
             case 'casetypes':
               this.casetypes = {};
-              for (const caseTypeIdx in response.caseTypes) {
-                const obj = response.caseTypes[caseTypeIdx];
+              for (const obj of response.caseTypes) {
                 /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
                 if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.ID) {
                   this.casetypes[obj.ID] = {

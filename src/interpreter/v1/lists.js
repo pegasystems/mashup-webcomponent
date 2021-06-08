@@ -56,7 +56,7 @@ export const ListAction = (data, isReadOnly) => {
 
 const TableHeader = (data) => html`
   ${data.map((item) => html`
-    <th>${item.caption ? html`${item.caption.value}` : ''}</th>`)}
+    <th scope='col'>${item.caption ? html`${item.caption.value}` : ''}</th>`)}
 `;
 
 const Table = (data) => html`

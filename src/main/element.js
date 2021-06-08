@@ -71,5 +71,7 @@ export default class PegaElement extends LitElement {
     this.validationMsg = '';
     this.bShowConfirm = false;
     this.bShowNew = false;
+    this.refreshOnChange = false;
+    this.isDeclarativeTarget = false;
   }
 }

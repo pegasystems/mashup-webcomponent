@@ -5,7 +5,7 @@ import { createUID } from '../utils/form-utils';
   label is the label of the button
   onDisplay is called when rendering the list of items in the menu - it must return some html template
   onClick is called when clicking on a menu item */
-export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
+export const ButtonMenu = (label, ariaLabel, onDisplay, onClick, variant) => {
   if (onClick == null) return null;
   let focusMenuItem;
   const uuid = createUID();
@@ -65,14 +65,15 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
       if (event.keyCode !== 40) return;
     }
     event.preventDefault();
+    event.stopPropagation();
     if (event.type === 'blur') {
       dismissModalOnClickaway(event);
       return;
     }
-    const el = event.target;
+    const el = event.currentTarget;
     if (el.tagName === 'BUTTON') {
       if (el.nextElementSibling === null) {
-        event.target.parentNode.appendChild(node);
+        el.parentNode.appendChild(node);
         el.setAttribute('aria-expanded', 'true');
         render(onDisplay(), node);
         focusMenuItem = el.nextElementSibling.firstElementChild;
@@ -92,7 +93,7 @@ export const ButtonMenu = (label, ariaLabel, onDisplay, onClick) => {
     <div class="button-menu">
     <button type='button' id="${`menubutton-${uuid}`}" aria-haspopup="true" aria-controls="${`menu-overlay-${uuid}`}" aria-expanded="false"
     @click="${buttonMenuHandler}" @keydown="${buttonMenuHandler}" @blur="${buttonMenuHandler}"
-    class="pzhc pzbutton Simple action-menu" title="${ariaLabel}" aria-label="${ariaLabel}">${label}</button>
+    class="${`pzhc pzbutton Simple ${variant || 'action-menu'}`}" title="${ariaLabel}" aria-label="${ariaLabel}">${label}</button>
     </div>
   `;
 };

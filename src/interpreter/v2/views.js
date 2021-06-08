@@ -3,6 +3,7 @@ import { Layout } from './layout';
 import { ButtonMenu } from '../../views/button-menu';
 import { AttachmentButton } from '../../views/attachments';
 import { paperclipIcon } from '../../views/icons';
+import { unescapeHTML } from '../../utils/form-utils';
 
 const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
@@ -40,22 +41,22 @@ const AssignmentList = (assignments, onOpen) => {
   <h3>
     Assignments
   </h3>
-  <table>
+  <table class='responsive'>
     <thead>
       <tr>
-        <th>Priority</th>
-        <th>Task</th>
-        <th>Assigned to</th>
-        <th class="right-aligned">Action</th>
+        <th span='col'>Priority</th>
+        <th span='col'>Task</th>
+        <th span='col'>Assigned to</th>
+        <th  span='col' class="right-aligned">Action</th>
       </tr>
     </thead>
       <tbody>
         ${assignments.map((item) => html`
         <tr>
-          <td>${item.urgency}</td>
-          <td>${item.name}</td>
-          <td>${item.assigneeInfo.name}</td>
-          <td class="right-aligned">
+          <td data-title='Priority'>${item.urgency}</td>
+          <td data-title='Task'>${item.name}</td>
+          <td data-title='Assigned'>${item.assigneeInfo.name}</td>
+          <td data-title='Action' class="right-aligned">
             <button type='button' @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
           </td>
         </tr>`)
@@ -124,7 +125,7 @@ export const genPageValidationErrors = (response) => {
     <ul>
       ${response.errorDetails.map((item) => {
     if (item.message === 'Error_Validation_Fail') return null;
-    return html`<li>${item.localizedValue}</li>`;
+    return html`<li>${unescapeHTML(item.localizedValue)}</li>`;
   })}
     </ul>`;
   }

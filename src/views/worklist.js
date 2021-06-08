@@ -19,23 +19,23 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
   </div>
   ${cases.length > 0
     ? html`
-        <table>
+        <table class='responsive'>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>case ID</th>
-              <th class="right-aligned">Urgency</th>
-              <th class="right-aligned">Action</th>
+              <th span='col'>Name</th>
+              <th span='col'>case ID</th>
+              <th span='col' class="right-aligned">Urgency</th>
+              <th span='col' class="right-aligned">Action</th>
             </tr>
           </thead>
           <tbody>
             ${cases.map(
     (item) => html`
                 <tr>
-                  <td>${item.name}</td>
-                  <td>${item.caseID}</td>
-                  <td class="right-aligned">${item.urgency}</td>
-                  <td class="right-aligned">
+                  <td data-title='Name'>${item.name}</td>
+                  <td data-title='Case ID'>${item.caseID}</td>
+                  <td data-title='Urgency' class="right-aligned">${item.urgency}</td>
+                  <td data-title='Action' class="right-aligned">
                     <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">Open</button>
                   </td>
                 </tr>

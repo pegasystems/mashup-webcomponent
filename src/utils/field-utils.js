@@ -5,8 +5,7 @@ import { unescapeHTML } from './form-utils';
 export const ActionSet = (data, eventType) => {
   let actionAttribute;
   if (data.control && data.control.actionSets && data.control.actionSets.length > 0) {
-    for (const i in data.control.actionSets) {
-      const elem = data.control.actionSets[i];
+    for (const elem of data.control.actionSets) {
       /* TODO: one action set could contain multiple actions - we just look at the first action */
       if (elem.events.length > 0 && elem.actions.length > 0 && elem.events[0].event === eventType) {
         let action = elem.actions[0].action;

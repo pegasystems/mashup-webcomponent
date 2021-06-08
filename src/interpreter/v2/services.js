@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { render } from 'lit-html';
 import {
   reviewLayout, mainLayout, genPageValidationErrors,
@@ -44,6 +45,8 @@ export default class PegaServices extends PegaElement {
           this.errorMsg = `Error ${error.status}: ${error.statusText}`;
         } else if (error.status === 401) {
           this.errorMsg = 'Error 401: Authentication error';
+        } else if (error.status === 423) {
+          this.errorMsg = 'Error 423: Resource is locked by another user';
         } else if (error.status === 500) {
           this.errorMsg = 'Error 500: Internal server error';
         } else {
@@ -131,6 +134,11 @@ export default class PegaServices extends PegaElement {
           if (response.errors && response.errors.length > 0) {
             return;
           }
+          if (response.pyLocalizedValue) {
+            this.errorMsg = `Error: ${response.pyLocalizedValue}`;
+            this.requestUpdate();
+            return;
+          }
           if (response.errorDetails && response.errorDetails.length > 0) {
             this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
             this.clearLoadingIndicator();
@@ -142,8 +150,13 @@ export default class PegaServices extends PegaElement {
           switch (type) {
             case 'portal':
               this.casetypes = {};
-              for (const caseTypeIdx in response.data.D_pzCasesAvailableToCreateForPortal.pxResults) {
-                const obj = response.data.D_pzCasesAvailableToCreateForPortal.pxResults[caseTypeIdx];
+              let listofcasestocreate = [];
+              if (response.data && response.data.D_pzCasesAvailableToCreateForPortal && response.data.D_pzCasesAvailableToCreateForPortal.pxResults) {
+                listofcasestocreate = response.data.D_pzCasesAvailableToCreateForPortal.pxResults;
+              } else if (response.data && response.data.pyPortal && response.data.pyPortal.pyCaseTypesAvailableToCreate) {
+                listofcasestocreate = response.data.pyPortal.pyCaseTypesAvailableToCreate;
+              }
+              for (const obj of listofcasestocreate) {
                 /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
                 if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.pyClassName) {
                   this.casetypes[obj.pyClassName] = {
@@ -153,9 +166,15 @@ export default class PegaServices extends PegaElement {
                 }
               }
               this.cases = [];
-              if (response.data.D_pyUserWorkList.pxResults.length > 0) {
-                for (const caseTypeIdx in response.data.D_pyUserWorkList.pxResults) {
-                  const obj = response.data.D_pyUserWorkList.pxResults[caseTypeIdx];
+              let myworklist = [];
+              if (response.data && response.data.D_pyUserWorkList && response.data.D_pyUserWorkList.pxResults) {
+                myworklist = response.data.D_pyUserWorkList.pxResults;
+              } else if (response.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults) {
+                myworklist = response.data[response.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults
+                  .replace('.pxResults', '')].pxResults;
+              }
+              if (myworklist.length > 0) {
+                for (const obj of myworklist) {
                   this.cases.push(
                     {
                       name: obj.pyLabel,
@@ -169,16 +188,19 @@ export default class PegaServices extends PegaElement {
               this.requestUpdate();
               break;
             case 'assignment':
+              this.isDeclarativeTarget = false;
+              this.refreshOnChange = false;
               this.data = response;
               this.casedata = response.data.caseInfo;
               this.data.name = this.casedata.content.pyLabel;
-              this.caseID = this.casedata.content.pzInsKey;
+              this.caseID = this.casedata.ID;
               this.data.caseID = this.caseID;
               this.data.ID = id;
               this.actionID = this.casedata.content.pyViewName;
               this.casepyStatusWork = this.casedata.status;
               this.data.actions = this.casedata.availableActions;
               this.name = this.casedata.stageLabel;
+              this.content = {};
               render(mainLayout(response.uiResources.resources.views[this.actionID], 'Obj',
                 this.bShowCancel === 'true' ? this.actionAreaCancel : null,
                 this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
@@ -209,6 +231,18 @@ export default class PegaServices extends PegaElement {
               el.focus();
               break;
             case 'caseaction':
+              this.isDeclarativeTarget = false;
+              this.refreshOnChange = false;
+              this.data = response;
+              this.casedata = response.data.caseInfo;
+              this.data.name = this.casedata.content.pyLabel;
+              this.caseID = this.casedata.ID;
+              this.data.caseID = this.caseID;
+              this.data.ID = '';
+              this.casepyStatusWork = this.casedata.status;
+              this.data.actions = this.casedata.availableActions;
+              this.name = this.casedata.stageLabel;
+              this.content = {};
               render(mainLayout(response.uiResources.resources.views[response.uiResources.root.config.name], 'Obj',
                 this.bShowCancel === 'true' ? this.actionAreaCancel : null,
                 this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
@@ -295,6 +329,19 @@ export default class PegaServices extends PegaElement {
         reqHeaders.headers['If-Match'] = this.etag;
         apiurl += `cases/${id}/actions/${actionid}?viewType=form`;
         break;
+      case 'refreshassignment':
+        apiurl += `assignments/${id}/actions/${actionid}/refresh`;
+        reqHeaders.headers['If-Match'] = this.etag;
+        reqHeaders.method = 'PATCH';
+        reqHeaders.body = JSON.stringify({
+          content: this.content,
+          contextData: true,
+        });
+        break;
+      case 'dataviews':
+        apiurl += `data_views/${id}`;
+        reqHeaders.body = JSON.stringify(props.content);
+        break;
       case 'uploadattachment':
         apiurl += 'attachments/upload';
         delete headers['Content-Type']; /* Important to not defined the content-type for multi-form */
@@ -364,7 +411,23 @@ export default class PegaServices extends PegaElement {
           }
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
-          if (type === 'deleteattachment' || type === 'attachments') {
+          if (type === 'dataviews') {
+            debugger;
+          }
+          if (type === 'refreshassignment') {
+            if (el && response.data.caseInfo && response.data.caseInfo.content) {
+              this.data.data.caseInfo.content = response.data.caseInfo.content;
+              render(mainLayout(this.data.uiResources.resources.views[this.actionID], 'Obj',
+                this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+                this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
+            }
+            return;
+          }
+          if (type === 'deleteattachment') {
+            if (target && !target.classList.contains('attach-files')) {
+              this.fetchData('attachments', { id: this.caseID, target });
+            }
+          } else if (type === 'attachments') {
             this.fetchData('attachments', { id: this.caseID, target });
           } else if (type === 'uploadattachment') {
             let filepartidx = actionid.name.lastIndexOf('.');

@@ -2,7 +2,7 @@ import { html } from 'lit-element';
 import { render } from 'lit-html';
 import PegaServices from './services';
 import {
-  genActionsList, CaseHeader, genCaseTypesList,
+  genActionsList, CaseHeader, genCaseTypesList, mainLayout,
 } from './views';
 import { showDataList } from '../../views/datalist';
 import { LoadingIndicator } from '../../views/loading';
@@ -15,7 +15,6 @@ import { WorkList } from '../../views/worklist';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
-    console.log('displayContent v2');
     this.bShowSave = 'false';
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
@@ -261,6 +260,8 @@ export default class PegaBase extends PegaServices {
         if (ref !== null && action != null) {
           if (action === 'addRow') {
             addRowToPageList(this.content, ref, node.getAttribute('data-newrow'));
+            // eslint-disable-next-line no-param-reassign
+            refreshFor = form;
           } else if (action === 'deleteRow') {
             deleteRowFromPageList(this.content, ref);
           }
@@ -306,8 +307,16 @@ export default class PegaBase extends PegaServices {
     }
     el.setCustomValidity('');
     el.classList.remove('error-field');
-    if (shouldRefresh(el, 'change')) {
+
+    if (shouldRefresh(el, 'change') || this.isDeclarativeTarget) {
       this.refreshAssignment(el, getRefreshFor(el, 'change'));
+    } else if (this.refreshOnChange) {
+      const form = this.getRenderRoot().querySelector('#case-data');
+      const content = this.data.data.caseInfo.content;
+      getFormData(form, content);
+      render(mainLayout(this.data.uiResources.resources.views[this.actionID], 'Obj',
+        this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+        this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);
     }
   };
 
@@ -331,8 +340,7 @@ export default class PegaBase extends PegaServices {
    * - Allocated the main event listener for click, focus and change
    * - Apply the action requested when creating the element
    */
-  firstUpdated() {
-    console.log('Initialization of the Web Component v2');
+  async firstUpdated() {
     const mashupWidget = this.getRenderRoot();
     if (mashupWidget) {
       mashupWidget.addEventListener('click', this.clickHandler);

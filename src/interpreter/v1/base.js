@@ -15,7 +15,6 @@ import { WorkList } from '../../views/worklist';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
-    console.log('displayContent v1');
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
       return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
@@ -300,7 +299,7 @@ export default class PegaBase extends PegaServices {
         if (node.tagName === 'svg') node = node.parentNode;
         const action = node.getAttribute('data-action-click');
         const ref = node.getAttribute('data-ref');
-        if (ref !== null && action != null) {
+        if (ref !== null && action !== null) {
           if (action === 'addRow') {
             addRowToPageList(this.content, ref, node.getAttribute('data-newrow'));
           } else if (action === 'deleteRow') {
@@ -373,8 +372,7 @@ export default class PegaBase extends PegaServices {
    * - Allocated the main event listener for click, focus and change
    * - Apply the action requested when creating the element
    */
-  firstUpdated() {
-    console.log('Initialization of the Web Component v1');
+  async firstUpdated() {
     const mashupWidget = this.getRenderRoot();
     if (mashupWidget) {
       mashupWidget.addEventListener('click', this.clickHandler);

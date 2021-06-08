@@ -34,34 +34,40 @@ export const convertTimestampToDate = (v) => {
 /**
  * escape and unescape the HTML entities
  */
-export const escapeHTML = (str) => str.replace(
-  /[&<>'"]/g,
-  (tag) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    "'": '&#39;',
-    '(': '&#40;',
-    ')': '&#41;',
-    '"': '&quot;',
-  }[tag] || tag),
-);
+export const escapeHTML = (str) => {
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(
+    /[&<>'"]/g,
+    (tag) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '(': '&#40;',
+      ')': '&#41;',
+      '"': '&quot;',
+    }[tag] || tag),
+  );
+};
 
-export const unescapeHTML = (str) => str.replace(
-  /&amp;|&lt;|&gt;|&#39;|&#40;|&#41;|&quot;/g,
-  (tag) => ({
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&#39;': "'",
-    '&#40;': '(',
-    '&#41;': ')',
-    '&quot;': '"',
-  }[tag] || tag),
-);
+export const unescapeHTML = (str) => {
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(
+    /&amp;|&lt;|&gt;|&#39;|&#40;|&#41;|&quot;/g,
+    (tag) => ({
+      '&amp;': '&',
+      '&lt;': '<',
+      '&gt;': '>',
+      '&#39;': "'",
+      '&#40;': '(',
+      '&#41;': ')',
+      '&quot;': '"',
+    }[tag] || tag),
+  );
+};
 
 /**
- * set the value of a property in an obj targeted by the path
+ * set the value of a property in an obj targeted by the path like 'props(1).pyLabel'
  */
 export const setObjectFromRef = (root, path, value) => {
   if (typeof path !== 'string') {
@@ -97,7 +103,7 @@ export const setObjectFromRef = (root, path, value) => {
 };
 
 /**
- * get the value targeted by path - path can be a complex string like .props(1).pyLabel
+ * get the value targeted by path - path can be a complex string like 'props(1).pyLabel'
  * Note that path is using 1 as the starting index
  */
 export const getValue = (obj, path) => {
@@ -110,7 +116,7 @@ export const getValue = (obj, path) => {
     const key = keys[i];
     const startParens = key.indexOf('(');
     if (startParens === -1) {
-      if (retObj[key]) {
+      if (typeof retObj[key] !== 'undefined') {
         retObj = retObj[key];
       } else {
         return null;
@@ -238,12 +244,65 @@ export const getRefreshFor = (el, actionType) => {
   return '';
 };
 
+function compare(post, operator, value) {
+  try {
+    switch (operator) {
+      case '>': return parseInt(post, 10) > parseInt(value, 10);
+      case '<': return parseInt(post, 10) < parseInt(value, 10);
+      case '>=': return parseInt(post, 10) >= parseInt(value, 10);
+      case '<=': return parseInt(post, 10) <= parseInt(value, 10);
+        // eslint-disable-next-line eqeqeq
+      case '==': return `${post}` == `${value}`;
+        // eslint-disable-next-line eqeqeq
+      case '!=': return `${post}` != `${value}`;
+    }
+  // eslint-disable-next-line no-empty
+  } catch (e) {}
+  return false;
+}
+
+/**
+ * Check if the condition is true - INCOMPLETE - does not handle all use cases like OR and AND
+ *
+ */
+export const isValidExpression = (expression, content) => {
+  const exprs = expression.replace('@E ', '').split('&&');
+  for (const expr in exprs) {
+    const ops = exprs[expr].trim().match(/[\w.]+|[><=!]+|'[^']+'/g);
+    if (ops.length === 3) {
+      const val = content[ops[0].substring(1)];
+      if (typeof val !== 'undefined') {
+        if (!compare(val, ops[1], ops[2].replace(/^'|'$/g, ''))) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+};
+
+/**
+ * Apply the visibility conditions - Work in progress not used currently - instead do refresh
+ */
+export const applyVisibleToForm = (form, content) => {
+  const els = form.querySelectorAll('[data-visibility]');
+  for (let i = 0; i < els.length; i++) {
+    const expression = els[i].getAttribute('data-visibility');
+    if (expression !== null) {
+      if (isValidExpression(expression, content)) {
+        els[i].style = 'display:none';
+      } else {
+        els[i].style = '';
+      }
+    }
+  }
+};
+
 /**
  * Retrieve the values of all the form controls in the form and populate them in the content object
  */
 export const getFormData = (form, content) => {
-  for (const i in form.elements) {
-    const el = form.elements[i];
+  for (const el of form.elements) {
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
       const ref = el.getAttribute('data-ref');
       if (ref !== null && ref !== 'pyID') {
@@ -255,6 +314,12 @@ export const getFormData = (form, content) => {
             if (el.checked) {
               setObjectFromRef(content, ref, el.value);
             }
+          } else if (type === 'tel') {
+            let value = el.value;
+            if (el.parentNode.firstElementChild.tagName === 'SELECT' && el.parentNode.firstElementChild.className === 'field-countrycode') {
+              value = el.parentNode.firstElementChild.value + value;
+            }
+            setObjectFromRef(content, ref, value);
           } else if (type === 'date') {
             let dt;
             if (el.valueAsDate) {
@@ -278,14 +343,21 @@ export const getFormData = (form, content) => {
       }
     }
   }
+  if (form && form.querySelectorAll) {
+    const editableElems = form.querySelectorAll('[contenteditable]');
+    for (let i = 0; i < editableElems.length; i++) {
+      const el = editableElems[i];
+      const ref = el.getAttribute('data-ref');
+      setObjectFromRef(content, ref, escapeHTML(el.innerHTML));
+    }
+  }
 };
 
 /**
  * Retrieve the values of all the form controls in the form and populate them in the content object
  */
 export const setFormData = (form, content) => {
-  for (const i in form.elements) {
-    const el = form.elements[i];
+  for (const el of form.elements) {
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
       const ref = el.getAttribute('data-ref');
       if (ref !== null && ref !== 'pyID' && content[ref]) {
@@ -299,6 +371,26 @@ export const setFormData = (form, content) => {
             el.value = myobj.value;
           }
           if (myobj.disabled) el.disabled = true;
+        } else if (el.type === 'datetime-local') {
+          if (myobj.length === 24) {
+            el.value = myobj.substring(0, 23);
+          } else {
+            el.value = myobj;
+          }
+        } else if (el.type === 'date') {
+          let dt;
+          if (el.valueAsDate) {
+            dt = new Date(el.valueAsDate);
+          }
+          if (!dt || !(dt instanceof Date) || dt.getTime() !== dt.getTime()) {
+            dt = new Date(el.value);
+          }
+          if (dt && dt instanceof Date && dt.getTime() === dt.getTime()) {
+            dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+            setObjectFromRef(content, ref, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate())}/${dt.getFullYear()}`);
+          } else {
+            setObjectFromRef(content, ref, el.value);
+          }
         } else if (typeof myobj === 'string') {
           if (el.type === 'radio') {
             if (el.value === myobj) el.checked = true;
@@ -309,6 +401,8 @@ export const setFormData = (form, content) => {
           }
         } else if (typeof myobj === 'boolean' && el.type === 'checkbox') {
           if (myobj === true) el.checked = true;
+        } else {
+          el.value = myobj;
         }
       }
     }
@@ -332,20 +426,19 @@ export const getInitData = (casedata) => {
 
 /* set an error on every form fields */
 export const setFormInlineError = (form, errorMsg) => {
-  for (const i in form.elements) {
-    const el = form.elements[i];
+  for (const el of form.elements) {
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
       const ref = `.${el.getAttribute('data-ref')}`;
       if (ref !== null && ref !== 'pyID') {
         for (const err in errorMsg) {
           if (errorMsg[err].Path === ref) {
-            el.setCustomValidity(errorMsg[err].ValidationMessage);
+            el.setCustomValidity(unescapeHTML(errorMsg[err].ValidationMessage));
             el.classList.add('error-field');
             el.reportValidity();
             break;
           }
           if (errorMsg[err].erroneousInputOutputFieldInPage === ref) {
-            el.setCustomValidity(errorMsg[err].localizedValue);
+            el.setCustomValidity(unescapeHTML(errorMsg[err].localizedValue));
             el.classList.add('error-field');
             el.reportValidity();
             break;

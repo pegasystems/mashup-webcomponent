@@ -1,9 +1,11 @@
+/* eslint-disable no-param-reassign */
 import { render, html } from 'lit-html';
 import { LoadingIndicator } from './loading';
 import {
-  paperclipIcon, trashIcon, timesIcon, documentIcon,
+  paperclipIcon, trashIcon, timesIcon, documentIcon, threedotIcon,
 } from './icons';
 import { displayModal } from './modal-manager';
+import { ButtonMenu } from './button-menu';
 
 export const AttachmentButton = (title, label, format, onDisplay) => {
   const attachmentButtonHandler = (modalnode) => {
@@ -36,6 +38,8 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     }
     let filename = data[id].fileName;
     if (typeof filename === 'undefined') filename = data[id].name;
+    if (typeof filename === 'undefined') filename = data[id].pyAttachName;
+    if (!filename) return;
     const elem = window.document.createElement('a');
     if (data[id].category === 'Correspondence') {
       filename = `${data[id].name}.html`;
@@ -107,13 +111,18 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     if (event.type === 'drop') {
       const dt = event.dataTransfer;
       const files = dt.files;
+      if (!target) {
+        target = el.closest('.attach-files');
+      }
       renderFilesToBeUploaded(el, files);
     }
   };
 
   const uploadFiles = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
     for (let i = 0; i < tmpFiles.length; i++) {
       const file = tmpFiles[i];
       delete file.editing;
@@ -152,6 +161,9 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
       el.click();
       return;
     }
+    if (!target) {
+      target = el.closest('.attach-files');
+    }
     renderFilesToBeUploaded(el, el.files);
   };
 
@@ -189,6 +201,41 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     </div>`;
   };
 
+  const renderFileAttachment = (item, loading) => html`<div class='row-item'>
+    <span class='doc-icon'>${documentIcon()}<span>${item.extension}</span></span>
+    <div class='list-item-title'><span>${item.displayName}</span>${loading ? html`<span class="list-item-meta"><span>Uploading...</span></span>` : ''}</div>
+  </div>`;
+
+  const renderActionMenu = () => html`<li role="menuitem" tabindex="-1" data-value="Download">Download</li>
+  <li role="menuitem" tabindex="-1" data-value="Delete">Delete</li>`;
+
+  const performActionMenu = (event) => {
+    let el = event.target;
+    if (event.path && event.path.length > 0) {
+      el = event.path[0];
+    } else if (event.originalTarget) {
+      el = event.originalTarget;
+    }
+    if (el) {
+      const action = el.getAttribute('data-value');
+      const key = data[id].pzInsKey || data[id].ID;
+      if (action === 'Download') {
+        webcomp.fetchData.call(webcomp, 'attachment', { id: key, target: downloadContent });
+      } else if (action === 'Delete') {
+        webcomp.sendData.call(webcomp, 'deleteattachment', { id: key, target });
+        render(genAttachmentsList(undefined, [], caseID, webcomp, []), target);
+      }
+    }
+  };
+
+  const renderAttachedFile = (item) => html`<div class='row-item'>
+    <span class='doc-icon'>${documentIcon()}<span>${item.extension}</span></span>
+    <div class='list-item-title'><span>${item.pyAttachName || item.name}</span>
+    <span class="list-item-meta"><span>${item.pyCategoryName || item.category}</span>
+    <span>${item.pxCreateOperator || item.createdBy}</span></span></div>
+    ${ButtonMenu(threedotIcon(), 'Actions', renderActionMenu, performActionMenu, 'button-action')}
+  </div>`;
+
   const renderItemAction = (itemid, item) => {
     if (item.loading) return html`${renderItemTitle(itemid, item)}${LoadingIndicator()}`;
     if (item.editing) {
@@ -225,6 +272,8 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
       for (const i of keys) {
         let extension = i[1].extension;
         if (typeof extension === 'undefined') extension = i[1].type;
+        if (!extension) extension = '';
+        if (extension.length > 5) extension = extension.substring(0, 5);
         if (i[1].type === 'URL' && i[1].editing) {
           itemList.push(
             html`<div class='flex layout-content-stacked content-items-maxwidth'>
@@ -234,7 +283,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
         } else {
           itemList.push(
             html`<div class='row-item'>
-              <span class='doc-icon'>${documentIcon()}<span>${extension.substring(0, 5)}</span></span>
+              <span class='doc-icon'>${documentIcon()}<span>${extension}</span></span>
               ${renderItemAction(i[0], i[1])}
             </div>`,
           );
@@ -270,6 +319,34 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
     `;
   };
 
+  if (!target) {
+    if (data && data.length > 0 && data[0].pyAttachName) {
+      id = 0;
+      data[0].extension = '';
+      const elms = data[0].pyAttachName.split('.');
+      if (elms.length > 1) {
+        data[0].extension = elms[elms.length - 1];
+      }
+      return renderAttachedFile(data[0]);
+    }
+    /* Single file attachment for a property */
+    return html`<div @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"  
+    @drop="${handleDrop}" class='attach-files list-items'>
+      <div class="file-upload">
+        <input @change="${uploadFile}" type="file">
+        ${paperclipIcon()}<span> Drag and drop or 
+        <button type='button' aria-labelledby='click to attach a file' class='Light' @click="${uploadFile}">choose file</button>
+      </div>
+    </div>`;
+  }
+  if (target && target.classList.contains('attach-files')) {
+    if (tmpFiles && tmpFiles.length > 0) {
+      webcomp.sendData.call(webcomp, 'uploadattachment', { actionid: tmpFiles[0], target });
+      return renderFileAttachment(tmpFiles[0], true);
+    } if (data && data.length > 0) {
+      return renderAttachedFile(data[0]);
+    }
+  }
   let modalHeader = 'Attachments';
   if (typeof tmpFiles !== 'undefined' && tmpFiles.length > 0) {
     if (tmpFiles[0].type === 'URL') {

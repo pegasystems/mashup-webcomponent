@@ -15,9 +15,11 @@ export const displayModal = (title, label, format, onOpen, onCancel) => {
   node.setAttribute('class', 'mashup-modal');
   const modalnode = document.createElement('div');
   node.appendChild(modalnode);
-
+  const focusableElements =
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
   const unmountHanders = () => {
     document.body.removeEventListener('click', dismissModalOnClickaway);
+    document.body.removeEventListener('keydown', modalKeyHandler);
     if (node) {
       if (node.previousElementSibling) {
         node.previousElementSibling.removeAttribute('aria-hidden');
@@ -48,6 +50,30 @@ export const displayModal = (title, label, format, onOpen, onCancel) => {
     }
   };
 
+  const modalKeyHandler = (event) => {
+    if (event.key === 'Escape') {
+      dismissModalOnClickaway(event);
+      return;
+    }
+    const isTabPressed = event.key === 'Tab' || event.keyCode === 9;
+    if (!isTabPressed) {
+      return;
+    }
+    const focusableContent = node.querySelectorAll(focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1];
+    const firstFocusableElement = focusableContent[0];
+
+    if (event.shiftKey) {
+      if (document.activeElement === firstFocusableElement) {
+        lastFocusableElement.focus();
+        event.preventDefault();
+      }
+    } else if (document.activeElement === lastFocusableElement) {
+      firstFocusableElement.focus();
+      event.preventDefault();
+    }
+  };
+
   const modalClickHandler = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -59,7 +85,10 @@ export const displayModal = (title, label, format, onOpen, onCancel) => {
         node.style.opacity = 0;
         nodeEl.appendChild(node);
         onOpen(modalnode);
+        const firstFocusableElement = node.querySelectorAll(focusableElements)[0];
+        firstFocusableElement.focus();
         document.body.addEventListener('click', dismissModalOnClickaway);
+        document.body.addEventListener('keydown', modalKeyHandler);
         /* Force update so that animation can be trigger */
         // eslint-disable-next-line no-unused-vars
         const tmpval = node.offsetHeight;

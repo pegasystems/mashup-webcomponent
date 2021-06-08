@@ -7,6 +7,13 @@ export const viewStyle = () => html`
       color: var(--generalLabelColor);
       line-height: 1.5;
     }
+    .helper-text {
+      color: var(--generalLabelColor);
+      font-size: var(--generalHelperTextFontSize);
+      line-height: 1;
+      margin-top: 0.3rem;
+      flex: 0 0 100%;
+    }
     h1 {
       font-size: var(--text-xxl);
     }
@@ -75,13 +82,22 @@ export const viewStyle = () => html`
       inline-size: auto;
     }
 
+    div[readonly],
+    input[readonly],
+    textarea[readonly] {
+      background-color: #fafafa;
+      border-color: transparent;
+    }
+
     .field-item {
       display: flex;
       flex-flow: column nowrap;
     }
 
-    .flex.content > .field-checkbox > .field-caption,
-    .flex.content > .field-checkbox,
+    .flex.content > .field-checkbox {
+      flex-flow: row-reverse;
+      margin-right: auto;
+    } 
     .flex.content > .field-button {
       display: inline-block;
     }
@@ -190,7 +206,6 @@ export const viewStyle = () => html`
 
     button.pzhc:hover {
       cursor: pointer;
-      color: var(--linkColorFocus);
     }
 
     a:hover {
@@ -236,6 +251,7 @@ export const viewStyle = () => html`
       display: inline-block;
       padding: 0;
       height: auto;
+      width: -moz-fit-content;
       width: fit-content;
       border:none;
     }
@@ -437,6 +453,19 @@ export const viewStyle = () => html`
     .flex.layout-content-inline_middle > *:last-child {
       margin-right: 0;
     }
+    .layout-content-default-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 8px;
+      column-gap: 16px;
+      margin-bottom: 16px;
+    }
+    .layout-content-default-form-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .layout-content-default-form-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
     .action-button-area {
       display: flex;
       flex-flow: row;
@@ -449,11 +478,25 @@ export const viewStyle = () => html`
     .action-button-area > button:last-child {
       margin: 0 0 0 auto;
     }
+    .flex.field-item.field-table {
+      overflow-x: auto;
+      flex-flow: column nowrap;
+    }
     table {
-      width: 100%;
+      width:100%;
+      border-collapse: collapse;
     }
     th {
       text-align:left;
+      background: var(--TableHeaderBgColor);
+      height: 40px;
+      padding: 0 var(--spacing1x);
+      border: 1px solid var(--TableBorderColor);
+    }
+    td {
+      height: 50px;
+      padding: 0 var(--spacing1x);
+      border: 1px solid var(--TableBorderColor);
     }
     td > input {
       width: -webkit-fill-available;
@@ -500,7 +543,7 @@ export const viewStyle = () => html`
       padding-left: 3px;
     }
     .content-items-maxwidth > .content-item {
-      max-width: 640px;
+      max-width: 80ch;
     }
     .field-text > span:empty::after {
       content: '\\2013\\2013';
@@ -516,6 +559,7 @@ export const viewStyle = () => html`
       display: flex;
       margin-bottom: 14px;
       align-items: center;
+      word-break: break-word;
     }
 
     .error button {
@@ -529,6 +573,23 @@ export const viewStyle = () => html`
       outline: red 1px solid;
     }
     
+    .field-currencyinput > div {
+      position: relative;
+      display: flex;
+      flex-flow: row nowrap;
+    }
+    
+    .field-currencyinput > div > input {
+      padding-inline-start: 2ch;
+      width: 100%;
+    }
+    
+    .currency-symbol {
+      position: absolute;
+      left: 7px;
+      top: 25%;
+    }
+
     .badge_text {
       background-color: #088488;
       color: #FFF;
@@ -719,6 +780,75 @@ export const viewStyle = () => html`
           transform: scale(0);
           opacity: 0;
       }
+    }
+
+    .rich-text-main {
+      display: flex;
+      flex-flow: column nowrap;
+    }
+    .rich-text-main h1,
+    .rich-text-main h2,
+    .rich-text-main h3 {
+      color: var(--generalTextColor);
+    }
+    .rich-text-main .editor-actions {
+      overscroll-behavior: contain;
+      overflow-y: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .rich-text-main .editor-actions::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .rich-text-main .editor {
+      border: 1px solid #ccc;
+      overflow: auto;
+      height: 216px;
+      min-height: 216px;
+    }
+    .rich-text-main .toolbar {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+    }
+    .rich-text-main [contenteditable] {
+      outline: 0px solid transparent;
+      min-height: 200px;
+      height: 200px;
+      font-size: 14px;
+      padding: 8px;
+    }
+    .rich-text-main .toolbar > button,
+    .rich-text-main .toolbar > select {
+      margin-right: 2px;
+      height: 30px;
+      font-size: 11px;
+    }
+    .rich-text-main .toolbar button {
+      color: rgb(0, 0, 0);
+      cursor: pointer;
+      border: 1px solid rgb(204, 204, 204);
+      border-radius: 4px;
+      padding: 2px;
+      min-width: 26px;
+      height: 26px;
+      background: #FFF;
+      min-width:0;
+    }
+    .rich-text-main .toolbar .active {
+      background: #ccc;
+    }
+    .rich-text-main blockquote {
+      border-left: 2px solid #ddd;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 10px;
+      color: #aaa;
+      font-style: italic;
+    }
+    .rich-text-main img {
+      max-width: 100%;
     }
 
     @media only screen and (max-width: 640px) {

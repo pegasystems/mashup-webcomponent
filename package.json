@@ -1,8 +1,8 @@
 {
     "name": "pega-mashup-web-component",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "Pega Mashup Web Component",
-    "license": "MIT",
+    "license": "Apache 2.0",
     "scripts": {
         "dev": "cross-env BABEL_ENV=build rollup --config rollup.config.dev.js --watch",
         "build": "cross-env BABEL_ENV=build rollup --config rollup.config.prod.js && workbox generateSW workbox-config.js",
@@ -19,15 +19,15 @@
         "@babel/preset-env": "^7.12.16",
         "axe-puppeteer": "^1.1.1",
         "babel-eslint": "^10.1.0",
-        "babel-jest": "^26.6.3",
-        "babel-preset-jest": "^26.6.2",
+        "babel-jest": "^27.0.2",
+        "babel-preset-jest": "^27.0.1",
         "cross-env": "^7.0.3",
         "eslint": "^7.2.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-jest": "^24.1.4",
-        "jest": "^26.6.3",
-        "puppeteer": "^9.1.1",
+        "jest": "^27.0.3",
+        "puppeteer": "^10.0.0",
         "rollup": "^2.39.0",
         "rollup-plugin-babel": "^4.4.0",
         "rollup-plugin-cleaner": "^1.0.0",
@@ -37,7 +37,6 @@
         "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-serve": "^1.1.0",
         "rollup-plugin-terser": "^7.0.2",
-        "rollup-watch": "^4.3.1",
         "workbox-cli": "^6.1.0"
     },
     "dependencies": {
