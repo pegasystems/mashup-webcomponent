@@ -2,11 +2,12 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "jest": "^27.0.4",
     "lerna": "^4.0.0"
   },
   "scripts": {
     "build": "lerna run build",
-    "test": "cd packages/core && npm test",
+    "test": "jest",
     "lint": "lerna run lint"
   },
   "workspaces": [
