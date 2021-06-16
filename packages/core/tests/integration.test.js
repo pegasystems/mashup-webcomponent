@@ -127,7 +127,7 @@ describe(
       await page.type('#case-data #Obj-0-0-0-2', '03/03/2000');
       await page.type('#case-data #Obj-0-0-0-5', '567892345');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
