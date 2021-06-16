@@ -7,7 +7,7 @@
         "dev": "rollup --config rollup.config.dev.js --watch",
         "build": "rollup --config rollup.config.prod.js",
         "lint": "eslint src/**/*.js --fix; exit 0",
-        "test": "npx jest",
+        "test": "mkdir -p test-results && jest",
         "test:watch": "npx jest --watch",
         "test:coverage": "npx jest --coverage --colors"
     },
@@ -22,6 +22,7 @@
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-jest": "^24.1.4",
         "jest": "^27.0.3",
+        "jest-cli": "^27.0.4",
         "puppeteer": "^10.0.0",
         "rollup": "^2.39.0",
         "rollup-plugin-copy": "^3.3.0",
