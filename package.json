@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "test": "lerna run test",
+    "test": "cd packages/core && npm test",
     "lint": "lerna run lint"
   },
   "workspaces": [
