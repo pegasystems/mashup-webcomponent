@@ -10,3 +10,5 @@ test-results
 .eslintcache
 .node_repl_history
 .env
+packages/*/docs
+report.*
