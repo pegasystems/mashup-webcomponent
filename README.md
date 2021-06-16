@@ -26,8 +26,10 @@ The Web component supports the following actions:
 
 The docs folder contains the JS library to load to use the Web Component:
 
-- pega-mashup-light-webcomponent.js can be loaded if you only need to use the light DOM component (pega-mashup-light) - it is a smaller file since it does not include any CSS content
-- pega-mashup-webcomponent.js can be used if you intend to use the Shadow DOM version of the web component (pega-mashup). The file also contains the light DOM component (pega-mashup-light).
+- pega-mashup-light-webcomponent.js => can be loaded if you only need to use the light DOM component (pega-mashup-light) - it is a smaller file since it does not include any CSS content
+- pega-mashup-light-webcomponentv2.js => same as above but using the DX v2 API 
+- pega-mashup-webcomponent-all.js => can be used if you intend to use the Shadow DOM version of the web component (pega-mashup). includes all versions (v1 and v2 + light) 
+- pega-mashup-webcomponent-light-all.js => contains both the v1 and v2 components of the light DOM version
 
 ## For developers
 
@@ -43,9 +45,10 @@ install npm from https://nodejs.org/en/download/
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development.
 
 ```
+cd packages\xxxx
 npm run dev
 ```
 
