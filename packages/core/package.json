@@ -7,9 +7,9 @@
         "dev": "rollup --config rollup.config.dev.js --watch",
         "build": "rollup --config rollup.config.prod.js",
         "lint": "eslint src/**/*.js --fix; exit 0",
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "test:coverage": "jest --coverage --colors"
+        "test": "npx jest",
+        "test:watch": "npx jest --watch",
+        "test:coverage": "npx jest --coverage --colors"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.14.5",
