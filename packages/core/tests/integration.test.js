@@ -140,19 +140,19 @@ describe(
       expect(title).toBe('Cars');
       await page.type('#case-data #Obj-0-row0-0-0-0', 'Omega');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Select coverage');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Review');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1500);
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
