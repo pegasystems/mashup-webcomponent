@@ -16,6 +16,13 @@
   <link rel="stylesheet" href="./govuk-frontend-3.12.0.min.css" type="text/css">
   <link rel="stylesheet" href="./app.css" type="text/css">
   <script src="./govuk-frontend-3.12.0.min.js"></script>
+  <script>
+    const defaultSettings = localStorage.getItem('defaultcfg');
+    const defaultCfg = {};
+    if (defaultSettings != null) {
+      defaultCfg = JSON.parse(defaultSettings);
+    }
+  </script>
 </head>
 
 <body class="govuk-template__body">
@@ -88,13 +95,12 @@
     </nav>
     <main id="main-content" class="app-content" role="main">
       <pega-govuk action="workList"
-      url='https://pw16agenda-dt1.pegacloud.io/prweb'
-      username = 'wssuser2'
-      password = 'install@123'
-      authentication = 'oauth2password'
-      clientid = '11546443223711832500'
-      clientsecret = 'F15B0303D684531B7CEDE24CC82E74A9'
-      portalName = 'DemoReact1'></pega-govuk>
+      url= defaultCfg.url
+      username = defaultCfg.username
+      password = defaultCfg.password
+      authentication = defaultCfg.authentication
+      clientid = defaultCfg.clientid
+      portalName = defaultCfg.portalName></pega-govuk>
     </main>
     <footer class="govuk-footer " role="contentinfo">
       <div class="govuk-width-container ">

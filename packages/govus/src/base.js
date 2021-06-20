@@ -51,7 +51,7 @@ export default class PegaBase extends PegaServices {
       return html`
         ${CaseHeader(this.name, this.data, this.casedata, this.openCase)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
-        <form id="case-data">${LoadingIndicator()}</form>
+        <form class="usa-form" id="case-data">${LoadingIndicator()}</form>
       `;
     }
     if (this.action === 'workList') {
@@ -121,17 +121,9 @@ export default class PegaBase extends PegaServices {
     }
   };
 
-  keyupHandler = (event) => {
-    const el = event.target;
-    if (el.tagName === 'TEXTAREA') {
-      el.style.cssText = 'height:auto; padding:0;';
-      el.style.cssText = `height:${el.scrollHeight}px`;
-    }
-  };
-
   focusHandler = (event) => {
     const el = event.target;
-    if (el.classList.contains('combobox') && !el.classList.contains('loaded')) {
+    if (el.classList.contains('usa-combo-box') && !el.classList.contains('loaded')) {
       this.getData(el.getAttribute('data-pageid'), el);
     } else if (el.tagName === 'INPUT' && el.classList.contains('location') && !el.classList.contains('pac-target-input') &&
     window.google && window.google.maps && window.google.maps.places) {
@@ -151,7 +143,6 @@ export default class PegaBase extends PegaServices {
       mashupWidget.addEventListener('click', this.clickHandler);
       mashupWidget.addEventListener('focusin', this.focusHandler);
       mashupWidget.addEventListener('change', this.changeHandler);
-      mashupWidget.addEventListener('keyup', this.keyupHandler);
     }
   }
 }

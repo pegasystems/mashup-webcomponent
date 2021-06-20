@@ -4,7 +4,7 @@ import {
 } from './views';
 import { genAttachmentsList } from '../../views/attachments';
 import { RenderLocalAction } from '../../views/local-action';
-import { setFormData, setFormInlineError } from '../../utils/form-utils';
+import { setFormData, setFormInlineError, genContentPayload } from '../../utils/form-utils';
 import { showDataList } from '../../views/datalist';
 import { LoadingIndicator } from '../../views/loading';
 import PegaElement from '../../main/element';
@@ -180,9 +180,11 @@ export default class PegaServices extends PegaElement {
             case 'assignment':
               this.data = response;
               this.caseID = response.caseID;
+              if (this.name === '') this.name = ' ';
               this.fetchData('case', { id: this.caseID });
               if (response.actions.length > 0 && response.actions[0].ID) {
                 this.actionID = response.actions[0].ID;
+                this.name = response.actions[0].name;
                 this.fetchData('assignmentaction', { id, actionid: this.actionID });
               } else {
                 this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });
@@ -190,6 +192,8 @@ export default class PegaServices extends PegaElement {
               break;
             case 'case':
               this.casedata = response;
+              this.content = {};
+              this.pageInstructions = [];
               this.numAttachments = 0;
               if (this.name === '') {
                 this.name = this.casedata.content.pyLabel;
@@ -255,6 +259,7 @@ export default class PegaServices extends PegaElement {
                 break;
               }
               this.content = {};
+              this.pageInstructions = [];
               if (actionid === 'pyCaseInformation') {
                 this.name = response.name;
                 render(reviewLayout(response.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null, this), el);
@@ -266,6 +271,7 @@ export default class PegaServices extends PegaElement {
               break;
             case 'newwork':
               this.content = {};
+              this.pageInstructions = [];
               if (!el) {
                 console.error('Error: case data are not present when retrieving the newwork');
                 break;
@@ -324,6 +330,7 @@ export default class PegaServices extends PegaElement {
       headers,
       mode: 'cors',
     };
+    const { pageInstructions, pageupdate } = genContentPayload(this.content, this.pageInstructions);
     let apiurl = `${this.url}/api/v1/`;
     this.validationMsg = '';
     switch (type) {
@@ -340,13 +347,15 @@ export default class PegaServices extends PegaElement {
       case 'newwork':
         apiurl += 'cases';
         reqHeaders.body = JSON.stringify({
-          content: this.content,
+          content: pageupdate,
+          pageInstructions,
           caseTypeID: id,
         });
         break;
       case 'submitassignment':
         reqHeaders.body = JSON.stringify({
-          content: this.content,
+          content: pageupdate,
+          pageInstructions,
         });
         apiurl += `assignments/${id}?actionID=${actionid}`;
         break;
@@ -358,7 +367,8 @@ export default class PegaServices extends PegaElement {
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
-          content: this.content,
+          content: pageupdate,
+          pageInstructions,
         });
         break;
       case 'refreshnew':
@@ -369,7 +379,8 @@ export default class PegaServices extends PegaElement {
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
-          content: this.content,
+          content: pageupdate,
+          pageInstructions,
         });
         break;
       case 'refreshassignment':
@@ -380,7 +391,8 @@ export default class PegaServices extends PegaElement {
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
-          content: this.content,
+          content: pageupdate,
+          pageInstructions,
         });
         break;
       case 'refreshcase':
@@ -391,7 +403,8 @@ export default class PegaServices extends PegaElement {
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
         reqHeaders.body = JSON.stringify({
-          content: this.content,
+          content: pageupdate,
+          pageInstructions,
         });
         break;
       case 'uploadattachment':
@@ -466,9 +479,6 @@ export default class PegaServices extends PegaElement {
             if (callback) {
               callback();
               return;
-            }
-            if (this.assignmentID !== '') {
-              this.fetchData('assignment', { id: this.assignmentID });
             }
           } else if (type === 'deleteattachment' || type === 'attachments') {
             this.fetchData('attachments', { id: this.caseID, target });

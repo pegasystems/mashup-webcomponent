@@ -90,4 +90,7 @@ window.langFR = {
     'Change stage': 'Changer le processus',
     'Click to close the banner': 'Cliquer pour fermer la banniere',
     'Select country code': 'Selectionner le code du pays',
+    'Log in to the application with one of the following:': "Connectez vous a l'application en utilisant",
+    'Pega with popup': 'Pega avec une nouvelle fenetre',
+    'Pega with full page redirect': 'Pega avec une redirection de la page',
 };

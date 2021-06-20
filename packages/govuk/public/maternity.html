@@ -21,12 +21,12 @@
       const elem = e.target.closest("main");
       elem.innerHTML = `<pega-govuk action='createNewWork' 
       url='https://pw16agenda-dt1.pegacloud.io/prweb'
-      username = 'wssuser2'
-      password = 'install@123'
-      authentication = 'oauth2password'
-      clientid = '11546443223711832500'
-      clientsecret = 'F15B0303D684531B7CEDE24CC82E74A9'
-      portalName = 'DemoReact1'
+      bShowCancel = 'false'
+      username=${defaultCfg.username}
+      password=${defaultCfg.password}
+      authentication=${defaultCfg.authentication}
+      clientid=${defaultCfg.clientid}
+      portalName=${defaultCfg.portalName}
       casetype='OPGO8L-CarInsur-Work-MaternityPay' title='Check if you can get leave or pay when you have a child'></pega-govuk>`;
     }
   </script>
@@ -134,6 +134,11 @@
     </footer>
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+      const defaultSettings = localStorage.getItem('defaultcfg');
+    const defaultCfg = {};
+    if (defaultSettings != null) {
+      defaultCfg = JSON.parse(defaultSettings);
+    }
     </script>
     <script src="./pega-govuk.js"></script>
     <script>window.GOVUKFrontend.initAll();</script>

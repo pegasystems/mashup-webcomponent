@@ -383,6 +383,7 @@ footer a:focus {
               <option value="jwttoken">Custom authentication with JWT Token</option>
               <option value="oauth2password">OAuth 2.0 Password Grant Type</option>
               <option value="oauth2clientcredentials">OAuth 2.0 Client Credentials Type</option>
+              <option value="authorizationcode">OAuth 2.0 Authorization Code (login page)</option>
             </select>
           </div>
           <div class='flex flex-col'>
@@ -405,7 +406,8 @@ footer a:focus {
             <label for='password'>Password</label>
             <input type='password' id='password'>
           </div>
-          <button id="submit" onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
+          <button onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
+          <button onclick="resetSettings(); event.preventDefault(); return false;">Reset configuration</button>
         </div>
       </form>
     </div>
@@ -422,6 +424,15 @@ footer a:focus {
   </footer>
   <script src="./pega-mashup-webcomponent-all.js"></script>
   <script>
+    function resetSettings() {
+      localStorage.clear();
+      indow.history.replaceState(
+          { },
+          '',
+          window.location.pathname.substring(1),
+        );
+      location.reload();
+    }
     function toggleSettings() {
       document.querySelector(".settings").classList.toggle("hide");
     }
@@ -483,6 +494,8 @@ footer a:focus {
         mytag.password = document.getElementById("password").value;
         mytag.clientid = document.getElementById("clientid").value;
         mytag.clientsecret = document.getElementById("clientsecret").value;
+      } else if (authenticationType === "authorizationcode") {
+        mytag.clientid = document.getElementById("clientid").value;
       } else {
         mytag.clientid = document.getElementById("clientid").value;
         mytag.clientsecret = document.getElementById("clientsecret").value;
@@ -617,6 +630,13 @@ footer a:focus {
         jwttoken.style.display = "none";
         clientid.style.display = "";
         clientsecret.style.display = "";
+        authorizationcode
+      } else if (action === "authorizationcode") {
+        username.style.display = "none";
+        password.style.display = "none";
+        jwttoken.style.display = "none";
+        clientid.style.display = "";
+        clientsecret.style.display = "none";
       } else {
         username.style.display = "none";
         password.style.display = "none";
@@ -639,8 +659,8 @@ footer a:focus {
       showAttachments: false,
       apiversion: "1",
       jwttoken: "",
-      clientid: "11546443223711832500",
-      clientsecret: "F15B0303D684531B7CEDE24CC82E74A9",
+      clientid: "52508406085110003135",
+      clientsecret: "",
       authentication: "basic",
       googleapikey: '',
       useshadowdom: false,

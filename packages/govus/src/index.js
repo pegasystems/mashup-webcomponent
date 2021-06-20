@@ -16,4 +16,4 @@ export class PegaGovUS extends PegaBase {
     `;
   }
 }
-customElements.define('pega-govuk', PegaGovUS);
+customElements.define('pega-govus', PegaGovUS);

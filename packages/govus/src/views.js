@@ -3,38 +3,41 @@ import { html } from 'lit-html';
 import { Layout } from './layout';
 
 const SubmitActionArea = (onCancel, onSave) => html`
-  <div class="action-button-area">
-    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
-    data-module="govuk-button" @click="${onCancel}">${i18n.t('Cancel')}</button>` : ''}
-    ${onSave !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
-    data-module="govuk-button" @click="${onSave}">${i18n.t('Save')}</button>` : ''}
-    <button type="button" data-submit="submit" class="govuk-button" data-module="govuk-button">${i18n.t('Submit')}</button>
-  </div>
+<ul class="usa-button-group">
+    ${onCancel !== null ? html`<li class="usa-button-group__item">
+    <button type="button" class="usa-button" @click="${onCancel}">${i18n.t('Cancel')}</button></li>` : ''}
+    ${onSave !== null ? html`<li class="usa-button-group__item">
+    <button type="button" class="usa-button" @click="${onSave}">${i18n.t('Save')}</button></li>` : ''}
+    <li class="usa-button-group__item">
+    <button type="button" data-submit="submit" class="usa-button">${i18n.t('Submit')}</button></li>
+  </ul>
 `;
 
 const LocalActionArea = (onCancel, onSave) => html`
-  <div class="action-button-area">
-    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
-    data-module="govuk-button" @click="${onCancel}">${i18n.t('Cancel')}</button>` : ''}
-    <button type="button" data-submit="save" class="govuk-button" data-module="govuk-button" @click="${onSave}">${i18n.t('Submit')}</button>
-  </div>
+  <ul class="usa-button-group">
+    ${onCancel !== null ? html`<li class="usa-button-group__item">
+    <button type="button" class="usa-button" @click="${onCancel}">${i18n.t('Cancel')}</button></li>` : ''}
+    <li class="usa-button-group__item">
+    <button type="button" data-submit="save" class="usa-button" @click="${onSave}">${i18n.t('Submit')}</button></li>
+  </ul>
 `;
 
 const CloseActionArea = (onCancel) => {
   if (onCancel === null) return null;
   return html`
-  <div class="action-button-area">
-  ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
-  @click="${onCancel}">${i18n.t('Close')}</button>` : ''}
-  </div>`;
+  <ul class="usa-button-group">
+  ${onCancel !== null ? html`<li class="usa-button-group__item"><button type="button" class="usa-button"
+  @click="${onCancel}">${i18n.t('Close')}</button></li>` : ''}
+  </ul>`;
 };
 
 const CreateActionArea = (onCancel) => html`
-  <div class="action-button-area">
-    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
-    data-module="govuk-button" @click="${onCancel}">${i18n.t('Cancel')}</button>` : ''}
-    <button type="button" data-submit="create" class="govuk-button" data-module="govuk-button">${i18n.t('Create')}</button>
-  </div>
+<ul class="usa-button-group">
+    ${onCancel !== null ? html`<li class="usa-button-group__item"><button type="button" class="usa-button" 
+    @click="${onCancel}">${i18n.t('Cancel')}</button></li>` : ''}
+    <li class="usa-button-group__item">
+    <button type="button" data-submit="create" class="usa-button">${i18n.t('Create')}</button></li>
+  </ul>
 `;
 
 const AssignmentList = (assignments, onOpen) => {
@@ -43,25 +46,24 @@ const AssignmentList = (assignments, onOpen) => {
   <h3>
   ${i18n.t('Assignments')}
   </h3>
-  <table class='govuk-table'>
-    <caption class="govuk-table__caption govuk-table__caption--m">List of assignments</caption>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th span='col' class="govuk-table__header">${i18n.t('Task')}</th>
-        <th span='col' class="govuk-table__header">${i18n.t('Priority')}</th>
-        <th span='col' class="govuk-table__header">${i18n.t('Assigned')} to</th>
-        <th span='col' class="govuk-table__header">${i18n.t('Action')}</th>
+  <table class="usa-table usa-table--borderless">
+    <caption>List of assignments</caption>
+    <thead>
+      <tr>
+        <th span='col'>${i18n.t('Task')}</th>
+        <th span='col'>${i18n.t('Priority')}</th>
+        <th span='col'>${i18n.t('Assigned')} to</th>
+        <th span='col'>${i18n.t('Action')}</th>
       </tr>
     </thead>
-      <tbody class="govuk-table__body">
+      <tbody>
         ${assignments.map((item) => html`
-        <tr class="govuk-table__row">
-          <td scope="row" class="govuk-table__header">${item.name}</td>
-          <td class="govuk-table__header">${item.urgency}</td>
-          <td class="govuk-table__header">${item.assigneeInfo.name}</td>
-          <td class="govuk-table__header">
-            <button type='button' @click="${onOpen}" class="govuk-button govuk-button--secondary" 
-            data-module="govuk-button" data-type="assignment" data-id="${item.ID}">${i18n.t('Open')}</button>
+        <tr>
+          <td scope="row">${item.name}</td>
+          <td>${item.urgency}</td>
+          <td>${item.assigneeInfo.name}</td>
+          <td>
+            <button type='button' @click="${onOpen}" class="usa-button" data-type="assignment" data-id="${item.ID}">${i18n.t('Open')}</button>
           </td>
         </tr>`)
 }
@@ -79,16 +81,12 @@ export const CaseHeader = (name, data, casedata, onOpen) => {
     ${AssignmentList(casedata.assignments, onOpen)}
     <h3>${i18n.t('Case information')}</h3>`;
   }
-  if (name === '' || typeof data.caseID === 'undefined') return '';
-  const id = data.caseID.split(' ')[1];
-  return html`
-  <div >
-    <h2>${i18n.t(data.data.caseInfo.name)} (${id})</h2>
-  </div>`;
+  return '';
 };
 
 export const mainLayout = (data, path, onCancel, onSave, webcomp) => html`
-  <div>${Layout(data, path, false, webcomp, '')}</div>
+  <fieldset class='usa-fieldset'><legend class="usa-legend usa-legend--large">${i18n.t(webcomp.data.name)}</legend>
+  ${Layout(data, path, false, webcomp, '')}</fieldset>
   ${SubmitActionArea(onCancel, onSave)}
 `;
 
@@ -109,19 +107,15 @@ export const createCaseLayout = (data, path, onCancel, webcomp) => html`
 
 export const genPageValidationErrors = (response) => {
   if (response.errorDetails) {
-    return html`<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-    <h2 class="govuk-error-summary__title" id="error-summary-title">
-      There is a problem
-    </h2>
-    <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-    <ul>
+    return html`<div class="usa-alert usa-alert--error" role="alert">
+    <div class="usa-alert__body">
+      <h4 class="usa-alert__heading">Error</h4>
       ${response.errorDetails.map((item) => {
     if (item.message === 'Error_Validation_Fail' || item.message === 'Validation failed: Errors Detected.') return null;
-    return html`<li>${i18n.t(item.localizedValue)}</li>`;
+    return html`<p class="usa-alert__text">${i18n.t(item.localizedValue)}</p>`;
   })}
-    </ul></div>
-    </div>`;
+    </div>
+  </div>`;
   }
   return null;
 };

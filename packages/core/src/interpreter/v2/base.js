@@ -8,20 +8,41 @@ import { showDataList } from '../../views/datalist';
 import { LoadingIndicator } from '../../views/loading';
 import { showConfirm } from '../../views/confirm';
 import { showErrorMessage } from '../../views/errormsg';
-import { getFormData, shouldRefresh, getRefreshFor } from '../../utils/form-utils';
+import {
+  getFormData, shouldRefresh, getRefreshFor,
+} from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
+import { ShowOAuthProvider } from '../../views/oauthprovider';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
-    this.bShowSave = 'false';
+    // this.bShowSave = 'false';
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
-      return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
+      if (this.errorMsg.indexOf('The provided authorization code is expired') !== -1) {
+        window.history.replaceState(
+          { },
+          '',
+          window.location.pathname.substring(1),
+        );
+      } else {
+        return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
+      }
     }
     /* No need to continue if authentication has not be done */
+    if (window.history.state && window.history.state.token) {
+      this.token = window.history.state.token;
+    }
     if ((this.authentication === 'oauth2password' || this.authentication === 'oauth2clientcredentials') && this.token === '') {
       this.sendData('authenticate', {});
       return null;
+    }
+    if (this.authentication === 'authorizationcode' && this.token === '') {
+      if (window.history.state && window.history.state.code) {
+        this.sendData('authenticate', {});
+        return null;
+      }
+      return ShowOAuthProvider(this.url, this.clientid);
     }
     if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList')) {
       this.fetchData('portal');
@@ -115,8 +136,7 @@ export default class PegaBase extends PegaServices {
       this.refreshAssignment(el, getRefreshFor(el, 'change'));
     } else if (this.refreshOnChange) {
       const form = this.getRenderRoot().querySelector('#case-data');
-      const content = this.data.data.caseInfo.content;
-      getFormData(form, content);
+      getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
       render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
         this.bShowCancel === 'true' ? this.actionAreaCancel : null,
         this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);

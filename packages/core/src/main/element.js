@@ -57,6 +57,7 @@ export default class PegaElement extends LitElement {
     this.assignmentID = '';
     this.actionID = '';
     this.content = {};
+    this.pageInstructions = [];
     this.errorMsg = '';
     this.validationMsg = '';
     this.bShowConfirm = false;

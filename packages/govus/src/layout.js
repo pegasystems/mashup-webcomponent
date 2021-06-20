@@ -21,9 +21,9 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
     switch (data.config.template) {
       case 'TwoColumn':
         return html`
-          <div>
-            <div>${Layout(data.children[0].children, `${path}-0`, isReadOnly, webcomp, context)}</div>
-            <div>${Layout(data.children[1].children, `${path}-1`, isReadOnly, webcomp, context)}</div>
+          <div class='grid-row grid-gap'>
+            <div class='mobile-lg:grid-col-6'>${Layout(data.children[0].children, `${path}-0`, isReadOnly, webcomp, context)}</div>
+            <div class='mobile-lg:grid-col-6'>${Layout(data.children[1].children, `${path}-1`, isReadOnly, webcomp, context)}</div>
           </div>
         `;
       case 'DefaultForm':

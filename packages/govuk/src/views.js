@@ -71,19 +71,17 @@ const AssignmentList = (assignments, onOpen) => {
 
 export const CaseHeader = (name, data, casedata, onOpen) => {
   if (typeof data.caseID === 'undefined' && casedata.content) {
-    const id = casedata.content.pyID.split(' ')[1];
     return html`
     <div>
-      <h2>${i18n.t(data.data.caseInfo.name)} (${id})</h2>
+      <h2>${i18n.t(name)}</h2>
     </div>
     ${AssignmentList(casedata.assignments, onOpen)}
     <h3>${i18n.t('Case information')}</h3>`;
   }
   if (name === '' || typeof data.caseID === 'undefined') return '';
-  const id = data.caseID.split(' ')[1];
   return html`
-  <div >
-    <h2>${i18n.t(data.data.caseInfo.name)} (${id})</h2>
+  <div>
+    <h2>${i18n.t(name)}</h2>
   </div>`;
 };
 

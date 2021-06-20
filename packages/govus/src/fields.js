@@ -9,7 +9,7 @@ import {
 
 const DisplayLabel = (data, path, type) => {
   if (typeof path === 'undefined') return null;
-  const iconrequired = data.requiredstate ? 'icon-required' : '';
+  const iconrequired = data.requiredstate ? html` <abbr title="required" class="usa-hint usa-hint--required">*</abbr>` : '';
   if (type === 'field-checkbox') {
     if (data.label && data.label !== '') {
       return html`<legend>${data.displaylabel}</legend>`;
@@ -18,8 +18,8 @@ const DisplayLabel = (data, path, type) => {
   }
   return html`
     ${data.label !== ''
-    ? html`<label class="govuk-label ${iconrequired}" 
-    for="${ifDefined(path)}">${data.displaylabel}
+    ? html`<label class="usa-label" 
+    for="${ifDefined(path)}">${data.displaylabel}${iconrequired}
     </label>`
     : null}
   `;
@@ -27,7 +27,7 @@ const DisplayLabel = (data, path, type) => {
 
 const DisplayHelperText = (data, path) => {
   if (data.helperText && data.helperText !== '') {
-    return html`<div id=${`${path}-info`} class="govuk-hint">${data.displayhelperText}</div>`;
+    return html`<div id=${`${path}-info`} class="usa-hint">${data.displayhelperText}</div>`;
   }
   return null;
 };
@@ -52,7 +52,7 @@ export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
     `;
   }
   return html`
-    <div class="govuk-form-group" ?disabled="${data.disabledstate}">
+    <div class="usa-field" ?disabled="${data.disabledstate}">
       ${DisplayLabel(data, path, type)}${DisplayHelperText(data, path)}${ComponentTemplate}
     </div>
   `;
@@ -274,7 +274,7 @@ const DisplayText = (data, type, path) => {
  */
 const TextInput = (data, path) => html`
   <input
-    class="govuk-input"
+    class="usa-input"
     data-ref="${data.reference}"
     ?required="${data.requiredstate}"
     ?readonly="${data.readonlystate}"
@@ -301,7 +301,7 @@ const PhoneInput = (data, path) => {
   return html`
 <div class='field-phoneinput'> 
 <select
-  class="govuk-select field-countrycode"
+  class="usa-select field-countrycode"
   ?readonly="${data.readonlystate}"
   ?disabled="${data.disabledstate}"
   aria-label="${i18n.t('Select country code')}">
@@ -309,7 +309,7 @@ const PhoneInput = (data, path) => {
   value='${item.pyCallingCode}'>${item.pyCallingCode}</option>`)}
 </select>
  <input
-   class="govuk-input"
+   class="usa-input"
    data-ref="${data.reference}"
    ?required="${data.requiredstate}"
    ?readonly="${data.readonlystate}"
@@ -329,7 +329,7 @@ const PhoneInput = (data, path) => {
  */
 const NumberInput = (data, path) => html`
   <input
-    class="govuk-input"
+    class="usa-input"
     data-ref="${data.reference}"
     ?required="${data.requiredstate}"
     ?readonly="${data.readonlystate}"
@@ -347,7 +347,7 @@ const NumberInput = (data, path) => html`
  */
 const PercentageInput = (data, path) => html`
  <input
-   class="govuk-input"
+   class="usa-input"
    data-ref="${data.reference}"
    ?required="${data.requiredstate}"
    ?readonly="${data.readonlystate}"
@@ -367,7 +367,7 @@ const CurrencyInput = (data, path) => html`
   <div ?readonly="${data.readOnly}">
   <span class="currency-symbol">$</span>
   <input
-    class="govuk-input"
+    class="usa-input"
     data-ref="${data.reference}"
     ?required="${data.requiredstate}"
     ?readonly="${data.readonlystate}"
@@ -386,7 +386,7 @@ const CurrencyInput = (data, path) => html`
  */
 const EmailInput = (data, path) => html`
   <input
-    class="govuk-input"
+    class="usa-input"
     data-ref="${data.reference}"
     ?required="${data.requiredstate}"
     ?readonly="${data.readonlystate}"
@@ -404,7 +404,7 @@ const EmailInput = (data, path) => html`
  */
 const TextArea = (data, path) => html`
   <textarea
-    class="govuk-textarea"
+    class="usa-textarea"
     rows="3"
     data-ref="${data.reference}"
     ?required="${data.requiredstate}"
@@ -422,9 +422,8 @@ const TextArea = (data, path) => html`
  */
 const Checkbox = (data, path) => {
   const iconrequired = data.requiredstate ? 'icon-required' : '';
-  return html`<div class="govuk-checkboxes__item">
-  <input
-  class="govuk-checkboxes__input"
+  return html`<input
+  class="usa-checkbox__input"
   data-ref="${data.reference}"
   ?required="${data.requiredstate}"
   ?readonly="${data.readonlystate}"
@@ -434,7 +433,7 @@ const Checkbox = (data, path) => {
   id=${ifDefined(path)}
   type="checkbox" ?checked=${data.displayvalue === 'true' || data.displayvalue === true}
   />
-  <label class="govuk-label govuk-checkboxes__label ${iconrequired}" for=${ifDefined(path)}>
+  <label class="usa-checkbox__label ${iconrequired}" for=${ifDefined(path)}>
   ${data.displaycaption}
     </label></div>
 `;
@@ -448,13 +447,13 @@ const RadioButtons = (data, path) => {
   if (data.options) {
     listValues = data.options;
   }
-  return html`<div class="govuk-radios">
+  return html`<fieldset class="usa-fieldset">
     ${listValues.map((item, index) => {
     const innerpath = `rb-${path}-${index}`;
     return html`
-        <div class="govuk-radios__item">
+        <div class="usa-radio">
           <input
-            class="govuk-radios__input" 
+            class="usa-radio__input" 
             data-ref="${data.reference}"
             name=${ifDefined(path)}
             id=${innerpath}
@@ -465,7 +464,7 @@ const RadioButtons = (data, path) => {
             onclick="${ifDefined(data.readonlystate ? 'return false;' : undefined)}"
             ?checked="${item.key === data.displayvalue}"
           />
-          <label class="govuk-label govuk-radios__label" for="${innerpath}">${item.value}</label>
+          <label class="usa-radio__label" for="${innerpath}">${item.value}</label>
         </div>
       `;
   })}
@@ -476,7 +475,7 @@ const RadioButtons = (data, path) => {
  * Dropdown component
  */
 const DropDown = (data, path) => html`<select
-  class="govuk-select"
+  class="usa-select"
   data-ref="${data.reference}"
   aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
   id=${ifDefined(path)}
@@ -544,38 +543,35 @@ const DateInput = (data, path) => {
     value = dt;
   }
   return html`
-  <div class="govuk-date-input" id="${ifDefined(path)}" 
+  <div class="usa-memorable-date" id="${ifDefined(path)}" 
   aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}" data-ref="${data.reference}">
-  <div class="govuk-date-input__item">
-    <div class="govuk-form-group">
-      <label class="govuk-label govuk-date-input__label" for="${`${path}-day`}">
-        ${i18n.t('Day')}
-      </label>
-      <input ?required="${data.requiredstate}"
-      ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="govuk-input govuk-date-input__input govuk-input--width-2" value="${valueDate}" 
-      id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
-  </div>
-  <div class="govuk-date-input__item">
-    <div class="govuk-form-group">
-      <label class="govuk-label govuk-date-input__label" for="${`${path}-month`}">
+  <div class="usa-form-group usa-form-group--month">
+      <label class="usa-label" for="${`${path}-month`}">
       ${i18n.t('Month')}
       </label>
       <input ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="govuk-input govuk-date-input__input govuk-input--width-2"  value="${valueMonth}"
-      id="${`${path}-month`}" name="${`${path}-month`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
-  </div>
-  <div class="govuk-date-input__item">
-    <div class="govuk-form-group">
-      <label class="govuk-label govuk-date-input__label" for="${`${path}-year`}">
+      ?disabled="${data.disabledstate}" class="usa-input usa-input--inline"  value="${valueMonth}"
+      id="${`${path}-month`}" name="${`${path}-month`}" type="text" pattern="[0-9]*" inputmode="numeric">
+    </div>
+    <div class="usa-form-group usa-form-group--day">
+      <label class="usa-label" for="${`${path}-day`}">
+        ${i18n.t('Day')}
+      </label>
+      <input ?required="${data.requiredstate}"
+      ?readonly="${data.readonlystate}"
+      ?disabled="${data.disabledstate}" class="usa-input usa-input--inline" value="${valueDate}" 
+      id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric">
+    </div>
+    <div class="usa-form-group usa-form-group--year">
+      <label class="usa-label" for="${`${path}-year`}">
       ${i18n.t('Year')}
       </label>
       <input ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="govuk-input govuk-date-input__input govuk-input--width-4" value="${valueYear}"
-      id="${`${path}-year`}" name="${`${path}-year`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
-  </div>
+      ?disabled="${data.disabledstate}" class="usa-input usa-input--inline" value="${valueYear}"
+      id="${`${path}-year`}" name="${`${path}-year`}" type="text" pattern="[0-9]*" inputmode="numeric">
+    </div>
 </div>`;
 };
 
@@ -613,7 +609,8 @@ const TimeInput = (data, path) => {
 const Combobox = (data, path) => {
   if (data.options) {
     return html`
-      <input
+    <div class="usa-combo-box loaded">
+    <select class="usa-select" 
         data-ref="${data.reference}"
         list="${data.reference}"
         ?required="${data.requiredstate}"
@@ -621,12 +618,10 @@ const Combobox = (data, path) => {
         ?disabled="${data.disabledstate}"
         placeholder="${ifDefined(GetPlaceholder(data))}"
         type="text"
-        class="combobox loaded"
-        aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
+         aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
         id="${ifDefined(path)}"
         value="${unescapeHTML(data.displayvalue)}"
       />
-      <datalist id="${data.reference}">
         ${data.options.map(
     (item) => html`
             <option value="${item.key}">
@@ -634,8 +629,7 @@ const Combobox = (data, path) => {
             </option>
           `,
   )}
-      </datalist>
-    `;
+    </select></div>`;
   }
   return null;
 };
@@ -651,7 +645,7 @@ const SemanticLink = () => html`
  * Location Input component
  */
 const LocationInput = (data, path) => html`<input
- class="govuk-input location"
+ class="usa-input location"
  data-ref="${data.reference}"
  ?required="${data.requiredstate}"
  ?readonly="${data.readonlystate}"

@@ -97,8 +97,8 @@ describe(
       }
       const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
       expect(title).toContain('Car Insurance quote (C-');
-      await page.type('#case-data #Obj-0-1', 'john');
-      await page.type('#case-data #Obj-0-2', 'smith');
+      await page.type('#case-data #Obj-0-2', 'john');
+      await page.type('#case-data #Obj-0-3', 'smith');
       if (bDebug) {
         console.log(`generate screenshot test${iTestCount}.jpg`);
         await page.screenshot({

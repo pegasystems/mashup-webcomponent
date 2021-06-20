@@ -1,11 +1,7 @@
-/* global i18n */
 import { html } from 'lit-html';
 
 /* this component display a banner error message */
-export const showErrorMessage = (msg, onClose) => html`
-  <div class="error">${msg}
-  ${onClose != null ? html`
-    <button type='button' aria-label="${i18n.t('Click to close the banner')}" class="govuk-button govuk-button--secondary" 
-    data-module="govuk-button" @click="${onClose}">
-    Close</button>` : ''}
-  </div>`;
+export const showErrorMessage = (msg) => html`
+<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+<h2 class="govuk-error-summary__title" id="error-summary-title">${msg}</h2>
+</div>`;

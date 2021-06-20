@@ -9,7 +9,7 @@ import { LoadingIndicator } from '../../views/loading';
 import { showConfirm } from '../../views/confirm';
 import { showErrorMessage } from '../../views/errormsg';
 import {
-  getFormData, getInitData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList,
+  getFormData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList,
 } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
 
@@ -91,6 +91,7 @@ export default class PegaBase extends PegaServices {
     this.caseID = '';
     this.data = {};
     this.content = {};
+    this.pageInstructions = [];
     this.casedata = {};
     this.attachmentcategories = [];
     this.casepyStatusWork = '';
@@ -119,8 +120,7 @@ export default class PegaBase extends PegaServices {
     }
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
-      this.content = getInitData(this.casedata);
-      getFormData(form, this.content);
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
       if (this.assignmentID !== '') {
         this.sendData('savecase', { id: this.caseID, actionid: '', target: event.target });
       } else {
@@ -132,10 +132,8 @@ export default class PegaBase extends PegaServices {
   actionRefresh = () => {
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
-      this.content = getInitData(this.casedata);
       this.validationMsg = '';
-      getFormData(form, this.content);
-      this.requestUpdate();
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
       if (this.assignmentID !== '') {
         this.fetchData('assignmentaction', { id: this.assignmentID, actionid: this.actionID });
       } else {
@@ -164,8 +162,7 @@ export default class PegaBase extends PegaServices {
   displayLocalAction = (flowAction, el) => {
     const form = this.getRenderRoot().querySelector('#case-data');
     if (form) {
-      this.content = getInitData(this.casedata);
-      getFormData(form, this.content);
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
       if (this.assignmentID !== '') {
         const that = this;
         this.sendData('savecase', { id: this.caseID }, () => {
@@ -187,8 +184,7 @@ export default class PegaBase extends PegaServices {
     /* If the cancel button is in a modal dialog - just close the modal */
     if (event.target && event.target.closest('.mashup-modal') !== null) {
       const form = event.target.closest('#modalcontent');
-      this.content = getInitData(this.casedata);
-      getFormData(form, this.content);
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
       if (form.checkValidity()) {
         this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID, target: form });
       } else {
@@ -196,8 +192,7 @@ export default class PegaBase extends PegaServices {
       }
     } else {
       const form = this.getRenderRoot().querySelector('#case-data');
-      this.content = getInitData(this.casedata);
-      getFormData(form, this.content);
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
       if (form.checkValidity()) {
         if (type !== 'create') {
           this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
@@ -227,6 +222,7 @@ export default class PegaBase extends PegaServices {
       }
     }
     this.content = this.initialContent;
+    this.pageInstructions = [];
     this.caseID = '';
     this.data = {};
     this.casedata = {};
@@ -292,18 +288,24 @@ export default class PegaBase extends PegaServices {
     const form = this.getRenderRoot().querySelector('#case-data');
     let node = el;
     if (form) {
-      this.content = getInitData(this.casedata);
-      getFormData(form, this.content);
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
       /* If node is defined - it could be a addRow or deleteRow action */
       if (node) {
+        if (node.tagName === 'path') node = node.parentNode;
         if (node.tagName === 'svg') node = node.parentNode;
         const action = node.getAttribute('data-action-click');
         const ref = node.getAttribute('data-ref');
         if (ref !== null && action !== null) {
           if (action === 'addRow') {
-            addRowToPageList(this.content, ref, node.getAttribute('data-newrow'));
+            const instr = addRowToPageList(this.casedata.content, ref, node.getAttribute('data-newrow'));
+            if (instr !== null) {
+              this.pageInstructions.push(instr);
+            }
           } else if (action === 'deleteRow') {
-            deleteRowFromPageList(this.content, ref);
+            const instr = deleteRowFromPageList(this.casedata.content, ref);
+            if (instr !== null) {
+              this.pageInstructions.push(instr);
+            }
           }
         }
       }
@@ -317,6 +319,7 @@ export default class PegaBase extends PegaServices {
 
   clickHandler = (event) => {
     let el = event.target;
+    if (el.tagName === 'path') el = el.parentNode;
     if (el.tagName === 'svg') el = el.parentNode;
     const action = el.getAttribute('data-action-click');
     if (el.classList.contains('combobox') && !el.classList.contains('loaded')) {

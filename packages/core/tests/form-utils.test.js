@@ -150,7 +150,7 @@ describe('testing the deleteRowFromPageList API', () => {
   });
   test('it should do nothing if the pagelist has only one row', () => {
     const input = { key1: { key2: [{ key3: 'test' }] }, key5: 'ddd' };
-    const output = Object.assign({}, input);
+    const output = { ...input };
     deleteRowFromPageList(input, 'key1.key2');
     expect(input).toEqual(output);
   });
@@ -178,16 +178,23 @@ describe('testing the shouldRefresh API', () => {
 });
 
 describe('testing the getFormData API', () => {
-  test('it should return all the input elements on the form', () => {
+  test('it should return the value input elements on the form', () => {
     const form = { elements: [] };
     const input = document.createElement('input');
     form.elements.push(input);
     input.setAttribute('data-ref', 'key1.key2.test');
     input.value = 'foo';
-    const output = { key1: { key2: { test: 'foo' } } };
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      content: { test: 'foo' },
+    }];
     const content = {};
-    getFormData(form, content);
-    expect(content).toEqual(output);
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
   });
   test('it should not return non form elements', () => {
     const form = { elements: [] };
@@ -195,10 +202,12 @@ describe('testing the getFormData API', () => {
     input.setAttribute('data-ref', 'key1.key2.test');
     input.value = 'foo';
     form.elements.push(input);
-    const output = {};
     const content = {};
-    getFormData(form, content);
-    expect(content).toEqual(output);
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual([]);
   });
   test('it should correctly handle checkbox', () => {
     const form = { elements: [] };
@@ -207,10 +216,18 @@ describe('testing the getFormData API', () => {
     input.type = 'checkbox';
     input.checked = true;
     form.elements.push(input);
-    const output = { key1: { key2: [{ test: true }] } };
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      listIndex: 1,
+      content: { test: true },
+    }];
     const content = {};
-    getFormData(form, content);
-    expect(content).toEqual(output);
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
   });
   test('it should return all the input elements on the form', () => {
     const form = { elements: [] };
@@ -225,10 +242,21 @@ describe('testing the getFormData API', () => {
     input1.add(option);
     input1.value = 'foo1';
     form.elements.push(input1);
-    const output = { key1: { key2: { test: 'foo', test1: 'foo1' } } };
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      content: { test: 'foo' },
+    }, {
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      content: { test1: 'foo1' },
+    }];
     const content = {};
-    getFormData(form, content);
-    expect(content).toEqual(output);
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
   });
   test('it should correctly handle a radiobutton', () => {
     const form = { elements: [] };
@@ -243,10 +271,17 @@ describe('testing the getFormData API', () => {
     input1.setAttribute('data-ref', 'key1.key2.test1');
     input1.value = 'foo1';
     form.elements.push(input1);
-    const output = { key1: { key2: { test: 'foo' } } };
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      content: { test: 'foo' },
+    }];
     const content = {};
-    getFormData(form, content);
-    expect(content).toEqual(output);
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
   });
   test('it should correctly handle a data', () => {
     const form = { elements: [] };
@@ -255,10 +290,17 @@ describe('testing the getFormData API', () => {
     input.setAttribute('data-ref', 'key1.key2.test');
     input.valueAsDate = new Date('2019/2/1');
     form.elements.push(input);
-    const output = { key1: { key2: { test: '02/01/2019' } } };
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      content: { test: '02/01/2019' },
+    }];
     const content = {};
-    getFormData(form, content);
-    expect(content).toEqual(output);
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
   });
 });
 

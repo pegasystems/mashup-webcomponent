@@ -1,4 +1,5 @@
 /* eslint-disable no-self-compare */
+import CryptoES from 'crypto-es';
 
 /**
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
@@ -67,14 +68,52 @@ export const unescapeHTML = (str) => {
 };
 
 /**
- * set the value of a property in an obj targeted by the path like 'props(1).pyLabel'
+ * set the content and pageinstructions used to post body update
  */
-export const setObjectFromRef = (root, path, value) => {
+export const setBodyContent = (content, path, pageinstructions, casedata, value) => {
+  if (typeof path !== 'string') {
+    return;
+  }
+  // If no change, just return
+  const origVal = getValue(casedata, path);
+  // eslint-disable-next-line eqeqeq
+  if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) return;
+  const propPath = path.lastIndexOf('.');
+  if (propPath === -1) {
+    content[path] = value;
+    return;
+  }
+  const data = {};
+  let target = path.substring(0, propPath);
+  data[path.substring(propPath + 1)] = value;
+  const startParens = target.indexOf('(');
+  if (startParens === -1) {
+    pageinstructions.push({
+      instruction: 'UPDATE',
+      target,
+      content: data,
+    });
+  } else {
+    const idx = target.substring(startParens + 1, target.length - 1);
+    target = target.substring(0, startParens);
+    pageinstructions.push({
+      instruction: 'UPDATE',
+      target,
+      listIndex: parseInt(idx, 10),
+      content: data,
+    });
+  }
+};
+
+/**
+ * set the value of a property in an object content targeted by the path like 'props(1).pyLabel'
+ */
+export const setObjectFromRef = (content, path, value) => {
   if (typeof path !== 'string') {
     return;
   }
   const keys = path.split('.');
-  let retObj = root;
+  let retObj = content;
   for (const i in keys) {
     let el = keys[i];
     const startParens = el.indexOf('(');
@@ -177,7 +216,7 @@ export const addRowToPageList = (root, path, newrowlist) => {
     el = [];
     setObjectFromRef(root, path, el);
   }
-  if (!Array.isArray(el)) return;
+  if (!Array.isArray(el)) return null;
   if (newrowlist && typeof newrowlist === 'string') {
     const newRow = {};
     const keys = newrowlist.split(',');
@@ -185,13 +224,22 @@ export const addRowToPageList = (root, path, newrowlist) => {
       newRow[keys[i]] = '';
     }
     el.push(newRow);
-  } else {
-    /* if newrow is not provided - we take the data from the first row */
-    if (el.length === 0) return;
-    const newRow = { ...el[0] };
-    clearProps(newRow);
-    el.push(newRow);
+    return {
+      instruction: 'APPEND',
+      target: path,
+      content: newRow,
+    };
   }
+  /* if newrow is not provided - we take the data from the first row */
+  if (el.length === 0) return null;
+  const newRow = { ...el[0] };
+  clearProps(newRow);
+  el.push(newRow);
+  return {
+    instruction: 'APPEND',
+    target: path,
+    content: newRow,
+  };
 };
 
 /**
@@ -201,23 +249,32 @@ export const deleteRowFromPageList = (root, path) => {
   let arrayPath = path;
   let deleteIndex;
   if (path.indexOf(').pyTemplate') !== -1) {
-    deleteIndex = arrayPath.substring(path.lastIndexOf('(') + 1, path.lastIndexOf(')'));
+    deleteIndex = parseInt(arrayPath.substring(path.lastIndexOf('(') + 1, path.lastIndexOf(')')), 10);
     arrayPath = arrayPath.substring(0, path.lastIndexOf('('));
   }
   const el = getValue(root, arrayPath);
-  if (!Array.isArray(el)) return;
+  if (!Array.isArray(el)) return null;
   if (el.length === 1) {
     for (const i in el[0]) {
       if (i !== 'pxObjClass') el[0][i] = '';
     }
-    return;
+    return null;
   }
   if (deleteIndex) {
-    if (el.length < deleteIndex) return;
+    if (el.length < deleteIndex) return null;
     el.splice(deleteIndex - 1, 1);
-  } else {
-    el.length -= 1;
+    return {
+      instruction: 'DELETE',
+      target: arrayPath,
+      listIndex: deleteIndex,
+    };
   }
+  el.length -= 1;
+  return {
+    instruction: 'DELETE',
+    target: arrayPath,
+    listIndex: el.length,
+  };
 };
 
 /**
@@ -301,7 +358,7 @@ export const applyVisibleToForm = (form, content) => {
 /**
  * Retrieve the values of all the form controls in the form and populate them in the content object
  */
-export const getFormData = (form, content) => {
+export const getFormData = (form, content, pageinstructions, casedata) => {
   for (const el of form.elements) {
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
       const ref = el.getAttribute('data-ref');
@@ -309,17 +366,17 @@ export const getFormData = (form, content) => {
         if (el.tagName === 'INPUT') {
           const type = el.getAttribute('type');
           if (type === 'checkbox') {
-            setObjectFromRef(content, ref, el.checked);
+            setBodyContent(content, ref, pageinstructions, casedata, el.checked);
           } else if (type === 'radio') {
             if (el.checked) {
-              setObjectFromRef(content, ref, el.value);
+              setBodyContent(content, ref, pageinstructions, casedata, el.value);
             }
           } else if (type === 'tel') {
             let value = el.value;
             if (el.parentNode.firstElementChild.tagName === 'SELECT' && el.parentNode.firstElementChild.className === 'field-countrycode') {
               value = el.parentNode.firstElementChild.value + value;
             }
-            setObjectFromRef(content, ref, value);
+            setBodyContent(content, ref, pageinstructions, casedata, value);
           } else if (type === 'date') {
             let dt;
             if (el.valueAsDate) {
@@ -330,15 +387,15 @@ export const getFormData = (form, content) => {
             }
             if (dt && dt instanceof Date && dt.getTime() === dt.getTime()) {
               dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-              setObjectFromRef(content, ref, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate())}/${dt.getFullYear()}`);
+              setBodyContent(content, ref, pageinstructions, casedata, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate())}/${dt.getFullYear()}`);
             } else {
-              setObjectFromRef(content, ref, el.value);
+              setBodyContent(content, ref, pageinstructions, casedata, el.value);
             }
           } else {
-            setObjectFromRef(content, ref, el.value);
+            setBodyContent(content, ref, pageinstructions, casedata, el.value);
           }
         } else {
-          setObjectFromRef(content, ref, el.value);
+          setBodyContent(content, ref, pageinstructions, casedata, el.value);
         }
       }
     }
@@ -348,7 +405,7 @@ export const getFormData = (form, content) => {
     for (let i = 0; i < editableElems.length; i++) {
       const el = editableElems[i];
       const ref = el.getAttribute('data-ref');
-      setObjectFromRef(content, ref, escapeHTML(el.innerHTML));
+      setBodyContent(content, ref, pageinstructions, casedata, escapeHTML(el.innerHTML));
     }
   }
 };
@@ -447,4 +504,35 @@ export const setFormInlineError = (form, errorMsg) => {
       }
     }
   }
+};
+
+export const genContentPayload = (content, initInstructions) => {
+  const pageInstructions = initInstructions || [];
+  const pageupdate = {};
+  for (const [key, value] of Object.entries(content)) {
+    if (typeof value === 'string' || typeof value === 'boolean') {
+      pageupdate[key] = value;
+    } else if (typeof value === 'object' && Array.isArray(value)) {
+      for (const i in value) {
+        const inst = {
+          instruction: 'UPDATE',
+          target: key,
+          listIndex: parseInt(i, 10) + 1,
+          content: value[i],
+        };
+        pageInstructions.push(inst);
+      }
+    }
+  }
+  return { pageInstructions, pageupdate };
+};
+
+export const genOAuthURL = () => {
+  const salt = `${CryptoES.lib.WordArray.random(128 / 8)}`;
+  const verifier = CryptoES.SHA256(salt);
+  return {
+    urlparam: `&response_type=code&scope=openid&code_challenge=${verifier}` +
+  '&code_challenge_method=S256&response_mode=query&authentication_service=pega',
+    verifier: salt,
+  };
 };
