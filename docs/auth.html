@@ -6,6 +6,7 @@
   <script language='javascript'>
     let t;
     function doLoad() {
+      debugger;
       const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
       if(window.opener === null) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -21,6 +22,7 @@
       }
     }
     function refreshAndClose() {
+      debugger;
       const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
       const urlParams = new URLSearchParams(window.location.search);
       if(window.opener!== null) {

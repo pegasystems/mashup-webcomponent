@@ -3,7 +3,8 @@
     [
       "@babel/preset-env",
       {
-        "targets": "last 2 Chrome version"
+        "targets": "last 2 Chrome version",
+        "modules": "cjs"
       }
     ]
   ]

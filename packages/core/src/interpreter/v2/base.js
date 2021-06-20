@@ -23,7 +23,7 @@ export default class PegaBase extends PegaServices {
         window.history.replaceState(
           { },
           '',
-          window.location.pathname.substring(1),
+          '',
         );
       } else {
         return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);

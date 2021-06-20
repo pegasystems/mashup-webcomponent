@@ -619,7 +619,7 @@ export default class PegaServices extends PegaElement {
           window.history.replaceState(
             { token: this.token },
             '',
-            window.location.pathname.substring(1),
+            window.location.href,
           );
           if (props !== {} && props.type && props.cmd) {
             if (props.cmd === 'sendData') {
