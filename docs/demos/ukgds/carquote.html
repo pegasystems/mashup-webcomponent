@@ -19,16 +19,18 @@
   <script>
     function startQuoteInsuranceCase(e) {
       const elem = e.target.closest("main");
-      elem.innerHTML = `<pega-govuk action='createNewWork' 
-      url='${defaultCfg.url}'
-      bShowCancel = 'false'
-      username='${defaultCfg.username}'
-      password='${defaultCfg.password}'
-      authentication='oauth2password'
-      clientid='${defaultCfg.clientid}'
-      clientsecret='${defaultCfg.clientsecret}'
-      portalName='${defaultCfg.portalName}'
-      casetype='OPGO8L-CarInsur-Work-CarInsuranceQuote'></pega-govuk>`;
+      const mytag = document.createElement("pega-govuk");
+      mytag.action='createNewWork';
+      mytag.bShowCancel = 'false';
+      mytag.url=defaultCfg.url;
+      mytag.username=defaultCfg.username;
+      mytag.password=defaultCfg.password;
+      mytag.authentication='oauth2password';
+      mytag.clientid=defaultCfg.clientid;
+      mytag.clientsecret=defaultCfg.clientsecret;
+      mytag.portalName=defaultCfg.portalName;
+      mytag.casetype='OPGO8L-CarInsur-Work-CarInsuranceQuote';
+      elem.appendChild(mytag);
     }
   </script>
 </head>
