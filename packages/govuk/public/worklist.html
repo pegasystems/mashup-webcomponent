@@ -16,15 +16,7 @@
   <link rel="stylesheet" href="./govuk-frontend-3.12.0.min.css" type="text/css">
   <link rel="stylesheet" href="./app.css" type="text/css">
   <script src="./govuk-frontend-3.12.0.min.js"></script>
-  <script>
-    const defaultSettings = localStorage.getItem('defaultcfg');
-    let defaultCfg = {};
-    if (defaultSettings != null) {
-      defaultCfg = JSON.parse(defaultSettings);
-    }
-  </script>
 </head>
-
 <body class="govuk-template__body">
   <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
   <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
@@ -94,14 +86,6 @@
       </ul>
     </nav>
     <main id="main-content" class="app-content" role="main">
-      <pega-govuk action="workList"
-      url=`${defaultCfg.url}`
-      username=`${defaultCfg.username}`
-      password=`${defaultCfg.password}`
-      authentication=`${defaultCfg.authentication}`
-      clientid=`${defaultCfg.clientid}`
-      clientsecret=`${defaultCfg.clientsecret}`
-      portalName=`${defaultCfg.portalName}`></pega-govuk>
     </main>
     <footer class="govuk-footer " role="contentinfo">
       <div class="govuk-width-container ">
@@ -135,7 +119,31 @@
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
   </script>
   <script src="./pega-govuk.js"></script>
-  <script>window.GOVUKFrontend.initAll();</script>
+  <script>window.GOVUKFrontend.initAll();
+    const defaultSettings = localStorage.getItem('defaultcfg');
+    let defaultCfg = {
+      url : "https://pw16agenda-dt1.pegacloud.io/prweb",
+      portalName: "DemoReact1",
+      username: "wssuser2",
+      password: "install@123",
+      clientid: "43524976946816519752",
+      clientsecret: "90863E0C04EF929425BBC22004949762",
+      authentication: "oauth2password",
+    };
+    if (defaultSettings != null) {
+      defaultCfg = JSON.parse(defaultSettings);
+    }
+    const elem = document.querySelector("main");
+    elem.innerHTML = `<pega-govuk action='workList' 
+    url='${defaultCfg.url}'
+    username='${defaultCfg.username}'
+    password='${defaultCfg.password}'
+    authentication='${defaultCfg.authentication}'
+    clientid='${defaultCfg.clientid}'
+    clientsecret='${defaultCfg.clientsecret}'
+    portalName='${defaultCfg.portalName}'
+    </pega-govuk>`;
+  </script>
 </body>
 
 </html>

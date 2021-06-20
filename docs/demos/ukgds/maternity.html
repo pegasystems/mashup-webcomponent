@@ -76,7 +76,7 @@
       <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" href="/index.html">Home</a>
+            <a class="govuk-breadcrumbs__link" href="#">Home</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
             <a class="govuk-breadcrumbs__link" href="./main.html">Childcare and parenting</a>
@@ -136,7 +136,15 @@
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
       const defaultSettings = localStorage.getItem('defaultcfg');
-      let defaultCfg = {};
+      let defaultCfg = {
+      url : "https://pw16agenda-dt1.pegacloud.io/prweb",
+      portalName: "DemoReact1",
+      username: "wssuser2",
+      password: "install@123",
+      clientid: "43524976946816519752",
+      clientsecret: "90863E0C04EF929425BBC22004949762",
+      authentication: "oauth2password",
+    };
     if (defaultSettings != null) {
       defaultCfg = JSON.parse(defaultSettings);
     }

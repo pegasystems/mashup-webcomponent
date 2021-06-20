@@ -8,13 +8,6 @@
   <script src="./assets/js/uswds-init.min.js"></script>
   <link rel="stylesheet" href="./assets/css/uswds.min.css" />
   <link rel="stylesheet" href="./app.css" type="text/css">
-  <script>
-    const defaultSettings = localStorage.getItem('defaultcfg');
-    let defaultCfg = {};
-    if (defaultSettings != null) {
-      defaultCfg = JSON.parse(defaultSettings);
-    }
-  </script>
 </head>
 <body>
   <a class="usa-skipnav" href="#main-content">Skip to main content</a>
@@ -84,14 +77,6 @@
   </nav>
 </header>
 <main id="main-content">
-    <pega-govus action="workList"
-    url=`${defaultCfg.url}`
-      username=`${defaultCfg.username}`
-      password=`${defaultCfg.password}`
-      authentication=`${defaultCfg.authentication}`
-      clientid=`${defaultCfg.clientid}`
-      clientsecret=`${defaultCfg.clientsecret}`
-      portalName=`${defaultCfg.portalName}`></pega-govus>
 </main>
 <footer class="usa-footer">
   <div class="usa-footer__secondary-section">
@@ -165,5 +150,30 @@
   </div>
   <script src="./assets/js/uswds.min.js"></script>
   <script src="./pega-govus.js"></script>
+  <script>
+    const defaultSettings = localStorage.getItem('defaultcfg');
+    let defaultCfg = {
+      url : "https://pw16agenda-dt1.pegacloud.io/prweb",
+      portalName: "DemoReact1",
+      username: "wssuser2",
+      password: "install@123",
+      clientid: "43524976946816519752",
+      clientsecret: "90863E0C04EF929425BBC22004949762",
+      authentication: "oauth2password",
+    };
+    if (defaultSettings != null) {
+      defaultCfg = JSON.parse(defaultSettings);
+    }
+    const elem = document.querySelector("main");
+    elem.innerHTML = `<pega-govus action='workList' 
+    url='${defaultCfg.url}'
+    username='${defaultCfg.username}'
+    password='${defaultCfg.password}'
+    authentication='${defaultCfg.authentication}'
+    clientid='${defaultCfg.clientid}'
+    clientsecret='${defaultCfg.clientsecret}'
+    portalName='${defaultCfg.portalName}'
+    </pega-govus>`;
+  </script>
 </body>
 </html>
