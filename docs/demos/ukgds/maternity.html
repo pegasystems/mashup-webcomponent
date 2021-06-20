@@ -20,14 +20,15 @@
     function startMaternityCase(e) {
       const elem = e.target.closest("main");
       elem.innerHTML = `<pega-govuk action='createNewWork' 
-      url='https://pw16agenda-dt1.pegacloud.io/prweb'
+      url='${defaultCfg.url}'
       bShowCancel = 'false'
-      username=${defaultCfg.username}
-      password=${defaultCfg.password}
-      authentication=${defaultCfg.authentication}
-      clientid=${defaultCfg.clientid}
-      portalName=${defaultCfg.portalName}
-      casetype='OPGO8L-CarInsur-Work-MaternityPay' title='Check if you can get leave or pay when you have a child'></pega-govuk>`;
+      username='${defaultCfg.username}'
+      password='${defaultCfg.password}'
+      authentication='${defaultCfg.authentication}'
+      clientid='${defaultCfg.clientid}'
+      clientsecret='${defaultCfg.clientsecret}'
+      portalName='${defaultCfg.portalName}'
+      casetype='OPGO8L-CarInsur-Work-MaternityPay'></pega-govuk>`;
     }
   </script>
 </head>

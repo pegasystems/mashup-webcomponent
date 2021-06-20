@@ -20,13 +20,14 @@
     function startQuoteInsuranceCase(e) {
       const elem = e.target.closest("main");
       elem.innerHTML = `<pega-govuk action='createNewWork' 
-      url=${defaultCfg.url}
+      url='${defaultCfg.url}'
       bShowCancel = 'false'
-      username=${defaultCfg.username}
-      password=${defaultCfg.password}
-      authentication=${defaultCfg.authentication}
-      clientid=${defaultCfg.clientid}
-      portalName=${defaultCfg.portalName}
+      username='${defaultCfg.username}'
+      password='${defaultCfg.password}'
+      authentication='${defaultCfg.authentication}'
+      clientid='${defaultCfg.clientid}'
+      clientsecret='${defaultCfg.clientsecret}'
+      portalName='${defaultCfg.portalName}'
       casetype='OPGO8L-CarInsur-Work-CarInsuranceQuote'></pega-govuk>`;
     }
   </script>

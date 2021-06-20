@@ -85,12 +85,13 @@
 </header>
 <main id="main-content">
     <pega-govus action="workList"
-    url='https://pw16agenda-dt1.pegacloud.io/prweb'
-    username = defaultCfg.username
-    password = defaultCfg.password
-    authentication = defaultCfg.authentication
-    clientid = defaultCfg.clientid
-    portalName = defaultCfg.portalName></pega-govus>
+    url=`${defaultCfg.url}`
+      username=`${defaultCfg.username}`
+      password=`${defaultCfg.password}`
+      authentication=`${defaultCfg.authentication}`
+      clientid=`${defaultCfg.clientid}`
+      clientsecret=`${defaultCfg.clientsecret}`
+      portalName=`${defaultCfg.portalName}`></pega-govus>
 </main>
 <footer class="usa-footer">
   <div class="usa-footer__secondary-section">
