@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="./app.css" type="text/css">
   <script>
     const defaultSettings = localStorage.getItem('defaultcfg');
-    const defaultCfg = {};
+    let defaultCfg = {};
     if (defaultSettings != null) {
       defaultCfg = JSON.parse(defaultSettings);
     }

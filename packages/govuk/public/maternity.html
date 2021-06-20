@@ -135,7 +135,7 @@
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
       const defaultSettings = localStorage.getItem('defaultcfg');
-    const defaultCfg = {};
+      let defaultCfg = {};
     if (defaultSettings != null) {
       defaultCfg = JSON.parse(defaultSettings);
     }
