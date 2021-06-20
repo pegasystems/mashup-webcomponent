@@ -406,8 +406,8 @@ footer a:focus {
             <label for='password'>Password</label>
             <input type='password' id='password'>
           </div>
-          <button onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
-          <button onclick="resetSettings(); event.preventDefault(); return false;">Reset configuration</button>
+          <button id="submit" onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
+          <button id="reset" onclick="resetSettings(); event.preventDefault(); return false;">Reset configuration</button>
         </div>
       </form>
     </div>
@@ -425,11 +425,12 @@ footer a:focus {
   <script src="./pega-mashup-webcomponent-all.js"></script>
   <script>
     function resetSettings() {
+      const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
       localStorage.clear();
-      indow.history.replaceState(
+      window.history.replaceState(
           { },
-          '',
-          window.location.pathname.substring(1),
+          '',         
+          redirectURL,
         );
       location.reload();
     }
