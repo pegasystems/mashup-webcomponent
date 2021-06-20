@@ -5,6 +5,7 @@ import {
   setFormInlineError, getFormData, addRowToPageList, deleteRowFromPageList, genContentPayload,
 } from '../../utils/form-utils';
 import PegaElement from '../../main/element';
+import { GetRedirectURL } from '../../views/oauthprovider';
 
 /**
  * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
@@ -531,7 +532,7 @@ export default class PegaServices extends PegaElement {
           reqHeaders.body = `grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`;
         } else if (this.authentication === 'authorizationcode') {
           reqHeaders.body = `grant_type=authorization_code&client_id=${this.clientid}` +
-          `&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${window.location.origin}/auth.html`;
+          `&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${encodeURIComponent(GetRedirectURL())}`;
         }
         reqHeaders.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         apiurl = `${this.url}/PRRestService/oauth2/v1/token`;

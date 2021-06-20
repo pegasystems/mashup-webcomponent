@@ -12,9 +12,9 @@
           { code: urlParams.get('code'),
           verifier: urlParams.get('state')},
           '',
-          window.location.origin + "/index.html",
+          "index.html",
         );
-        window.location = window.location.origin + "/index.html";
+        window.location = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
       } else {
         t = setTimeout("window.close()",1000);
       }
@@ -26,7 +26,7 @@
           { code: urlParams.get('code'),
           verifier: urlParams.get('state') },
           '',
-          window.location.origin + "/index.html",
+          "index.html",
         );
           window.opener.location.reload(true);
           window.close();

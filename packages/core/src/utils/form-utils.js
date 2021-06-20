@@ -531,7 +531,7 @@ export const genOAuthURL = () => {
   const salt = `${CryptoES.lib.WordArray.random(128 / 8)}`;
   const verifier = CryptoES.SHA256(salt);
   return {
-    urlparam: `&response_type=code&scope=openid&code_challenge=${verifier}` +
+    urlparam: `response_type=code&scope=openid&code_challenge=${verifier}` +
   '&code_challenge_method=S256&response_mode=query&authentication_service=pega',
     verifier: salt,
   };
