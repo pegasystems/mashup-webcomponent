@@ -74,6 +74,11 @@ const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
     <div class="flex content-item field-item ${type}"><fieldset><legend>${DisplayLabel(data, path, type)}</legend>${ComponentTemplate}</fielset></div>
   `;
   }
+  if (type === 'field-checkbox') {
+    return html`
+    <div class="flex content-item field-item ${type}">${ComponentTemplate}</div>
+  `;
+  }
   return html`
     <div class="flex content-item field-item ${type}">${DisplayLabel(data, path, type)}${ComponentTemplate}</div>
   `;
@@ -510,7 +515,6 @@ const RadioButtons = (data, path) => {
  * Checkbox component
  */
 const Checkbox = (data, path) => html`
-<div>
   <input
   data-ref="${data.reference}" 
   id="${ifDefined(path)}"
@@ -520,7 +524,6 @@ const Checkbox = (data, path) => html`
   data-action-click="${ifDefined(ActionSet(data, 'click'))}"
   />
   <label for="${ifDefined(path)}">${data.control.label}</label>
-  </div>
 `;
 
 /**

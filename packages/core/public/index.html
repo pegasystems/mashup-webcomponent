@@ -114,7 +114,7 @@ footer > nav > ul > li {
 main {
   min-height: calc(100vh - 172px);
   margin-top: -300px;
-  width: 100%;
+  flex:1;
 }
 
 .workarea {
@@ -254,8 +254,6 @@ footer a:focus {
   }
   body {
     font-size: 14px;
-    height:100vh;
-    overflow:hidden;
   }
   .workarea h1 {
     font-size: 16px;
@@ -267,10 +265,8 @@ footer a:focus {
     padding: 16px;
   }
   main {
-    min-height: auto;
+    min-height: calc(100vh - 127px);
     margin-top: 8px;
-    flex: 1;
-    overflow: auto;
   }
   header nav {
     display:none;

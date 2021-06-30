@@ -45,11 +45,7 @@ export default class PegaServices extends PegaElement {
     if (this.action === 'workList') {
       this.fetchData('portal');
     }
-    this.dispatchEvent(
-      new CustomEvent('message', {
-        detail: { type: 'cancel' },
-      }),
-    );
+    this.sendExternalEvent({ type: 'cancel' });
   };
 
   actionAreaSave = (event) => {
@@ -171,19 +167,11 @@ export default class PegaServices extends PegaElement {
     this.data = {};
     this.casedata = {};
     if (this.caseID.indexOf('ASSIGN-WORKLIST') === 0) {
-      this.dispatchEvent(
-        new CustomEvent('message', {
-          detail: { type: 'openassignment', id: this.caseID },
-        }),
-      );
+      this.sendExternalEvent({ type: 'openassignment', id: this.caseID });
       this.assignmentID = this.caseID;
       this.caseID = '';
     } else {
-      this.dispatchEvent(
-        new CustomEvent('message', {
-          detail: { type: 'opencase', id: this.caseID },
-        }),
-      );
+      this.sendExternalEvent({ type: 'opencase', id: this.caseID });
       this.assignmentID = '';
     }
     const casedata = this.getRenderRoot().querySelector('#case-data');
@@ -240,14 +228,6 @@ export default class PegaServices extends PegaElement {
       this.sendData('refreshassignment', { id: this.assignmentID, actionid: this.actionID, refreshFor });
     }
   };
-
-  /* Clear the loading indicator */
-  clearLoadingIndicator() {
-    const el = this.getRenderRoot().querySelector('#case-data');
-    if (el && el.querySelector('.loading') !== null) {
-      render(null, el);
-    }
-  }
 
   /* Generic handler for error message */
   genErrorMessage(error) {
@@ -660,11 +640,7 @@ export default class PegaServices extends PegaElement {
             debugger;
           }
           if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {
-            this.dispatchEvent(
-              new CustomEvent('message', {
-                detail: { type: 'newwork', id: response.data.caseInfo.ID },
-              }),
-            );
+            this.sendExternalEvent({ type: 'newwork', id: response.data.caseInfo.ID });
           }
           if (type === 'refreshassignment') {
             if (el && response.data.caseInfo && response.data.caseInfo.content) {

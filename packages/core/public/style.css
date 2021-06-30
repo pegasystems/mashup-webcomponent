@@ -191,9 +191,9 @@ select[readonly] {
 
 input[type='checkbox'],
 input[type='radio'] {
-  height: 20px;
+  min-height: 20px;
   margin-right: var(--spacing1x);
-  width: 20px;
+  min-width: 20px;
 }
 select {
   height: 36px;
@@ -282,10 +282,14 @@ label {
   margin-right:0;
 }
 .flex.main-header {
-  min-height: 50px;
+  min-height: 40px;
+  margin-bottom: 8px;
 }
 .flex.main-header > h2 {
   margin-bottom:0;
+}
+.flex.main-header > h2 > span {
+  white-space: nowrap;
 }
 .flex {
   display:flex;
@@ -323,6 +327,7 @@ label {
 .layout-content-default-form-2 .field-checkbox,
 .layout-content-default-form-2 .field-radiogroup {
   grid-column: 1 / span 2;
+  margin-top: 0;
 }
 
 .layout-content-default-form-3 {
@@ -335,6 +340,7 @@ label {
 .layout-content-default-form-3 .field-checkbox,
 .layout-content-default-form-3 .field-radiogroup {
   grid-column: 1 / span 3;
+  margin-top: 0;
 }
 
 button.Light,
@@ -402,16 +408,9 @@ a:hover {
 }
 
 .field-checkbox {
-  flex-flow: row wrap;
-}
-.field-checkbox > label {
-  line-height: 25px;
-}
-.field-checkbox > .field-caption {
-  color: var(--generalLabelColor);
-  font-size: var(--generalLabelFontSize);
-  flex: 0 0 100%;
-  min-height: 0;
+  flex-flow: row nowrap;
+  margin-top: 23px;
+  align-items: center;
 }
 
 .field-radiogroup > div {
@@ -440,6 +439,7 @@ a:hover {
 
 .field-button {
   display:inline-block;
+  margin-top: 23px;
 }
 
 table {
@@ -648,6 +648,7 @@ pega-mashup-light-v2,
   text-align: center;
   padding: var(--spacing1x) var(--spacing2x);
   margin-bottom:var(--spacing2x);
+  margin-top: var(--spacing1x);
 }
 
 .mashup-modal {
@@ -989,6 +990,11 @@ pega-mashup-light-v2,
     min-width:0;
     max-width:none;
     left:8px;
+  }
+
+  .flex.main-header {
+    flex-flow: column;
+    align-items: flex-start;
   }
 } 
 

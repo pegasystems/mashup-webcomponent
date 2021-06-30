@@ -7,6 +7,7 @@ import { plusIcon } from '../../views/icons';
 export const SimpleTable = (item, path, isReadOnly) => html`
   ${ListTitle(item.layout)}
   <table>
+  <caption class="sr-only">${item.layout.title}</caption>
     <thead>
       <tr>
         ${TableHeader(item.layout.header.groups)}
@@ -39,15 +40,15 @@ export const ListAction = (data, isReadOnly) => {
     ref = ref.substring(1);
   }
 
-  /* If the array 'newRow' is present, then the table or RDL is editable - add the 'add row' button
-    if the data-testID is set to 'add-row'.  It is preferable to show the delete button on each row - so will not show the delete action here */
+  /* If the array 'newRow' is present, then the table or RDL is editable.
+  It is preferable to show the delete button on each row - so will not show the delete action here */
   if (data.newRow && isReadOnly !== true) {
     const newRowList = [];
     getNewRowProps(data.newRow, newRowList);
     return html`
       <div class="table-action-area">
-        ${data.testID === 'add-row' ? html`<button type="button" class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
-        data-ref=${ref} data-action-click="addRow">${plusIcon()}Add item</button>` : ''}
+        <button type="button" class="pzhc pzbutton Simple" data-newrow="${ifDefined(newRowList.join())}"
+        data-ref=${ref} data-action-click="addRow">${plusIcon()}Add item</button>
       </div>
     `;
   }

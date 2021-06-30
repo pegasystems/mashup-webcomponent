@@ -15,23 +15,6 @@ import PegaElement from '../../main/element';
  *
  */
 export default class PegaServices extends PegaElement {
-  /* Clear the loading indicator */
-  clearLoadingIndicator() {
-    const el = this.getRenderRoot().querySelector('#case-data');
-    if (el && el.querySelector('.loading') !== null) {
-      render(null, el);
-    }
-  }
-
-  /* Send an external event outside of the element */
-  sendExternalEvent(type) {
-    this.dispatchEvent(
-      new CustomEvent('message', {
-        detail: { type },
-      }),
-    );
-  }
-
   /* Generic handler for error message */
   genErrorMessage(error) {
     this.clearLoadingIndicator();
@@ -220,6 +203,12 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the assignmentaction');
                 break;
               }
+              if (!response.view.groups) {
+                this.errorMsg = 'Error: view is not defined';
+                this.clearLoadingIndicator();
+                this.requestUpdate();
+                return;
+              }
               render(saveCaseLayout(response.view.groups, 'Obj',
                 this.bShowCancel === 'true' ? this.actionAreaCancel : null,
                 this.actionAreaSave, this), el);
@@ -229,6 +218,12 @@ export default class PegaServices extends PegaElement {
               if (!el) {
                 console.error('Error: case data are not present when retrieving the assignmentaction');
                 break;
+              }
+              if (!response.view.groups) {
+                this.errorMsg = 'Error: view is not defined';
+                this.clearLoadingIndicator();
+                this.requestUpdate();
+                return;
               }
               if (target) {
                 this.actionID = actionid;
@@ -474,7 +469,6 @@ export default class PegaServices extends PegaElement {
               render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
             }
           } else if (type === 'savecase') {
-            this.sendExternalEvent(type);
             this.fetchData('case', { id: this.caseID, target });
             if (callback) {
               callback();
@@ -498,6 +492,9 @@ export default class PegaServices extends PegaElement {
           }
           if (response.ID) {
             this.caseID = response.ID;
+            if (type === 'newwork') {
+              this.sendExternalEvent({ type: 'newwork', id: this.caseID });
+            }
           }
           if (response.nextAssignmentID) {
             if (el) {
@@ -506,14 +503,12 @@ export default class PegaServices extends PegaElement {
             }
             this.bShowNew = false;
             this.assignmentID = response.nextAssignmentID;
-            this.sendExternalEvent(type);
             this.fetchData('assignment', { id: this.assignmentID });
           } else if (response.nextPageID) {
             if (el) {
               render(LoadingIndicator(), el);
               this.requestUpdate();
             }
-            this.sendExternalEvent(type);
             if (response.nextPageID === 'Confirm' || response.nextPageID === 'Review') {
               this.bShowConfirm = true;
               this.fetchData('view', { id: this.caseID, actionid: 'pyCaseInformation' });

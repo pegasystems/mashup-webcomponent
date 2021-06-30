@@ -1,4 +1,5 @@
 import { LitElement } from 'lit-element';
+import { render } from 'lit-html';
 import { unescapeHTML } from '../utils/form-utils';
 
 export default class PegaElement extends LitElement {
@@ -85,5 +86,22 @@ export default class PegaElement extends LitElement {
         },
       };
     }
+  }
+
+  /* Clear the loading indicator */
+  clearLoadingIndicator() {
+    const el = this.getRenderRoot().querySelector('#case-data');
+    if (el && el.querySelector('.loading') !== null) {
+      render(null, el);
+    }
+  }
+
+  /* Send an external event outside of the element */
+  sendExternalEvent(msg) {
+    this.dispatchEvent(
+      new CustomEvent('message', {
+        detail: { msg },
+      }),
+    );
   }
 }

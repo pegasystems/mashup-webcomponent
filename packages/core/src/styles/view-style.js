@@ -321,8 +321,6 @@ export const viewStyle = () => html`
       padding-left: 40px;
       padding-top: 4px;
       cursor: pointer;
-      height: calc(var(--controlHeight) - var(--spacing1x));
-      width: 100%;
       margin: 0 var(--spacing1x) 0 0;
       display: block;
       color: var(--generalTextColor);
@@ -440,7 +438,14 @@ export const viewStyle = () => html`
       align-items: center;
     }
     .flex.main-header {
-      min-height: 50px;
+      min-height: 40px;
+      margin-bottom: 8px;
+    }
+    .flex.main-header > h2 {
+      margin-bottom:0;
+    }
+    .flex.main-header > h2 > span {
+      white-space: nowrap;
     }
     .flex.layout-content-inline > *,
     .flex.layout-content-inline_middle > * {
@@ -569,6 +574,12 @@ export const viewStyle = () => html`
       outline: red 1px solid;
     }
     
+    .field-checkbox {
+      flex-flow: row nowrap;
+      margin-top: 23px;
+      align-items: center;
+    }
+    
     .field-currencyinput > div {
       position: relative;
       display: flex;
@@ -614,8 +625,9 @@ export const viewStyle = () => html`
       background-color: #DAF2E3;
       color:#000;
       text-align: center;
-      padding: 8px 16px;
-      margin-bottom:16px;
+      padding: var(--spacing1x) var(--spacing2x);
+      margin-bottom:var(--spacing2x);
+      margin-top: var(--spacing1x);
     }
 
     .mashup-modal {
@@ -872,9 +884,18 @@ export const viewStyle = () => html`
         margin-right: 0;
         margin-left: 0;
       }
+      .layout-content-default-form-2,
+      .layout-content-default-form-3 {
+        display:flex;
+        flex-flow: column nowrap;
+      }
       button {
         min-width: auto;
         padding: 0 var(--spacing1x);
+      }
+      .flex.main-header {
+        flex-flow: column;
+        align-items: flex-start;
       }
     } 
   </style>

@@ -6,7 +6,7 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
   <div class="flex layout-content-inline_middle main-header">
     <h2>
     ${i18n.t(title)}
-      ${cases.length > 0 ? html`(${cases.length})` : ''}
+      ${cases.length > 0 ? html`<span>(${cases.length})</span>` : ''}
     </h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
       <button type='button' class="pzhc pzbutton Simple"

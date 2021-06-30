@@ -502,13 +502,13 @@ export const getInitData = (casedata) => {
 export const setFormInlineError = (form, errorMsg, webcomp) => {
   for (const el of form.elements) {
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
-      const ref = el.getAttribute('data-ref');
+      const ref = `.${el.getAttribute('data-ref')}`;
       if (ref !== null && ref !== 'pyID') {
         for (const err in errorMsg) {
           if (errorMsg[err].Path === ref) {
             webcomp.setInlineError(el, errorMsg[err].ValidationMessage);
             break;
-          } else if (errorMsg[err].erroneousInputOutputFieldInPage === `.${ref}`) {
+          } else if (errorMsg[err].erroneousInputOutputFieldInPage === ref) {
             webcomp.setInlineError(el, errorMsg[err].localizedValue);
             break;
           }

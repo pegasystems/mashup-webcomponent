@@ -74,7 +74,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
     const id = casedata.content.pyID.split(' ')[1];
     return html`
     <div class="flex layout-content-inline_middle main-header">
-      <h2>${i18n.t(data.data.caseInfo.name)} (${id})</h2>
+      <h2>${i18n.t(data.data.caseInfo.name)} <span>(${id})</span></h2>
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
@@ -89,7 +89,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
   const id = data.caseID.split(' ')[1];
   return html`
   <div class="flex layout-content-inline_middle main-header">
-    <h2>${i18n.t(data.data.caseInfo.name)} (${id})</h2>
+    <h2>${i18n.t(data.data.caseInfo.name)} <span>(${id})</span></h2>
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}

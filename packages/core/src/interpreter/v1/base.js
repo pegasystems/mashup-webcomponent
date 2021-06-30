@@ -103,13 +103,8 @@ export default class PegaBase extends PegaServices {
     this.name = '';
     if (this.action === 'workList') {
       this.fetchData('worklist');
-    } else {
-      this.dispatchEvent(
-        new CustomEvent('message', {
-          detail: { type: 'cancel' },
-        }),
-      );
     }
+    this.sendExternalEvent({ type: 'cancel' });
   };
 
   actionAreaSave = (event) => {
@@ -264,9 +259,11 @@ export default class PegaBase extends PegaServices {
     this.data = {};
     this.casedata = {};
     if (this.caseID.indexOf('ASSIGN-WORKLIST') === 0) {
+      this.sendExternalEvent({ type: 'openassignment', id: this.caseID });
       this.assignmentID = this.caseID;
       this.caseID = '';
     } else {
+      this.sendExternalEvent({ type: 'opencase', id: this.caseID });
       this.assignmentID = '';
     }
     const casedata = this.getRenderRoot().querySelector('#case-data');
