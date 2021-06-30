@@ -453,6 +453,7 @@ const RadioButtons = (data, path) => {
             name=${ifDefined(path)}
             id=${innerpath}
             type="radio"
+            ?required="${data.requiredstate}"
             ?readonly="${data.readonlystate}"
             ?disabled="${data.disabledstate}"
             value="${item.key}"

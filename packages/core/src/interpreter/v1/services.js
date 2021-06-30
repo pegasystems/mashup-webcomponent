@@ -443,11 +443,11 @@ export default class PegaServices extends PegaElement {
           /* Only look at the first error... not sure if the other errors are relevant */
           if (response.errors[0].ValidationMessages) {
             if (target && target.id === 'modalcontent') {
-              setFormInlineError(target, response.errors[0].ValidationMessages);
+              setFormInlineError(target, response.errors[0].ValidationMessages, this);
               render(genPageValidationErrors(response), target.previousElementSibling);
             } else {
               const form = this.getRenderRoot().querySelector('#case-data');
-              setFormInlineError(form, response.errors[0].ValidationMessages);
+              setFormInlineError(form, response.errors[0].ValidationMessages, this);
               this.validationMsg = genPageValidationErrors(response);
             }
           } else {

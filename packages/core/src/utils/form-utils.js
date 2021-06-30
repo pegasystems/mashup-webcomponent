@@ -5,6 +5,7 @@ import CryptoES from 'crypto-es';
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
  */
 export const pad2char = (v) => `0${v}`.slice(-2);
+export const pad4char = (v) => `0${v}`.slice(-4);
 
 /**
  * Generate unique id for elements
@@ -75,12 +76,18 @@ export const setBodyContent = (content, path, pageinstructions, casedata, value)
     return;
   }
   // If no change, just return
-  const origVal = getValue(casedata, path);
-  // eslint-disable-next-line eqeqeq
-  if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) return;
+  if (casedata) {
+    const origVal = getValue(casedata, path);
+    // eslint-disable-next-line eqeqeq
+    if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) return;
+  }
   const propPath = path.lastIndexOf('.');
   if (propPath === -1) {
     content[path] = value;
+    return;
+  }
+  if (!pageinstructions) {
+    setObjectFromRef(content, path, value);
     return;
   }
   const data = {};
@@ -365,7 +372,17 @@ export const getFormData = (form, content, pageinstructions, casedata) => {
       if (ref !== null && ref !== 'pyID') {
         if (el.tagName === 'INPUT') {
           const type = el.getAttribute('type');
-          if (type === 'checkbox') {
+          if (el.classList.contains('input-date-day') || el.classList.contains('input-date-month') || el.classList.contains('input-date-year')) {
+            if (el.classList.contains('input-date-day')) {
+              const parent = el.closest('.input-date').parentNode;
+              const inputdatemonthEl = parent.querySelector('.input-date-month');
+              const inputdateyearEl = parent.querySelector('.input-date-year');
+              if (inputdatemonthEl !== null && inputdateyearEl !== null && el.value !== '' && inputdatemonthEl.value !== '' && inputdateyearEl.value !== '') {
+                const value = `${pad2char(inputdatemonthEl.value)}/${pad2char(el.value)}/${pad4char(inputdateyearEl.value)}`;
+                setBodyContent(content, ref, pageinstructions, casedata, value);
+              }
+            }
+          } else if (type === 'checkbox') {
             setBodyContent(content, ref, pageinstructions, casedata, el.checked);
           } else if (type === 'radio') {
             if (el.checked) {
@@ -482,22 +499,17 @@ export const getInitData = (casedata) => {
 };
 
 /* set an error on every form fields */
-export const setFormInlineError = (form, errorMsg) => {
+export const setFormInlineError = (form, errorMsg, webcomp) => {
   for (const el of form.elements) {
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
-      const ref = `.${el.getAttribute('data-ref')}`;
+      const ref = el.getAttribute('data-ref');
       if (ref !== null && ref !== 'pyID') {
         for (const err in errorMsg) {
           if (errorMsg[err].Path === ref) {
-            el.setCustomValidity(unescapeHTML(errorMsg[err].ValidationMessage));
-            el.classList.add('error-field');
-            el.reportValidity();
+            webcomp.setInlineError(el, errorMsg[err].ValidationMessage);
             break;
-          }
-          if (errorMsg[err].erroneousInputOutputFieldInPage === ref) {
-            el.setCustomValidity(unescapeHTML(errorMsg[err].localizedValue));
-            el.classList.add('error-field');
-            el.reportValidity();
+          } else if (errorMsg[err].erroneousInputOutputFieldInPage === `.${ref}`) {
+            webcomp.setInlineError(el, errorMsg[err].localizedValue);
             break;
           }
         }

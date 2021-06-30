@@ -113,8 +113,7 @@ export default class PegaBase extends PegaServices {
       this.refreshAssignment(el, getRefreshFor(el, 'change'));
     } else if (this.refreshOnChange) {
       const form = this.getRenderRoot().querySelector('#case-data');
-      const content = this.data.data.caseInfo.content;
-      getFormData(form, content);
+      getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
       render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
         this.bShowCancel === 'true' ? this.actionAreaCancel : null,
         this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);

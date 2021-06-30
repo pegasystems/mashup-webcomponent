@@ -9,14 +9,14 @@ import { LoadingIndicator } from '../../views/loading';
 import { showConfirm } from '../../views/confirm';
 import { showErrorMessage } from '../../views/errormsg';
 import {
-  getFormData, shouldRefresh, getRefreshFor,
+  getFormData, shouldRefresh, getRefreshFor, unescapeHTML,
 } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
 import { ShowOAuthProvider } from '../../views/oauthprovider';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
-    // this.bShowSave = 'false';
+    this.bShowSave = 'false';
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
       if (this.errorMsg.indexOf('The provided authorization code is expired') !== -1) {
@@ -97,6 +97,16 @@ export default class PegaBase extends PegaServices {
   displayCasesTypes = () => genCaseTypesList(this.casetypes);
 
   genLoadingIndicator = () => LoadingIndicator();
+
+  setInlineError = (el, msg) => {
+    el.setCustomValidity(unescapeHTML(msg));
+    el.classList.add('error-field');
+    el.reportValidity();
+  }
+
+  validateForm = (form) => form.checkValidity();
+
+  reportFormValidity = (form) => form.reportValidity();
 
   clickHandler = (event) => {
     let el = event.target;

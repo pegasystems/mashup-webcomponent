@@ -3,18 +3,18 @@ import { html } from 'lit-html';
 import { Field } from './fields';
 import { LoadingIndicator } from './loading';
 
-export const SimpleTable = (data, isReadOnly, webcomp) => {
+export const SimpleTable = (data, isReadOnly, webcomp, path) => {
   const isreadonlytable = isReadOnly || data.config.renderMode !== 'Editable';
   return html`
   <table class='govuk-table'>
-    <caption class="govuk-table__caption govuk-table__caption--m">${data.config.name}</caption>
+    <caption class="sr-only govuk-table__caption govuk-table__caption--m">${data.config.name}</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         ${TableHeader(data.config.children[0].children, isreadonlytable)}
       </tr>
     </thead>
     <tbody>
-      ${TableContent(data, isreadonlytable, webcomp)}
+      ${TableContent(data, isreadonlytable, webcomp, path)}
     </tbody>
   </table>
   ${ListAction(data, isreadonlytable)}`;
@@ -24,7 +24,7 @@ export const DisplayList = (data, isReadOnly, webcomp) => {
   webcomp.sendData('dataviews', { id: data.config.referenceList, content: { paging: { pageNumber: 1, pageSize: 41 } } });
   return html`
   <table class='govuk-table'>
-    <caption class="govuk-table__caption govuk-table__caption--m">${data.config.name}</caption>
+    <caption class="sr-only govuk-table__caption govuk-table__caption--m">${data.config.name}</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         ${TableHeader(data.config.presets[0].children[0].children, isReadOnly)}
@@ -59,7 +59,7 @@ const ListAction = (data, isReadOnly) => {
   return null;
 };
 
-const TableContent = (data, isReadOnly, webcomp) => {
+const TableContent = (data, isReadOnly, webcomp, path) => {
   const propRef = data.config.referenceList.replace('@P .', '');
   const headers = data.config.children[0].children;
   const rows = webcomp.data.data.caseInfo.content[propRef];
@@ -67,11 +67,12 @@ const TableContent = (data, isReadOnly, webcomp) => {
   return html`
   ${rows.map((row, index) => html`
     <tr class="govuk-table__row">
-    ${headers.map((tdItem) => {
+    ${headers.map((tdItem, rindex) => {
     const field = tdItem;
+    const cellpath = isReadOnly ? undefined : `${path}-${index}-${rindex}`;
     return html`
-    <td class="govuk-table__cell">${Field(field, undefined, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</td>`;
-  })}${!isReadOnly ? html`<td><button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
+    <td class="govuk-table__cell">${Field(field, cellpath, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</td>`;
+  })}${!isReadOnly ? html`<td class="govuk-table__cell"><button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
   aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}  
   data-action-click='deleteRow'>Delete</button></td>` : null}
     </tr>`)}

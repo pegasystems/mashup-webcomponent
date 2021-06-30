@@ -9,7 +9,7 @@ import { LoadingIndicator } from '../../views/loading';
 import { showConfirm } from '../../views/confirm';
 import { showErrorMessage } from '../../views/errormsg';
 import {
-  getFormData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList,
+  getFormData, shouldRefresh, getRefreshFor, addRowToPageList, deleteRowFromPageList, unescapeHTML,
 } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
 
@@ -283,6 +283,12 @@ export default class PegaBase extends PegaServices {
       this.fetchData('data', { id: pageID, element: el });
     }
   };
+
+  setInlineError = (el, msg) => {
+    el.setCustomValidity(unescapeHTML(msg));
+    el.classList.add('error-field');
+    el.reportValidity();
+  }
 
   refreshAssignment = (el, refreshFor) => {
     const form = this.getRenderRoot().querySelector('#case-data');

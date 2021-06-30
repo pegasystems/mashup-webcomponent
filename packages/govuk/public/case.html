@@ -50,7 +50,7 @@
             beta
           </strong>
           <span class="govuk-phase-banner__text">
-            This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve
+            This is a new service – your <a class="govuk-link" href="/get-in-touch">feedback</a> will help us to improve
             it.
           </span>
         </p>
@@ -64,33 +64,12 @@
             <a class="govuk-breadcrumbs__link" href="#">Home</a>
           </li>
           <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" href="./main.html">Childcare and parenting</a>
+            <a class="govuk-breadcrumbs__link" href="./main.html">Main Section</a>
           </li>
-          <li class="govuk-breadcrumbs__list-item" aria-current="page">Pregnancy and birth</li>
+          <li class="govuk-breadcrumbs__list-item" aria-current="page">Request Car Insurance quote</li>
         </ol>
       </div>
       <main id="main-content" class="app-content" role="main">
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Check if you can get leave or pay when you have a child</h1>
-
-            <p class="govuk-body">Find out:</p>
-
-            <ul class="govuk-list govuk-list--bullet">
-              <li>if you can get maternity, paternity or shared parental leave</li>
-              <li>how much pay you can get if you take leave</li>
-            </ul>
-
-           <a href="#" role="button" draggable="false"
-              class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start"
-              data-module="govuk-button" onclick="startMaternityCase(event); return false;">
-              Start now
-              <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
-                viewBox="0 0 33 40" aria-hidden="true" focusable="false">
-                <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-              </svg></a>
-          </div>
-        </div>
       </main>
     </div>
     <footer class="govuk-footer " role="contentinfo">
@@ -127,16 +106,17 @@
       username: "wssuser2",
       password: "install@123",
       clientid: "43524976946816519752",
-      clientsecret: "90863E0C04EF929425BBC22004949762"
+      clientsecret: "90863E0C04EF929425BBC22004949762",
     };
     if (defaultSettings != null) {
       defaultCfg = JSON.parse(defaultSettings);
     }
-    function startMaternityCase(e) {
-      const elem = e.target.closest("main");
+    function startcase(id) {
+      const elem = document.querySelector("main");
       const mytag = document.createElement("pega-govuk");
-      mytag.action='createNewWork';
-      mytag.bShowCancel = 'true';
+      mytag.setAttribute("action", 'openWorkByHandle');
+      mytag.setAttribute("caseid", id);
+      mytag.bShowCancel = 'false';
       mytag.url=defaultCfg.url;
       mytag.username=defaultCfg.username;
       mytag.password=defaultCfg.password;
@@ -144,29 +124,10 @@
       mytag.clientid=defaultCfg.clientid;
       mytag.clientsecret=defaultCfg.clientsecret;
       mytag.portalName=defaultCfg.portalName;
-      mytag.casetype='OPGO8L-CarInsur-Work-MaternityPay';
-      elem.innerHTML = "";
-      mytag.addEventListener("message", function (event) {
-        const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
-        if(event.detail.type==="newwork") {
-          let id = event.detail.id.split(" ");
-          if(id.length == 2) {
-              window.history.replaceState(
-            {},
-            '',
-            `${redirectURL}/case.html?case=${id[1]}`,
-          );
-          }
-        } else if(event.detail.type==="cancel") {
-          window.history.replaceState(
-          {},
-          '',
-          `${redirectURL}/worklist.html`,
-          );
-        }
-      });
-      elem.appendChild(mytag);
+     elem.appendChild(mytag);
     }
+    var id = new URLSearchParams(window.location.search).get("case");
+    startcase("OPGO8L-CARINSUR-WORK " + id);
     </script>
     <script src="./pega-govuk.js"></script>
     <script>window.GOVUKFrontend.initAll();</script>

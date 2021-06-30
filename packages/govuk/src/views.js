@@ -73,7 +73,7 @@ export const CaseHeader = (name, data, casedata, onOpen) => {
   if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
     <div>
-      <h2>${i18n.t(name)}</h2>
+      <h2 class='govuk-heading-m'>${i18n.t(name)}</h2>
     </div>
     ${AssignmentList(casedata.assignments, onOpen)}
     <h3>${i18n.t('Case information')}</h3>`;
@@ -81,7 +81,7 @@ export const CaseHeader = (name, data, casedata, onOpen) => {
   if (name === '' || typeof data.caseID === 'undefined') return '';
   return html`
   <div>
-    <h2>${i18n.t(name)}</h2>
+    <h2 class='govuk-heading-m'>${i18n.t(name)}</h2>
   </div>`;
 };
 
@@ -105,7 +105,7 @@ export const createCaseLayout = (data, path, onCancel, webcomp) => html`
   ${CreateActionArea(onCancel)}
 `;
 
-export const genPageValidationErrors = (response) => {
+export const genPageValidationErrors = (response, form) => {
   if (response.errorDetails) {
     return html`<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
     <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -116,6 +116,19 @@ export const genPageValidationErrors = (response) => {
     <ul>
       ${response.errorDetails.map((item) => {
     if (item.message === 'Error_Validation_Fail' || item.message === 'Validation failed: Errors Detected.') return null;
+    const errorRef = item.erroneousInputOutputFieldInPage.substring(1);
+    for (const el of form.elements) {
+      let ref = el.getAttribute('data-ref');
+      let id = el.getAttribute('id');
+      if (ref === null && el.parentNode.parentNode.className === 'govuk-date-input__item') {
+        const groupEl = el.closest('.govuk-form-group').parentNode.parentNode;
+        ref = groupEl.getAttribute('data-ref');
+        id = groupEl.getAttribute('id');
+      }
+      if (ref === errorRef) {
+        return html`<li><a href="#${id}">${i18n.t(item.localizedValue)}</a></li>`;
+      }
+    }
     return html`<li>${i18n.t(item.localizedValue)}</li>`;
   })}
     </ul></div>

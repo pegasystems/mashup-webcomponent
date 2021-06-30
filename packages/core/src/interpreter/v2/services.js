@@ -44,13 +44,12 @@ export default class PegaServices extends PegaElement {
     this.name = '';
     if (this.action === 'workList') {
       this.fetchData('portal');
-    } else {
-      this.dispatchEvent(
-        new CustomEvent('message', {
-          detail: { type: 'cancel' },
-        }),
-      );
     }
+    this.dispatchEvent(
+      new CustomEvent('message', {
+        detail: { type: 'cancel' },
+      }),
+    );
   };
 
   actionAreaSave = (event) => {
@@ -99,7 +98,7 @@ export default class PegaServices extends PegaElement {
   submitForm = (event, type) => {
     const form = this.getRenderRoot().querySelector('#case-data');
     getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
-    if (form.checkValidity()) {
+    if (this.validateForm(form)) {
       if (type !== 'create') {
         if (this.data.ID !== '') {
           this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
@@ -110,7 +109,7 @@ export default class PegaServices extends PegaElement {
         this.sendData('newwork', { id: this.casetype });
       }
     } else {
-      form.reportValidity();
+      this.reportFormValidity(form);
     }
     event.preventDefault();
     return false;
@@ -172,9 +171,19 @@ export default class PegaServices extends PegaElement {
     this.data = {};
     this.casedata = {};
     if (this.caseID.indexOf('ASSIGN-WORKLIST') === 0) {
+      this.dispatchEvent(
+        new CustomEvent('message', {
+          detail: { type: 'openassignment', id: this.caseID },
+        }),
+      );
       this.assignmentID = this.caseID;
       this.caseID = '';
     } else {
+      this.dispatchEvent(
+        new CustomEvent('message', {
+          detail: { type: 'opencase', id: this.caseID },
+        }),
+      );
       this.assignmentID = '';
     }
     const casedata = this.getRenderRoot().querySelector('#case-data');
@@ -192,11 +201,10 @@ export default class PegaServices extends PegaElement {
     }
   };
 
-  refreshAssignment = (el, refreshFor) => {
+  applyAction = (el) => {
     const form = this.getRenderRoot().querySelector('#case-data');
     let node = el;
     if (form) {
-      getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
       /* If node is defined - it could be a addRow or deleteRow action */
       if (node) {
         if (node.tagName === 'path') node = node.parentNode;
@@ -209,21 +217,27 @@ export default class PegaServices extends PegaElement {
             if (instr !== null) {
               this.pageInstructions.push(instr);
             }
-            // eslint-disable-next-line no-param-reassign
-            refreshFor = form;
-          } else if (action === 'deleteRow') {
+            return;
+          }
+          if (action === 'deleteRow') {
             const instr = deleteRowFromPageList(this.data.data.caseInfo.content, ref);
             if (instr !== null) {
               this.pageInstructions.push(instr);
             }
+            return;
           }
         }
       }
-      if (this.bShowNew === true) {
-        this.sendData('refreshnew', { id: this.casetype, refreshFor });
-      } else {
-        this.sendData('refreshassignment', { id: this.assignmentID, actionid: this.actionID, refreshFor });
-      }
+      getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
+    }
+  }
+
+  refreshAssignment = (el, refreshFor) => {
+    this.applyAction(el);
+    if (this.bShowNew === true) {
+      this.sendData('refreshnew', { id: this.casetype, refreshFor });
+    } else {
+      this.sendData('refreshassignment', { id: this.assignmentID, actionid: this.actionID, refreshFor });
     }
   };
 
@@ -233,15 +247,6 @@ export default class PegaServices extends PegaElement {
     if (el && el.querySelector('.loading') !== null) {
       render(null, el);
     }
-  }
-
-  /* Send an external event outside of the element */
-  sendExternalEvent(type) {
-    this.dispatchEvent(
-      new CustomEvent('message', {
-        detail: { type },
-      }),
-    );
   }
 
   /* Generic handler for error message */
@@ -425,6 +430,10 @@ export default class PegaServices extends PegaElement {
               this.casepyStatusWork = this.casedata.status;
               this.data.actions = this.casedata.availableActions;
               this.name = this.casedata.stageLabel;
+              const form = this.getRenderRoot().querySelector('#case-data');
+              if (form) {
+                getFormData(form, this.casedata.content);
+              }
               this.content = {};
               render(this.renderMainLayout(response.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj'), el);
               this.requestUpdate();
@@ -631,8 +640,8 @@ export default class PegaServices extends PegaElement {
         } else if (response.errorDetails && response.errorDetails.length > 0) {
           if (response.errorDetails[0].localizedValue) {
             const form = this.getRenderRoot().querySelector('#case-data');
-            setFormInlineError(form, response.errorDetails);
-            this.validationMsg = this.genPageValidationErrors(response);
+            setFormInlineError(form, response.errorDetails, this);
+            this.validationMsg = this.genPageValidationErrors(response, form);
           } else {
             this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
           }
@@ -649,6 +658,13 @@ export default class PegaServices extends PegaElement {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'dataviews') {
             debugger;
+          }
+          if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {
+            this.dispatchEvent(
+              new CustomEvent('message', {
+                detail: { type: 'newwork', id: response.data.caseInfo.ID },
+              }),
+            );
           }
           if (type === 'refreshassignment') {
             if (el && response.data.caseInfo && response.data.caseInfo.content) {
@@ -684,8 +700,9 @@ export default class PegaServices extends PegaElement {
             this.fetchData('view', { id: this.caseID, actionid: 'pyReview' });
           } else if (response.uiResources) {
             this.bShowNew = false;
+            this.content = {};
+            this.pageInstructions = [];
             this.assignmentID = response.nextAssignmentInfo.ID;
-            this.sendExternalEvent(type);
             this.data = response;
             this.casedata = response.data.caseInfo;
             this.data.name = this.casedata.content.pyLabel ? this.casedata.content.pyLabel : this.casedata.name;

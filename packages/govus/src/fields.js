@@ -458,6 +458,7 @@ const RadioButtons = (data, path) => {
             name=${ifDefined(path)}
             id=${innerpath}
             type="radio"
+            ?required="${data.requiredstate}"
             ?readonly="${data.readonlystate}"
             ?disabled="${data.disabledstate}"
             value="${item.key}"
@@ -543,7 +544,7 @@ const DateInput = (data, path) => {
     value = dt;
   }
   return html`
-  <div class="usa-memorable-date" id="${ifDefined(path)}" 
+  <div class="input-date usa-memorable-date" id="${ifDefined(path)}" 
   aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}" data-ref="${data.reference}">
   <div class="usa-form-group usa-form-group--month">
       <label class="usa-label" for="${`${path}-month`}">
@@ -551,7 +552,7 @@ const DateInput = (data, path) => {
       </label>
       <input ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="usa-input usa-input--inline"  value="${valueMonth}"
+      ?disabled="${data.disabledstate}" class="input-date-day usa-input usa-input--inline"  value="${valueMonth}"
       id="${`${path}-month`}" name="${`${path}-month`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
     <div class="usa-form-group usa-form-group--day">
@@ -560,7 +561,7 @@ const DateInput = (data, path) => {
       </label>
       <input ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="usa-input usa-input--inline" value="${valueDate}" 
+      ?disabled="${data.disabledstate}" class="input-date-month usa-input usa-input--inline" value="${valueDate}" 
       id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
     <div class="usa-form-group usa-form-group--year">
@@ -569,7 +570,7 @@ const DateInput = (data, path) => {
       </label>
       <input ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="usa-input usa-input--inline" value="${valueYear}"
+      ?disabled="${data.disabledstate}" class="input-date-year usa-input usa-input--inline" value="${valueYear}"
       id="${`${path}-year`}" name="${`${path}-year`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
 </div>`;

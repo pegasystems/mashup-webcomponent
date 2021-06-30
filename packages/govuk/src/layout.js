@@ -7,7 +7,7 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
   if (data.config && data.config.template) {
     if (data.config.template === 'SimpleTable') {
-      return SimpleTable(data, isReadOnly, webcomp);
+      return SimpleTable(data, isReadOnly, webcomp, `${path}-table`);
     }
     if (data.config.template === 'ListView') {
       return DisplayList(data, isReadOnly, webcomp);
@@ -67,7 +67,7 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
           const subview = webcomp.data.uiResources.resources.views[item.config.name];
           if (subview) {
             const subviewclass = subview.config.template === 'SimpleTable' || subview.config.template === 'ListView' ? 'field-table' : 'field-subview';
-            return html`<div class='${subviewclass}'><h4>${label}</h4>${
+            return html`<div class='${subviewclass}'><h3 class='govuk-heading-s'>${label}</h3>${
               Layout(subview, tmppath, isReadOnly, webcomp,
                 (context === '' ? newCtx.substring(1) : context + newCtx))}</div>`;
           }

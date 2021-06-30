@@ -51,7 +51,7 @@ export default class PegaBase extends PegaServices {
       return html`
         ${CaseHeader(this.name, this.data, this.casedata, this.openCase)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
-        <form id="case-data">${LoadingIndicator()}</form>
+        <form id="case-data" novalidate>${LoadingIndicator()}</form>
       `;
     }
     if (this.action === 'workList') {
@@ -65,7 +65,7 @@ export default class PegaBase extends PegaServices {
 
   renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
 
-  genPageValidationErrors = (response) => genPageValidationErrors(response)
+  genPageValidationErrors = (response, form) => genPageValidationErrors(response, form);
 
   showDataList = (id) => showDataList(id)
 
@@ -74,6 +74,54 @@ export default class PegaBase extends PegaServices {
   displayCasesTypes = () => genCaseTypesList(this.casetypes);
 
   genLoadingIndicator = () => LoadingIndicator();
+
+  validateForm = (form) => {
+    for (const el of form.elements) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+        this.setInlineError(el, '');
+        el.classList.remove('error-field');
+      }
+    }
+    return form.checkValidity();
+  }
+
+  /* Pass an empty msg to reset the error, otherwise set the error inline */
+  setInlineError = (el, msg) => {
+    let groupEl = el.closest('.govuk-form-group');
+    if (!groupEl) {
+      el.classList.add('error-field');
+      return;
+    }
+    const ref = el.getAttribute('data-ref');
+    if (el.parentNode.parentNode.className === 'govuk-date-input__item') {
+      groupEl = el.closest('.govuk-form-group').parentNode.parentNode.parentNode;
+    }
+    const errorElem = groupEl.firstElementChild.nextElementSibling;
+    if (ref !== null && ref !== 'pyID' && msg !== '') {
+      if (errorElem && errorElem.className === 'govuk-error-message') {
+        errorElem.lastElementChild.innerText = msg;
+      } else {
+        const errorNode = document.createElement('span');
+        errorNode.className = 'govuk-error-message';
+        errorNode.innerHTML = `<span class="govuk-visually-hidden">Error:</span>${msg}</span>`;
+        groupEl.insertBefore(errorNode, errorElem);
+        groupEl.classList.add('govuk-form-group--error');
+      }
+    } else {
+      if (errorElem && errorElem.className === 'govuk-error-message') {
+        groupEl.removeChild(errorElem);
+      }
+      groupEl.classList.remove('govuk-form-group--error');
+    }
+  }
+
+  reportFormValidity = (form) => {
+    for (const el of form.elements) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+        this.setInlineError(el, el.validationMessage);
+      }
+    }
+  }
 
   clickHandler = (event) => {
     let el = event.target;
@@ -87,14 +135,15 @@ export default class PegaBase extends PegaServices {
       this.refreshAssignment(el, getRefreshFor(el, 'click'));
       event.preventDefault();
     } else if (el.tagName === 'BUTTON') {
-      // always preventDefault on buttons */
       event.preventDefault();
       if (el.getAttribute('data-submit') !== null && el.getAttribute('data-submit') !== 'save') {
         this.submitForm(event, el.getAttribute('data-submit'));
-      } else if (action === 'addRow') {
-        this.refreshAssignment(el);
-      } else if (action === 'deleteRow') {
-        this.refreshAssignment(el);
+      } else if (action === 'addRow' || action === 'deleteRow') {
+        this.applyAction(el);
+        const form = this.getRenderRoot().querySelector('#case-data');
+        render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
+          this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+          this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);
       }
     }
   };
@@ -113,8 +162,7 @@ export default class PegaBase extends PegaServices {
       this.refreshAssignment(el, getRefreshFor(el, 'change'));
     } else if (this.refreshOnChange) {
       const form = this.getRenderRoot().querySelector('#case-data');
-      const content = this.data.data.caseInfo.content;
-      getFormData(form, content);
+      getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
       render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
         this.bShowCancel === 'true' ? this.actionAreaCancel : null,
         this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);

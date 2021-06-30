@@ -2,10 +2,12 @@
 import { html } from 'lit-html';
 
 const WorkList = (cases, onOpen) => html`
+<section>
+<h2 class='govuk-heading-m'>${i18n.t('My worklist')}</h2>
   ${cases.length > 0
     ? html`
         <table class='govuk-table'>
-          <caption class="govuk-table__caption govuk-table__caption--m">${i18n.t('My worklist')}</caption>
+          <caption class="sr-only govuk-table__caption govuk-table__caption--m">${i18n.t('My worklist')}</caption>
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
               <th span='col' class="govuk-table__header">${i18n.t('Name')}</th>
@@ -35,6 +37,6 @@ const WorkList = (cases, onOpen) => html`
     : html`
         <div>${i18n.t('no assignments')}</div>
       `}
-`;
+      </section>`;
 
 export { WorkList };

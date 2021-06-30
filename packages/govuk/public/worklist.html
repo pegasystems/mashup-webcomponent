@@ -142,6 +142,25 @@
     mytag.clientid=defaultCfg.clientid;
     mytag.clientsecret=defaultCfg.clientsecret;
     mytag.portalName=defaultCfg.portalName;
+    mytag.addEventListener("message", function (event) {
+      const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
+       if(event.detail.type==="openassignment") {
+        let id = event.detail.id.replace("!"," ").split(" ");
+        if(id.length > 3) {
+            window.history.replaceState(
+          {},
+          '',
+          `${redirectURL}/case.html?case=${id[2]}`,
+        );
+        }
+      } else if(event.detail.type==="cancel") {
+        window.history.replaceState(
+        {},
+        '',
+        `${redirectURL}/worklist.html`,
+        );
+      }
+    });
     elem.appendChild(mytag);
   </script>
 </body>

@@ -46,7 +46,7 @@ const GetPlaceholder = (data) => {
   return undefined;
 };
 export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
-  if (typeof path === 'undefined' || path === '') {
+  if (typeof path === 'undefined' || path === '' || path.indexOf('-table') !== -1) {
     return html`
       ${ComponentTemplate}
     `;
@@ -58,13 +58,20 @@ export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
   `;
 };
 
-export const DisplaySummaryRow = (data, path, type, ComponentTemplate) => html`<div class="govuk-summary-list__row">
+export const DisplaySummaryRow = (data, path, type, ComponentTemplate) => {
+  if (typeof path === 'undefined' || path === '' || path.indexOf('-table') !== -1) {
+    return html`
+      ${ComponentTemplate}
+    `;
+  }
+  return html`<div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">
       ${DisplayLabel(data, path, type)}
       </dt>
     <dd class="govuk-summary-list__value">${ComponentTemplate}</dd>
     </div>
   `;
+};
 
 /**
  * Render a field - this includes rendering the label and the component
@@ -299,7 +306,7 @@ const PhoneInput = (data, path) => {
   }
   data.displayvalue = data.displayvalue.substring(callingcode.length);
   return html`
-<div class='field-phoneinput'> 
+<div class='field-phoneinput' ?readonly="${data.readOnly}"> 
 <select
   class="govuk-select field-countrycode"
   ?readonly="${data.readonlystate}"
@@ -364,7 +371,7 @@ const PercentageInput = (data, path) => html`
  * CurrencyInput component
  */
 const CurrencyInput = (data, path) => html`
-  <div ?readonly="${data.readOnly}">
+  <div class='field-currencyinput' ?readonly="${data.readOnly}">
   <span class="currency-symbol">$</span>
   <input
     class="govuk-input"
@@ -459,6 +466,7 @@ const RadioButtons = (data, path) => {
             name=${ifDefined(path)}
             id=${innerpath}
             type="radio"
+            ?required="${data.requiredstate}"
             ?readonly="${data.readonlystate}"
             ?disabled="${data.disabledstate}"
             value="${item.key}"
@@ -514,6 +522,7 @@ const DateTimeInput = (data, path) => {
       ?readonly="${data.readonlystate}"
       ?disabled="${data.disabledstate}"
       type="datetime-local"
+      class="govuk-input"
       aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
       id="${ifDefined(path)}"
       value="${value}"
@@ -544,16 +553,16 @@ const DateInput = (data, path) => {
     value = dt;
   }
   return html`
-  <div class="govuk-date-input" id="${ifDefined(path)}" 
+  <div class="input-date govuk-date-input" id="${ifDefined(path)}" 
   aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}" data-ref="${data.reference}">
   <div class="govuk-date-input__item">
     <div class="govuk-form-group">
       <label class="govuk-label govuk-date-input__label" for="${`${path}-day`}">
         ${i18n.t('Day')}
       </label>
-      <input ?required="${data.requiredstate}"
+      <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="govuk-input govuk-date-input__input govuk-input--width-2" value="${valueDate}" 
+      ?disabled="${data.disabledstate}" class="input-date-day govuk-input govuk-date-input__input govuk-input--width-2" value="${valueDate}" 
       id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
   </div>
   <div class="govuk-date-input__item">
@@ -561,9 +570,9 @@ const DateInput = (data, path) => {
       <label class="govuk-label govuk-date-input__label" for="${`${path}-month`}">
       ${i18n.t('Month')}
       </label>
-      <input ?required="${data.requiredstate}"
+      <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="govuk-input govuk-date-input__input govuk-input--width-2"  value="${valueMonth}"
+      ?disabled="${data.disabledstate}" class="input-date-month govuk-input govuk-date-input__input govuk-input--width-2"  value="${valueMonth}"
       id="${`${path}-month`}" name="${`${path}-month`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
   </div>
   <div class="govuk-date-input__item">
@@ -571,9 +580,9 @@ const DateInput = (data, path) => {
       <label class="govuk-label govuk-date-input__label" for="${`${path}-year`}">
       ${i18n.t('Year')}
       </label>
-      <input ?required="${data.requiredstate}"
+      <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="govuk-input govuk-date-input__input govuk-input--width-4" value="${valueYear}"
+      ?disabled="${data.disabledstate}" class="input-date-year govuk-input govuk-date-input__input govuk-input--width-4" value="${valueYear}"
       id="${`${path}-year`}" name="${`${path}-year`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
   </div>
 </div>`;
@@ -595,6 +604,7 @@ const TimeInput = (data, path) => {
   }
   return html`
     <input
+      class="govuk-input"
       data-ref="${data.reference}"
       ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
@@ -621,7 +631,7 @@ const Combobox = (data, path) => {
         ?disabled="${data.disabledstate}"
         placeholder="${ifDefined(GetPlaceholder(data))}"
         type="text"
-        class="combobox loaded"
+        class="govuk-input combobox loaded"
         aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
         id="${ifDefined(path)}"
         value="${unescapeHTML(data.displayvalue)}"
