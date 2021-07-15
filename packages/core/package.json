@@ -11,20 +11,6 @@
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage --colors"
     },
-    "devDependencies": {
-        "babel-eslint": "^10.1.0",
-        "eslint": "^7.2.0",
-        "eslint-config-airbnb-base": "^14.2.1",
-        "eslint-plugin-import": "^2.22.1",
-        "eslint-plugin-jest": "^24.1.4",
-        "rollup": "^2.39.0",
-        "rollup-plugin-copy": "^3.3.0",
-        "rollup-plugin-eslint": "^7.0.0",
-        "rollup-plugin-html-minifier": "^1.1.0",
-        "rollup-plugin-node-resolve": "^5.2.0",
-        "rollup-plugin-serve": "^1.1.0",
-        "rollup-plugin-terser": "^7.0.2"
-    },
     "dependencies": {
         "crypto-es": "^1.2.7",
         "lit-element": "^2.4.0",

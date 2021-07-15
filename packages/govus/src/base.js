@@ -8,7 +8,9 @@ import { showDataList } from './datalist';
 import { LoadingIndicator } from './loading';
 import { showConfirm } from './confirm';
 import { showErrorMessage } from './errormsg';
-import { getFormData, shouldRefresh, getRefreshFor } from '../../core/src/utils/form-utils';
+import {
+  getFormData, shouldRefresh, getRefreshFor, unescapeHTML,
+} from '../../core/src/utils/form-utils';
 import { WorkList } from './worklist';
 
 export default class PegaBase extends PegaServices {
@@ -38,14 +40,14 @@ export default class PegaBase extends PegaServices {
       }
       if (this.assignmentID !== '') {
         this.fetchData('assignment', { id: this.assignmentID });
-      } else if (this.caseID !== '') { /* Open the case in review using the pyReview view */
+      } else if (this.caseID !== '') {
+        /* Open the case in review using the pyReview view */
         this.fetchData('view', { id: this.caseID, actionid: 'pyReview' });
       }
     }
     if (this.bShowConfirm) {
       const id = this.data.ID.split(' ')[1];
-      return showConfirm(this.casedata.name, id, this.casepyStatusWork,
-        this.bShowAttachments === 'true' ? this.displayAttachments : null);
+      return showConfirm(this.casedata.name, id, this.casepyStatusWork, this.bShowAttachments === 'true' ? this.displayAttachments : null);
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
@@ -60,20 +62,30 @@ export default class PegaBase extends PegaServices {
     return null;
   }
 
-  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
+  // eslint-disable-next-line max-len
+  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this.bShowSave === 'true' ? this.actionAreaSave : null, this);
 
-  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
-  genPageValidationErrors = (response) => genPageValidationErrors(response)
+  genPageValidationErrors = (response) => genPageValidationErrors(response);
 
-  showDataList = (id) => showDataList(id)
+  showDataList = (id) => showDataList(id);
 
   genActionsList = (name, data) => genActionsList(name, data);
 
   displayCasesTypes = () => genCaseTypesList(this.casetypes);
 
   genLoadingIndicator = () => LoadingIndicator();
+
+  setInlineError = (el, msg) => {
+    el.setCustomValidity(unescapeHTML(msg));
+    el.classList.add('error-field');
+    el.reportValidity();
+  };
+
+  validateForm = (form) => form.checkValidity();
+
+  reportFormValidity = (form) => form.reportValidity();
 
   clickHandler = (event) => {
     let el = event.target;
@@ -114,9 +126,16 @@ export default class PegaBase extends PegaServices {
     } else if (this.refreshOnChange) {
       const form = this.getRenderRoot().querySelector('#case-data');
       getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
-      render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
-        this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-        this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);
+      render(
+        mainLayout(
+          this.data.uiResources.resources.views[this.casedata.content.pyViewName],
+          'Obj',
+          this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+          this.bShowSave === 'true' ? this.actionAreaSave : null,
+          this,
+        ),
+        form,
+      );
     }
   };
 
@@ -124,8 +143,14 @@ export default class PegaBase extends PegaServices {
     const el = event.target;
     if (el.classList.contains('usa-combo-box') && !el.classList.contains('loaded')) {
       this.getData(el.getAttribute('data-pageid'), el);
-    } else if (el.tagName === 'INPUT' && el.classList.contains('location') && !el.classList.contains('pac-target-input') &&
-    window.google && window.google.maps && window.google.maps.places) {
+    } else if (
+      el.tagName === 'INPUT' &&
+      el.classList.contains('location') &&
+      !el.classList.contains('pac-target-input') &&
+      window.google &&
+      window.google.maps &&
+      window.google.maps.places
+    ) {
       // eslint-disable-next-line no-new
       new window.google.maps.places.Autocomplete(el);
     }

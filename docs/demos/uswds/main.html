@@ -9,89 +9,300 @@
   <link rel="stylesheet" href="./assets/css/uswds.min.css" />
   <link rel="stylesheet" href="./app.css" type="text/css">
 </head>
-<body>
-  <a class="usa-skipnav" href="#main-content">Skip to main content</a>
-  <section class="usa-banner" aria-label="Official government website">
+  <body>
+    <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+<section class="usa-banner" aria-label="Official government website">
   <div class="usa-accordion">
     <header class="usa-banner__header">
       <div class="usa-banner__inner">
         <div class="grid-col-auto">
-          <img
-            class="usa-banner__header-flag"
-            src="./assets/img/us_flag_small.png"
-            alt="U.S. flag"
-          />
+          <img class="usa-banner__header-flag" src="assets/img/us_flag_small.png" alt="U.S. flag">
         </div>
         <div class="grid-col-fill tablet:grid-col-auto">
-          <p class="usa-banner__header-text">
-            An unofficial website of the United States government
-          </p>
+          <p class="usa-banner__header-text">An official website of the United States government</p>
+          <p class="usa-banner__header-action" aria-hidden="true">Here’s how you know</p>
         </div>
+        <button class="usa-accordion__button usa-banner__button"
+          aria-expanded="false" aria-controls="gov-banner">
+          <span class="usa-banner__button-text">Here’s how you know</span>
+        </button>
       </div>
     </header>
-  </div>
-</section>
-<div class="usa-overlay"></div>
-<header class="usa-header usa-header--extended">
-  <div class="usa-navbar">
-    <div class="usa-logo" id="extended-logo">
-      <em class="usa-logo__text">
-        <a href="javascript:void(0)" title="demo app">
-          Demo application using US WDS design system
-        </a>
-      </em>
-    </div>
-    <button class="usa-menu-btn">Menu</button>
-  </div>
-  <nav aria-label="Primary navigation" class="usa-nav">
-    <div class="usa-nav__inner">
-      <button class="usa-nav__close">
-        <img src="/assets/img/usa-icons/close.svg" role="img" alt="Close" />
-      </button>
-       <div class="usa-nav__secondary">
-        <ul class="usa-nav__secondary-links">
-          <li class="usa-nav__secondary-item">
-            <a href="#">Link1</a>
-          </li>
-          <li class="usa-nav__secondary-item">
-            <a href="#">Link2</a>
-          </li>
-        </ul>
+    <div class="usa-banner__content usa-accordion__content" id="gov-banner">
+      <div class="grid-row grid-gap-lg">
+        <div class="usa-banner__guidance tablet:grid-col-6">
+          <img class="usa-banner__icon usa-media-block__img" src="assets/img/icon-dot-gov.svg" role="img" alt="" aria-hidden="true">
+          <div class="usa-media-block__body">
+            <p>
+              <strong>
+                Official websites use .gov
+</strong>
+              <br/>
+              A <strong>.gov</strong> website belongs to an official government organization in the United States.
 
-        <form class="usa-search usa-search--small" role="search">
-          <label class="usa-sr-only" for="extended-search-field-en-small">
-            Search
-          </label>
-          <input
-            class="usa-input"
-            id="extended-search-field-en-small"
-            type="search"
-            name="search"
-          />
-          <button class="usa-button" type="submit">
-            <span class="usa-sr-only">Search</span>
-          </button>
-        </form>
+            </p>
+          </div>
+        </div>
+        <div class="usa-banner__guidance tablet:grid-col-6">
+          <img class="usa-banner__icon usa-media-block__img" src="assets/icon-https.svg" role="img" alt="" aria-hidden="true">
+          <div class="usa-media-block__body">
+            <p>
+              <strong>
+                Secure .gov websites use HTTPS
+</strong>
+              <br/>
+              A <strong>lock</strong> (
+<span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="52" height="64" viewBox="0 0 52 64" class="usa-banner__lock-image" role="img" aria-labelledby="banner-lock-title banner-lock-description" focusable="false"><title id="banner-lock-title">Lock</title><desc id="banner-lock-description">A locked padlock</desc><path fill="#000000" fill-rule="evenodd" d="M26 0c10.493 0 19 8.507 19 19v9h3a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V32a4 4 0 0 1 4-4h3v-9C7 8.507 15.507 0 26 0zm0 8c-5.979 0-10.843 4.77-10.996 10.712L15 19v9h22v-9c0-6.075-4.925-11-11-11z"/></svg></span>
+) or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+
+            </p>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
+
+    
+
+    
+  <div class="usa-overlay"></div>
+<header class="usa-header usa-header--extended">
+
+<div class="usa-navbar">
+  <div class="usa-logo" id="extended-logo">
+    <em class="usa-logo__text">
+      <a href="javascript:void(0)" title="&lt;Project title&gt;">
+        HealthCare
+      </a>
+    </em>
+  </div>
+  <button class="usa-menu-btn">Menu</button>
+</div>
+<nav aria-label="Primary navigation" class="usa-nav">
+    <div class="usa-nav__inner">
+
+<button class="usa-nav__close">
+  <img src="assets/usa-icons/close.svg" role="img" alt="Close">
+</button>
+<ul class="usa-nav__primary usa-accordion"><li class="usa-nav__primary-item">
+    
+
+      <button
+        class="usa-accordion__button usa-nav__link usa-current"
+        aria-expanded="false"
+        aria-controls="extended-nav-section-one">
+        <span>See Topics</span>
+      </button>
+      
+        <ul id="extended-nav-section-one" class="usa-nav__submenu"><li class="usa-nav__submenu-item">
+                
+  
+  <a href="#" ></a>
+
+              </li><li class="usa-nav__submenu-item">
+                
+  
+  <a href="#" >Enroll in health insurance
+  </a>
+
+              </li><li class="usa-nav__submenu-item">
+                
+  
+  <a href="#" >Change or Cancel plan</a>
+
+              </li></ul>
+      </li><li class="usa-nav__primary-item">
+    
+
+      <button
+        class="usa-accordion__button usa-nav__link"
+        aria-expanded="false"
+        aria-controls="extended-nav-section-two">
+        <span>Help</span>
+      </button>
+      
+        <ul id="extended-nav-section-two" class="usa-nav__submenu"><li class="usa-nav__submenu-item">
+                
+  
+  <a href="#" >Save Money</a>
+
+              </li><li class="usa-nav__submenu-item">
+                
+  
+  <a href="#" >Tax fees and exemption</a>
+
+              </li><li class="usa-nav__submenu-item">
+                
+  
+  <a href="#" >Get Login help</a>
+
+              </li></ul>
+      </li><li class="usa-nav__primary-item">
+    
+  
+  <a href="javascript:void(0)" class="usa-nav__link">
+    
+      <span>Get Answers</span>
+    
+  </a>
+
+    </li></ul><div class="usa-nav__secondary">
+  <ul class="usa-nav__secondary-links"><li class="usa-nav__secondary-item">
+      <a href="">Quick Start Guide</a>
+    </li><li class="usa-nav__secondary-item">
+      <a href="worklist.html">My pending cases</a>
+    </li></ul>
+
+    
+      
+
+
+  <form class="usa-search usa-search--small" role="search">
+    
+    <label class="usa-sr-only" for="extended-search-field-en-small">
+      Search
+    </label>
+    <input class="usa-input" id="extended-search-field-en-small" type="search" name="search">
+    <button class="usa-button" type="submit">
+      
+      <span class="usa-sr-only">Search</span>
+    </button>
+  </form>
+
+
+    </div>
+</div>
   </nav>
 </header>
-<main id="main-content">
+
+
+
+    
+  <main id="main-content">
+  <section class="usa-hero" aria-label="Introduction">
+  <div class="grid-container">
+    <div class="usa-hero__callout">
+      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">New, lower costs are here!
+        </span>Find health coverage now
+      </h1><p>You can enroll in or change plans due to the COVID-19 emergency through August 15,
+        or see if you qualify for Medicaid or CHIP.</p><a class="usa-button" href="javascript:void(0)">Apply now</a>
+    </div>
+  </div>
+</section>
+
+
+  
   <section class="grid-container usa-section">
     <div class="grid-row grid-gap">
-      <a class="usa-button usa-button--big" href="./worklist.html"
-        >Show my worklist</a>
+      <div class="tablet:grid-col-4">
+        <h2 class="font-heading-xl margin-top-0 tablet:margin-bottom-0">Embedding cases using Pega</h2>
+      </div>
+      <div class="tablet:grid-col-8 usa-prose">
+        <p>This page demonstrates how you can insert the Pega Mashup component inside any pages</p>
+<p>The component provides the ability to easily create new cases, view your pending cases and the status of each case.</p>
+
+      </div>
     </div>
   </section>
+  
+
+  <section class="usa-graphic-list usa-section usa-section--dark">
+  <div class="grid-container">
+      <div class="usa-media-block tablet:grid-col">
+        <div class="usa-media-block__body">
+          <h2 class="usa-graphic-list__heading">no need for inner iframe</h2>
+          <p>the case type ui is completely integrated with the main document -> no need for recalculating the height of the inner iframe every time the content changes</p>
+        </div>
+      </div>
+      <div class="usa-media-block tablet:grid-col">
+        <div class="usa-media-block__body">
+          <h2 class="usa-graphic-list__heading">no need to align your document styles with the Pega Mashup app</h2>
+          <p>The Web component can run as a light DOM and gets all the styling from the core components from the top document or as a shadow DOM</p>
+        </div>
+      </div>
+      <div class="usa-media-block tablet:grid-col">
+        <div class="usa-media-block__body">
+          <h2 class="usa-graphic-list__heading">improved performance</h2>
+          <p> The JS file needed to render the UI is small (around 80Kb) and is 10X faster to be downloaded and parsed by the browser than the JS files required by Pega Web Mashup.</p>
+        </div>
+      </div>
+  
+  </div>
+</section>
+
+
+  <section id="test-section-id" class="usa-section">
+    <div class="grid-container">
+      <h2 class="font-heading-xl margin-y-0">See how to figure out your premium tax credit</h2>
+      <p class="usa-intro">
+        To calculate your premium tax credit, you'll need your second lowest cost Silver plan (SLCSP) premiums to fill out IRS Form 8962.
+        Your SLCSP premium can be found on your Form 1095-A, but it may be missing or incorrect. We'll ask a few questions on the next screens and provide your correct SLCSP premium.
+ </p>
+      <a class="usa-button usa-button--big" href="javascript:void(0);">Start</a>
+    </div>
+  </section>
+
 </main>
+
+
+
+    
+
+
+
 <footer class="usa-footer">
+  <div class="grid-container usa-footer__return-to-top">
+    <a href="#">Return to top</a>
+  </div>
+  <div class="usa-footer__primary-section">
+    <nav class="usa-footer__nav" aria-label="Footer navigation">
+      <ul class="grid-row grid-gap">
+        
+          <li class="mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content">
+            <a class="usa-footer__primary-link" href="javascript:void(0);">
+              Demo
+            </a>
+          </li>
+        
+          <li class="mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content">
+            <a class="usa-footer__primary-link" href="javascript:void(0);">
+              Help
+            </a>
+          </li>
+        
+          <li class="mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content">
+            <a class="usa-footer__primary-link" href="javascript:void(0);">
+              About
+            </a>
+          </li>
+        
+          <li class="mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content">
+            <a class="usa-footer__primary-link" href="javascript:void(0);">
+              Contact Us
+            </a>
+          </li>
+        
+          <li class="mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content">
+            <a class="usa-footer__primary-link" href="javascript:void(0);">
+              Offices
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  </div>
+
   <div class="usa-footer__secondary-section">
     <div class="grid-container">
       <div class="grid-row grid-gap">
         <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
           <div class="mobile-lg:grid-col-auto">
+            <img class="usa-footer__logo-img" src="assets/logo-img.png" alt="">
+          </div>
+          <div class="mobile-lg:grid-col-auto">
             <p class="usa-footer__logo-heading">
-              Demo web site
+              Pega
             </p>
           </div>
         </div>
@@ -129,20 +340,61 @@
               </div>
             
           </div>
+          <h3 class="usa-footer__contact-heading">
+            &lt;Agency Contact Center&gt;
+          </h3>
+          <address class="usa-footer__address">
+            <div class="usa-footer__contact-info grid-row grid-gap">
+              <div class="grid-col-auto">
+                <a href="tel:1-800-555-5555">
+                  &lt;(800) 555-GOVT&gt;
+                </a>
+              </div>
+              <div class="grid-col-auto">
+                <a href="mailto:&lt;info@agency.gov&gt;">
+                  &lt;info@agency.gov&gt;
+                </a>
+              </div>
+            </div>
+          </address>
         </div>
       </div>
     </div>
   </div>
 </footer>
-<div class="usa-identifier">
+
+    
+    <div class="usa-identifier">
+  <section
+    class="usa-identifier__section usa-identifier__section--masthead"
+    aria-label="Agency identifier,">
+    <div class="usa-identifier__container"><div class="usa-identifier__logos">
+        </a></div><div class="usa-identifier__identity" aria-label="Agency description">
+        <p class="usa-identifier__identity-domain">&lt;domain.gov&gt;</p>
+        <p class="usa-identifier__identity-disclaimer">An official website of the <a href="javascript:void(0);">&lt;Parent agency&gt;</a></p>
+      </div>
+    </div>
+  </section>
   <nav class="usa-identifier__section usa-identifier__section--required-links" aria-label="Important links,">
     <div class="usa-identifier__container">
       <ul class="usa-identifier__required-links-list">
         <li class="usa-identifier__required-links-item">
-          <a href="javascript:void(0);" class="usa-identifier__required-link">About</a>
+          <a href="javascript:void(0);" class="usa-identifier__required-link">About &lt;Parent shortname&gt;</a>
         </li>
         <li class="usa-identifier__required-links-item">
-          <a href="javascript:void(0);" class="usa-identifier__required-link">Accessibility support</a>
+          <a href="javascript:void(0);"
+            class="usa-identifier__required-link">Accessibility support</a>
+        </li>
+        <li class="usa-identifier__required-links-item">
+          <a href="javascript:void(0);"
+            class="usa-identifier__required-link usa-link">FOIA requests</a>
+        </li>
+        <li class="usa-identifier__required-links-item">
+          <a href="javascript:void(0);"
+            class="usa-identifier__required-link usa-link">No FEAR Act data</a>
+        </li>
+        <li class="usa-identifier__required-links-item">
+          <a href="javascript:void(0);" class="usa-identifier__required-link usa-link">Office of the Inspector General</a>
         </li>
         <li class="usa-identifier__required-links-item">
           <a href="javascript:void(0);" class="usa-identifier__required-link usa-link">Performance reports</a>
@@ -153,6 +405,12 @@
       </ul>
     </div>
   </nav>
+  <section class="usa-identifier__section usa-identifier__section--usagov" aria-label="U.S. government information and services,">
+    <div class="usa-identifier__container">
+      <div class="usa-identifier__usagov-description">Looking for U.S. government information and services?</div>
+      <a href="https://www.usa.gov/" class="usa-link">Visit USA.gov</a>
+    </div>
+  </section>
   </div>
   <script src="./assets/js/uswds.min.js"></script>
   <script src="./pega-govus.js"></script>
