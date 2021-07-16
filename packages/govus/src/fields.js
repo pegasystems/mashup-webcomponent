@@ -18,7 +18,7 @@ const DisplayLabel = (data, path, type) => {
   }
   return html`
     ${data.label !== ''
-    ? html`<label class="usa-label" 
+    ? html`<label class="usa-label"
     for="${ifDefined(path)}">${data.displaylabel}${iconrequired}
     </label>`
     : null}
@@ -58,11 +58,11 @@ export const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
   `;
 };
 
-export const DisplaySummaryRow = (data, path, type, ComponentTemplate) => html`<div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
+export const DisplaySummaryRow = (data, path, type, ComponentTemplate) => html`<div>
+    <dt class="usa-field">
       ${DisplayLabel(data, path, type)}
       </dt>
-    <dd class="govuk-summary-list__value">${ComponentTemplate}</dd>
+    <dd>${ComponentTemplate}</dd>
     </div>
   `;
 
@@ -299,13 +299,13 @@ const PhoneInput = (data, path) => {
   }
   data.displayvalue = data.displayvalue.substring(callingcode.length);
   return html`
-<div class='field-phoneinput'> 
+<div class='field-phoneinput'>
 <select
   class="usa-select field-countrycode"
   ?readonly="${data.readonlystate}"
   ?disabled="${data.disabledstate}"
   aria-label="${i18n.t('Select country code')}">
-  ${data.options.map((item) => html`<option ?selected=${item.pyCallingCode === callingcode} 
+  ${data.options.map((item) => html`<option ?selected=${item.pyCallingCode === callingcode}
   value='${item.pyCallingCode}'>${item.pyCallingCode}</option>`)}
 </select>
  <input
@@ -453,7 +453,7 @@ const RadioButtons = (data, path) => {
     return html`
         <div class="usa-radio">
           <input
-            class="usa-radio__input" 
+            class="usa-radio__input"
             data-ref="${data.reference}"
             name=${ifDefined(path)}
             id=${innerpath}
@@ -544,7 +544,7 @@ const DateInput = (data, path) => {
     value = dt;
   }
   return html`
-  <div class="input-date usa-memorable-date" id="${ifDefined(path)}" 
+  <div class="input-date usa-memorable-date" id="${ifDefined(path)}"
   aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}" data-ref="${data.reference}">
   <div class="usa-form-group usa-form-group--month">
       <label class="usa-label" for="${`${path}-month`}">
@@ -561,7 +561,7 @@ const DateInput = (data, path) => {
       </label>
       <input ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="input-date-month usa-input usa-input--inline" value="${valueDate}" 
+      ?disabled="${data.disabledstate}" class="input-date-month usa-input usa-input--inline" value="${valueDate}"
       id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
     <div class="usa-form-group usa-form-group--year">
@@ -611,7 +611,7 @@ const Combobox = (data, path) => {
   if (data.options) {
     return html`
     <div class="usa-combo-box loaded">
-    <select class="usa-select" 
+    <select class="usa-select"
         data-ref="${data.reference}"
         list="${data.reference}"
         ?required="${data.requiredstate}"

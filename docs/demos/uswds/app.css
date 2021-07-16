@@ -1,7 +1,7 @@
 #main-content {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 16px;
     min-height: 40vh;
 }
 
@@ -28,7 +28,7 @@ table {
     align-items: center;
     height:100%;
   }
-  
+
   .loading > .dot {
     width: 1rem;
     height: 1rem;
@@ -37,15 +37,57 @@ table {
     border-radius: 50%;
     animation: Loading-ellipsis 1s infinite cubic-bezier(0.4, 0.6, 0.1, 1);
   }
-  
+
   .loading > .dot:nth-child(2) {
     animation-delay: 0.1667s;
   }
-  
+
   .loading > .dot:nth-child(3) {
     animation-delay: 0.3334s;
   }
-  
+
+  .sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+  .usa-field {
+    margin-top:1.5rem;
+  }
+
+  span.dataValueRead:empty:after {
+    content: '\2013\2013';
+    color: rgba(0,0,0,0.6);
+    line-height: inherit!;
+  }
+
+  dd {
+    margin-inline-start: 0;
+  }
+
+  .usa-form table .usa-button,
+  table .usa-input, table .usa-input-group, table .usa-range,
+  table .usa-select,table .usa-textarea {
+    margin-top: 0;
+
+}
+  @media (min-width: 30em) {
+    .usa-form, pega-govus {
+      margin: 0 auto;
+      max-width: 40rem;
+      display: block;
+  }
+
+    .usa-form .usa-input, .usa-form .usa-range, .usa-form .usa-select, .usa-form .usa-textarea {
+      max-width: 20rem;
+    }
+  }
+
   @keyframes Loading-ellipsis {
     0% {
         transform: scale(0);
@@ -60,4 +102,3 @@ table {
         opacity: 0;
     }
   }
-  

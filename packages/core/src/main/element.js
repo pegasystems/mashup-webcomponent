@@ -100,7 +100,7 @@ export default class PegaElement extends LitElement {
   sendExternalEvent(msg) {
     this.dispatchEvent(
       new CustomEvent('message', {
-        detail: { msg },
+        detail: { ...msg },
       }),
     );
   }

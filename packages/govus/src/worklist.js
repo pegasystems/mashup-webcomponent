@@ -5,13 +5,15 @@ const WorkList = (cases, onOpen) => html`
   ${cases.length > 0
     ? html`
         <table class="usa-table usa-table--borderless">
-          <caption>${i18n.t('My worklist')}</caption>
+          <caption>
+            ${i18n.t('My worklist')}
+          </caption>
           <thead>
             <tr>
-              <th span='col'>${i18n.t('Name')}</th>
-              <th span='col'>${i18n.t('Case ID')}</th>
-              <th span='col'>${i18n.t('Urgency')}</th>
-              <th span='col'>${i18n.t('Action')}</th>
+              <th span="col">${i18n.t('Name')}</th>
+              <th span="col">${i18n.t('Case ID')}</th>
+              <th span="col">${i18n.t('Urgency')}</th>
+              <th span="col">${i18n.t('Action')}</th>
             </tr>
           </thead>
           <tbody>
@@ -22,9 +24,9 @@ const WorkList = (cases, onOpen) => html`
                   <td>${item.caseID}</td>
                   <td>${item.urgency}</td>
                   <td>
-                    <button @click="${onOpen}" class="usa-button"
-                    data-module="govuk-button" data-type="assignment" data-id="${item.ID}">
-                    ${i18n.t('Open')}</button>
+                    <button @click="${onOpen}" class="usa-button" data-module="govuk-button" data-type="assignment" data-id="${item.ID}">
+                      ${i18n.t('Open')}
+                    </button>
                   </td>
                 </tr>
               `,
@@ -33,7 +35,7 @@ const WorkList = (cases, onOpen) => html`
         </table>
       `
     : html`
-        <div>${i18n.t('no assignments')}</div>
+        <div style='line-height: 50px;text-align:center'>${i18n.t('you do not have any pending cases.')}</div>
       `}
 `;
 

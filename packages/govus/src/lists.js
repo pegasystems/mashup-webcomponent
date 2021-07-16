@@ -7,7 +7,7 @@ export const SimpleTable = (data, isReadOnly, webcomp) => {
   const isreadonlytable = isReadOnly || data.config.renderMode !== 'Editable';
   return html`
   <table class="usa-table usa-table--borderless">
-    <caption>${data.config.name}</caption>
+    <caption class="sr-only">${data.config.name}</caption>
     <thead>
       <tr>
         ${TableHeader(data.config.children[0].children, isreadonlytable)}
@@ -24,7 +24,7 @@ export const DisplayList = (data, isReadOnly, webcomp) => {
   webcomp.sendData('dataviews', { id: data.config.referenceList, content: { paging: { pageNumber: 1, pageSize: 41 } } });
   return html`
   <table class="usa-table usa-table--borderless">
-    <caption>${data.config.name}</caption>
+    <caption class="sr-only">${data.config.name}</caption>
     <thead>
       <tr>
         ${TableHeader(data.config.presets[0].children[0].children, isReadOnly)}
@@ -72,7 +72,7 @@ const TableContent = (data, isReadOnly, webcomp) => {
     return html`
     <td>${Field(field, undefined, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</td>`;
   })}${!isReadOnly ? html`<td><button type="button" class="usa-button"
-  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}  
+  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}
   data-action-click='deleteRow'>Delete</button></td>` : null}
     </tr>`)}
 `;
