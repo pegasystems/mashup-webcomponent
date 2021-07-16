@@ -384,6 +384,7 @@ export default class PegaServices extends PegaElement {
                       caseID: obj.pxRefObjectKey,
                       urgency: obj.pxUrgencyAssign,
                       ID: obj.pzInsKey,
+                      label: obj.pxTaskLabel,
                     },
                   );
                 }

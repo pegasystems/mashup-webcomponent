@@ -550,25 +550,25 @@ const DateInput = (data, path) => {
       <label class="usa-label" for="${`${path}-month`}">
       ${i18n.t('Month')}
       </label>
-      <input ?required="${data.requiredstate}"
+      <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="input-date-day usa-input usa-input--inline"  value="${valueMonth}"
+      ?disabled="${data.disabledstate}" class="input-date-month usa-input usa-input--inline"  value="${valueMonth}"
       id="${`${path}-month`}" name="${`${path}-month`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
     <div class="usa-form-group usa-form-group--day">
       <label class="usa-label" for="${`${path}-day`}">
         ${i18n.t('Day')}
       </label>
-      <input ?required="${data.requiredstate}"
+      <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="input-date-month usa-input usa-input--inline" value="${valueDate}"
+      ?disabled="${data.disabledstate}" class="input-date-day usa-input usa-input--inline" value="${valueDate}"
       id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
     <div class="usa-form-group usa-form-group--year">
       <label class="usa-label" for="${`${path}-year`}">
       ${i18n.t('Year')}
       </label>
-      <input ?required="${data.requiredstate}"
+      <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
       ?disabled="${data.disabledstate}" class="input-date-year usa-input usa-input--inline" value="${valueYear}"
       id="${`${path}-year`}" name="${`${path}-year`}" type="text" pattern="[0-9]*" inputmode="numeric">
@@ -630,7 +630,8 @@ const Combobox = (data, path) => {
             </option>
           `,
   )}
-    </select></div>`;
+    </select>
+    </div>`;
   }
   return null;
 };

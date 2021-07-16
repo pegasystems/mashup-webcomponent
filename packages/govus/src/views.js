@@ -1,6 +1,7 @@
 /* global i18n */
 import { html } from 'lit-html';
 import { Layout } from './layout';
+import { StepIndicator } from './screenflow';
 
 const SubmitActionArea = (onCancel, onSave) => html`
 <ul class="usa-button-group">
@@ -33,7 +34,7 @@ const CloseActionArea = (onCancel) => {
 
 const CreateActionArea = (onCancel) => html`
 <ul class="usa-button-group">
-    ${onCancel !== null ? html`<li class="usa-button-group__item"><button type="button" class="usa-button" 
+    ${onCancel !== null ? html`<li class="usa-button-group__item"><button type="button" class="usa-button"
     @click="${onCancel}">${i18n.t('Cancel')}</button></li>` : ''}
     <li class="usa-button-group__item">
     <button type="button" data-submit="create" class="usa-button">${i18n.t('Create')}</button></li>
@@ -42,53 +43,37 @@ const CreateActionArea = (onCancel) => html`
 
 const AssignmentList = (assignments, onOpen) => {
   if (!assignments || assignments.length === 0) return null;
-  return html`
-  <h3>
-  ${i18n.t('Assignments')}
-  </h3>
-  <table class="usa-table usa-table--borderless">
-    <caption>List of assignments</caption>
-    <thead>
-      <tr>
-        <th span='col'>${i18n.t('Task')}</th>
-        <th span='col'>${i18n.t('Priority')}</th>
-        <th span='col'>${i18n.t('Assigned')} to</th>
-        <th span='col'>${i18n.t('Action')}</th>
-      </tr>
-    </thead>
-      <tbody>
-        ${assignments.map((item) => html`
-        <tr>
-          <td scope="row">${item.name}</td>
-          <td>${item.urgency}</td>
-          <td>${item.assigneeInfo.name}</td>
-          <td>
-            <button type='button' @click="${onOpen}" class="usa-button" data-type="assignment" data-id="${item.ID}">${i18n.t('Open')}</button>
-          </td>
-        </tr>`)
-}
-  </tbody>
-  </table> `;
+  return html`<button type='button' @click="${onOpen}" class="usa-button" data-type="assignment" data-id="${assignments[0].ID}">${i18n.t('Continue')}</button>`;
 };
 
 export const CaseHeader = (name, data, casedata, onOpen) => {
   if (typeof data.caseID === 'undefined' && casedata.content) {
-    const id = casedata.content.pyID.split(' ')[1];
     return html`
     <div>
-      <h2>${i18n.t(data.data.caseInfo.name)} (${id})</h2>
+      <h2>${i18n.t(data.data.caseInfo.name)}</h2>
     </div>
-    ${AssignmentList(casedata.assignments, onOpen)}
-    <h3>${i18n.t('Case information')}</h3>`;
+    ${AssignmentList(casedata.assignments, onOpen)}`;
+  }
+  if (data.uiResources && data.uiResources.navigation && data.uiResources.navigation.steps) {
+    return StepIndicator(data.uiResources.navigation.steps);
   }
   return '';
 };
 
-export const mainLayout = (data, path, onCancel, onSave, webcomp) => html`
-  <fieldset class='usa-fieldset'><legend class="usa-legend usa-legend--large">${i18n.t(webcomp.data.name)}</legend>
+export const mainLayout = (data, path, onCancel, onSave, webcomp) => {
+  let title = webcomp.data.name;
+  if (webcomp.data && webcomp.data.data) {
+    if (!title || title === '') title = webcomp.data.data.caseInfo.name;
+    if (webcomp.data.data.caseInfo.assignments[0].instructions !== '') {
+      title = webcomp.data.data.caseInfo.assignments[0].instructions;
+    }
+  }
+  return html`
+  <fieldset class='usa-fieldset'><legend class="usa-legend usa-legend--large">${i18n.t(title)}</legend>
   ${Layout(data, path, false, webcomp, '')}</fieldset>
   ${SubmitActionArea(onCancel, onSave)}
 `;
+};
 
 export const reviewLayout = (data, path, onCancel, webcomp) => html`
   <div>${Layout(data, path, true, webcomp)}</div>

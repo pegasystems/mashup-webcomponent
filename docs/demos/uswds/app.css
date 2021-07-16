@@ -77,10 +77,8 @@ table {
 
 }
   @media (min-width: 30em) {
-    .usa-form, pega-govus {
-      margin: 0 auto;
-      max-width: 40rem;
-      display: block;
+    .usa-form {
+      max-width: none;
   }
 
     .usa-form .usa-input, .usa-form .usa-range, .usa-form .usa-select, .usa-form .usa-textarea {

@@ -154,11 +154,7 @@
         );
         }
       } else if(event.detail.type==="cancel") {
-        window.history.replaceState(
-        {},
-        '',
-        `${redirectURL}/worklist.html`,
-        );
+        window.location.href=`${redirectURL}/worklist.html`;
       }
     });
     elem.appendChild(mytag);

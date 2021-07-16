@@ -124,6 +124,12 @@
       mytag.clientid=defaultCfg.clientid;
       mytag.clientsecret=defaultCfg.clientsecret;
       mytag.portalName=defaultCfg.portalName;
+      mytag.addEventListener("message", function (event) {
+      const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
+       if(event.detail.type==="cancel") {
+        window.location.href=`${redirectURL}/worklist.html`;
+      }
+    });
      elem.appendChild(mytag);
     }
     var id = new URLSearchParams(window.location.search).get("case");
