@@ -1,0 +1,47 @@
+{% include "header.html" %}
+<main id="main-content">
+</main>
+{% include "footer.html" %}
+<script src="./assets/js/uswds.min.js"></script>
+<script src="./pega-govus.js"></script>
+<script>
+  document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+  const defaultSettings = localStorage.getItem('defaultcfg');
+  let defaultCfg = {
+    url: "https://pw16agenda-dt1.pegacloud.io/prweb",
+    portalName: "DemoReact1",
+    username: "wssuser2",
+    password: "install@123",
+    clientid: "43524976946816519752",
+    clientsecret: "90863E0C04EF929425BBC22004949762",
+  };
+  if (defaultSettings != null) {
+    defaultCfg = JSON.parse(defaultSettings);
+  }
+  function startcase(id) {
+    const elem = document.querySelector("main");
+    const mytag = document.createElement("pega-govus");
+    mytag.setAttribute("action", 'openWorkByHandle');
+    mytag.setAttribute("caseid", id);
+    mytag.bShowCancel = 'true';
+    mytag.url = defaultCfg.url;
+    mytag.username = defaultCfg.username;
+    mytag.password = defaultCfg.password;
+    mytag.authentication = 'oauth2password';
+    mytag.clientid = defaultCfg.clientid;
+    mytag.clientsecret = defaultCfg.clientsecret;
+    mytag.portalName = defaultCfg.portalName;
+    mytag.addEventListener("message", function (event) {
+      const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
+      if (event.detail.type === "cancel") {
+        window.location.href = `${redirectURL}/worklist.html`;
+      }
+    });
+    elem.appendChild(mytag);
+  }
+  var id = new URLSearchParams(window.location.search).get("case");
+  startcase("OPGO8L-CARINSUR-WORK " + id);
+</script>
+</body>
+
+</html>

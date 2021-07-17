@@ -11,6 +11,7 @@
     "eslint-plugin-jest": "^24.1.4",
     "jest": "^27.0.6",
     "lerna": "^4.0.0",
+    "nunjucks": "^3.2.3",
     "puppeteer": "^10.1.0",
     "rollup": "^2.39.0",
     "rollup-plugin-copy": "^3.3.0",

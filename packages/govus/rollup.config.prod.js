@@ -3,6 +3,7 @@ import { terser } from 'rollup-plugin-terser';
 import copy from 'rollup-plugin-copy';
 import minifyHTML from 'rollup-plugin-html-minifier';
 import { eslint } from 'rollup-plugin-eslint';
+import { NunjucksPlugin } from './nunjunk';
 
 export default [
   {
@@ -14,6 +15,11 @@ export default [
       sourcemap: false,
     },
     plugins: [
+      NunjucksPlugin({
+        input: './template/',
+        output: './public/',
+        template: 'fragment',
+      }),
       copy({
         targets: [
           { src: 'public/*', dest: '../../docs/demos/uswds' },
