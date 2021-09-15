@@ -194,6 +194,9 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
     data.config.requiredstate = false;
     data.config.readonlystate = false;
   }
+  if (data.config.readonlystate) {
+    return AddWrapperDiv(data.config, path, 'field-textinput', DisplayText(data.config, path));
+  }
   switch (data.type) {
     case 'Decimal':
     case 'TextInput':
