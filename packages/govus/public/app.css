@@ -6,6 +6,7 @@
 
 .usa-header-dark  .usa-navbar {
   background-color: #002a5c;
+  max-width: none;
 }
 .usa-header-dark .usa-logo a,
 .usa-header-dark .usa-nav__secondary-item a {
@@ -13,10 +14,10 @@
 }
 
 #main-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 16px;
-    min-height: 40vh;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 16px;
+  min-height: 40vh;
 }
 
 table {

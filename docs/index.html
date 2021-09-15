@@ -57,12 +57,12 @@ body {
 }
 
 .sr-only:not(:focus):not(:active) {
-  clip: rect(0 0 0 0); 
+  clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
   overflow: hidden;
   position: absolute;
-  white-space: nowrap; 
+  white-space: nowrap;
   width: 1px;
 }
 
@@ -281,8 +281,8 @@ footer a:focus {
       <a href="#"><img src="./u+-logo.svg" alt="U+" class="logo" width="130" height="30"></a>
       <nav aria-label="navigation for header">
         <ul>
-          <li><a href="./demos/ukgds/main.html">Demo UK GDS</a></li>
-          <li><a href="./demos/uswds/main.html">Demo US WDS</a></li>
+          <li><a href="#">Link1</a></li>
+          <li><a href="#">Link2</a></li>
           <li><a href="#">Link3</a></li>
         </ul>
       </nav>
@@ -298,7 +298,7 @@ footer a:focus {
       <div class='settings hide'>
       <form>
         <h2 class='sr-only'>Settings</h2>
-        
+
         <div class='layout-content-stacked flex'>
           <h3>General</h3>
           <div class='flex flex-col'>
@@ -425,7 +425,7 @@ footer a:focus {
       localStorage.clear();
       window.history.replaceState(
           { },
-          '',         
+          '',
           redirectURL,
         );
       location.reload();
@@ -477,7 +477,7 @@ footer a:focus {
       if (action === "openAssignment" || action === "openWorkByHandle") {
         mytag.setAttribute("caseid", document.getElementById("caseid").value);
       }
-      /* Instead of doing setAttribute and rendering the authentication credentials inside the DOM 
+      /* Instead of doing setAttribute and rendering the authentication credentials inside the DOM
          we pass the values directly to the components */
       var authenticationType = document.getElementById("authentication").value;
       mytag.authentication = authenticationType;
@@ -510,7 +510,7 @@ footer a:focus {
       /*
       var initContent = { Type: "Oiiuiul fired", Age: "Less than 5 years", ExpectedEndDate: "Timing is flexible", IsAuthorizedMakeChanges: true, IsInterestedInFinancing: false, Description: "tttttt",
       ProjectType: "Replace existing central heating system", ProjectStatus: "Ready to Hire", LocationType: "Home/Residence" };
-      var initContent1 = { FirstName: 'test', Description: { value: 'tttttt', disabled: true }, ProjectStatus: 'Planning and Budgeting', 
+      var initContent1 = { FirstName: 'test', Description: { value: 'tttttt', disabled: true }, ProjectStatus: 'Planning and Budgeting',
       Type: 'Propane gas fired', IsBoolean: true, Sex: { value: 'Male', disabled: true } };
       mytag.initialContent = initContent;
       */
@@ -682,7 +682,7 @@ footer a:focus {
     document.getElementById("password").value = defaultCfg.password;
     document.getElementById("googleapikey").value = defaultCfg.googleapikey;
     document.getElementById("switch-shadowDOM").checked = defaultCfg.useshadowdom;
-    
+
     selectDXAPIVersion();
     showFields();
     showAuthentication();
