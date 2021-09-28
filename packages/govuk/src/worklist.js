@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 const WorkList = (cases, onOpen) => html`
 <section>
@@ -24,7 +24,7 @@ const WorkList = (cases, onOpen) => html`
                   <td class="govuk-table__cell">${item.caseID}</td>
                   <td class="govuk-table__cell">${item.urgency}</td>
                   <td class="govuk-table__cell">
-                    <button @click="${onOpen}" class="govuk-button govuk-button--secondary" 
+                    <button @click="${onOpen}" class="govuk-button govuk-button--secondary"
                     data-module="govuk-button" data-type="assignment" data-id="${item.ID}">
                     ${i18n.t('Open')}</button>
                   </td>

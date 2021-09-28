@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 /* this component display a banner error message */
 export const showErrorMessage = (msg) => html`

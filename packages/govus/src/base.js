@@ -1,5 +1,4 @@
-import { html } from 'lit-element';
-import { render } from 'lit-html';
+import { html, render } from 'lit';
 import PegaServices from '../../core/src/interpreter/v2/services';
 import {
   genActionsList, CaseHeader, genCaseTypesList, mainLayout, reviewLayout, genPageValidationErrors,
@@ -53,7 +52,7 @@ export default class PegaBase extends PegaServices {
       return html`
         ${CaseHeader(this.name, this.data, this.casedata, this.openCase)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
-        <form class="usa-form" id="case-data">${LoadingIndicator()}</form>
+        <form class="usa-form" id="case-data"></form>
       `;
     }
     if (this.action === 'workList') {

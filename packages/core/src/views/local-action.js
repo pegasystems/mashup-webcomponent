@@ -1,5 +1,5 @@
 /* global i18n */
-import { render, html } from 'lit-html';
+import { render, html } from 'lit';
 import { displayModal } from './modal-manager';
 import { timesIcon } from './icons';
 import { LoadingIndicator } from './loading';

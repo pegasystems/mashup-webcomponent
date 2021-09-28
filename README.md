@@ -16,7 +16,7 @@ The benefits of the Mashup component are:
 - improved performance
   -> The JS file needed to render the UI is small (around 80Kb) and is 10X faster to be downloaded and parsed by the browser than the JS files required by Pega Web Mashup.
 
-This web component is using lit-element and lit-html for the template and rendering of the Web component. It supports all modern browsers (Firefox, Chrome and Safari). It does not work on IE11 and Edge.
+This web component is using lit library for the template and rendering of the Web component. It supports all modern browsers (Firefox, Chrome and Safari). It does not work on IE11 and Edge.
 
 The Web component supports the following actions:
 

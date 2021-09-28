@@ -188,7 +188,9 @@
       </div>
     </nav>
   </header>
-<main id="main-content"><div></div></main>
+
+<main id="main-content">
+</main>
 <footer class="usa-footer">
   <div class="grid-container usa-footer__return-to-top">
     <a href="#">Return to top</a>
@@ -366,7 +368,7 @@
     defaultCfg = JSON.parse(defaultSettings);
   }
   function startcase(id) {
-    const elem = document.querySelector("#main-content");
+    const elem = document.querySelector("main");
     const mytag = document.createElement("pega-govus");
     mytag.setAttribute("action", 'openWorkByHandle');
     mytag.setAttribute("caseid", id);

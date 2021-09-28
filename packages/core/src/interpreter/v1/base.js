@@ -1,5 +1,4 @@
-import { html } from 'lit-element';
-import { render } from 'lit-html';
+import { html, render } from 'lit';
 import PegaServices from './services';
 import {
   genActionsList, CaseHeader, genCaseTypesList,
@@ -55,7 +54,7 @@ export default class PegaBase extends PegaServices {
         ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
-        <form id="case-data">${LoadingIndicator()}</form>
+        <form id="case-data"></form>
       `;
     }
     if (this.action === 'workList') {
@@ -63,6 +62,8 @@ export default class PegaBase extends PegaServices {
     }
     return null;
   }
+
+  genLoadingIndicator = () => LoadingIndicator();
 
   resetError = (event) => {
     this.errorMsg = '';

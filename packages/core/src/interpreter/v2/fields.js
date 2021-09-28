@@ -1,8 +1,8 @@
 /* global i18n */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-self-compare */
-import { html } from 'lit-html';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined';
 import {
   getValue, unescapeHTML, pad2char, convertTimestampToDate, isValidExpression,
 } from '../../utils/form-utils';
@@ -20,7 +20,7 @@ const DisplayLabel = (data, path, type) => {
   }
   return html`
     ${data.label !== ''
-    ? html`<label class="field-caption dataLabelForWrite ${iconrequired}" 
+    ? html`<label class="field-caption dataLabelForWrite ${iconrequired}"
     for="${ifDefined(path)}">${data.displaylabel}
     </label>`
     : null}
@@ -296,13 +296,13 @@ const PhoneInput = (data, path) => {
   }
   data.displayvalue = data.displayvalue.substring(callingcode.length);
   return html`
-<div> 
+<div>
 <select
   class="field-countrycode"
   ?readonly="${data.readonlystate}"
   ?disabled="${data.disabledstate}"
   aria-label="${i18n.t('Select country code')}">
-  ${data.options.map((item) => html`<option ?selected=${item.pyCallingCode === callingcode} 
+  ${data.options.map((item) => html`<option ?selected=${item.pyCallingCode === callingcode}
   value='${item.pyCallingCode}'>${item.pyCallingCode}</option>`)}
 </select>
  <input

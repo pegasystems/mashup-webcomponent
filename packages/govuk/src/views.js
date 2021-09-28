@@ -1,12 +1,12 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { Layout } from './layout';
 
 const SubmitActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
-    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
+    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary"
     data-module="govuk-button" @click="${onCancel}">${i18n.t('Cancel')}</button>` : ''}
-    ${onSave !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
+    ${onSave !== null ? html`<button type="button" class="govuk-button govuk-button--secondary"
     data-module="govuk-button" @click="${onSave}">${i18n.t('Save')}</button>` : ''}
     <button type="button" data-submit="submit" class="govuk-button" data-module="govuk-button">${i18n.t('Submit')}</button>
   </div>
@@ -14,7 +14,7 @@ const SubmitActionArea = (onCancel, onSave) => html`
 
 const LocalActionArea = (onCancel, onSave) => html`
   <div class="action-button-area">
-    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
+    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary"
     data-module="govuk-button" @click="${onCancel}">${i18n.t('Cancel')}</button>` : ''}
     <button type="button" data-submit="save" class="govuk-button" data-module="govuk-button" @click="${onSave}">${i18n.t('Submit')}</button>
   </div>
@@ -24,14 +24,14 @@ const CloseActionArea = (onCancel) => {
   if (onCancel === null) return null;
   return html`
   <div class="action-button-area">
-  ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
+  ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
   @click="${onCancel}">${i18n.t('Close')}</button>` : ''}
   </div>`;
 };
 
 const CreateActionArea = (onCancel) => html`
   <div class="action-button-area">
-    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary" 
+    ${onCancel !== null ? html`<button type="button" class="govuk-button govuk-button--secondary"
     data-module="govuk-button" @click="${onCancel}">${i18n.t('Cancel')}</button>` : ''}
     <button type="button" data-submit="create" class="govuk-button" data-module="govuk-button">${i18n.t('Create')}</button>
   </div>
@@ -60,7 +60,7 @@ const AssignmentList = (assignments, onOpen) => {
           <td class="govuk-table__header">${item.urgency}</td>
           <td class="govuk-table__header">${item.assigneeInfo.name}</td>
           <td class="govuk-table__header">
-            <button type='button' @click="${onOpen}" class="govuk-button govuk-button--secondary" 
+            <button type='button' @click="${onOpen}" class="govuk-button govuk-button--secondary"
             data-module="govuk-button" data-type="assignment" data-id="${item.ID}">${i18n.t('Open')}</button>
           </td>
         </tr>`)

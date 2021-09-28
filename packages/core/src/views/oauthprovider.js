@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { genOAuthURL } from '../utils/form-utils';
 
 export const GetRedirectURL = () => `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/auth.html`;

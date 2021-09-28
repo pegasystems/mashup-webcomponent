@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 /**
 * Render a list of items from a data page

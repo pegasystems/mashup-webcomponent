@@ -1,4 +1,4 @@
-import { render } from 'lit-html';
+import { render } from 'lit';
 import {
   saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
 } from './views';
@@ -11,7 +11,7 @@ import PegaElement from '../../main/element';
 
 /**
  * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
- * It will update the case-data element using the lit-html render function
+ * It will update the case-data element using the lit render function
  *
  */
 export default class PegaServices extends PegaElement {

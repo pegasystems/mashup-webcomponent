@@ -1,5 +1,5 @@
 /* eslint max-len: 0 */
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 export const viewStyle = () => html`
   <style>
@@ -10,9 +10,7 @@ export const viewStyle = () => html`
     .helper-text {
       color: var(--generalLabelColor);
       font-size: var(--generalHelperTextFontSize);
-      line-height: 1;
       margin-top: 0.3rem;
-      flex: 0 0 100%;
     }
     h1 {
       font-size: var(--text-xxl);
@@ -135,7 +133,7 @@ export const viewStyle = () => html`
       background: #ffffff;
       border: 1px solid #cacdd6;
       width: 28px;
-      height: 28px;
+      min-height: 30px;
       display: inline-block;
       margin: 0 4px 0 0;
       box-sizing: border-box;
@@ -215,7 +213,7 @@ export const viewStyle = () => html`
       color: #FFF;
       background-color: var(--primaryActionColor);
     }
-    
+
     button.Strong:hover,
     button.Strong:focus,
     button.Strong:active {
@@ -310,7 +308,7 @@ export const viewStyle = () => html`
       left: 0;
       top: 0;
       width: 28px;
-      height: 28px;
+      min-height: 30px;
       transition: 0.2s ease all;
       border: 1px solid;
     }
@@ -573,24 +571,24 @@ export const viewStyle = () => html`
     .error-field {
       outline: red 1px solid;
     }
-    
+
     .field-checkbox {
       flex-flow: row nowrap;
       margin-top: 23px;
       align-items: center;
     }
-    
+
     .field-currencyinput > div {
       position: relative;
       display: flex;
       flex-flow: row nowrap;
     }
-    
+
     .field-currencyinput > div > input {
       padding-inline-start: 2ch;
       width: 100%;
     }
-    
+
     .currency-symbol {
       position: absolute;
       left: 7px;
@@ -749,7 +747,7 @@ export const viewStyle = () => html`
       margin-top: -9px;
       margin-left: -3px;
     }
-    
+
     .loading {
       display: flex;
       flex-flow: row nowrap;
@@ -808,7 +806,7 @@ export const viewStyle = () => html`
     .rich-text-main .editor-actions::-webkit-scrollbar {
       display: none;
     }
-    
+
     .rich-text-main .editor {
       border: 1px solid #ccc;
       overflow: auto;
@@ -859,12 +857,12 @@ export const viewStyle = () => html`
       max-width: 100%;
     }
     .sr-only:not(:focus):not(:active) {
-      clip: rect(0 0 0 0); 
+      clip: rect(0 0 0 0);
       clip-path: inset(50%);
       height: 1px;
       overflow: hidden;
       position: absolute;
-      white-space: nowrap; 
+      white-space: nowrap;
       width: 1px;
     }
 
@@ -897,6 +895,6 @@ export const viewStyle = () => html`
         flex-flow: column;
         align-items: flex-start;
       }
-    } 
+    }
   </style>
 `;

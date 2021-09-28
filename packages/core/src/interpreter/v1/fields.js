@@ -1,6 +1,6 @@
 /* eslint-disable no-self-compare */
-import { html } from 'lit-html';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined';
 import { unescapeHTML, pad2char, convertTimestampToDate } from '../../utils/form-utils';
 import { trashIcon } from '../../views/icons';
 
@@ -375,7 +375,7 @@ const Button = (data, path) => {
   if (action === 'deleteRow') return DeleteButton(data, path);
   return html`
   <button
-  type='button' 
+  type='button'
     class="${ifDefined(data.control.modes[1].controlFormat)} pzhc pzbutton"
     id="${ifDefined(path)}"
     data-ref="${ifDefined(getReference(data))}"
@@ -388,7 +388,7 @@ const Button = (data, path) => {
  */
 const DeleteButton = (data, path) => html`
   <button
-    type='button' 
+    type='button'
     class="pzhc pzbutton Icon"
     title="Delete row"
     id="${ifDefined(path)}"
@@ -516,9 +516,9 @@ const RadioButtons = (data, path) => {
  */
 const Checkbox = (data, path) => html`
   <input
-  data-ref="${data.reference}" 
+  data-ref="${data.reference}"
   id="${ifDefined(path)}"
-  type="checkbox" 
+  type="checkbox"
   ?checked=${data.value === 'true'}
   data-action-change="${ifDefined(ActionSet(data, 'change'))}"
   data-action-click="${ifDefined(ActionSet(data, 'click'))}"

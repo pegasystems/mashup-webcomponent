@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import PegaBase from '../interpreter/v2/base';
 import { viewStyle } from '../styles/view-style';
 

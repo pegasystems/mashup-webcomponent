@@ -1,8 +1,8 @@
 /* global i18n */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-self-compare */
-import { html } from 'lit-html';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined';
 import {
   getValue, unescapeHTML, pad2char, convertTimestampToDate, isValidExpression,
 } from '../../core/src/utils/form-utils';
@@ -18,7 +18,7 @@ const DisplayLabel = (data, path, type) => {
   }
   return html`
     ${data.label !== ''
-    ? html`<label class="govuk-label ${iconrequired}" 
+    ? html`<label class="govuk-label ${iconrequired}"
     for="${ifDefined(path)}">${data.displaylabel}
     </label>`
     : null}
@@ -306,13 +306,13 @@ const PhoneInput = (data, path) => {
   }
   data.displayvalue = data.displayvalue.substring(callingcode.length);
   return html`
-<div class='field-phoneinput' ?readonly="${data.readOnly}"> 
+<div class='field-phoneinput' ?readonly="${data.readOnly}">
 <select
   class="govuk-select field-countrycode"
   ?readonly="${data.readonlystate}"
   ?disabled="${data.disabledstate}"
   aria-label="${i18n.t('Select country code')}">
-  ${data.options.map((item) => html`<option ?selected=${item.pyCallingCode === callingcode} 
+  ${data.options.map((item) => html`<option ?selected=${item.pyCallingCode === callingcode}
   value='${item.pyCallingCode}'>${item.pyCallingCode}</option>`)}
 </select>
  <input
@@ -461,7 +461,7 @@ const RadioButtons = (data, path) => {
     return html`
         <div class="govuk-radios__item">
           <input
-            class="govuk-radios__input" 
+            class="govuk-radios__input"
             data-ref="${data.reference}"
             name=${ifDefined(path)}
             id=${innerpath}
@@ -553,7 +553,7 @@ const DateInput = (data, path) => {
     value = dt;
   }
   return html`
-  <div class="input-date govuk-date-input" id="${ifDefined(path)}" 
+  <div class="input-date govuk-date-input" id="${ifDefined(path)}"
   aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}" data-ref="${data.reference}">
   <div class="govuk-date-input__item">
     <div class="govuk-form-group">
@@ -562,7 +562,7 @@ const DateInput = (data, path) => {
       </label>
       <input data-ref="${data.reference}" ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
-      ?disabled="${data.disabledstate}" class="input-date-day govuk-input govuk-date-input__input govuk-input--width-2" value="${valueDate}" 
+      ?disabled="${data.disabledstate}" class="input-date-day govuk-input govuk-date-input__input govuk-input--width-2" value="${valueDate}"
       id="${`${path}-day`}" name="${`${path}-day`}" type="text" pattern="[0-9]*" inputmode="numeric"></div>
   </div>
   <div class="govuk-date-input__item">

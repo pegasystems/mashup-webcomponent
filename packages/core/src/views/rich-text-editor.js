@@ -1,8 +1,6 @@
 /* global i18n */
 /* eslint-disable max-len */
-import {
-  LitElement, html,
-} from 'lit-element';
+import { LitElement, html } from 'lit';
 
 const IconCommon = (val) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20px" height="20px" fill="currentColor">${val}</svg>`;
 

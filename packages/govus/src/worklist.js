@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 const WorkList = (cases, onOpen) => html`
   ${cases.length > 0

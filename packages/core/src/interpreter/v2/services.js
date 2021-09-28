@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { render } from 'lit-html';
+import { render } from 'lit';
 import { genAttachmentsList } from '../../views/attachments';
 import {
   setFormInlineError, getFormData, addRowToPageList, deleteRowFromPageList, genContentPayload,
@@ -9,7 +9,7 @@ import { GetRedirectURL } from '../../views/oauthprovider';
 
 /**
  * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
- * It will update the case-data element using the lit-html render function
+ * It will update the case-data element using the lit render function
  *
  */
 export default class PegaServices extends PegaElement {
@@ -638,7 +638,7 @@ export default class PegaServices extends PegaElement {
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'dataviews') {
-            debugger;
+            // debugger;
           }
           if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {
             this.sendExternalEvent({ type: 'newwork', id: response.data.caseInfo.ID });
@@ -700,6 +700,7 @@ export default class PegaServices extends PegaElement {
             this.data.actions = response.data.caseInfo.availableActions;
             this.name = response.data.caseInfo.stageLabel;
             if (el) {
+              render(this.genLoadingIndicator(), el);
               render(this.renderMainLayout(response.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj'), el);
               el.focus();
             }

@@ -1,4 +1,4 @@
-import { html } from 'lit-element';
+import { html } from 'lit';
 import PegaBase from './base';
 
 export class PegaGovUK extends PegaBase {

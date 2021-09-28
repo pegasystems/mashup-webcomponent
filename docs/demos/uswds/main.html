@@ -188,8 +188,8 @@
       </div>
     </nav>
   </header>
-<main>
-  <div id="main-content">
+
+<main id="main-content">
   <section class="usa-hero" aria-label="Introduction">
     <div class="grid-container">
       <div class="usa-hero__callout">
@@ -250,7 +250,6 @@
       <a class="usa-button usa-button--big" onclick="startTaxCreditCase(event);">Start</a>
     </div>
   </section>
-</div>
 </main>
 <footer class="usa-footer">
   <div class="grid-container usa-footer__return-to-top">
@@ -428,7 +427,7 @@
     defaultCfg = JSON.parse(defaultSettings);
   }
   function startTaxCreditCase(e) {
-    const elem = e.target.closest("#main-content");
+    const elem = e.target.closest("main");
     const mytag = document.createElement("pega-govus");
     mytag.action = 'createNewWork';
     mytag.bShowCancel = 'true';

@@ -1,5 +1,4 @@
-import { LitElement } from 'lit-element';
-import { render } from 'lit-html';
+import { LitElement, render } from 'lit';
 import { unescapeHTML } from '../utils/form-utils';
 
 export default class PegaElement extends LitElement {

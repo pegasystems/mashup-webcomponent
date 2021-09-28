@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 /*
   Display a modal window - call the displayModal to render the button and pass as parameter the title and

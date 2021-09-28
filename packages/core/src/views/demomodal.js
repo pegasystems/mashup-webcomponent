@@ -1,4 +1,4 @@
-import { render, html } from 'lit-html';
+import { render, html } from 'lit';
 import { displayModal } from './modal-manager';
 import { timesIcon } from './icons';
 

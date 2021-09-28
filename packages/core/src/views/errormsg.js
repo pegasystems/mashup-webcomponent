@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { timesIcon } from './icons';
 
 /* this component display a banner error message */

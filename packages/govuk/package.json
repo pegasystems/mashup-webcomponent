@@ -9,7 +9,6 @@
         "lint": "eslint src/**/*.js --fix; exit 0"
     },
     "dependencies": {
-        "lit-element": "^2.4.0",
-        "lit-html": "^1.4.1"
+        "lit": "^2.0.0"
     }
 }

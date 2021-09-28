@@ -189,10 +189,7 @@
     </nav>
   </header>
 
-<main>
-<div id="main-content">
-</div>
-
+<main id="main-content">
 </main>
 <footer class="usa-footer">
   <div class="grid-container usa-footer__return-to-top">
@@ -369,7 +366,7 @@
   if (defaultSettings != null) {
     defaultCfg = JSON.parse(defaultSettings);
   }
-  const elem = document.querySelector("#main-content");
+  const elem = document.querySelector("main");
   const mytag = document.createElement("pega-govus");
   mytag.action = 'workList';
   mytag.url = defaultCfg.url;

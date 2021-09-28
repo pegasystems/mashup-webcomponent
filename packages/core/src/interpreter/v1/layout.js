@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
 import { AttachmentButton } from '../../views/attachments';

@@ -1,4 +1,4 @@
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { Layout } from './layout';
 import { ButtonMenu } from '../../views/button-menu';
 import { AttachmentButton } from '../../views/attachments';

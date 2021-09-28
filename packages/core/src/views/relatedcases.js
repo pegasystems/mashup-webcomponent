@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 export const RelatedCases = (cases, onOpen) => {
   if (!cases || cases.length === 0) return null;

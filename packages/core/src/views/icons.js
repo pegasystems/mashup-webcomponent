@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { html } from 'lit-html';
+import { html } from 'lit';
 
 export const plusIcon = () => html`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="20px" height="20px" fill="currentColor">

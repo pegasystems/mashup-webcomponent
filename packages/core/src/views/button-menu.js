@@ -1,5 +1,5 @@
 /* global i18n */
-import { render, html } from 'lit-html';
+import { render, html } from 'lit';
 import { createUID } from '../utils/form-utils';
 
 /* This is a more complex component that renders a menu when clicking on a button

@@ -1,6 +1,6 @@
 /* global i18n */
 /* eslint-disable no-param-reassign */
-import { render, html } from 'lit-html';
+import { render, html } from 'lit';
 import { LoadingIndicator } from './loading';
 import {
   paperclipIcon, trashIcon, timesIcon, documentIcon, threedotIcon,
@@ -253,16 +253,16 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
       </div>`;
       }
       return html`
-      <input type='text' data-prop-id='displayName' class='flex-all' @change="${updateUploadedFile}" 
+      <input type='text' data-prop-id='displayName' class='flex-all' @change="${updateUploadedFile}"
       data-id="${itemid}" value="${item.displayName}" aria-label='${i18n.t('name')}'/>
       ${renderAttachmentCategories(itemid, item.category)}
       <span class='flex-all'>${item.name}</span>
       <span>${Math.round(item.size / 1000)}Kb</span>
-      <button type='button' data-id="${itemid}" @click="${deleteUploadedFile}" class='pzhc pzbutton Simple' 
+      <button type='button' data-id="${itemid}" @click="${deleteUploadedFile}" class='pzhc pzbutton Simple'
       aria-label=${i18n.t('Delete')}>${trashIcon()}</button>`;
     }
     return html`${renderItemTitle(itemid, item)}
-    <button type='button' data-id="${itemid}" @click="${deleteAttachment}" class='pzhc pzbutton Simple' 
+    <button type='button' data-id="${itemid}" @click="${deleteAttachment}" class='pzhc pzbutton Simple'
     aria-label=${i18n.t('Delete')}>${trashIcon()}</button>`;
   };
 
@@ -310,13 +310,13 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
       </div>`;
     }
     return html`
-      <form id="modalcontent" @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"  
+      <form id="modalcontent" @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"
       @drop="${handleDrop}" class='attach-files list-items'>
         <div class="file-upload">
           <input @change="${uploadFile}" type="file" multiple="">
           ${paperclipIcon()}<span>${i18n.t(' Drag and drop files, attach ')}
           <button type='button' aria-label='${i18n.t('click to attach a file')}' class='Light' @click="${uploadFile}">
-          ${i18n.t('files')}</button> ${i18n.t('or add a')} 
+          ${i18n.t('files')}</button> ${i18n.t('or add a')}
           <button type='button' aria-label='${i18n.t('click to add a URL link')}' class='Light' @click="${enterURL}">
           ${i18n.t('link')}</button></span>
         </div>
@@ -336,7 +336,7 @@ export const genAttachmentsList = (target, data, caseID, webcomp, tmpFiles) => {
       return renderAttachedFile(data[0]);
     }
     /* Single file attachment for a property */
-    return html`<div @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"  
+    return html`<div @dragenter="${handleDrop}" @dragover="${handleDrop}" @dragleave="${handleDrop}"
     @drop="${handleDrop}" class='attach-files list-items'>
       <div class="file-upload">
         <input @change="${uploadFile}" type="file">

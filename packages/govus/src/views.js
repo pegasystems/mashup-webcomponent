@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { Layout } from './layout';
 import { StepIndicator } from './screenflow';
 

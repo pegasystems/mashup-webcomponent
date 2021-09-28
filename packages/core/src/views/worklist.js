@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { ButtonMenu } from './button-menu';
 
 const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) => html`

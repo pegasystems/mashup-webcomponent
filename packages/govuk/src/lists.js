@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { Field } from './fields';
 import { LoadingIndicator } from './loading';
 
@@ -50,7 +50,7 @@ const ListAction = (data, isReadOnly) => {
     const propRef = data.config.referenceList.replace('@P .', '');
     return html`
       <div class="table-action-area">
-        <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
+        <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
         aria-label="${i18n.t('Add row')}" data-newrow="${newRowList.join()}"
         data-ref=${propRef} data-action-click="addRow">${i18n.t('Add item')}</button>
       </div>
@@ -72,8 +72,8 @@ const TableContent = (data, isReadOnly, webcomp, path) => {
     const cellpath = isReadOnly ? undefined : `${path}-${index}-${rindex}`;
     return html`
     <td class="govuk-table__cell">${Field(field, cellpath, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</td>`;
-  })}${!isReadOnly ? html`<td class="govuk-table__cell"><button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" 
-  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}  
+  })}${!isReadOnly ? html`<td class="govuk-table__cell"><button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button"
+  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}
   data-action-click='deleteRow'>Delete</button></td>` : null}
     </tr>`)}
 `;

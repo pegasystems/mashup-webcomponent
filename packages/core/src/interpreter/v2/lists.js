@@ -1,5 +1,5 @@
 /* global i18n */
-import { html } from 'lit-html';
+import { html } from 'lit';
 import { Field } from './fields';
 import { plusIcon, trashIcon } from '../../views/icons';
 import { LoadingIndicator } from '../../views/loading';
@@ -70,8 +70,8 @@ const TableContent = (data, isReadOnly, webcomp) => {
     const label = i18n.t(tdItem.config.label);
     return html`
     <td data-title="${label}">${Field(field, undefined, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</td>`;
-  })}${!isReadOnly ? html`<td><button type="button" class="pzhc pzbutton Simple" 
-  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}  
+  })}${!isReadOnly ? html`<td><button type="button" class="pzhc pzbutton Simple"
+  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}
   data-action-click='deleteRow'>${trashIcon()}</button></td>` : null}
     </tr>`)}
 `;
