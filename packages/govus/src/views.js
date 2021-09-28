@@ -43,7 +43,8 @@ const CreateActionArea = (onCancel) => html`
 
 const AssignmentList = (assignments, onOpen) => {
   if (!assignments || assignments.length === 0) return null;
-  return html`<button type='button' @click="${onOpen}" class="usa-button" data-type="assignment" data-id="${assignments[0].ID}">${i18n.t('Continue')}</button>`;
+  return html`<p>You have a pending request - click 'continue' to re-open the request</p>
+  <button type='button' @click="${onOpen}" class="usa-button" data-type="assignment" data-id="${assignments[0].ID}">${i18n.t('Continue')}</button>`;
 };
 
 export const CaseHeader = (name, data, casedata, onOpen) => {

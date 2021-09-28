@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="./assets/css/uswds.min.css" />
   <link rel="stylesheet" href="./app.css" type="text/css">
 </head>
-
 <body>
   <a class="usa-skipnav" href="#main-content">Skip to main content</a>
   <header class="usa-header usa-header--extended usa-header-dark">
@@ -111,8 +110,36 @@
       </div>
     </nav>
   </header>
-
-  <main><div id="main-content"></div></main>
+  <main>
+    <div id="main-content">
+    <section class="grid-container">
+      <h2 class="font-heading-l"><p>Request a benefit verification letter</p></h2>
+      <h3>Since you couldn't sign to your account, choose another way to get your letter.</h3>
+      <div class="grid-row grid-gap">
+        <div class="tablet:grid-col-2">
+          <img width="80px" src="assets/img/benefit-1.svg">
+        </div>
+        <div>
+          <p class="stronger">Submit request to get it by mail</p>
+          <p>Enter a few details to verify you're you, so we can mail a letter to the address on record.</p>
+          <a class="usa-button usa-button--big" onclick="startBenefitVerification(event);">Request letter</a>
+        </div>
+      </div>
+      <h3 class="font-heading-xs">Other ways to get the letter alternate option</h3>
+      <div class="grid-row grid-gap">
+        <div class="tablet:grid-col-2">
+          <img width="80px" src="assets/img/benefit-2.svg">
+        </div>
+        <div>
+          <p class="stronger">Call use to get it by mail</p>
+          <p>Follow the automated prompts to verify you're you, so we can mail a letter to the address on your record.</p>
+          <p><a href="tel:+18007721213">1-800-772-1213</a></p>
+          <p><a href="tel:+18003250778">TTY-1-800-325-0778</a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  </main>
   <footer class="usa-footer">
     <div class="grid-container usa-footer__return-to-top">
       <a href="#">Return to top</a>
@@ -143,7 +170,6 @@
         </ul>
       </nav>
     </div>
-
     <div class="usa-footer__secondary-section">
       <div class="grid-container">
         <div class="grid-row grid-gap">
@@ -159,37 +185,31 @@
           </div>
           <div class="usa-footer__contact-links mobile-lg:grid-col-6">
             <div class="usa-footer__social-links grid-row grid-gap-1">
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--facebook" href="javascript:void(0);">
                   <span>Facebook</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--twitter" href="javascript:void(0);">
                   <span>Twitter</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--youtube" href="javascript:void(0);">
                   <span>YouTube</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--instagram" href="javascript:void(0);">
                   <span>Instagram</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--rss" href="javascript:void(0);">
                   <span>RSS</span>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
@@ -199,7 +219,6 @@
   <script src="./assets/js/uswds.min.js"></script>
   <script src="./pega-govus.js"></script>
   <script>
-    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     const defaultSettings = localStorage.getItem('defaultcfg');
     let defaultCfg = {
       url: "https://pw16agenda-dt1.pegacloud.io/prweb",
@@ -207,16 +226,15 @@
       username: "wssuser2",
       password: "install@123",
       clientid: "43524976946816519752",
-      clientsecret: "90863E0C04EF929425BBC22004949762",
+      clientsecret: "90863E0C04EF929425BBC22004949762"
     };
     if (defaultSettings != null) {
       defaultCfg = JSON.parse(defaultSettings);
     }
-    function startcase(id) {
-      const elem = document.querySelector("#main-content");
+    function startBenefitVerification(e) {
+      const elem = e.target.closest("#main-content");
       const mytag = document.createElement("pega-govus");
-      mytag.setAttribute("action", 'openWorkByHandle');
-      mytag.setAttribute("caseid", id);
+      mytag.action = 'createNewWork';
       mytag.bShowCancel = 'true';
       mytag.url = defaultCfg.url;
       mytag.username = defaultCfg.username;
@@ -225,6 +243,8 @@
       mytag.clientid = defaultCfg.clientid;
       mytag.clientsecret = defaultCfg.clientsecret;
       mytag.portalName = defaultCfg.portalName;
+      mytag.casetype = 'OPGO8L-CarInsur-Work-BenefitVerification';
+      elem.innerHTML = "";
       mytag.addEventListener("message", function (event) {
         const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
         if (event.detail.type === "cancel") {
@@ -233,8 +253,6 @@
       });
       elem.appendChild(mytag);
     }
-    var id = new URLSearchParams(window.location.search).get("case");
-    startcase("OPGO8L-CARINSUR-WORK " + id);
   </script>
 </body>
 

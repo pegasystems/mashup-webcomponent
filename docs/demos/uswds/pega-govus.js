@@ -312,15 +312,16 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     <div class="usa-field" ?disabled="${t.disabledstate}">
       ${ts(t,e,s)}${((t,e)=>t.helperText&&""!==t.helperText?z`<div id=${`${e}-info`} class="usa-hint">${t.displayhelperText}</div>`:null)(t,e)}${a}
     </div>
-  `,is=(t,e,s,a,i)=>{if(!1===t.config.visibility)return null;let n=!1;if(t.config.displayvalue="",t.config.displaylabel=i18n.t(t.config.label),t.config.displayplaceholder=i18n.t(t.config.placeholder),t.config.displayhelperText=i18n.t(t.config.helperText),t.config.displaycaption=i18n.t(t.config.caption),t.config.value){let e=t.config.value.replace("@P .","");if(t.config.reference=void 0===i||""===i?e:`${i}.${e}`,t.config.displayvalue=qe(a.casedata.content,t.config.reference),"string"==typeof t.config.datasource&&0===t.config.datasource.indexOf("@ASSOCIATED")){e=t.config.datasource.replace("@ASSOCIATED .","");let s="";a.data.context_data?s=a.data.context_data.content:a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content&&(s=a.data.uiResources.context_data.caseInfo.content);const n=""===i?s:qe(s,i);if(n&&(t.config.options=n.summary_of_associated_lists__[e]),void 0===t.config.options&&(s=a.data.uiResources.resources.fields[e],s&&s.datasource))if(s.datasource.records)t.config.options=s.datasource.records;else if(s.datasource.name&&a.data.data.shared[s.datasource.name]){const e=a.data.data.shared[s.datasource.name];if(Object.keys(e).length>0){const a=Object.keys(e)[0];if(e[a].pxResults){const i=s.datasource.propertyForValue.replace("@P .",""),n=s.datasource.propertyForDisplayText.replace("@P .","");t.config.options=[];for(const s in e[a].pxResults){const r=e[a].pxResults[s];t.config.options[s]={key:r[i],value:r[n]}}}}}}else if("object"==typeof t.config.datasource&&t.config.datasource.source&&0===t.config.datasource.source.indexOf("@DATASOURCE")){const e=t.config.datasource.source.replace("@DATASOURCE ","").replace(".pxResults","");if(a.data.data[e]&&a.data.data[e].pxResults)t.config.options=a.data.data[e].pxResults;else if(a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content){const s=a.data.uiResources.context_data.caseInfo.content;if(s[i]&&s[i].summary_of_lists__[e]&&s[i].summary_of_lists__[e].pxResults){const n=s[i].summary_of_lists__[e].pxResults.replace(".pxResults","");if(a.data.data[n]&&a.data.data[n].pxResults){t.config.options=[];const e=t.config.datasource.fields.key.replace("@P .",""),s=t.config.datasource.fields.text.replace("@P .","");for(const i in a.data.data[n].pxResults){const r=a.data.data[n].pxResults[i];t.config.options[i]={key:r[e],value:r[s]}}}}}}t.config.options||(t.config.options=[]),t.config.displayvalue?"object"!=typeof t.config.displayvalue&&(t.config.displayvalue=`${t.config.displayvalue}`):t.config.displayvalue="",a.data.uiResources&&a.data.uiResources.resources&&a.data.uiResources.resources.fields&&a.data.uiResources.resources.fields[e]&&a.data.uiResources.resources.fields[e].isDeclarativeTarget&&(n=!0,a.isDeclarativeTarget=!0)}if(!0===s)return((t,e,s,a)=>z`<div>
+  `,is=(t,e,s,a,i)=>{if(!1===t.config.visibility)return null;if("TextContent"===t.type)return ns(t.config);let n=!1;if(t.config.displayvalue="",t.config.displaylabel=i18n.t(t.config.label),t.config.displayplaceholder=i18n.t(t.config.placeholder),t.config.displayhelperText=i18n.t(t.config.helperText),t.config.displaycaption=i18n.t(t.config.caption),t.config.value){let e=t.config.value.replace("@P .","");if(t.config.reference=void 0===i||""===i?e:`${i}.${e}`,t.config.displayvalue=qe(a.casedata.content,t.config.reference),"string"==typeof t.config.datasource&&0===t.config.datasource.indexOf("@ASSOCIATED")){e=t.config.datasource.replace("@ASSOCIATED .","");let s="";a.data.context_data?s=a.data.context_data.content:a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content&&(s=a.data.uiResources.context_data.caseInfo.content);const n=""===i?s:qe(s,i);if(n&&(t.config.options=n.summary_of_associated_lists__[e]),void 0===t.config.options&&(s=a.data.uiResources.resources.fields[e],s&&s.datasource))if(s.datasource.records)t.config.options=s.datasource.records;else if(s.datasource.name&&a.data.data.shared[s.datasource.name]){const e=a.data.data.shared[s.datasource.name];if(Object.keys(e).length>0){const a=Object.keys(e)[0];if(e[a].pxResults){const i=s.datasource.propertyForValue.replace("@P .",""),n=s.datasource.propertyForDisplayText.replace("@P .","");t.config.options=[];for(const s in e[a].pxResults){const r=e[a].pxResults[s];t.config.options[s]={key:r[i],value:r[n]}}}}}}else if("object"==typeof t.config.datasource&&t.config.datasource.source&&0===t.config.datasource.source.indexOf("@DATASOURCE")){const e=t.config.datasource.source.replace("@DATASOURCE ","").replace(".pxResults","");if(a.data.data[e]&&a.data.data[e].pxResults)t.config.options=a.data.data[e].pxResults;else if(a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content){const s=a.data.uiResources.context_data.caseInfo.content;if(s[i]&&s[i].summary_of_lists__[e]&&s[i].summary_of_lists__[e].pxResults){const n=s[i].summary_of_lists__[e].pxResults.replace(".pxResults","");if(a.data.data[n]&&a.data.data[n].pxResults){t.config.options=[];const e=t.config.datasource.fields.key.replace("@P .",""),s=t.config.datasource.fields.text.replace("@P .","");for(const i in a.data.data[n].pxResults){const r=a.data.data[n].pxResults[i];t.config.options[i]={key:r[e],value:r[s]}}}}}}t.config.options||(t.config.options=[]),t.config.displayvalue?"object"!=typeof t.config.displayvalue&&(t.config.displayvalue=`${t.config.displayvalue}`):t.config.displayvalue="",a.data.uiResources&&a.data.uiResources.resources&&a.data.uiResources.resources.fields&&a.data.uiResources.resources.fields[e]&&a.data.uiResources.resources.fields[e].isDeclarativeTarget&&(n=!0,a.isDeclarativeTarget=!0)}if(!0===s)return((t,e,s,a)=>z`<div>
     <dt class="usa-field">
       ${ts(t,e,s)}
       </dt>
     <dd>${a}</dd>
     </div>
-  `)(t.config,e,"field-text",ns(t.config,t.type,e));"string"!=typeof t.config.visibility&&"string"!=typeof t.config.readOnly&&"string"!=typeof t.config.disabled&&"string"!=typeof t.config.required||(a.refreshOnChange=!0);const r=a.data.data.caseInfo.content;if("string"==typeof t.config.visibility&&"true"!==t.config.visibility){if(!He(t.config.visibility,r))return null}else if(!1===t.config.visibility||"false"===t.config.visibility)return null;if(t.config.readonlystate=!1,"string"==typeof t.config.readOnly&&"false"!==t.config.readOnly?t.config.readonlystate=He(t.config.readOnly,r):(!0===t.config.readOnly||"true"===t.config.readOnly||n)&&(t.config.readonlystate=!0),t.config.requiredstate=!1,"string"==typeof t.config.required&&"false"!==t.config.required?t.config.requiredstate=He(t.config.required,r):!0!==t.config.required&&"true"!==t.config.required||(t.config.requiredstate=!0),t.config.disabledstate=!1,"string"==typeof t.config.disabled&&"false"!==t.config.disabled?t.config.disabledstate=He(t.config.disabled,r):!0!==t.config.disabled&&"true"!==t.config.disabled||(t.config.disabledstate=!0),t.config.disabledstate&&(t.config.requiredstate=!1,t.config.readonlystate=!1),t.config.readonlystate)return as(t.config,e,"field-textinput",ns(t.config,e));switch(t.type){case"Decimal":case"TextInput":return as(t.config,e,"field-textinput",rs(t.config,e));case"Phone":return as(t.config,e,"field-phoneinput",os(t.config,e));case"Email":return as(t.config,e,"field-emailinput",hs(t.config,e));case"Integer":return as(t.config,e,"field-numberinput",cs(t.config,e));case"Percentage":return as(t.config,e,"field-percentage",ls(t.config,e));case"Currency":return as(t.config,e,"field-currencyinput",ds(t.config,e));case"RadioButtons":return as(t.config,e,"field-radiogroup",gs(t.config,e));case"TextArea":return as(t.config,e,"field-textarea",us(t.config,e));case"Checkbox":return as(t.config,e,"field-checkbox",ps(t.config,e));case"Dropdown":return as(t.config,e,"field-dropdown",fs(t.config,e));case"DateTime":return as(t.config,e,"field-datetime",ys(t.config,e));case"Date":return as(t.config,e,"field-date",ms(t.config,e));case"Time":return as(t.config,e,"field-time",bs(t.config,e));case"AutoComplete":return as(t.config,e,"field-autocomplete",vs(t.config,e));case"SemanticLink":return as(t.config,e,"field-semanticlink",_s(t.config));case"Location":return as(t.config,e,"field-location",ws(t.config,e));default:return null}},ns=(t,e,s)=>{let a=t.displayvalue;if(""!==a){if("Phone"===e)return z`<a data-ref="${t.reference}" id="${Ye(s)}" href="${`tel:${a}`}">${a}</a>`;if("Date"===e){const e={year:"numeric",month:"short",day:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("DateTime"===e){a=Oe(t.displayvalue);const e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("Time"===e){const e={hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}}return z`
+  `)(t.config,e,"field-text",rs(t.config,t.type,e));"string"!=typeof t.config.visibility&&"string"!=typeof t.config.readOnly&&"string"!=typeof t.config.disabled&&"string"!=typeof t.config.required||(a.refreshOnChange=!0);const r=a.data.data.caseInfo.content;if("string"==typeof t.config.visibility&&"true"!==t.config.visibility){if(!He(t.config.visibility,r))return null}else if(!1===t.config.visibility||"false"===t.config.visibility)return null;if(t.config.readonlystate=!1,"string"==typeof t.config.readOnly&&"false"!==t.config.readOnly?t.config.readonlystate=He(t.config.readOnly,r):(!0===t.config.readOnly||"true"===t.config.readOnly||n)&&(t.config.readonlystate=!0),t.config.requiredstate=!1,"string"==typeof t.config.required&&"false"!==t.config.required?t.config.requiredstate=He(t.config.required,r):!0!==t.config.required&&"true"!==t.config.required||(t.config.requiredstate=!0),t.config.disabledstate=!1,"string"==typeof t.config.disabled&&"false"!==t.config.disabled?t.config.disabledstate=He(t.config.disabled,r):!0!==t.config.disabled&&"true"!==t.config.disabled||(t.config.disabledstate=!0),t.config.disabledstate&&(t.config.requiredstate=!1,t.config.readonlystate=!1),t.config.readonlystate)return as(t.config,e,"field-textinput",rs(t.config,e));switch(t.type){case"Decimal":case"TextInput":return as(t.config,e,"field-textinput",os(t.config,e));case"Phone":return as(t.config,e,"field-phoneinput",cs(t.config,e));case"Email":return as(t.config,e,"field-emailinput",us(t.config,e));case"Integer":return as(t.config,e,"field-numberinput",ls(t.config,e));case"Percentage":return as(t.config,e,"field-percentage",ds(t.config,e));case"Currency":return as(t.config,e,"field-currencyinput",hs(t.config,e));case"RadioButtons":return as(t.config,e,"field-radiogroup",fs(t.config,e));case"TextArea":return as(t.config,e,"field-textarea",ps(t.config,e));case"Checkbox":return as(t.config,e,"field-checkbox",gs(t.config,e));case"Dropdown":return as(t.config,e,"field-dropdown",ys(t.config,e));case"DateTime":return as(t.config,e,"field-datetime",ms(t.config,e));case"Date":return as(t.config,e,"field-date",bs(t.config,e));case"Time":return as(t.config,e,"field-time",vs(t.config,e));case"AutoComplete":return as(t.config,e,"field-autocomplete",_s(t.config,e));case"SemanticLink":return as(t.config,e,"field-semanticlink",ws(t.config));case"Location":return as(t.config,e,"field-location",$s(t.config,e));default:return null}},ns=t=>z`
+    <p>${i18n.t(t.content)}</p>`,rs=(t,e,s)=>{let a=t.displayvalue;if(""!==a){if("Phone"===e)return z`<a data-ref="${t.reference}" id="${Ye(s)}" href="${`tel:${a}`}">${a}</a>`;if("Date"===e){const e={year:"numeric",month:"short",day:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("DateTime"===e){a=Oe(t.displayvalue);const e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("Time"===e){const e={hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}}return z`
     <span class="dataValueRead" data-ref="${t.reference}" id="${Ye(s)}">${Me(a)}</span>
-  `},rs=(t,e)=>z`
+  `},os=(t,e)=>z`
   <input
     class="usa-input"
     data-ref="${t.reference}"
@@ -333,7 +334,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     id="${Ye(e)}"
     value="${Me(t.displayvalue)}"
   />
-`,os=(t,e)=>{let s="";for(const e of t.options)0===t.displayvalue.indexOf(e.pyCallingCode)&&(s=e.pyCallingCode);return t.displayvalue=t.displayvalue.substring(s.length),z`
+`,cs=(t,e)=>{let s="";for(const e of t.options)0===t.displayvalue.indexOf(e.pyCallingCode)&&(s=e.pyCallingCode);return t.displayvalue=t.displayvalue.substring(s.length),z`
 <div class='field-phoneinput'>
 <select
   class="usa-select field-countrycode"
@@ -356,7 +357,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
    value="${Me(t.displayvalue)}"
  />
  </div>
-`},cs=(t,e)=>z`
+`},ls=(t,e)=>z`
   <input
     class="usa-input"
     data-ref="${t.reference}"
@@ -369,7 +370,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     id="${Ye(e)}"
     value="${Me(t.displayvalue)}"
   />
-`,ls=(t,e)=>z`
+`,ds=(t,e)=>z`
  <input
    class="usa-input"
    data-ref="${t.reference}"
@@ -382,7 +383,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
    id="${Ye(e)}"
    value="${Me(t.displayvalue)}"
  />
-`,ds=(t,e)=>z`
+`,hs=(t,e)=>z`
   <div ?readonly="${t.readOnly}">
   <span class="currency-symbol">$</span>
   <input
@@ -398,7 +399,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     value="${Me(t.displayvalue)}"
   />
   </div>
-`,hs=(t,e)=>z`
+`,us=(t,e)=>z`
   <input
     class="usa-input"
     data-ref="${t.reference}"
@@ -411,7 +412,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     id="${Ye(e)}"
     value="${Me(t.displayvalue)}"
   />
-`,us=(t,e)=>z`
+`,ps=(t,e)=>z`
   <textarea
     class="usa-textarea"
     rows="3"
@@ -424,7 +425,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     aria-describedby="${Ye(es(t,e))}"
     id="${Ye(e)}"
   >${Me(t.displayvalue)}</textarea>
-`,ps=(t,e)=>{const s=t.requiredstate?"icon-required":"";return z`<input
+`,gs=(t,e)=>{const s=t.requiredstate?"icon-required":"";return z`<input
   class="usa-checkbox__input"
   data-ref="${t.reference}"
   ?required="${t.requiredstate}"
@@ -438,7 +439,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
   <label class="usa-checkbox__label ${s}" for=${Ye(e)}>
   ${t.displaycaption}
     </label></div>
-`},gs=(t,e)=>{let s=[{value:"true"},{value:"false"}];return t.options&&(s=t.options),z`<fieldset class="usa-fieldset">
+`},fs=(t,e)=>{let s=[{value:"true"},{value:"false"}];return t.options&&(s=t.options),z`<fieldset class="usa-fieldset">
     ${s.map(((s,a)=>{const i=`rb-${e}-${a}`;return z`
         <div class="usa-radio">
           <input
@@ -457,7 +458,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
           <label class="usa-radio__label" for="${i}">${s.value}</label>
         </div>
       `}))}
-  </div>`},fs=(t,e)=>z`<select
+  </div>`},ys=(t,e)=>z`<select
   class="usa-select"
   data-ref="${t.reference}"
   aria-describedby="${Ye(es(t,e))}"
@@ -468,7 +469,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
   placeholder="${Ye(ss(t))}"
     <option value="" title="${i18n.t("Select...")}">${i18n.t("Select...")}</option>
     ${t.options.map((e=>z`<option ?selected=${e.key===t.displayvalue} value='${e.key}'>${e.value}</option>`))}
-  </select>`,ys=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Oe(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${e.getFullYear()}-${Be(e.getMonth()+1)}-${Be(e.getDate())}T${Be(e.getHours())}:${Be(e.getMinutes())}`):8===t.displayvalue.length?s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}T00:00`:24===t.displayvalue.length&&(s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}T${t.displayvalue.substring(11,13)}:${t.displayvalue.substring(14,16)}`)}return z`
+  </select>`,ms=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Oe(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${e.getFullYear()}-${Be(e.getMonth()+1)}-${Be(e.getDate())}T${Be(e.getHours())}:${Be(e.getMinutes())}`):8===t.displayvalue.length?s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}T00:00`:24===t.displayvalue.length&&(s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}T${t.displayvalue.substring(11,13)}:${t.displayvalue.substring(14,16)}`)}return z`
     <input
       data-ref="${t.reference}"
       ?required="${t.requiredstate}"
@@ -479,7 +480,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
       id="${Ye(e)}"
       value="${s}"
     />
-  `},ms=(t,e)=>{let s=t.displayvalue,a="",i="",n="";if(""!==s){let e=Oe(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),n=e.getFullYear(),a=e.getMonth()+1,i=e.getDate()):8===t.displayvalue.length&&(n=t.displayvalue.substring(0,4),a=t.displayvalue.substring(4,6),i=t.displayvalue.substring(6,8)),s=e}return z`
+  `},bs=(t,e)=>{let s=t.displayvalue,a="",i="",n="";if(""!==s){let e=Oe(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),n=e.getFullYear(),a=e.getMonth()+1,i=e.getDate()):8===t.displayvalue.length&&(n=t.displayvalue.substring(0,4),a=t.displayvalue.substring(4,6),i=t.displayvalue.substring(6,8)),s=e}return z`
   <div class="input-date usa-memorable-date" id="${Ye(e)}"
   aria-describedby="${Ye(es(t,e))}" data-ref="${t.reference}">
   <div class="usa-form-group usa-form-group--month">
@@ -509,7 +510,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
       ?disabled="${t.disabledstate}" class="input-date-year usa-input usa-input--inline" value="${n}"
       id="${`${e}-year`}" name="${`${e}-year`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
-</div>`},bs=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Oe(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${Be(e.getHours())}-${Be(e.getMinutes())}-${Be(e.getSeconds())}`):8===t.displayvalue.length&&(s=`${t.displayvalue.substring(9,10)}:${t.displayvalue.substring(10,11)}:${t.displayvalue.substring(11,12)}`)}return z`
+</div>`},vs=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Oe(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${Be(e.getHours())}-${Be(e.getMinutes())}-${Be(e.getSeconds())}`):8===t.displayvalue.length&&(s=`${t.displayvalue.substring(9,10)}:${t.displayvalue.substring(10,11)}:${t.displayvalue.substring(11,12)}`)}return z`
     <input
       data-ref="${t.reference}"
       ?required="${t.requiredstate}"
@@ -520,7 +521,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
       id="${Ye(e)}"
       value="${s}"
     />
-  `},vs=(t,e)=>t.options?z`
+  `},_s=(t,e)=>t.options?z`
     <div class="usa-combo-box loaded">
     <select class="usa-select"
         data-ref="${t.reference}"
@@ -540,9 +541,9 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
             </option>
           `))}
     </select>
-    </div>`:null,_s=()=>z`
+    </div>`:null,ws=()=>z`
  <a>semantic link</a>
-`,ws=(t,e)=>z`<input
+`,$s=(t,e)=>z`<input
  class="usa-input location"
  data-ref="${t.reference}"
  ?required="${t.requiredstate}"
@@ -553,22 +554,22 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
  aria-describedby="${Ye(es(t,e))}"
  id="${Ye(e)}"
  value="${Me(t.displayvalue)}"
-/>`,$s=()=>z`
+/>`,Cs=()=>z`
 <span class="loading">
     <span class="dot"></span>
     <span class="dot"></span>
     <span class="dot"></span>
 </span>
-`,Cs=(t,e)=>z`
+`,Ss=(t,e)=>z`
   ${t.map((t=>z`
     <th scope='col'>${i18n.t(t.config.label)}</th>`))}${e?null:z`<th></th>`}
-`,Ss=(t,e)=>{if(!e){const e=[];t.config.children[0].children.map(((t,s)=>(e[s]=t.config.value.replace("@P .",""),null)));const s=t.config.referenceList.replace("@P .","");return z`
+`,xs=(t,e)=>{if(!e){const e=[];t.config.children[0].children.map(((t,s)=>(e[s]=t.config.value.replace("@P .",""),null)));const s=t.config.referenceList.replace("@P .","");return z`
       <div class="table-action-area">
         <button type="button" class="usa-button"
         aria-label="${i18n.t("Add row")}" data-newrow="${e.join()}"
         data-ref=${s} data-action-click="addRow">${i18n.t("Add item")}</button>
       </div>
-    `}return null},xs=(t,e,s)=>{const a=t.config.referenceList.replace("@P .",""),i=t.config.children[0].children,n=s.data.data.caseInfo.content[a];return n?z`
+    `}return null},ks=(t,e,s)=>{const a=t.config.referenceList.replace("@P .",""),i=t.config.children[0].children,n=s.data.data.caseInfo.content[a];return n?z`
   ${n.map(((t,n)=>z`
     <tr>
     ${i.map((t=>z`
@@ -576,54 +577,55 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
   aria-label="${i18n.t("Delete item")}" data-ref=${`${a}(${n+1}).pyTemplate`}
   data-action-click='deleteRow'>Delete</button></td>`}
     </tr>`))}
-`:null},ks=(t,e,s,a,i)=>{if(void 0===t)return null;if(!t.config||!t.config.template)return z`${t.map(((t,n)=>{const r=`${e}-${n}`;if("Region"===t.type)return ks(t.children,`${e}-0`,!0,a,i);if("reference"===t.type&&"view"===t.config.type){let e="";if(t.config.context&&(e=t.config.context),t.config.inheritedProps&&1===t.config.inheritedProps.length&&"label"===t.config.inheritedProps[0].prop){const n=i18n.t(t.config.inheritedProps[0].value),o=a.data.uiResources.resources.views[t.config.name];if(o){const t="SimpleTable"===o.config.template||"ListView"===o.config.template?"field-table":"field-subview";return z`<div class='${t}'><h4>${n}</h4>${ks(o,r,s,a,""===i?e.substring(1):i+e)}</div>`}}return ks(a.data.uiResources.resources.views[t.config.name],r,s,a,i&&""!==i?i+e:e.substring(1))}return is(t,r,s,a,i)}))}`;if("SimpleTable"===t.config.template)return((t,e,s)=>{const a=e||"Editable"!==t.config.renderMode;return z`
+`:null},Ds=(t,e,s,a,i)=>{if(void 0===t)return null;if(!t.config||!t.config.template)return z`${t.map(((t,n)=>{const r=`${e}-${n}`;if("Region"===t.type)return Ds(t.children,`${e}-0`,!0,a,i);if("reference"===t.type&&"view"===t.config.type){let e="";if(t.config.context&&(e=t.config.context),t.config.inheritedProps&&1===t.config.inheritedProps.length&&"label"===t.config.inheritedProps[0].prop){const n=i18n.t(t.config.inheritedProps[0].value),o=a.data.uiResources.resources.views[t.config.name];if(o){const t="SimpleTable"===o.config.template||"ListView"===o.config.template?"field-table":"field-subview";return z`<div class='${t}'><h4>${n}</h4>${Ds(o,r,s,a,""===i?e.substring(1):i+e)}</div>`}}return Ds(a.data.uiResources.resources.views[t.config.name],r,s,a,i&&""!==i?i+e:e.substring(1))}return is(t,r,s,a,i)}))}`;if("SimpleTable"===t.config.template)return((t,e,s)=>{const a=e||"Editable"!==t.config.renderMode;return z`
   <table class="usa-table usa-table--borderless">
     <caption class="sr-only">${t.config.name}</caption>
     <thead>
       <tr>
-        ${Cs(t.config.children[0].children,a)}
+        ${Ss(t.config.children[0].children,a)}
       </tr>
     </thead>
     <tbody>
-      ${xs(t,a,s)}
+      ${ks(t,a,s)}
     </tbody>
   </table>
-  ${Ss(t,a)}`})(t,s,a);if("ListView"===t.config.template)return((t,e,s)=>(s.sendData("dataviews",{id:t.config.referenceList,content:{paging:{pageNumber:1,pageSize:41}}}),z`
+  ${xs(t,a)}`})(t,s,a);if("ListView"===t.config.template)return((t,e,s)=>(s.sendData("dataviews",{id:t.config.referenceList,content:{paging:{pageNumber:1,pageSize:41}}}),z`
   <table class="usa-table usa-table--borderless">
     <caption class="sr-only">${t.config.name}</caption>
     <thead>
       <tr>
-        ${Cs(t.config.presets[0].children[0].children,e)}
+        ${Ss(t.config.presets[0].children[0].children,e)}
       </tr>
     </thead>
-    <tbody>${$s()}
+    <tbody>${Cs()}
     </tbody>
   </table>`))(t,s,a);switch("DataReference"===t.config.template&&(a.isDeclarativeTarget=!0),"TwoColumn"===t.config.template&&1===t.children.length&&(t.config.template="OneColumn"),t.config.template){case"TwoColumn":return z`
           <div class='grid-row grid-gap'>
-            <div class='mobile-lg:grid-col-6'>${ks(t.children[0].children,`${e}-0`,s,a,i)}</div>
-            <div class='mobile-lg:grid-col-6'>${ks(t.children[1].children,`${e}-1`,s,a,i)}</div>
+            <div class='mobile-lg:grid-col-6'>${Ds(t.children[0].children,`${e}-0`,s,a,i)}</div>
+            <div class='mobile-lg:grid-col-6'>${Ds(t.children[1].children,`${e}-1`,s,a,i)}</div>
           </div>
         `;case"DefaultForm":return z`
           <div>
-            ${ks(t.children[0].children,`${e}-0`,s,a,i)}
+            ${Ds(t.children[0].children,`${e}-0`,s,a,i)}
           </div>
         `;case"DataReference":return z`
           <div>
-            ${ks(t.children,`${e}-0`,s,a,i)}
+            ${Ds(t.children,`${e}-0`,s,a,i)}
           </div>
         `;case"OneColumn":return z`
           <div>
-            ${ks(t.children[0].children,`${e}-0`,s,a,i)}
+            ${Ds(t.children[0].children,`${e}-0`,s,a,i)}
           </div>
         `;case"Details":return z`
           <div>
-            ${ks(t.children[0].children,`${e}-0`,!0,a,i)}
+            ${Ds(t.children[0].children,`${e}-0`,!0,a,i)}
           </div>
-        `;default:return null}},Ds=(t,e,s,a)=>{return void 0===e.caseID&&s.content?z`
+        `;default:return null}},Is=(t,e,s,a)=>{return void 0===e.caseID&&s.content?z`
     <div>
       <h2>${i18n.t(e.data.caseInfo.name)}</h2>
     </div>
-    ${((t,e)=>t&&0!==t.length?z`<button type='button' @click="${e}" class="usa-button" data-type="assignment" data-id="${t[0].ID}">${i18n.t("Continue")}</button>`:null)(s.assignments,a)}`:e.uiResources&&e.uiResources.navigation&&e.uiResources.navigation.steps?(i=e.uiResources.navigation.steps)&&i.length>1?z`<div class="usa-step-indicator" aria-label="progress">
+    ${((t,e)=>t&&0!==t.length?z`<p>You have a pending request - click 'continue' to re-open the request</p>
+  <button type='button' @click="${e}" class="usa-button" data-type="assignment" data-id="${t[0].ID}">${i18n.t("Continue")}</button>`:null)(s.assignments,a)}`:e.uiResources&&e.uiResources.navigation&&e.uiResources.navigation.steps?(i=e.uiResources.navigation.steps)&&i.length>1?z`<div class="usa-step-indicator" aria-label="progress">
     <ol class="usa-step-indicator__segments">
     ${i.map((t=>{let e,s="";return"success"===t.visited_status?s="usa-step-indicator__segment--complete":"current"===t.visited_status&&(s="usa-step-indicator__segment--current",e="current"),z`<li
       class=${`usa-step-indicator__segment ${s}`}
@@ -631,9 +633,9 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
       <span class="usa-step-indicator__segment-label">${t.name}
       <span class="usa-sr-only">completed</span></span>
     </li>`}))}
-    </ol></div>`:null:"";var i},Is=(t,e,s,a,i)=>{let n=i.data.name;return i.data&&i.data.data&&(n&&""!==n||(n=i.data.data.caseInfo.name),""!==i.data.data.caseInfo.assignments[0].instructions&&(n=i.data.data.caseInfo.assignments[0].instructions)),z`
+    </ol></div>`:null:"";var i},As=(t,e,s,a,i)=>{let n=i.data.name;return i.data&&i.data.data&&(n&&""!==n||(n=i.data.data.caseInfo.name),""!==i.data.data.caseInfo.assignments[0].instructions&&(n=i.data.data.caseInfo.assignments[0].instructions)),z`
   <fieldset class='usa-fieldset'><legend class="usa-legend usa-legend--large">${i18n.t(n)}</legend>
-  ${ks(t,e,!1,i,"")}</fieldset>
+  ${Ds(t,e,!1,i,"")}</fieldset>
   ${((t,e)=>z`
 <ul class="usa-button-group">
     ${null!==t?z`<li class="usa-button-group__item">
@@ -644,14 +646,14 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     <button type="button" data-submit="submit" class="usa-button">${i18n.t("Submit")}</button></li>
   </ul>
 `)(s,a)}
-`},As=(t,e,s,a)=>z`
-  <div>${ks(t,e,!0,a)}</div>
+`},Ts=(t,e,s,a)=>z`
+  <div>${Ds(t,e,!0,a)}</div>
   ${(t=>null===t?null:z`
   <ul class="usa-button-group">
   ${null!==t?z`<li class="usa-button-group__item"><button type="button" class="usa-button"
   @click="${t}">${i18n.t("Close")}</button></li>`:""}
   </ul>`)(s)}
-`;class Ts extends Xe{displayContent(){if(this.bShowSave="false",""!==this.errorMsg)return t=this.errorMsg,e="true"===this.bShowCancel?this.resetError:null,z`
+`;class Es extends Xe{displayContent(){if(this.bShowSave="false",""!==this.errorMsg)return t=this.errorMsg,e="true"===this.bShowCancel?this.resetError:null,z`
 <div class="usa-alert usa-alert--error" role="alert">
   <div class="usa-alert__body">
     <h4 class="usa-alert__heading">${t}</h4>
@@ -659,24 +661,13 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
     <button type='button' aria-label="${i18n.t("Click to close the banner")}" class="usa-button" 
     @click="${e}">${i18n.t("Close")}</button>`:""}
   </div>
-  </div>`;var t,e,s,a,i;if(("oauth2password"===this.authentication||"oauth2clientcredentials"===this.authentication)&&""===this.token)return this.sendData("authenticate",{}),null;if(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?"createNewWork"===this.action&&""===this.caseID&&this.casetypes&&this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("view",{id:this.caseID,actionid:"pyReview"})):(this.fetchData("portal"),"createNewWork"===this.action?this.bShowNew=!0:"workList"===this.action&&(this.bShowCancel="true")),this.bShowConfirm){this.data.ID.split(" ")[1];return s=this.casedata.name,this.casepyStatusWork,"true"===this.bShowAttachments&&this.displayAttachments,z`
-  <legend class="usa-legend usa-legend--large">${i18n.t(s)}</legend>
-  <div>
-  </div>
-  <div class="usa-alert usa-alert--success">
-  <div class="usa-alert__body">
-    <h4 class="usa-alert__heading">Success status</h4>
-    <p class="usa-alert__text">
-    ${i18n.t("Thank you. Your information has been submitted.")}
-    </p>
-  </div>
-</div>
-  <div id="case-data">${$s()}</div>`}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?z`
-        ${Ds(this.name,this.data,this.casedata,this.openCase)}
+  </div>`;var t,e,s,a;if(("oauth2password"===this.authentication||"oauth2clientcredentials"===this.authentication)&&""===this.token)return this.sendData("authenticate",{}),null;if(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?"createNewWork"===this.action&&""===this.caseID&&this.casetypes&&this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("view",{id:this.caseID,actionid:"pyReview"})):(this.fetchData("portal"),"createNewWork"===this.action?this.bShowNew=!0:"workList"===this.action&&(this.bShowCancel="true")),this.bShowConfirm){this.data.ID.split(" ")[1];return this.casedata.name,this.casepyStatusWork,"true"===this.bShowAttachments&&this.displayAttachments,z`
+  <div id="case-data">${Cs()}</div>`}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?z`
+        ${Is(this.name,this.data,this.casedata,this.openCase)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
-        <form class="usa-form" id="case-data">${$s()}</form>
-      `:"workList"===this.action?(a=this.cases,i=this.openCase,z`
-  ${a.length>0?z`
+        <form class="usa-form" id="case-data">${Cs()}</form>
+      `:"workList"===this.action?(s=this.cases,a=this.openCase,z`
+  ${s.length>0?z`
         <table class="usa-table usa-table--borderless">
           <caption>
             ${i18n.t("My pending cases")}
@@ -689,12 +680,12 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
             </tr>
           </thead>
           <tbody>
-            ${a.map((t=>z`
+            ${s.map((t=>z`
                 <tr>
                   <td scope="row">${i18n.t(t.name)}</td>
                   <td>${t.label}</td>
                   <td>
-                    <button @click="${i}" class="usa-button" data-module="govuk-button" data-type="assignment" data-id="${t.ID}">
+                    <button @click="${a}" class="usa-button" data-module="govuk-button" data-type="assignment" data-id="${t.ID}">
                       ${i18n.t("Open")}
                     </button>
                   </td>
@@ -705,7 +696,7 @@ class Re extends Dt{}Re.Encryptor=class extends Re{processBlock(t,e){const s=t,a
       `:z`
         <div style='line-height: 50px;text-align:center'>${i18n.t("you do not have any pending cases.")}</div>
       `}
-`):null}renderMainLayout=(t,e)=>Is(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this);renderReviewLayout=(t,e)=>As(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,this);genPageValidationErrors=t=>(t=>t.errorDetails?z`<div class="usa-alert usa-alert--error" role="alert">
+`):null}renderMainLayout=(t,e)=>As(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this);renderReviewLayout=(t,e)=>Ts(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,this);genPageValidationErrors=t=>(t=>t.errorDetails?z`<div class="usa-alert usa-alert--error" role="alert">
     <div class="usa-alert__body">
       <h4 class="usa-alert__heading">Error</h4>
       ${t.errorDetails.map((t=>"Error_Validation_Fail"===t.message||"Validation failed: Errors Detected."===t.message?null:z`<p class="usa-alert__text">${i18n.t(t.localizedValue)}</p>`))}
@@ -722,6 +713,6 @@ ${t.pxResults.map((t=>z`
         <li role="menuitem" tabindex="-1" data-value="${t[0]}">${i18n.t(t[1].name)}</li>
       `);return z`
     ${e}
-  `})(this.casetypes);genLoadingIndicator=()=>$s();setInlineError=(t,e)=>{t.setCustomValidity(Me(e)),t.classList.add("error-field"),t.reportValidity()};validateForm=t=>t.checkValidity();reportFormValidity=t=>t.reportValidity();clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const s=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),Ve(e,"click")?(this.refreshAssignment(e,je(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===s||"deleteRow"===s)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;if(t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),Ve(e,"change")||this.isDeclarativeTarget)this.refreshAssignment(e,je(e,"change"));else if(this.refreshOnChange){const t=this.getRenderRoot().querySelector("#case-data");We(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),M(Is(this.data.uiResources.resources.views[this.casedata.content.pyViewName],"Obj","true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this),t)}};focusHandler=t=>{const e=t.target;e.classList.contains("usa-combo-box")&&!e.classList.contains("loaded")?this.getData(e.getAttribute("data-pageid"),e):"INPUT"===e.tagName&&e.classList.contains("location")&&!e.classList.contains("pac-target-input")&&window.google&&window.google.maps&&window.google.maps.places&&new window.google.maps.places.Autocomplete(e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}class Es extends Ts{createRenderRoot(){return this}getRenderRoot(){return this}render(){return z`
+  `})(this.casetypes);genLoadingIndicator=()=>Cs();setInlineError=(t,e)=>{t.setCustomValidity(Me(e)),t.classList.add("error-field"),t.reportValidity()};validateForm=t=>t.checkValidity();reportFormValidity=t=>t.reportValidity();clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const s=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),Ve(e,"click")?(this.refreshAssignment(e,je(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===s||"deleteRow"===s)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;if(t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),Ve(e,"change")||this.isDeclarativeTarget)this.refreshAssignment(e,je(e,"change"));else if(this.refreshOnChange){const t=this.getRenderRoot().querySelector("#case-data");We(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),M(As(this.data.uiResources.resources.views[this.casedata.content.pyViewName],"Obj","true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this),t)}};focusHandler=t=>{const e=t.target;e.classList.contains("usa-combo-box")&&!e.classList.contains("loaded")?this.getData(e.getAttribute("data-pageid"),e):"INPUT"===e.tagName&&e.classList.contains("location")&&!e.classList.contains("pac-target-input")&&window.google&&window.google.maps&&window.google.maps.places&&new window.google.maps.places.Autocomplete(e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}class Rs extends Es{createRenderRoot(){return this}getRenderRoot(){return this}render(){return z`
       ${this.displayContent()}
-    `}}return customElements.define("pega-govus",Es),t.PegaGovUS=Es,Object.defineProperty(t,"__esModule",{value:!0}),t}({});
+    `}}return customElements.define("pega-govus",Rs),t.PegaGovUS=Rs,Object.defineProperty(t,"__esModule",{value:!0}),t}({});

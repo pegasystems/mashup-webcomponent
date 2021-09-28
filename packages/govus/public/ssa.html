@@ -111,7 +111,8 @@
       </div>
     </nav>
   </header>
-  <main id="main-content">
+  <main>
+  <div id="main-content">
     <section>
       <div class="grid-container">
         <p class="usa-intro">
@@ -140,6 +141,7 @@
         </div>
       </div>
     </section>
+  </div>
   </main>
   <footer class="usa-footer">
     <div class="grid-container usa-footer__return-to-top">
@@ -177,7 +179,7 @@
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             <div class="mobile-lg:grid-col-auto">
-              <img class="usa-footer__logo-img" src="assets/img/logo-img.png" alt="">
+              <img height="64" src="assets/img/logo-ssa.svg">
             </div>
             <div class="mobile-lg:grid-col-auto">
               <p class="usa-footer__logo-heading">
@@ -187,55 +189,32 @@
           </div>
           <div class="usa-footer__contact-links mobile-lg:grid-col-6">
             <div class="usa-footer__social-links grid-row grid-gap-1">
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--facebook" href="javascript:void(0);">
                   <span>Facebook</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--twitter" href="javascript:void(0);">
                   <span>Twitter</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--youtube" href="javascript:void(0);">
                   <span>YouTube</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--instagram" href="javascript:void(0);">
                   <span>Instagram</span>
                 </a>
               </div>
-
               <div class="grid-col-auto">
                 <a class="usa-social-link usa-social-link--rss" href="javascript:void(0);">
                   <span>RSS</span>
                 </a>
               </div>
-
             </div>
-            <h3 class="usa-footer__contact-heading">
-              &lt;Agency Contact Center&gt;
-            </h3>
-            <address class="usa-footer__address">
-              <div class="usa-footer__contact-info grid-row grid-gap">
-                <div class="grid-col-auto">
-                  <a href="tel:1-800-555-5555">
-                    &lt;(800) 555-GOVT&gt;
-                  </a>
-                </div>
-                <div class="grid-col-auto">
-                  <a href="mailto:&lt;info@agency.gov&gt;">
-                    &lt;info@agency.gov&gt;
-                  </a>
-                </div>
-              </div>
-            </address>
           </div>
         </div>
       </div>
@@ -286,7 +265,7 @@
       elem.appendChild(mytag);
     }
     function startBenefitVerification(e) {
-      const elem = e.target.closest("main");
+      const elem = document.querySelector("#main-content");
       const mytag = document.createElement("pega-govus");
       mytag.action = 'createNewWork';
       mytag.bShowCancel = 'true';

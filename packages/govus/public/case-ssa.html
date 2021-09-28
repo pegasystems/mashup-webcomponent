@@ -112,8 +112,7 @@
     </nav>
   </header>
 
-  <main id="main-content">
-  </main>
+  <main><div id="main-content"></div></main>
   <footer class="usa-footer">
     <div class="grid-container usa-footer__return-to-top">
       <a href="#">Return to top</a>
@@ -150,7 +149,7 @@
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             <div class="mobile-lg:grid-col-auto">
-              <img class="usa-footer__logo-img" src="assets/img/logo-img.png" alt="">
+              <img height="64" src="assets/img/logo-ssa.svg">
             </div>
             <div class="mobile-lg:grid-col-auto">
               <p class="usa-footer__logo-heading">
@@ -192,23 +191,6 @@
               </div>
 
             </div>
-            <h3 class="usa-footer__contact-heading">
-              &lt;Agency Contact Center&gt;
-            </h3>
-            <address class="usa-footer__address">
-              <div class="usa-footer__contact-info grid-row grid-gap">
-                <div class="grid-col-auto">
-                  <a href="tel:1-800-555-5555">
-                    &lt;(800) 555-GOVT&gt;
-                  </a>
-                </div>
-                <div class="grid-col-auto">
-                  <a href="mailto:&lt;info@agency.gov&gt;">
-                    &lt;info@agency.gov&gt;
-                  </a>
-                </div>
-              </div>
-            </address>
           </div>
         </div>
       </div>
@@ -231,7 +213,7 @@
       defaultCfg = JSON.parse(defaultSettings);
     }
     function startcase(id) {
-      const elem = document.querySelector("main");
+      const elem = document.querySelector("#main-content");
       const mytag = document.createElement("pega-govus");
       mytag.setAttribute("action", 'openWorkByHandle');
       mytag.setAttribute("caseid", id);
@@ -246,7 +228,7 @@
       mytag.addEventListener("message", function (event) {
         const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
         if (event.detail.type === "cancel") {
-          window.location.href = `${redirectURL}/ssa.html`;
+          window.location.href = `${redirectURL}/ssa-nosignin.html`;
         }
       });
       elem.appendChild(mytag);

@@ -71,6 +71,7 @@ export const DisplaySummaryRow = (data, path, type, ComponentTemplate) => html`<
  */
 export const Field = (data, path, isReadOnly, webcomp, context) => {
   if (data.config.visibility === false) return null;
+  if (data.type === 'TextContent') return TextContent(data.config);
   let isDeclarativeTarget = false;
   data.config.displayvalue = '';
   data.config.displaylabel = i18n.t(data.config.label);
@@ -235,6 +236,12 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
       return null;
   }
 };
+
+/**
+ * Formatted Text component
+ */
+const TextContent = (data) => html`
+    <p>${i18n.t(data.content)}</p>`;
 
 /**
  * Formatted Text component

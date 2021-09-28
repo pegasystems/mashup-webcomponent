@@ -13,11 +13,27 @@
   color: #FFF;
 }
 
+body {
+  overflow: auto;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+}
+body > main {
+  overflow: auto;
+  flex:1;
+}
+
 #main-content {
   max-width: 64rem;
   margin: 0 auto;
   padding: 16px;
   min-height: 40vh;
+}
+
+.stronger {
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 table {
