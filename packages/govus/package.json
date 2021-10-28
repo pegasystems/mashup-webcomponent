@@ -9,6 +9,6 @@
         "lint": "eslint src/**/*.js --fix; exit 0"
     },
     "dependencies": {
-        "lit": "^2.0.0"
+        "lit": "^2.0.2"
     }
 }

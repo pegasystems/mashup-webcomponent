@@ -13,6 +13,6 @@
     },
     "dependencies": {
         "crypto-es": "^1.2.7",
-        "lit": "^2.0.0"
+        "lit": "^2.0.2"
     }
 }
