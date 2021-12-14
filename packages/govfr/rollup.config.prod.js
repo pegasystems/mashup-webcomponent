@@ -9,7 +9,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: '../../docs/demos/uswds/pega-govfr.js',
+      file: '../../docs/demos/frgov/pega-govfr.js',
       format: 'iife',
       name: 'PegaGovFR',
       sourcemap: false,
