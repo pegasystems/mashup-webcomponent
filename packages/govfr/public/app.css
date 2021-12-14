@@ -1,0 +1,28 @@
+body > main {
+  overflow: auto;
+  flex:1;
+}
+
+#main-content {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--xl-base);
+  min-height: 40vh;
+}
+
+table {
+  width:100%;
+}
+
+.fr-step-indicator__segment--current {
+  font-weight: bold;
+}
+
+.fr-input-asterix {
+  color: var(--error-425-625);
+  padding-left: 3px;
+}
+
+.fr-btns-group {
+  padding-top: var(--xl-base);
+}

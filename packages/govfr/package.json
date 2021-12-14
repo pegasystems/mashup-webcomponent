@@ -1,0 +1,14 @@
+{
+    "name": "pega-govfr",
+    "version": "1.0.0",
+    "description": "Pega UI using FR Government system",
+    "license": "Apache 2.0",
+    "scripts": {
+        "dev": "rollup --config rollup.config.dev.js --watch",
+        "build": "rollup --config rollup.config.prod.js",
+        "lint": "eslint src/**/*.js --fix; exit 0"
+    },
+    "dependencies": {
+        "lit": "^2.0.2"
+    }
+}

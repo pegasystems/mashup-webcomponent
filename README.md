@@ -52,6 +52,7 @@ npm install
 For core component: npm run dev:core
 For UK GDS: npm run dev:govuk
 For US WDS: npm run dev:govus
+For FR Government system (DSFR): npm run dev:govfr
 ```
 
 ### Compiles and minifies for production
