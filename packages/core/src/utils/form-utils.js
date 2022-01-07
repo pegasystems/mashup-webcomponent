@@ -153,11 +153,13 @@ export const setObjectFromRef = (content, path, value) => {
  * Note that path is using 1 as the starting index
  */
 export const getValue = (obj, path) => {
-  if (typeof path !== 'string') {
+  if (typeof path !== 'string' || path === '') {
     return null;
   }
+  let tmppath = path;
+  if (path.indexOf('.') === 0) tmppath = path.substring(1);
   let retObj = obj;
-  const keys = path.split('.');
+  const keys = tmppath.split('.');
   for (const i in keys) {
     const key = keys[i];
     const startParens = key.indexOf('(');
@@ -329,12 +331,12 @@ function compare(post, operator, value) {
  * Check if the condition is true - INCOMPLETE - does not handle all use cases like OR and AND
  *
  */
-export const isValidExpression = (expression, content) => {
+export const isValidExpression = (expression, content, context) => {
   const exprs = expression.replace('@E ', '').split('&&');
   for (const expr in exprs) {
     const ops = exprs[expr].trim().match(/[\w.]+|[><=!]+|'[^']+'/g);
     if (ops.length === 3) {
-      const val = content[ops[0].substring(1)];
+      const val = context === '' ? content[ops[0].substring(1)] : getValue(content, context + ops[0]);
       if (typeof val !== 'undefined') {
         if (!compare(val, ops[1], ops[2].replace(/^'|'$/g, ''))) {
           return false;

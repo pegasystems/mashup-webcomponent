@@ -8,11 +8,9 @@
   const defaultSettings = localStorage.getItem('defaultcfg');
   let defaultCfg = {
     url: "https://pw16agenda-dt1.pegacloud.io/prweb",
-    portalName: "DemoReact1",
-    username: "wssuser2",
-    password: "install@123",
-    clientid: "43524976946816519752",
-    clientsecret: "90863E0C04EF929425BBC22004949762"
+    portalName: "WebPortal",
+    clientid: "57140757226253941237",
+    clientsecret: "C7F6B222AA4F12EA82D7148CD2F88A47"
   };
   if (defaultSettings != null) {
     defaultCfg = JSON.parse(defaultSettings);
@@ -21,9 +19,7 @@
   const mytag = document.createElement("pega-govfr");
   mytag.action = 'workList';
   mytag.url = defaultCfg.url;
-  mytag.username = defaultCfg.username;
-  mytag.password = defaultCfg.password;
-  mytag.authentication = 'oauth2password';
+  mytag.authentication = 'oauth2clientcredentials';
   mytag.clientid = defaultCfg.clientid;
   mytag.clientsecret = defaultCfg.clientsecret;
   mytag.portalName = defaultCfg.portalName;

@@ -26,3 +26,12 @@ table {
 .fr-btns-group {
   padding-top: var(--xl-base);
 }
+
+.guide-renovation__content {
+  display: flex;
+  width: 100%;
+  height: auto;
+  background: url(./assets/img/fond-guide.svg) no-repeat;
+  background-size: cover;
+  box-sizing: content-box;
+}

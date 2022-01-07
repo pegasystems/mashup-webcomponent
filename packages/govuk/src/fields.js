@@ -90,6 +90,9 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
     data.config.displayvalue = getValue(webcomp.casedata.content, data.config.reference);
     if (typeof data.config.datasource === 'string' && data.config.datasource.indexOf('@ASSOCIATED') === 0) {
       propName = data.config.datasource.replace('@ASSOCIATED .', '');
+      if (propName.indexOf('.') !== -1) {
+        propName = propName.substring(propName.lastIndexOf('.') + 1);
+      }
       let val = '';
       if (webcomp.data.context_data) {
         val = webcomp.data.context_data.content;
@@ -172,28 +175,28 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
 
   /* Visibility condition */
   if (typeof data.config.visibility === 'string' && data.config.visibility !== 'true') {
-    if (!isValidExpression(data.config.visibility, content)) return null;
+    if (!isValidExpression(data.config.visibility, content, context)) return null;
   } else if (data.config.visibility === false || data.config.visibility === 'false') {
     return null;
   }
   /* Read-only condition */
   data.config.readonlystate = false;
   if (typeof data.config.readOnly === 'string' && data.config.readOnly !== 'false') {
-    data.config.readonlystate = isValidExpression(data.config.readOnly, content);
+    data.config.readonlystate = isValidExpression(data.config.readOnly, content, context);
   } else if (data.config.readOnly === true || data.config.readOnly === 'true' || isDeclarativeTarget) {
     data.config.readonlystate = true;
   }
   /* Required condition */
   data.config.requiredstate = false;
   if (typeof data.config.required === 'string' && data.config.required !== 'false') {
-    data.config.requiredstate = isValidExpression(data.config.required, content);
+    data.config.requiredstate = isValidExpression(data.config.required, content, context);
   } else if (data.config.required === true || data.config.required === 'true') {
     data.config.requiredstate = true;
   }
   /* Disabled condition */
   data.config.disabledstate = false;
   if (typeof data.config.disabled === 'string' && data.config.disabled !== 'false') {
-    data.config.disabledstate = isValidExpression(data.config.disabled, content);
+    data.config.disabledstate = isValidExpression(data.config.disabled, content, context);
   } else if (data.config.disabled === true || data.config.disabled === 'true') {
     data.config.disabledstate = true;
   }
@@ -202,6 +205,8 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
     data.config.readonlystate = false;
   }
   switch (data.type) {
+    case 'TextContent':
+      return DisplayText(data.config, data.type, path);
     case 'Decimal':
     case 'TextInput':
       return AddWrapperDiv(data.config, path, 'field-textinput', TextInput(data.config, path));
@@ -269,6 +274,19 @@ const DisplayText = (data, type, path) => {
         minute: 'numeric',
       };
       value = new Intl.DateTimeFormat([], options).format(new Date(data.displayvalue));
+    }
+  }
+  if (type === 'TextContent') {
+    if (data.displayAs === 'Paragraph') {
+      return html`<p>${i18n.t(data.content)}</p>`;
+    } if (data.displayAs === 'Heading 1') {
+      return html`<h1>${i18n.t(data.content)}</h1>`;
+    } if (data.displayAs === 'Heading 2') {
+      return html`<h2>${i18n.t(data.content)}</h2>`;
+    } if (data.displayAs === 'Heading 3') {
+      return html`<h3>${i18n.t(data.content)}</h3>`;
+    } if (data.displayAs === 'Heading 4') {
+      return html`<h4>${i18n.t(data.content)}</h4>`;
     }
   }
   return html`

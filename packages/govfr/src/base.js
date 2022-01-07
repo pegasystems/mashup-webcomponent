@@ -98,16 +98,21 @@ export default class PegaBase extends PegaServices {
         errorElem.innerText = msg;
       } else {
         const errorNode = document.createElement('p');
+        errorNode.id = `text-input-error-desc-error-${ref}`;
         errorNode.className = 'fr-error-text';
         errorNode.innerText = msg;
-        groupEl.insertAfter(errorNode, el);
+        groupEl.appendChild(errorNode);
         groupEl.classList.add('fr-input-group--error');
+        el.classList.add('fr-input--error');
+        el.setAttribute('aria-describedby', `text-input-error-desc-error-${ref}`);
       }
     } else {
       if (errorElem && errorElem.className === 'fr-error-text') {
         groupEl.removeChild(errorElem);
       }
       groupEl.classList.remove('fr-input-group--error');
+      el.classList.remove('fr-input--error');
+      el.setAttribute('aria-describedby', '');
     }
   }
 

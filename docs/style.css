@@ -59,6 +59,10 @@ fieldset {
   margin:0;
 }
 
+p {
+  margin: var(--spacing05x) 0;
+}
+
 .main-header ~ h3 {
   padding-bottom: var(--spacing05x);
   border-bottom: 1px solid rgba(0,0,0,0.2);

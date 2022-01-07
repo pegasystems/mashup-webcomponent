@@ -3,6 +3,7 @@ import { html } from 'lit';
 import { Field } from './fields';
 import { plusIcon, trashIcon } from '../../views/icons';
 import { LoadingIndicator } from '../../views/loading';
+import { getValue } from '../../utils/form-utils';
 
 export const SimpleTable = (data, isReadOnly, webcomp) => {
   const isreadonlytable = isReadOnly || data.config.renderMode !== 'Editable';
@@ -60,7 +61,7 @@ const ListAction = (data, isReadOnly) => {
 const TableContent = (data, isReadOnly, webcomp) => {
   const propRef = data.config.referenceList.replace('@P .', '');
   const headers = data.config.children[0].children;
-  const rows = webcomp.data.data.caseInfo.content[propRef];
+  const rows = getValue(webcomp.data.data.caseInfo.content, propRef);
   if (!rows) return null;
   return html`
   ${rows.map((row, index) => html`
