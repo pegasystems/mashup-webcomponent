@@ -1,4 +1,5 @@
 import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html';
 import { Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
 import { AttachmentButton } from '../../views/attachments';
@@ -49,7 +50,12 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
       }
       return null;
     }
-    if (item.field) {
+    if (item.paragraph) {
+      let markup = item.paragraph.value;
+      /* Image url used in the paragraph are relative - need to add the base url - make sure to use the full app name url */
+      markup = markup.replace('src="..', `src="${webcomp.url}`);
+      return html`<div class='flex content-item field-item flex-paragraph'>${unsafeHTML(markup)}</div>`;
+    } if (item.field) {
       if (item.field.control && item.field.control.type === 'pxAttachContent') {
         return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
       }

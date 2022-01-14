@@ -131,49 +131,45 @@
     </footer>
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-      const defaultSettings = localStorage.getItem('defaultcfg');
       let defaultCfg = {
-      url : "https://pw16agenda-dt1.pegacloud.io/prweb",
-      portalName: "DemoReact1",
-      username: "wssuser2",
-      password: "install@123",
-      clientid: "43524976946816519752",
-      clientsecret: "90863E0C04EF929425BBC22004949762",
-    };
-    if (defaultSettings != null) {
-      defaultCfg = JSON.parse(defaultSettings);
-    }
-    function startQuoteInsuranceCase(e) {
-      const elem = e.target.closest("main");
-      const mytag = document.createElement("pega-govuk");
-      mytag.action='createNewWork';
-      mytag.bShowCancel = 'false';
-      mytag.url=defaultCfg.url;
-      mytag.username=defaultCfg.username;
-      mytag.password=defaultCfg.password;
-      mytag.authentication='oauth2password';
-      mytag.clientid=defaultCfg.clientid;
-      mytag.clientsecret=defaultCfg.clientsecret;
-      mytag.portalName=defaultCfg.portalName;
-      mytag.casetype='OPGO8L-CarInsur-Work-CarInsuranceQuote';
-      elem.innerHTML = "";
-      mytag.addEventListener("message", function (event) {
-        const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
-        if(event.detail.type==="newwork") {
-          let id = event.detail.id.split(" ");
-          if(id.length == 2) {
+        url: "https://pw16agenda-dt1.pegacloud.io/prweb",
+        portalName: "DemoReact1",
+        username: "wssuser2",
+        password: "install@123",
+        clientid: "43524976946816519752",
+        clientsecret: "90863E0C04EF929425BBC22004949762",
+      };
+      function startQuoteInsuranceCase(e) {
+        const elem = e.target.closest("main");
+        const mytag = document.createElement("pega-govuk");
+        mytag.action = 'createNewWork';
+        mytag.bShowCancel = 'false';
+        mytag.url = defaultCfg.url;
+        mytag.username = defaultCfg.username;
+        mytag.password = defaultCfg.password;
+        mytag.authentication = 'oauth2password';
+        mytag.clientid = defaultCfg.clientid;
+        mytag.clientsecret = defaultCfg.clientsecret;
+        mytag.portalName = defaultCfg.portalName;
+        mytag.casetype = 'OPGO8L-CarInsur-Work-CarInsuranceQuote';
+        elem.innerHTML = "";
+        mytag.addEventListener("message", function (event) {
+          const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
+          if (event.detail.type === "newwork") {
+            let id = event.detail.id.split(" ");
+            if (id.length == 2) {
               window.history.replaceState(
-            {},
-            '',
-            `${redirectURL}/case.html?case=${id[1]}`,
-          );
+                {},
+                '',
+                `${redirectURL}/case.html?case=${id[1]}`,
+              );
+            }
+          } else if (event.detail.type === "cancel") {
+            window.location.href = `${redirectURL}/worklist.html`;
           }
-        } else if(event.detail.type==="cancel") {
-          window.location.href=`${redirectURL}/worklist.html`;
-        }
-      });
-      elem.appendChild(mytag);
-    }
+        });
+        elem.appendChild(mytag);
+      }
     </script>
     <script src="./pega-govuk.js"></script>
     <script>window.GOVUKFrontend.initAll();</script>

@@ -213,6 +213,10 @@ label {
   font-size: var(--generalLabelFontSize);
   line-height: 1.5;
 }
+img {
+  max-width: 100%;
+  height:auto;
+}
 .helper-text {
   color: var(--generalLabelColor);
   font-size: var(--generalHelperTextFontSize);

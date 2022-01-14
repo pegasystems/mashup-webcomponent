@@ -5,7 +5,6 @@
 <script src="./assets/js/uswds.min.js"></script>
 <script src="./pega-govus.js"></script>
 <script>
-  const defaultSettings = localStorage.getItem('defaultcfg');
   let defaultCfg = {
     url: "https://pw16agenda-dt1.pegacloud.io/prweb",
     portalName: "DemoReact1",
@@ -14,9 +13,6 @@
     clientid: "43524976946816519752",
     clientsecret: "90863E0C04EF929425BBC22004949762"
   };
-  if (defaultSettings != null) {
-    defaultCfg = JSON.parse(defaultSettings);
-  }
   const elem = document.querySelector("main");
   const mytag = document.createElement("pega-govus");
   mytag.action = 'workList';

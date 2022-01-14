@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="./app.css" type="text/css">
   <script src="./govuk-frontend-3.12.0.min.js"></script>
 </head>
+
 <body class="govuk-template__body">
   <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
   <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
@@ -69,18 +70,18 @@
         </li>
 
         <li class="app-navigation__list-item app-navigation__list-item--current">
-          <a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-navigation__link"
-            href="#" data-topnav="visa">Apply for visa</a>
+          <a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-navigation__link" href="#"
+            data-topnav="visa">Apply for visa</a>
         </li>
 
         <li class="app-navigation__list-item">
-          <a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-navigation__link"
-            href="#" data-topnav="Work permit">Apply for work permit</a>
+          <a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-navigation__link" href="#"
+            data-topnav="Work permit">Apply for work permit</a>
         </li>
 
         <li class="app-navigation__list-item">
-          <a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-navigation__link"
-            href="#" data-topnav="covid19">Covid19</a>
+          <a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-navigation__link" href="#"
+            data-topnav="covid19">Covid19</a>
         </li>
 
       </ul>
@@ -120,41 +121,37 @@
   </script>
   <script src="./pega-govuk.js"></script>
   <script>window.GOVUKFrontend.initAll();
-    const defaultSettings = localStorage.getItem('defaultcfg');
     let defaultCfg = {
-      url : "https://pw16agenda-dt1.pegacloud.io/prweb",
+      url: "https://pw16agenda-dt1.pegacloud.io/prweb",
       portalName: "DemoReact1",
       username: "wssuser2",
       password: "install@123",
       clientid: "43524976946816519752",
       clientsecret: "90863E0C04EF929425BBC22004949762"
     };
-    if (defaultSettings != null) {
-      defaultCfg = JSON.parse(defaultSettings);
-    }
     const elem = document.querySelector("main");
     const mytag = document.createElement("pega-govuk");
-    mytag.action='workList';
-    mytag.url=defaultCfg.url;
-    mytag.username=defaultCfg.username;
-    mytag.password=defaultCfg.password;
-    mytag.authentication='oauth2password';
-    mytag.clientid=defaultCfg.clientid;
-    mytag.clientsecret=defaultCfg.clientsecret;
-    mytag.portalName=defaultCfg.portalName;
+    mytag.action = 'workList';
+    mytag.url = defaultCfg.url;
+    mytag.username = defaultCfg.username;
+    mytag.password = defaultCfg.password;
+    mytag.authentication = 'oauth2password';
+    mytag.clientid = defaultCfg.clientid;
+    mytag.clientsecret = defaultCfg.clientsecret;
+    mytag.portalName = defaultCfg.portalName;
     mytag.addEventListener("message", function (event) {
       const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
-       if(event.detail.type==="openassignment") {
-        let id = event.detail.id.replace("!"," ").split(" ");
-        if(id.length > 3) {
-            window.history.replaceState(
-          {},
-          '',
-          `${redirectURL}/case.html?case=${id[2]}`,
-        );
+      if (event.detail.type === "openassignment") {
+        let id = event.detail.id.replace("!", " ").split(" ");
+        if (id.length > 3) {
+          window.history.replaceState(
+            {},
+            '',
+            `${redirectURL}/case.html?case=${id[2]}`,
+          );
         }
-      } else if(event.detail.type==="cancel") {
-        window.location.href=`${redirectURL}/worklist.html`;
+      } else if (event.detail.type === "cancel") {
+        window.location.href = `${redirectURL}/worklist.html`;
       }
     });
     elem.appendChild(mytag);
