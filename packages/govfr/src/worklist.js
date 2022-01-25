@@ -1,29 +1,24 @@
-/* global i18n */
 import { html } from 'lit';
 
 const WorkList = (cases, onOpen) => html`
   ${cases.length > 0
     ? html`
-        <table class="fr-table">
-          <caption>
-            ${i18n.t('My pending cases')}
-          </caption>
+        <table class="fr-table fr-table--no-caption" data-fr-js-table="true">
+          <caption>Mes requetes</caption>
           <thead>
             <tr>
-              <th span="col">${i18n.t('Name')}</th>
-              <th span="col">${i18n.t('Status')}</th>
-              <th span="col">${i18n.t('Action')}</th>
+              <th span="col">Requetes</th>
+              <th span="col">Action</th>
             </tr>
           </thead>
           <tbody>
             ${cases.map(
     (item) => html`
                 <tr>
-                  <td scope="row">${i18n.t(item.name)}</td>
-                  <td>${item.label}</td>
+                  <td scope="row">${item.name}</td>
                   <td>
                     <button @click="${onOpen}" class="fr-btn" data-type="assignment" data-id="${item.ID}">
-                      ${i18n.t('Open')}
+                      Ouvrir
                     </button>
                   </td>
                 </tr>
@@ -33,7 +28,7 @@ const WorkList = (cases, onOpen) => html`
         </table>
       `
     : html`
-        <div style='line-height: 50px;text-align:center'>${i18n.t('you do not have any pending cases.')}</div>
+        <div style='line-height: 50px;text-align:center'>Aucune requete en cours</div>
       `}
 `;
 

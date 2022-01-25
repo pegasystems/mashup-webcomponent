@@ -43,8 +43,12 @@ export default class PegaBase extends PegaServices {
     }
     if (this.bShowConfirm) {
       const id = this.data.ID.split(' ')[1];
-      return showConfirm(this.casedata.name, id, this.casepyStatusWork,
-        this.bShowAttachments === 'true' ? this.displayAttachments : null);
+      return showConfirm(
+        this.casedata.name,
+        id,
+        this.casepyStatusWork,
+        this.bShowAttachments === 'true' ? this.displayAttachments : null,
+      );
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
@@ -59,14 +63,19 @@ export default class PegaBase extends PegaServices {
     return null;
   }
 
-  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
+  renderMainLayout = (data, path) => mainLayout(
+    data,
+    path,
+    this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+    this.bShowSave === 'true' ? this.actionAreaSave : null,
+    this,
+  );
 
-  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
   genPageValidationErrors = (response, form) => genPageValidationErrors(response, form);
 
-  showDataList = (id) => showDataList(id)
+  showDataList = (id) => showDataList(id);
 
   genActionsList = (name, data) => genActionsList(name, data);
 
@@ -82,7 +91,7 @@ export default class PegaBase extends PegaServices {
       }
     }
     return form.checkValidity();
-  }
+  };
 
   /* Pass an empty msg to reset the error, otherwise set the error inline */
   setInlineError = (el, msg) => {
@@ -112,7 +121,7 @@ export default class PegaBase extends PegaServices {
       }
       groupEl.classList.remove('govuk-form-group--error');
     }
-  }
+  };
 
   reportFormValidity = (form) => {
     for (const el of form.elements) {
@@ -120,7 +129,7 @@ export default class PegaBase extends PegaServices {
         this.setInlineError(el, el.validationMessage);
       }
     }
-  }
+  };
 
   clickHandler = (event) => {
     let el = event.target;
@@ -140,9 +149,13 @@ export default class PegaBase extends PegaServices {
       } else if (action === 'addRow' || action === 'deleteRow') {
         this.applyAction(el);
         const form = this.getRenderRoot().querySelector('#case-data');
-        render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
+        render(mainLayout(
+          this.data.uiResources.resources.views[this.casedata.content.pyViewName],
+          'Obj',
           this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-          this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);
+          this.bShowSave === 'true' ? this.actionAreaSave : null,
+          this,
+        ), form);
       }
     }
   };
@@ -162,9 +175,13 @@ export default class PegaBase extends PegaServices {
     } else if (this.refreshOnChange) {
       const form = this.getRenderRoot().querySelector('#case-data');
       getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
-      render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
+      render(mainLayout(
+        this.data.uiResources.resources.views[this.casedata.content.pyViewName],
+        'Obj',
         this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-        this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);
+        this.bShowSave === 'true' ? this.actionAreaSave : null,
+        this,
+      ), form);
     }
   };
 

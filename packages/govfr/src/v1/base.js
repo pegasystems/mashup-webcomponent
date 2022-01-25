@@ -1,17 +1,23 @@
 import { html } from 'lit';
-import PegaServices from './services';
+import PegaServices from '../../../core/src/interpreter/v1/services';
 import {
-  CaseHeader, saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
+  CaseHeader, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
 } from './views';
-import { showDataList } from '../../views/datalist';
-import { LoadingIndicator } from '../../views/loading';
-import { showConfirm } from '../../views/confirm';
-import { showErrorMessage } from '../../views/errormsg';
-import { shouldRefresh, getRefreshFor, unescapeHTML } from '../../utils/form-utils';
-import { WorkList } from '../../views/worklist';
+import {
+  validateForm, reportFormValidity, setInlineError,
+} from '../validation';
+
+import { LoadingIndicator } from '../loading';
+import { showConfirm } from '../workarea';
+import { showErrorMessage } from '../errormsg';
+import {
+  shouldRefresh, getRefreshFor,
+} from '../../../core/src/utils/form-utils';
+import { WorkList } from '../worklist';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
+    this.bShowSave = 'false';
     /* Unrecoverable error - just display the banner */
     if (this.errorMsg !== '') {
       return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
@@ -44,48 +50,37 @@ export default class PegaBase extends PegaServices {
       }
     }
     if (this.bShowConfirm) {
-      return showConfirm(this.casedata.content.pyLabel, this.casedata.content.pyID, this.casepyStatusWork,
-        this.bShowAttachments === 'true' ? this.displayAttachments : null);
+      return showConfirm(this.casedata.content.pyLabel, this.casedata.content.pyID, this.casepyStatusWork, null);
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
-    this.bShowAttachments === 'true' ? this.displayAttachments : null)}
+        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase, null)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data"></form>
       `;
     }
     if (this.action === 'workList') {
-      return WorkList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+      return WorkList(this.cases, this.openCase);
     }
     return null;
   }
 
   renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
-
-  renderSaveCaseLayout = (data, path) => saveCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
+    null, this)
 
   renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
 
-  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null)
+  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
 
   genPageValidationErrors = (response) => genPageValidationErrors(response)
 
-  showDataList = (id) => showDataList(id)
-
   genLoadingIndicator = () => LoadingIndicator();
 
-  validateForm = (form) => form.checkValidity();
+  setInlineError = (el, msg) => setInlineError(el, msg);
 
-  reportFormValidity = (form) => form.reportValidity();
+  validateForm = (form) => validateForm(form);
 
-  setInlineError = (el, msg) => {
-    el.setCustomValidity(unescapeHTML(msg));
-    el.classList.add('error-field');
-    el.reportValidity();
-  }
+  reportFormValidity = (form) => reportFormValidity(form);
 
   clickHandler = (event) => {
     let el = event.target;
@@ -125,14 +120,6 @@ export default class PegaBase extends PegaServices {
     }
   };
 
-  keyupHandler = (event) => {
-    const el = event.target;
-    if (el.tagName === 'TEXTAREA') {
-      el.style.cssText = 'height:auto; padding:0;';
-      el.style.cssText = `height:${el.scrollHeight}px`;
-    }
-  };
-
   focusHandler = (event) => {
     const el = event.target;
     if (el.classList.contains('combobox') && !el.classList.contains('loaded')) {
@@ -151,7 +138,6 @@ export default class PegaBase extends PegaServices {
       mashupWidget.addEventListener('click', this.clickHandler);
       mashupWidget.addEventListener('focusin', this.focusHandler);
       mashupWidget.addEventListener('change', this.changeHandler);
-      mashupWidget.addEventListener('keyup', this.keyupHandler);
     }
   }
 }

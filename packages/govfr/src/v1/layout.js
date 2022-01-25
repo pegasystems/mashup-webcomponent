@@ -2,21 +2,14 @@ import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html';
 import { Field } from './fields';
 import { SimpleTable, ListTitle, ListAction } from './lists';
-import { AttachmentButton } from '../../views/attachments';
-import { ShowLocalAction } from '../../views/local-action';
 
 export const Layout = (data, path, isReadOnly, webcomp) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}-${index}`;
     if (item.layout) {
-      if (item.layout.groupFormat.trim() === '' || item.layout.groupFormat === 'CENTER') {
-        item.layout.groupFormat = 'default';
-      }
-      const format = item.layout.groupFormat.replace(/ /g, '_').toLowerCase();
-      const classname = `flex content layout-content-${format} content-${format}`;
       if (item.layout.view && item.layout.view.groups) {
         return html`
-          <div class="${classname}">${Layout(item.layout.view.groups, tmppath, isReadOnly, webcomp)}</div>
+          <div>${Layout(item.layout.view.groups, tmppath, isReadOnly, webcomp)}</div>
         `;
       }
       if (item.layout.groups) {
@@ -37,9 +30,17 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
               break;
           }
         }
-        return html`
-        ${headerStr}<div class="${classname}">${Layout(item.layout.groups, tmppath, isReadOnly, webcomp)}</div>
+        switch (item.layout.groupFormat) {
+          case 'Inline grid double':
+            return html`${headerStr}
+            <div class="fr-grid-col-6">
+            ${Layout(item.layout.groups, tmppath, isReadOnly, webcomp)}
+            </div>`;
+          default:
+            return html`
+          <div>${headerStr}${Layout(item.layout.groups, tmppath, isReadOnly, webcomp)}</div>
         `;
+        }
       }
       if (item.layout.rows) {
         if (item.layout.header) {
@@ -51,23 +52,11 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
       return null;
     }
     if (item.paragraph) {
-      return html`<div class='flex content-item field-item flex-paragraph'>${unsafeHTML(item.paragraph.value)}</div>`;
+      return html`<div>${unsafeHTML(item.paragraph.value)}</div>`;
     } if (item.field) {
-      if (item.field.control && item.field.control.type === 'pxAttachContent') {
-        return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
-      }
-      if (item.field.control && item.field.control.actionSets && item.field.control.actionSets.length > 0 &&
-          item.field.control.actionSets[0] && item.field.control.actionSets[0].actions[0] &&
-        item.field.control.actionSets[0].actions[0].action === 'localAction') {
-        const currentaction = webcomp.actionID;
-        return ShowLocalAction(item.field, webcomp.displayLocalAction, () => { webcomp.reloadAssignment(currentaction); });
-      }
       return Field(item.field, tmppath, isReadOnly);
     }
     if (item.view && item.view.groups) {
-      if (item.view.viewID === 'pyAttachFieldOptional' && item.view.appliesTo === 'Embed-Attach-File') {
-        return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
-      }
       return Layout(item.view.groups, tmppath, isReadOnly, webcomp);
     }
     return null;
@@ -87,10 +76,9 @@ const List = (data, path, isReadOnly) => html`
     const tmppath = `${path}-row${index}`;
     if (item.groups) {
       return html`
-        <div>
-          ${Layout(item.groups, tmppath, isReadOnly)}
-        </div>
-      `;
+      <fieldset class="fr-fieldset">
+      ${Layout(item.groups, tmppath, isReadOnly)}
+      </fieldset>`;
     }
     return null;
   })}

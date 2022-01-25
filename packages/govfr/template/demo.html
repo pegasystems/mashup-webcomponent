@@ -1,0 +1,49 @@
+{% include "header.html" %}
+<main id="main-content">
+</main>
+{% include "footer.html" %}
+<script type="module" src="./assets/js/dsfr.module.min.js"></script>
+<script src="./pega-govfr.js"></script>
+<script>
+  let defaultCfg = {
+    url: "https://pw16agenda-dt1.pegacloud.io/prweb",
+    username: "wssuser2",
+    password: "install@123",
+    portalName: "DemoReact1",
+    clientid: "88731380840743365754",
+    clientsecret: "84CBC862EF5F8411F97C2237D77A0184"
+  };
+  function init() {
+    const elem = document.querySelector("main");
+    const el = document.getElementById("dxapi-version");
+    elem.innerText = "";
+    if (el.checked) {
+      const mytag = document.createElement("pega-govfr");
+      mytag.action = 'workList';
+      mytag.url = defaultCfg.url;
+      mytag.authentication = 'basic';
+      mytag.username = defaultCfg.username;
+      mytag.password = defaultCfg.password;
+      elem.appendChild(mytag);
+    } else {
+      const mytag = document.createElement("pega-govfr-v2");
+      mytag.action = 'workList';
+      mytag.url = defaultCfg.url;
+      mytag.portalName = defaultCfg.portalName;
+      mytag.authentication = 'oauth2password';
+      mytag.clientid = defaultCfg.clientid;
+      mytag.clientsecret = defaultCfg.clientsecret;
+      mytag.username = defaultCfg.username;
+      mytag.password = defaultCfg.password;
+      elem.appendChild(mytag);
+    }
+  }
+  let el = document.getElementById("dxapi");
+  el.style = "";
+  el = document.getElementById("dxapi-version");
+  el.addEventListener("change", init);
+  init();
+</script>
+</body>
+
+</html>

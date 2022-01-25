@@ -1,16 +1,19 @@
 import { html, render } from 'lit';
-import PegaServices from '../../core/src/interpreter/v2/services';
+import PegaServices from '../../../core/src/interpreter/v2/services';
 import {
-  genActionsList, CaseHeader, genCaseTypesList, mainLayout, reviewLayout, genPageValidationErrors,
+  CaseHeader, mainLayout, reviewLayout, genPageValidationErrors,
 } from './views';
-import { showDataList } from './datalist';
-import { LoadingIndicator } from './loading';
-import { showConfirm } from './confirm';
-import { showErrorMessage } from './errormsg';
+import {
+  validateForm, reportFormValidity, setInlineError,
+} from '../validation';
+import { showDataList } from '../datalist';
+import { LoadingIndicator } from '../loading';
+import { showConfirm } from '../workarea';
+import { showErrorMessage } from '../errormsg';
 import {
   getFormData, shouldRefresh, getRefreshFor,
-} from '../../core/src/utils/form-utils';
-import { WorkList } from './worklist';
+} from '../../../core/src/utils/form-utils';
+import { WorkList } from '../worklist';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
@@ -61,8 +64,8 @@ export default class PegaBase extends PegaServices {
     return null;
   }
 
-  // eslint-disable-next-line max-len
-  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this.bShowSave === 'true' ? this.actionAreaSave : null, this);
+  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel :
+    null, null, this);
 
   renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
@@ -70,59 +73,13 @@ export default class PegaBase extends PegaServices {
 
   showDataList = (id) => showDataList(id);
 
-  genActionsList = (name, data) => genActionsList(name, data);
-
-  displayCasesTypes = () => genCaseTypesList(this.casetypes);
-
   genLoadingIndicator = () => LoadingIndicator();
 
-  validateForm = (form) => {
-    for (const el of form.elements) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
-        this.setInlineError(el, '');
-      }
-    }
-    return form.checkValidity();
-  }
+  setInlineError = (el, msg) => setInlineError(el, msg);
 
-  /* Pass an empty msg to reset the error, otherwise set the error inline */
-  setInlineError = (el, msg) => {
-    const groupEl = el.closest('.fr-input-group');
-    if (!groupEl) {
-      return;
-    }
-    const ref = el.getAttribute('data-ref');
-    const errorElem = el.nextElementSibling;
-    if (ref !== null && ref !== 'pyID' && msg !== '') {
-      if (errorElem && errorElem.className === 'fr-error-text') {
-        errorElem.innerText = msg;
-      } else {
-        const errorNode = document.createElement('p');
-        errorNode.id = `text-input-error-desc-error-${ref}`;
-        errorNode.className = 'fr-error-text';
-        errorNode.innerText = msg;
-        groupEl.appendChild(errorNode);
-        groupEl.classList.add('fr-input-group--error');
-        el.classList.add('fr-input--error');
-        el.setAttribute('aria-describedby', `text-input-error-desc-error-${ref}`);
-      }
-    } else {
-      if (errorElem && errorElem.className === 'fr-error-text') {
-        groupEl.removeChild(errorElem);
-      }
-      groupEl.classList.remove('fr-input-group--error');
-      el.classList.remove('fr-input--error');
-      el.setAttribute('aria-describedby', '');
-    }
-  }
+  validateForm = (form) => validateForm(form);
 
-  reportFormValidity = (form) => {
-    for (const el of form.elements) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
-        this.setInlineError(el, el.validationMessage);
-      }
-    }
-  }
+  reportFormValidity = (form) => reportFormValidity(form);
 
   clickHandler = (event) => {
     let el = event.target;
@@ -168,7 +125,7 @@ export default class PegaBase extends PegaServices {
           this.data.uiResources.resources.views[this.casedata.content.pyViewName],
           'Obj',
           this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-          this.bShowSave === 'true' ? this.actionAreaSave : null,
+          null,
           this,
         ),
         form,

@@ -68,12 +68,22 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
           if (subview) {
             const subviewclass = subview.config.template === 'SimpleTable' || subview.config.template === 'ListView' ? 'field-table' : 'field-subview';
             return html`<div class='${subviewclass}'><h3 class='govuk-heading-s'>${label}</h3>${
-              Layout(subview, tmppath, isReadOnly, webcomp,
-                (context === '' ? newCtx.substring(1) : context + newCtx))}</div>`;
+              Layout(
+                subview,
+                tmppath,
+                isReadOnly,
+                webcomp,
+                (context === '' ? newCtx.substring(1) : context + newCtx),
+              )}</div>`;
           }
         }
-        return Layout(webcomp.data.uiResources.resources.views[item.config.name], tmppath, isReadOnly, webcomp,
-          (!context || context === '' ? newCtx.substring(1) : context + newCtx));
+        return Layout(
+          webcomp.data.uiResources.resources.views[item.config.name],
+          tmppath,
+          isReadOnly,
+          webcomp,
+          (!context || context === '' ? newCtx.substring(1) : context + newCtx),
+        );
       }
       return Field(item, tmppath, isReadOnly, webcomp, context);
     })}`;

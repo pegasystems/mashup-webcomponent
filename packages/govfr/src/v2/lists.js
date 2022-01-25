@@ -1,13 +1,13 @@
 /* global i18n */
 import { html } from 'lit';
 import { Field } from './fields';
-import { LoadingIndicator } from './loading';
-import { getValue } from '../../core/src/utils/form-utils';
+import { LoadingIndicator } from '../loading';
+import { getValue } from '../../../core/src/utils/form-utils';
 
 export const SimpleTable = (data, isReadOnly, webcomp) => {
   const isreadonlytable = isReadOnly || data.config.renderMode !== 'Editable';
   return html`
-  <table class="fr-table fr-table--no-caption">
+  <table class="fr-table fr-table--no-caption" data-fr-js-table="true">
     <caption>${data.config.name}</caption>
     <thead>
       <tr>
@@ -24,7 +24,7 @@ export const SimpleTable = (data, isReadOnly, webcomp) => {
 export const DisplayList = (data, isReadOnly, webcomp) => {
   webcomp.sendData('dataviews', { id: data.config.referenceList, content: { paging: { pageNumber: 1, pageSize: 41 } } });
   return html`
-  <table class="fr-table fr-table--no-caption">
+  <table class="fr-table fr-table--no-caption" data-fr-js-table="true">
     <caption>${data.config.name}</caption>
     <thead>
       <tr>
@@ -52,8 +52,8 @@ const ListAction = (data, isReadOnly) => {
     return html`
     <ul class="fr-btns-group fr-btns-group--inline">
         <li><button type="button" class="fr-btn"
-        aria-label="${i18n.t('Add row')}" data-newrow="${newRowList.join()}"
-        data-ref=${propRef} data-action-click="addRow">${i18n.t('Add item')}</button></li>
+        data-newrow="${newRowList.join()}"
+        data-ref=${propRef} data-action-click="addRow">Ajouter une ligne</button></li>
       </ul>
     `;
   }
@@ -73,8 +73,8 @@ const TableContent = (data, isReadOnly, webcomp) => {
     return html`
     <td>${Field(field, undefined, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</td>`;
   })}${!isReadOnly ? html`<td><button type="button" class="fr-btn"
-  aria-label="${i18n.t('Delete item')}" data-ref=${`${propRef}(${index + 1}).pyTemplate`}
-  data-action-click='deleteRow'>Delete</button></td>` : null}
+  data-ref=${`${propRef}(${index + 1}).pyTemplate`}
+  data-action-click='deleteRow'>Supprimer</button></td>` : null}
     </tr>`)}
 `;
 };

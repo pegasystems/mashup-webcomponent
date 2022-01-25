@@ -118,7 +118,8 @@
     </div>
   </header>
 
-<main id="main-content"></main>
+<main id="main-content">
+</main>
 <footer class="fr-footer" role="contentinfo" id="footer">
   <div class="fr-container">
     <div class="fr-footer__body">
@@ -184,31 +185,42 @@
 <script>
   let defaultCfg = {
     url: "https://pw16agenda-dt1.pegacloud.io/prweb",
-    portalName: "WebPortal",
-    clientid: "57140757226253941237",
-    clientsecret: "C7F6B222AA4F12EA82D7148CD2F88A47",
+    username: "wssuser2",
+    password: "install@123",
+    portalName: "DemoReact1",
+    clientid: "88731380840743365754",
+    clientsecret: "84CBC862EF5F8411F97C2237D77A0184"
   };
-  function startcase(id) {
+  function init() {
     const elem = document.querySelector("main");
-    const mytag = document.createElement("pega-govfr-v2");
-    mytag.setAttribute("action", 'openWorkByHandle');
-    mytag.setAttribute("caseid", id);
-    mytag.bShowCancel = 'true';
-    mytag.url = defaultCfg.url;
-    mytag.authentication = 'oauth2clientcredentials';
-    mytag.clientid = defaultCfg.clientid;
-    mytag.clientsecret = defaultCfg.clientsecret;
-    mytag.portalName = defaultCfg.portalName;
-    mytag.addEventListener("message", function (event) {
-      const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
-      if (event.detail.type === "cancel") {
-        window.location.href = `${redirectURL}/worklist.html`;
-      }
-    });
-    elem.appendChild(mytag);
+    const el = document.getElementById("dxapi-version");
+    elem.innerText = "";
+    if (el.checked) {
+      const mytag = document.createElement("pega-govfr");
+      mytag.action = 'workList';
+      mytag.url = defaultCfg.url;
+      mytag.authentication = 'basic';
+      mytag.username = defaultCfg.username;
+      mytag.password = defaultCfg.password;
+      elem.appendChild(mytag);
+    } else {
+      const mytag = document.createElement("pega-govfr-v2");
+      mytag.action = 'workList';
+      mytag.url = defaultCfg.url;
+      mytag.portalName = defaultCfg.portalName;
+      mytag.authentication = 'oauth2password';
+      mytag.clientid = defaultCfg.clientid;
+      mytag.clientsecret = defaultCfg.clientsecret;
+      mytag.username = defaultCfg.username;
+      mytag.password = defaultCfg.password;
+      elem.appendChild(mytag);
+    }
   }
-  var id = new URLSearchParams(window.location.search).get("case");
-  startcase("ANAH-POCELIGIBILITY-WORK " + id);
+  let el = document.getElementById("dxapi");
+  el.style = "";
+  el = document.getElementById("dxapi-version");
+  el.addEventListener("change", init);
+  init();
 </script>
 </body>
 

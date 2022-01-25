@@ -1,13 +1,15 @@
 import { render } from 'lit';
-import {
-  saveCaseLayout, reviewLayout, mainLayout, createCaseLayout, genPageValidationErrors,
-} from './views';
 import { genAttachmentsList } from '../../views/attachments';
 import { RenderLocalAction } from '../../views/local-action';
-import { setFormData, setFormInlineError, genContentPayload } from '../../utils/form-utils';
+import {
+  getFormData, setFormData, setFormInlineError, genContentPayload, addRowToPageList, deleteRowFromPageList,
+} from '../../utils/form-utils';
+import PegaElement from '../../main/element';
+import {
+  genActionsList, genCaseTypesList,
+} from './views';
 import { showDataList } from '../../views/datalist';
 import { LoadingIndicator } from '../../views/loading';
-import PegaElement from '../../main/element';
 
 /**
  * This interface is responsible for fetching the data and sending the data to the Pega Platform using the DX API
@@ -46,6 +48,256 @@ export default class PegaServices extends PegaElement {
       console.error('Error:', error);
     }
   }
+
+  submitForm = (event, type) => {
+    event.preventDefault();
+
+    /* If the cancel button is in a modal dialog - just close the modal */
+    if (event.target && event.target.closest('.mashup-modal') !== null) {
+      const form = event.target.closest('#modalcontent');
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
+      if (this.validateForm(form)) {
+        this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID, target: form });
+      } else {
+        this.reportFormValidity(form);
+      }
+    } else {
+      const form = this.getRenderRoot().querySelector('#case-data');
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
+      if (this.validateForm(form)) {
+        if (type !== 'create') {
+          this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
+        } else {
+          this.sendData('newwork', { id: this.casetype });
+        }
+      } else {
+        this.reportFormValidity(form);
+      }
+    }
+    return false;
+  };
+
+  resetError = (event) => {
+    this.errorMsg = '';
+    this.validationMsg = '';
+    this.actionAreaCancel(event);
+  };
+
+  reloadWorkList = (event) => {
+    this.cases = [];
+    this.requestUpdate();
+    this.actionAreaCancel(event);
+  };
+
+  actionAreaCancel = (event) => {
+    if (event) event.preventDefault();
+    /* If the cancel button is in a modal dialog - just close the modal */
+    if (event.target && event.target.closest('.mashup-modal') !== null) {
+      const Btn = event.target.closest('.mashup-modal').querySelector('button');
+      if (Btn !== null) {
+        Btn.click();
+        return;
+      }
+    }
+    this.bShowConfirm = false;
+    this.bShowNew = false;
+    this.caseID = '';
+    this.data = {};
+    this.content = {};
+    this.pageInstructions = [];
+    this.casedata = {};
+    this.attachmentcategories = [];
+    this.casepyStatusWork = '';
+    this.assignmentID = '';
+    this.actionID = '';
+    this.errorMsg = '';
+    this.numAttachments = 0;
+    this.validationMsg = '';
+    this.name = '';
+    if (this.action === 'workList') {
+      this.fetchData('worklist');
+    }
+    this.sendExternalEvent({ type: 'cancel' });
+  };
+
+  actionAreaSave = (event) => {
+    if (event) event.preventDefault();
+    if (event.target.getAttribute('data-submit') === null) {
+      event.target.textContent = 'Saving...';
+      event.target.disabled = true;
+    }
+    const form = this.getRenderRoot().querySelector('#case-data');
+    if (form) {
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
+      if (this.assignmentID !== '') {
+        this.sendData('savecase', { id: this.caseID, actionid: '', target: event.target });
+      } else {
+        this.sendData('savecase', { id: this.caseID, actionid: this.actionID, target: event.target });
+      }
+    }
+  };
+
+  actionRefresh = () => {
+    const form = this.getRenderRoot().querySelector('#case-data');
+    if (form) {
+      this.validationMsg = '';
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
+      if (this.assignmentID !== '') {
+        this.fetchData('assignmentaction', { id: this.assignmentID, actionid: this.actionID });
+      } else {
+        this.fetchData('caseaction', { id: this.caseID, actionid: this.actionID });
+      }
+    }
+  };
+
+  displayCasesTypes = () => genCaseTypesList(this.casetypes);
+
+  displayActions = () => {
+    if (this.data.actions) {
+      return genActionsList(this.name, this.data);
+    }
+    if (this.casedata.actions) {
+      return genActionsList(this.name, this.casedata);
+    }
+    return null;
+  };
+
+  displayAttachments = (el) => {
+    this.fetchData('attachmentcategories', { id: this.caseID });
+    this.fetchData('attachments', { id: this.caseID, target: el });
+  };
+
+  displayLocalAction = (flowAction, el) => {
+    const form = this.getRenderRoot().querySelector('#case-data');
+    if (form) {
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
+      if (this.assignmentID !== '') {
+        const that = this;
+        this.sendData('savecase', { id: this.caseID }, () => {
+          this.actionID = flowAction;
+          that.fetchData('assignmentaction', { id: this.assignmentID, actionid: flowAction, target: el });
+        });
+      }
+    }
+  };
+
+  reloadAssignment = (actionid) => {
+    this.actionID = actionid;
+    this.fetchData('assignmentaction', { id: this.assignmentID, actionid });
+  }
+
+  createCase = (event) => {
+    this.name = 'New Case';
+    this.bShowNew = true;
+    if (event) {
+      let el = event.target;
+      if (event.path && event.path.length > 0) {
+        el = event.path[0];
+      } else if (event.originalTarget) {
+        el = event.originalTarget;
+      }
+      if (el) {
+        this.casetype = el.getAttribute('data-value');
+        this.name = `New ${el.textContent} `;
+      }
+    }
+    this.content = this.initialContent;
+    this.pageInstructions = [];
+    this.caseID = '';
+    this.data = {};
+    this.casedata = {};
+    /* Check if we need to show the New harness or skip the New harness */
+    if (this.casetypes[this.casetype]) {
+      if (this.casetypes[this.casetype].requiresFieldsToCreate === 'true') {
+        this.fetchData('newwork', { id: this.casetype });
+      } else {
+        this.sendData('newwork', { id: this.casetype });
+      }
+    } else {
+      this.errorMsg = `Case '${this.casetype}' is not defined`;
+      console.error(`Case '${this.casetype}' is not defined`);
+    }
+    this.requestUpdate();
+  };
+
+  runAction = (event) => {
+    let el = event.target;
+    if (event.path && event.path.length > 0) {
+      el = event.path[0];
+    } else if (event.originalTarget) {
+      el = event.originalTarget;
+    }
+    if (el && el.getAttribute('data-value') !== null) {
+      this.actionID = el.getAttribute('data-value');
+      this.actionRefresh();
+    }
+    const casedata = this.getRenderRoot().querySelector('#case-data');
+    if (casedata != null) {
+      render(LoadingIndicator(), casedata);
+    }
+  };
+
+  openCase = (event) => {
+    event.preventDefault();
+    this.caseID = event.target.getAttribute('data-id');
+    this.name = '';
+    this.data = {};
+    this.casedata = {};
+    if (this.caseID.indexOf('ASSIGN-WORKLIST') === 0) {
+      this.sendExternalEvent({ type: 'openassignment', id: this.caseID });
+      this.assignmentID = this.caseID;
+      this.caseID = '';
+    } else {
+      this.sendExternalEvent({ type: 'opencase', id: this.caseID });
+      this.assignmentID = '';
+    }
+    const casedata = this.getRenderRoot().querySelector('#case-data');
+    if (casedata != null) {
+      render(LoadingIndicator(), casedata);
+    }
+    this.requestUpdate();
+  };
+
+  getData = (pageID, el) => {
+    if (this.dataPages[pageID]) {
+      render(showDataList(this.dataPages[pageID]), el.nextElementSibling);
+    } else {
+      this.fetchData('data', { id: pageID, element: el });
+    }
+  };
+
+  refreshAssignment = (el, refreshFor) => {
+    const form = this.getRenderRoot().querySelector('#case-data');
+    let node = el;
+    if (form) {
+      getFormData(form, this.content, this.pageInstructions, this.casedata.content);
+      /* If node is defined - it could be a addRow or deleteRow action */
+      if (node) {
+        if (node.tagName === 'path') node = node.parentNode;
+        if (node.tagName === 'svg') node = node.parentNode;
+        const action = node.getAttribute('data-action-click');
+        const ref = node.getAttribute('data-ref');
+        if (ref !== null && action !== null) {
+          if (action === 'addRow') {
+            const instr = addRowToPageList(this.casedata.content, ref, node.getAttribute('data-newrow'));
+            if (instr !== null) {
+              this.pageInstructions.push(instr);
+            }
+          } else if (action === 'deleteRow') {
+            const instr = deleteRowFromPageList(this.casedata.content, ref);
+            if (instr !== null) {
+              this.pageInstructions.push(instr);
+            }
+          }
+        }
+      }
+      if (this.bShowNew === true) {
+        this.sendData('refreshnew', { id: this.casetype, refreshFor });
+      } else {
+        this.sendData('refreshassignment', { id: this.assignmentID, actionid: this.actionID, refreshFor });
+      }
+    }
+  };
 
   /**
    * fetch the data using the DX API
@@ -196,7 +448,7 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the data');
                 break;
               }
-              render(showDataList(response), element.nextElementSibling);
+              render(this.showDataList(response), element.nextElementSibling);
               break;
             case 'caseaction':
               if (!el) {
@@ -209,9 +461,7 @@ export default class PegaServices extends PegaElement {
                 this.requestUpdate();
                 return;
               }
-              render(saveCaseLayout(response.view.groups, 'Obj',
-                this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-                this.actionAreaSave, this), el);
+              render(this.renderSaveCaseLayout(response.view.groups, 'Obj'), el);
               el.focus();
               break;
             case 'assignmentaction':
@@ -227,16 +477,12 @@ export default class PegaServices extends PegaElement {
               }
               if (target) {
                 this.actionID = actionid;
-                render(RenderLocalAction(response.name, mainLayout(response.view.groups, 'Obj',
-                  this.actionAreaCancel,
-                  null, this)), target);
+                render(RenderLocalAction(response.name, this.renderMainLayout(response.view.groups, 'Obj')), target);
                 target.focus();
               } else {
                 this.name = response.name;
                 this.requestUpdate();
-                render(mainLayout(response.view.groups, 'Obj',
-                  this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-                  this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
+                render(this.renderMainLayout(response.view.groups, 'Obj'), el);
                 el.focus();
               }
               break;
@@ -245,7 +491,7 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the page');
                 break;
               }
-              render(mainLayout(response.groups, 'Obj', this), el);
+              render(this.renderMainLayout(response.groups, 'Obj'), el);
               el.focus();
               break;
             case 'view':
@@ -257,10 +503,10 @@ export default class PegaServices extends PegaElement {
               this.pageInstructions = [];
               if (actionid === 'pyCaseInformation') {
                 this.name = response.name;
-                render(reviewLayout(response.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null, this), el);
+                render(this.renderReviewLayout(response.groups, 'Obj'), el);
               } else {
                 this.name = response.name;
-                render(mainLayout(response.groups, 'Obj', this), el);
+                render(this.renderMainLayout(response.groups, 'Obj'), el);
               }
               el.focus();
               break;
@@ -271,7 +517,7 @@ export default class PegaServices extends PegaElement {
                 console.error('Error: case data are not present when retrieving the newwork');
                 break;
               }
-              render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj', this.bShowCancel === 'true' ? this.actionAreaCancel : null), el);
+              render(this.renderCreateCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj'), el);
               el.focus();
               const form = this.getRenderRoot().querySelector('#case-data');
               if (form) {
@@ -439,11 +685,11 @@ export default class PegaServices extends PegaElement {
           if (response.errors[0].ValidationMessages) {
             if (target && target.id === 'modalcontent') {
               setFormInlineError(target, response.errors[0].ValidationMessages, this);
-              render(genPageValidationErrors(response), target.previousElementSibling);
+              render(this.genPageValidationErrors(response), target.previousElementSibling);
             } else {
               const form = this.getRenderRoot().querySelector('#case-data');
               setFormInlineError(form, response.errors[0].ValidationMessages, this);
-              this.validationMsg = genPageValidationErrors(response);
+              this.validationMsg = this.genPageValidationErrors(response);
             }
           } else {
             this.errorMsg = `Error ${response.errors[0].ID}: ${response.errors[0].message}`;
@@ -463,10 +709,9 @@ export default class PegaServices extends PegaElement {
               return;
             }
             if (type === 'refreshnew') {
-              render(createCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj',
-                this.bShowCancel === 'true' ? this.actionAreaCancel : null, this), el);
+              render(this.renderCreateCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj'), el);
             } else {
-              render(mainLayout(response.view.groups, 'Obj', this.actionAreaCancel, this.bShowSave === 'true' ? this.actionAreaSave : null, this), el);
+              render(this.renderMainLayout(response.view.groups, 'Obj'), el);
             }
           } else if (type === 'savecase') {
             this.fetchData('case', { id: this.caseID, target });
@@ -498,7 +743,7 @@ export default class PegaServices extends PegaElement {
           }
           if (response.nextAssignmentID) {
             if (el) {
-              render(LoadingIndicator(), el);
+              render(this.genLoadingIndicator(), el);
               this.requestUpdate();
             }
             this.bShowNew = false;
@@ -506,7 +751,7 @@ export default class PegaServices extends PegaElement {
             this.fetchData('assignment', { id: this.assignmentID });
           } else if (response.nextPageID) {
             if (el) {
-              render(LoadingIndicator(), el);
+              render(this.genLoadingIndicator(), el);
               this.requestUpdate();
             }
             if (response.nextPageID === 'Confirm' || response.nextPageID === 'Review') {

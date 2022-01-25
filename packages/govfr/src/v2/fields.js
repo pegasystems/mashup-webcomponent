@@ -5,7 +5,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined';
 import {
   getValue, unescapeHTML, pad2char, convertTimestampToDate, isValidExpression,
-} from '../../core/src/utils/form-utils';
+} from '../../../core/src/utils/form-utils';
 
 const DisplayLabel = (data, path, type) => {
   if (typeof path === 'undefined') return null;
@@ -232,10 +232,6 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
       return AddWrapperDiv(data.config, path, 'field-time', TimeInput(data.config, path));
     case 'AutoComplete':
       return AddWrapperDiv(data.config, path, 'field-autocomplete', Combobox(data.config, path));
-    case 'SemanticLink':
-      return AddWrapperDiv(data.config, path, 'field-semanticlink', SemanticLink(data.config, path));
-    case 'Location':
-      return AddWrapperDiv(data.config, path, 'field-location', LocationInput(data.config, path, webcomp));
     default:
       return null;
   }
@@ -553,7 +549,6 @@ const DateInput = (data, path) => {
     } else if (data.displayvalue.length === 8) {
       value = `${data.displayvalue.substring(0, 4)}-${data.displayvalue.substring(4, 6)}-${data.displayvalue.substring(6, 8)}`;
     } else if (data.displayvalue.length === 24) {
-      // eslint-disable-next-line max-len
       value = `${data.displayvalue.substring(0, 4)}-${data.displayvalue.substring(5, 7)}-${data.displayvalue.substring(8, 10)}`;
     }
   }
@@ -564,7 +559,7 @@ const DateInput = (data, path) => {
       ?required="${data.requiredstate}"
       ?readonly="${data.readonlystate}"
       ?disabled="${data.disabledstate}"
-      type="datetime-local"
+      type="date"
       aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
       id="${ifDefined(path)}"
       value="${value}"
@@ -632,26 +627,3 @@ const Combobox = (data, path) => {
   }
   return null;
 };
-
-/**
- * SemanticLink component - PLACEHOLDER
- */
-const SemanticLink = () => html`
- <a>semantic link</a>
-`;
-
-/**
- * Location Input component
- */
-const LocationInput = (data, path) => html`<input
- class="fr-input location"
- data-ref="${data.reference}"
- ?required="${data.requiredstate}"
- ?readonly="${data.readonlystate}"
- ?disabled="${data.disabledstate}"
- placeholder="${ifDefined(GetPlaceholder(data))}"
- type="text"
- aria-describedby="${ifDefined(GetAriaDescribedByID(data, path))}"
- id="${ifDefined(path)}"
- value="${unescapeHTML(data.displayvalue)}"
-/>`;
