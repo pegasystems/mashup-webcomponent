@@ -3,7 +3,8 @@ module.exports = {
     browser: true,
     jest: true,
   },
-  parser: 'babel-eslint',
+  ignorePatterns: ['packages/**/rollup.config.*.js'],
+  parser: '@babel/eslint-parser',
   extends: 'airbnb-base',
   rules: {
     'operator-linebreak': 'off',
@@ -27,6 +28,7 @@ module.exports = {
     ],
   },
   parserOptions: {
+    requireConfigFile: false,
     ecmaFeatures: {
       legacyDecorators: true,
     },
