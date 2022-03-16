@@ -2,18 +2,18 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "@babel/eslint-parser": "^7.16.5",
+    "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "axe-puppeteer": "^1.1.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jest": "^25.7.0",
-    "jest": "^27.4.7",
+    "jest": "^27.5.1",
     "lerna": "^4.0.0",
     "nunjucks": "^3.2.3",
-    "puppeteer": "^13.1.1",
-    "rollup": "^2.64.0",
+    "puppeteer": "^13.5.1",
+    "rollup": "^2.70.1",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-html-minifier": "^2.0.0",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "crypto-es": "^1.2.7",
-    "lit": "^2.1.1"
+    "lit": "^2.2.1"
   },
   "scripts": {
     "dev:core": "lerna run dev --scope pega-mashup-web-component",

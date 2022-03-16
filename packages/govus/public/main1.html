@@ -17,9 +17,8 @@
     <div class="usa-navbar">
       <div class="usa-logo" id="extended-logo">
         <em class="usa-logo__text">
-          <img height="32" src="assets/img/logo-ssa.svg">
-          <a style="margin-left:0.5rem" href="./ssa.html" title="HealthCare">
-            Social Security
+          <a style="margin-left:0.5rem" href="./main1.html" title="HealthCare">
+            US Agency
           </a>
         </em>
       </div>
@@ -112,36 +111,38 @@
     </nav>
   </header>
   <main>
-  <div id="main-content">
-    <section>
-      <div class="grid-container">
-        <p class="usa-intro">
-          Click on the button below to request your benefit verification letter.
-        </p>
-        <a href="#" class="usa-button usa-button--big" onclick="startBenefitVerification(event);">Start</a>
-      </div>
-    </section>
-    <section class='usa-section'>
-      <div class="grid-container">
-        <h2 class="font-heading-xl margin-y-0">My pending cases</h2>
-        <div id='myworkist'></div>
-      </div>
-    </section>
-    <section class="grid-container">
-      <div class="grid-row grid-gap">
-        <div class="tablet:grid-col-4">
-          <h2 class="font-heading-xl margin-top-0 tablet:margin-bottom-0">Online Services</h2>
+    <div id="main-content">
+      <section>
+        <div class="grid-container">
+          <p class="usa-intro">
+            Click on the button below to request your benefit verification letter.
+          </p>
+          <a href="#" class="usa-button usa-button--big" onclick="startBenefitVerification(event);">Start</a>
         </div>
-        <div class="tablet:grid-col-8 usa-prose">
-          <p>We are constantly expanding our online services to give you freedom and control when conducting business
-            with Social Security. Today, you can apply for retirement, disability, and Medicare benefits online, check
-            the status of an application or appeal, request a replacement Social Security card (in most areas), print a
-            benefit verification letter, and more – from anywhere and from any of your devices!</p>
-          <p>Hours of Service: Monday - Friday 5 AM - 1 AM ET | Saturday 5 AM - 11 PM ET | Sunday 8 AM - 11:30 PM ET</p>
+      </section>
+      <section class='usa-section'>
+        <div class="grid-container">
+          <h2 class="font-heading-xl margin-y-0">My pending cases</h2>
+          <div id='myworkist'></div>
         </div>
-      </div>
-    </section>
-  </div>
+      </section>
+      <section class="grid-container">
+        <div class="grid-row grid-gap">
+          <div class="tablet:grid-col-4">
+            <h2 class="font-heading-xl margin-top-0 tablet:margin-bottom-0">Online Services</h2>
+          </div>
+          <div class="tablet:grid-col-8 usa-prose">
+            <p>We are constantly expanding our online services to give you freedom and control when conducting business
+              with Social Security. Today, you can apply for retirement, disability, and Medicare benefits online, check
+              the status of an application or appeal, request a replacement Social Security card (in most areas), print
+              a
+              benefit verification letter, and more – from anywhere and from any of your devices!</p>
+            <p>Hours of Service: Monday - Friday 5 AM - 1 AM ET | Saturday 5 AM - 11 PM ET | Sunday 8 AM - 11:30 PM ET
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
   <footer class="usa-footer">
     <div class="grid-container usa-footer__return-to-top">
@@ -179,11 +180,8 @@
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             <div class="mobile-lg:grid-col-auto">
-              <img height="64" src="assets/img/logo-ssa.svg">
-            </div>
-            <div class="mobile-lg:grid-col-auto">
               <p class="usa-footer__logo-heading">
-                Social Security
+                US Agency
               </p>
             </div>
           </div>
@@ -255,11 +253,11 @@
             window.history.replaceState(
               {},
               '',
-              `${redirectURL}/case-ssa.html?case=${id[2]}`,
+              `${redirectURL}/case1.html?case=${id[2]}`,
             );
           }
         } else if (event.detail.type === "cancel") {
-          window.location.href = `${redirectURL}/ssa.html`;
+          window.location.href = `${redirectURL}/main1.html`;
         }
       });
       elem.appendChild(mytag);
@@ -286,11 +284,11 @@
             window.history.replaceState(
               {},
               '',
-              `${redirectURL}/case-ssa.html?case=${id[1]}`,
+              `${redirectURL}/case1.html?case=${id[1]}`,
             );
           }
         } else if (event.detail.type === "cancel") {
-          window.location.href = `${redirectURL}/ssa.html`;
+          window.location.href = `${redirectURL}/main1.html`;
         }
       });
       elem.appendChild(mytag);

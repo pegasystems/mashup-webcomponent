@@ -17,9 +17,8 @@
     <div class="usa-navbar">
       <div class="usa-logo" id="extended-logo">
         <em class="usa-logo__text">
-          <img height="32" src="assets/img/logo-ssa.svg">
-          <a style="margin-left:0.5rem" href="./ssa.html" title="HealthCare">
-            Social Security
+          <a style="margin-left:0.5rem" href="./main1.html" title="HealthCare">
+            US Agency
           </a>
         </em>
       </div>
@@ -112,7 +111,9 @@
     </nav>
   </header>
 
-  <main><div id="main-content"></div></main>
+  <main>
+    <div id="main-content"></div>
+  </main>
   <footer class="usa-footer">
     <div class="grid-container usa-footer__return-to-top">
       <a href="#">Return to top</a>
@@ -149,11 +150,8 @@
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             <div class="mobile-lg:grid-col-auto">
-              <img height="64" src="assets/img/logo-ssa.svg">
-            </div>
-            <div class="mobile-lg:grid-col-auto">
               <p class="usa-footer__logo-heading">
-                Social Security
+                US Agency
               </p>
             </div>
           </div>
@@ -228,7 +226,7 @@
       mytag.addEventListener("message", function (event) {
         const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
         if (event.detail.type === "cancel") {
-          window.location.href = `${redirectURL}/ssa-nosignin.html`;
+          window.location.href = `${redirectURL}/main1-nosignin.html`;
         }
       });
       elem.appendChild(mytag);

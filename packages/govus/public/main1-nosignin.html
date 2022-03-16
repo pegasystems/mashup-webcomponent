@@ -10,15 +10,15 @@
   <link rel="stylesheet" href="./assets/css/uswds.min.css" />
   <link rel="stylesheet" href="./app.css" type="text/css">
 </head>
+
 <body>
   <a class="usa-skipnav" href="#main-content">Skip to main content</a>
   <header class="usa-header usa-header--extended usa-header-dark">
     <div class="usa-navbar">
       <div class="usa-logo" id="extended-logo">
         <em class="usa-logo__text">
-          <img height="32" src="assets/img/logo-ssa.svg">
-          <a style="margin-left:0.5rem" href="./ssa.html" title="HealthCare">
-            Social Security
+          <a style="margin-left:0.5rem" href="./main1.html" title="HealthCare">
+            US Agency
           </a>
         </em>
       </div>
@@ -112,33 +112,36 @@
   </header>
   <main>
     <div id="main-content">
-    <section class="grid-container">
-      <h2 class="font-heading-l"><p>Request a benefit verification letter</p></h2>
-      <h3>Since you couldn't sign to your account, choose another way to get your letter.</h3>
-      <div class="grid-row grid-gap">
-        <div class="tablet:grid-col-2">
-          <img width="80px" src="assets/img/benefit-1.svg">
+      <section class="grid-container">
+        <h2 class="font-heading-l">
+          <p>Request a benefit verification letter</p>
+        </h2>
+        <h3>Since you couldn't sign to your account, choose another way to get your letter.</h3>
+        <div class="grid-row grid-gap">
+          <div class="tablet:grid-col-2">
+            <img width="80px" src="assets/img/benefit-1.svg">
+          </div>
+          <div>
+            <p class="stronger">Submit request to get it by mail</p>
+            <p>Enter a few details to verify you're you, so we can mail a letter to the address on record.</p>
+            <a href="#" class="usa-button usa-button--big" onclick="startBenefitVerification(event);">Request letter</a>
+          </div>
         </div>
-        <div>
-          <p class="stronger">Submit request to get it by mail</p>
-          <p>Enter a few details to verify you're you, so we can mail a letter to the address on record.</p>
-          <a href="#" class="usa-button usa-button--big" onclick="startBenefitVerification(event);">Request letter</a>
+        <h3 class="font-heading-xs">Other ways to get the letter alternate option</h3>
+        <div class="grid-row grid-gap">
+          <div class="tablet:grid-col-2">
+            <img width="80px" src="assets/img/benefit-2.svg">
+          </div>
+          <div>
+            <p class="stronger">Call use to get it by mail</p>
+            <p>Follow the automated prompts to verify you're you, so we can mail a letter to the address on your record.
+            </p>
+            <p><a href="tel:+18007721213">1-800-772-1213</a></p>
+            <p><a href="tel:+18003250778">TTY-1-800-325-0778</a></p>
+          </div>
         </div>
-      </div>
-      <h3 class="font-heading-xs">Other ways to get the letter alternate option</h3>
-      <div class="grid-row grid-gap">
-        <div class="tablet:grid-col-2">
-          <img width="80px" src="assets/img/benefit-2.svg">
-        </div>
-        <div>
-          <p class="stronger">Call use to get it by mail</p>
-          <p>Follow the automated prompts to verify you're you, so we can mail a letter to the address on your record.</p>
-          <p><a href="tel:+18007721213">1-800-772-1213</a></p>
-          <p><a href="tel:+18003250778">TTY-1-800-325-0778</a></p>
-        </div>
-      </div>
-    </section>
-  </div>
+      </section>
+    </div>
   </main>
   <footer class="usa-footer">
     <div class="grid-container usa-footer__return-to-top">
@@ -175,11 +178,8 @@
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             <div class="mobile-lg:grid-col-auto">
-              <img height="64" src="assets/img/logo-ssa.svg">
-            </div>
-            <div class="mobile-lg:grid-col-auto">
               <p class="usa-footer__logo-heading">
-                Social Security
+                US Agency
               </p>
             </div>
           </div>
@@ -248,7 +248,7 @@
       mytag.addEventListener("message", function (event) {
         const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
         if (event.detail.type === "cancel") {
-          window.location.href = `${redirectURL}/ssa-nosignin.html`;
+          window.location.href = `${redirectURL}/main1-nosignin.html`;
         }
       });
       elem.appendChild(mytag);
