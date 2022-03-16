@@ -64,26 +64,50 @@ export default class PegaBase extends PegaServices {
     }
     if (this.bShowConfirm) {
       const id = this.data.ID.split(' ')[1];
-      return showConfirm(this.casedata.name, id, this.casepyStatusWork,
-        this.bShowAttachments === 'true' ? this.displayAttachments : null);
+      return showConfirm(
+        this.casedata.name,
+        id,
+        this.casepyStatusWork,
+        this.bShowAttachments === 'true' ? this.displayAttachments : null,
+      );
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
-    this.bShowAttachments === 'true' ? this.displayAttachments : null)}
+        ${CaseHeader(
+    this.name,
+    this.data,
+    this.casedata,
+    this.casepyStatusWork,
+    this.numAttachments,
+    this.displayActions,
+    this.runAction,
+    this.openCase,
+    this.bShowAttachments === 'true' ? this.displayAttachments : null,
+  )}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data"></form>
       `;
     }
     if (this.action === 'workList') {
-      return WorkList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList,
-        this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+      return WorkList(
+        this.title,
+        this.cases,
+        this.displayCasesTypes,
+        this.reloadWorkList,
+        this.bShowCreate === 'true' ? this.createCase : null,
+        this.openCase,
+      );
     }
     return null;
   }
 
-  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
+  renderMainLayout = (data, path) => mainLayout(
+    data,
+    path,
+    this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+    this.bShowSave === 'true' ? this.actionAreaSave : null,
+    this,
+  )
 
   renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
 
@@ -146,9 +170,13 @@ export default class PegaBase extends PegaServices {
     } else if (this.refreshOnChange) {
       const form = this.getRenderRoot().querySelector('#case-data');
       getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
-      render(mainLayout(this.data.uiResources.resources.views[this.casedata.content.pyViewName], 'Obj',
+      render(mainLayout(
+        this.data.uiResources.resources.views[this.casedata.content.pyViewName],
+        'Obj',
         this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-        this.bShowSave === 'true' ? this.actionAreaSave : null, this), form);
+        this.bShowSave === 'true' ? this.actionAreaSave : null,
+        this,
+      ), form);
     }
   };
 

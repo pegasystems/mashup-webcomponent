@@ -65,14 +65,19 @@ export default class PegaBase extends PegaServices {
     return null;
   }
 
-  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    null, this)
+  renderMainLayout = (data, path) => mainLayout(
+    data,
+    path,
+    this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+    null,
+    this,
+  );
 
-  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
-  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
-  genPageValidationErrors = (response) => genPageValidationErrors(response)
+  genPageValidationErrors = (response) => genPageValidationErrors(response);
 
   genLoadingIndicator = () => LoadingIndicator();
 

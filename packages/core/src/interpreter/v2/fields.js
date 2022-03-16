@@ -93,6 +93,9 @@ export const Field = (data, path, isReadOnly, webcomp, context) => {
       }
       if (typeof data.config.options === 'undefined') {
         val = webcomp.data.uiResources.resources.fields[propName];
+        if (typeof val === 'object' && val.length === 1) {
+          val = val[0];
+        }
         if (val && val.datasource) {
           if (val.datasource.records) {
             data.config.options = val.datasource.records;

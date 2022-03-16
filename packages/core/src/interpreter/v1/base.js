@@ -44,13 +44,26 @@ export default class PegaBase extends PegaServices {
       }
     }
     if (this.bShowConfirm) {
-      return showConfirm(this.casedata.content.pyLabel, this.casedata.content.pyID, this.casepyStatusWork,
-        this.bShowAttachments === 'true' ? this.displayAttachments : null);
+      return showConfirm(
+        this.casedata.content.pyLabel,
+        this.casedata.content.pyID,
+        this.casepyStatusWork,
+        this.bShowAttachments === 'true' ? this.displayAttachments : null,
+      );
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
       return html`
-        ${CaseHeader(this.name, this.data, this.casedata, this.casepyStatusWork, this.numAttachments, this.displayActions, this.runAction, this.openCase,
-    this.bShowAttachments === 'true' ? this.displayAttachments : null)}
+        ${CaseHeader(
+    this.name,
+    this.data,
+    this.casedata,
+    this.casepyStatusWork,
+    this.numAttachments,
+    this.displayActions,
+    this.runAction,
+    this.openCase,
+    this.bShowAttachments === 'true' ? this.displayAttachments : null,
+  )}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data"></form>
       `;
@@ -61,11 +74,21 @@ export default class PegaBase extends PegaServices {
     return null;
   }
 
-  renderMainLayout = (data, path) => mainLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
+  renderMainLayout = (data, path) => mainLayout(
+    data,
+    path,
+    this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+    this.bShowSave === 'true' ? this.actionAreaSave : null,
+    this,
+  )
 
-  renderSaveCaseLayout = (data, path) => saveCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null,
-    this.bShowSave === 'true' ? this.actionAreaSave : null, this)
+  renderSaveCaseLayout = (data, path) => saveCaseLayout(
+    data,
+    path,
+    this.bShowCancel === 'true' ? this.actionAreaCancel : null,
+    this.bShowSave === 'true' ? this.actionAreaSave : null,
+    this,
+  )
 
   renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
 

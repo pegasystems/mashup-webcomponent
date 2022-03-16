@@ -26,6 +26,8 @@ module.exports = {
         props: false,
       },
     ],
+    'import/no-relative-packages': 'off',
+    'class-methods-use-this': 'off',
   },
   parserOptions: {
     requireConfigFile: false,
