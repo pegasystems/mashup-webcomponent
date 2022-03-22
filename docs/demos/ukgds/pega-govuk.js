@@ -557,6 +557,7 @@ class Se extends Ct{}Se.Encryptor=class extends Se{processBlock(t,e){const s=t,a
             <tr class="govuk-table__row">
               <th span='col' class="govuk-table__header">${i18n.t("Name")}</th>
               <th span='col' class="govuk-table__header">${i18n.t("Case ID")}</th>
+              <th span='col' class="govuk-table__header">${i18n.t("Status")}</th>
               <th span='col' class="govuk-table__header">${i18n.t("Urgency")}</th>
               <th span='col' class="govuk-table__header">${i18n.t("Action")}</th>
             </tr>
@@ -566,6 +567,7 @@ class Se extends Ct{}Se.Encryptor=class extends Se{processBlock(t,e){const s=t,a
                 <tr class="govuk-table__row">
                   <td scope="row" class="govuk-table__header">${i18n.t(t.name)}</td>
                   <td class="govuk-table__cell">${t.caseID}</td>
+                  <td class="govuk-table__cell">${t.label}</td>
                   <td class="govuk-table__cell">${t.urgency}</td>
                   <td class="govuk-table__cell">
                     <button @click="${a}" class="govuk-button govuk-button--secondary"

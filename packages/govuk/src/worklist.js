@@ -12,6 +12,7 @@ const WorkList = (cases, onOpen) => html`
             <tr class="govuk-table__row">
               <th span='col' class="govuk-table__header">${i18n.t('Name')}</th>
               <th span='col' class="govuk-table__header">${i18n.t('Case ID')}</th>
+              <th span='col' class="govuk-table__header">${i18n.t('Status')}</th>
               <th span='col' class="govuk-table__header">${i18n.t('Urgency')}</th>
               <th span='col' class="govuk-table__header">${i18n.t('Action')}</th>
             </tr>
@@ -22,6 +23,7 @@ const WorkList = (cases, onOpen) => html`
                 <tr class="govuk-table__row">
                   <td scope="row" class="govuk-table__header">${i18n.t(item.name)}</td>
                   <td class="govuk-table__cell">${item.caseID}</td>
+                  <td class="govuk-table__cell">${item.label}</td>
                   <td class="govuk-table__cell">${item.urgency}</td>
                   <td class="govuk-table__cell">
                     <button @click="${onOpen}" class="govuk-button govuk-button--secondary"

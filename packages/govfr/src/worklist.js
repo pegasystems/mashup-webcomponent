@@ -8,6 +8,7 @@ const WorkList = (cases, onOpen) => html`
           <thead>
             <tr>
               <th span="col">Requetes</th>
+              <th span="col">Information</th>
               <th span="col">Action</th>
             </tr>
           </thead>
@@ -16,6 +17,7 @@ const WorkList = (cases, onOpen) => html`
     (item) => html`
                 <tr>
                   <td scope="row">${item.name}</td>
+                  <td>${item.label}</td>
                   <td>
                     <button @click="${onOpen}" class="fr-btn" data-type="assignment" data-id="${item.ID}">
                       Ouvrir
