@@ -53,7 +53,7 @@
               </div>
             </div>
             <div class="fr-header__service">
-              <a href="#" title="Accueil - [À MODIFIER | Nom du site / service]">
+              <a id="main-link-page" href="./main.html" title="Application de demonstration">
                 <p class="fr-header__service-title">Application de demonstration</p>
               </a>
               <p class="fr-header__service-tagline">utilisation de la DX API</p>
@@ -92,28 +92,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div id="header-navigation" class="fr-header__menu fr-modal" id="modal-870" aria-labelledby="fr-btn-menu-mobile-3">
-      <div class="fr-container">
-        <button class="fr-link--close fr-link" aria-controls="modal-870">Fermer</button>
-        <div class="fr-header__menu-links"></div>
-        <nav class="fr-nav" id="navigation-869" role="navigation" aria-label="Menu principal">
-          <ul class="fr-nav__list">
-            <li class="fr-nav__item">
-              <a class="fr-nav__link" href="#" target="_self">Category1</a>
-            </li>
-            <li class="fr-nav__item">
-              <a class="fr-nav__link" href="#" target="_self">Category2</a>
-            </li>
-            <li class="fr-nav__item">
-              <a class="fr-nav__link" href="#" target="_self">Category3</a>
-            </li>
-            <li class="fr-nav__item">
-              <a class="fr-nav__link" href="#" target="_self">Category4</a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   </header>
@@ -181,6 +159,7 @@
 </footer>
 
 <script type="module" src="./assets/js/dsfr.module.min.js"></script>
+<script src="./assets/js/lang-fr.js"></script>
 <script src="./pega-govfr.js"></script>
 <script>
   let defaultCfg = {
@@ -195,16 +174,18 @@
     const elem = document.querySelector("main");
     const el = document.getElementById("dxapi-version");
     elem.innerText = "";
+    let mytag;
     if (el.checked) {
-      const mytag = document.createElement("pega-govfr");
+      mytag = document.createElement("pega-govfr");
       mytag.action = 'workList';
       mytag.url = defaultCfg.url;
       mytag.authentication = 'basic';
       mytag.username = defaultCfg.username;
       mytag.password = defaultCfg.password;
+      mytag.langTokens = window.langFR;
       elem.appendChild(mytag);
     } else {
-      const mytag = document.createElement("pega-govfr-v2");
+      mytag = document.createElement("pega-govfr-v2");
       mytag.action = 'workList';
       mytag.url = defaultCfg.url;
       mytag.portalName = defaultCfg.portalName;
@@ -213,13 +194,32 @@
       mytag.clientsecret = defaultCfg.clientsecret;
       mytag.username = defaultCfg.username;
       mytag.password = defaultCfg.password;
+      mytag.langTokens = window.langFR;
       elem.appendChild(mytag);
     }
+    mytag.addEventListener("message", function (event) {
+      const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
+      if (event.detail.type === "openassignment") {
+        let id = event.detail.id.split("!")[0];
+        id = id.replace("ASSIGN-WORKLIST ", "");
+        window.history.replaceState(
+          {},
+          '',
+          `${redirectURL}/casedemo.html?case=${id}`,
+        );
+      } else if (event.detail.type === "cancel") {
+        window.location.href = `${redirectURL}/demo.html`;
+      }
+    });
   }
   let el = document.getElementById("dxapi");
   el.style = "";
   el = document.getElementById("dxapi-version");
   el.addEventListener("change", init);
+
+  el = document.getElementById("main-link-page");
+  el.href = "./demo.html";
+
   init();
 </script>
 </body>

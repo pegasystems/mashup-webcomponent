@@ -1,3 +1,4 @@
+/* global i18n */
 import { html } from 'lit';
 import { Layout } from './layout';
 import {
@@ -8,7 +9,7 @@ export const CaseHeader = (name, data, casedata, onOpen) => {
   if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
     <div>
-      <h2>${data.data.caseInfo.name}</h2>
+      <h2>${i18n.t(data.data.caseInfo.name)}</h2>
     </div>
     ${AssignmentList(casedata.assignments, onOpen)}`;
   }
@@ -24,7 +25,7 @@ export const mainLayout = (data, path, onCancel, onSave, webcomp) => {
     }
   }
   return html`
-  <fieldset  class="fr-fieldset"><legend>${title}</legend>
+  <fieldset  class="fr-fieldset"><legend>${i18n.t(title)}</legend>
   ${Layout(data, path, false, webcomp, '')}</fieldset>
   ${SubmitActionArea(onCancel, onSave)}
 `;
@@ -47,7 +48,7 @@ export const genPageValidationErrors = (response) => {
     <p class="fr-alert__title">Erreur</p>
     ${response.errorDetails.map((item) => {
     if (item.message === 'Error_Validation_Fail' || item.message === 'Validation failed: Errors Detected.') return null;
-    return html`<p>${item.localizedValue}</p>`;
+    return html`<p>${i18n.t(item.localizedValue)}</p>`;
   })}
   </div>`;
   }

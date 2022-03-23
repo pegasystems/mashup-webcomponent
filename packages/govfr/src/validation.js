@@ -1,3 +1,4 @@
+/* global i18n */
 /* Pass an empty msg to reset the error, otherwise set the error inline */
 export const setInlineError = (el, msg) => {
   const groupEl = el.closest('.fr-input-group');
@@ -6,6 +7,7 @@ export const setInlineError = (el, msg) => {
   }
   const ref = el.getAttribute('data-ref');
   const errorElem = el.nextElementSibling;
+  debugger;
   if (ref !== null && ref !== 'pyID' && msg !== '') {
     if (errorElem && errorElem.className === 'fr-error-text') {
       errorElem.innerText = msg;
@@ -13,7 +15,10 @@ export const setInlineError = (el, msg) => {
       const errorNode = document.createElement('p');
       errorNode.id = `text-input-error-desc-error-${ref}`;
       errorNode.className = 'fr-error-text';
-      errorNode.innerText = msg;
+      errorNode.innerText = i18n.t(msg);
+      if (groupEl.lastElementChild && groupEl.lastElementChild.className === 'fr-error-text') {
+        groupEl.removeChild(groupEl.lastElementChild);
+      }
       groupEl.appendChild(errorNode);
       groupEl.classList.add('fr-input-group--error');
       el.classList.add('fr-input--error');

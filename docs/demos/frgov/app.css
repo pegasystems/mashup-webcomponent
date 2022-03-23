@@ -1,3 +1,10 @@
+body {
+  min-height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
 body > main {
   overflow: auto;
   flex:1;
@@ -5,6 +12,7 @@ body > main {
 
 #main-content {
   max-width: 64rem;
+  min-width: 50rem;
   margin: 0 auto;
   padding: var(--xl-base);
   min-height: 40vh;
@@ -34,6 +42,14 @@ table {
   background: url(./assets/img/fond-guide.svg) no-repeat;
   background-size: cover;
   box-sizing: content-box;
+}
+
+.confirm-msg {
+  margin: auto 0;
+    display: flex;
+    align-items: center;
+    height: 400px;
+    justify-content: center;
 }
 
 .fr-grid-col-6 {
@@ -86,6 +102,9 @@ table {
 
 .loading > .dot:nth-child(3) {
   animation-delay: 0.3334s;
+}
+dd {
+  margin-inline-start: 0;
 }
 
 @keyframes Loading-ellipsis {

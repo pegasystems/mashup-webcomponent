@@ -49,7 +49,7 @@ window.langFR = {
     'Submit': 'Envoyer',
     'Close': 'Fermer',
     'Save': 'Sauvegarder',
-    'Click to refresh the worklist': 'Clicker pour raffraichir votre liste de travail',
+    'Click to refresh the worklist': 'Cliquer pour raffraichir votre liste de travail',
     'Actions': 'Actions',
     'Start a new action': 'Commencer une nouvelle action',
     'Collect': 'Collecter',

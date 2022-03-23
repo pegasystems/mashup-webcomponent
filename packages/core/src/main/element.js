@@ -65,7 +65,6 @@ export default class PegaElement extends LitElement {
     this.refreshOnChange = false;
     this.isDeclarativeTarget = false;
     const that = this;
-
     if (!window.i18n) {
       window.i18n = {
         t: function i18nT(msg) {

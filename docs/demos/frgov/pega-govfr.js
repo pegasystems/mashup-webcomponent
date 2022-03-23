@@ -464,7 +464,7 @@ ${Ne(t.value)}</textarea
       <fieldset class="fr-fieldset">
       ${Ts(t.groups,i,s)}
       </fieldset>`:null}))}
-`,Ms=()=>E`Votre requete a ete soumise.`,Ns=t=>E`
+`,Ms=()=>E`<span class='confirm-msg'>Votre requete a été envoyée.</span>`,Ns=t=>E`
 <ul class="fr-btns-group fr-btns-group--inline">
     ${null!==t?E`<li><button type="button" class="fr-btn fr-btn--secondary"
     data-module="govuk-button" @click="${t}">Annuler</button></li>`:""}
@@ -474,29 +474,29 @@ ${Ne(t.value)}</textarea
   <ul class="fr-btns-group fr-btns-group--inline">
   ${null!==t?E`<li><button type="button" class="fr-btn"
   @click="${t}">Fermer</button></li>`:""}
-  </ul>`,qs=(t,e)=>t&&0!==t.length?E`<p>Clicker sur le bouton 'Continue' pour reouvrir la requete</p>
-  <button type='button' @click="${e}" class="fr-btn" data-type="assignment" data-id="${t[0].ID}">Continue</button>`:null,Bs=(t,e,s,a)=>E`
+  </ul>`,qs=(t,e)=>t&&0!==t.length?E`<p>Cliquer sur le bouton pour reouvrir la requete
+  <button type='button' @click="${e}" class="fr-btn" data-type="assignment" data-id="${t[0].ID}">Continuer</button></p>`:null,Bs=(t,e,s,a)=>E`
   <div>${Ts(t,e,!1)}</div>
   ${(t=>E`
 <ul class="fr-btns-group fr-btns-group--inline">
     ${null!==t?E`<li><button type="button" class="fr-btn fr-btn--secondary"
     @click="${t}">Annuler</button><li>`:""}
-    <li><button type="button" data-submit="create" class="fr-btn">Creer</button></li>
+    <li><button type="button" data-submit="create" class="fr-btn">Créer</button></li>
   </ul>
 `)(s)}
-`,Us=(t,e)=>{const s=t.closest(".fr-input-group");if(!s)return;const a=t.getAttribute("data-ref"),i=t.nextElementSibling;if(null!==a&&"pyID"!==a&&""!==e)if(i&&"fr-error-text"===i.className)i.innerText=e;else{const i=document.createElement("p");i.id=`text-input-error-desc-error-${a}`,i.className="fr-error-text",i.innerText=e,s.appendChild(i),s.classList.add("fr-input-group--error"),t.classList.add("fr-input--error"),t.setAttribute("aria-describedby",`text-input-error-desc-error-${a}`)}else i&&"fr-error-text"===i.className&&s.removeChild(i),s.classList.remove("fr-input-group--error"),t.classList.remove("fr-input--error"),t.setAttribute("aria-describedby","")},Ps=t=>{for(const e of t.elements)"INPUT"!==e.tagName&&"TEXTAREA"!==e.tagName&&"SELECT"!==e.tagName||Us(e,"");return t.checkValidity()},zs=t=>{for(const e of t.elements)"INPUT"!==e.tagName&&"TEXTAREA"!==e.tagName&&"SELECT"!==e.tagName||Us(e,e.validationMessage)},Fs=()=>E`
+`,Us=(t,e)=>{const s=t.closest(".fr-input-group");if(!s)return;const a=t.getAttribute("data-ref"),i=t.nextElementSibling;if(null!==a&&"pyID"!==a&&""!==e)if(i&&"fr-error-text"===i.className)i.innerText=e;else{const i=document.createElement("p");i.id=`text-input-error-desc-error-${a}`,i.className="fr-error-text",i.innerText=i18n.t(e),s.lastElementChild&&"fr-error-text"===s.lastElementChild.className&&s.removeChild(s.lastElementChild),s.appendChild(i),s.classList.add("fr-input-group--error"),t.classList.add("fr-input--error"),t.setAttribute("aria-describedby",`text-input-error-desc-error-${a}`)}else i&&"fr-error-text"===i.className&&s.removeChild(i),s.classList.remove("fr-input-group--error"),t.classList.remove("fr-input--error"),t.setAttribute("aria-describedby","")},Ps=t=>{for(const e of t.elements)"INPUT"!==e.tagName&&"TEXTAREA"!==e.tagName&&"SELECT"!==e.tagName||Us(e,"");return t.checkValidity()},zs=t=>{for(const e of t.elements)"INPUT"!==e.tagName&&"TEXTAREA"!==e.tagName&&"SELECT"!==e.tagName||Us(e,e.validationMessage)},Fs=()=>E`
 <span class="loading">
     <span class="dot"></span>
     <span class="dot"></span>
     <span class="dot"></span>
 </span>
-`,js={"Error: view is not defined":"Erreur: la UI n'est pas supportee","Error TypeError: Failed to fetch":"Erreur: Serveur is not disponible"},Hs=(t,e)=>E`
+`,js=(t,e)=>E`
 <div role="alert" class="fr-alert fr-alert--error">
-    <p class="fr-alert__title">${js[t]?js[t]:t}</p>
+    <p class="fr-alert__title">${i18n.t(t)}</p>
     ${null!=e?E`
     <button type='button' aria-label="Cliquer pour fermer" class="fr-link--close fr-link"
     @click="${e}">Fermer</button>`:""}
-</div>`,Vs=(t,e)=>E`
+</div>`,Hs=(t,e)=>E`
   ${t.length>0?E`
         <table class="fr-table fr-table--no-caption" data-fr-js-table="true">
           <caption>Mes requetes</caption>
@@ -524,13 +524,13 @@ ${Ne(t.value)}</textarea
       `:E`
         <div style='line-height: 50px;text-align:center'>Aucune requete en cours</div>
       `}
-`;class Ws extends is{displayContent(){return this.bShowSave="false",""!==this.errorMsg?Hs(this.errorMsg,"true"===this.bShowCancel?this.resetError:null):"oauth2password"!==this.authentication&&"oauth2clientcredentials"!==this.authentication||""!==this.token?(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("case",{id:this.caseID})):(this.fetchData("casetypes"),"createNewWork"===this.action?(this.bShowNew=!0,this.casetypes[this.casetype]&&this.fetchData("newwork",{id:this.casetype})):"workList"===this.action&&(this.bShowCancel="true",this.fetchData("worklist"))),this.bShowConfirm?Ms(this.casedata.content.pyLabel,this.casedata.content.pyID,this.casepyStatusWork):""!==this.caseID||""!==this.assignmentID||this.bShowNew?E`
+`;class Vs extends is{displayContent(){return this.bShowSave="false",""!==this.errorMsg?js(this.errorMsg,"true"===this.bShowCancel?this.resetError:null):"oauth2password"!==this.authentication&&"oauth2clientcredentials"!==this.authentication||""!==this.token?(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("case",{id:this.caseID})):(this.fetchData("casetypes"),"createNewWork"===this.action?(this.bShowNew=!0,this.casetypes[this.casetype]&&this.fetchData("newwork",{id:this.casetype})):"workList"===this.action&&(this.bShowCancel="true",this.fetchData("worklist"))),this.bShowConfirm?Ms(this.casedata.content.pyLabel,this.casedata.content.pyID,this.casepyStatusWork):""!==this.caseID||""!==this.assignmentID||this.bShowNew?E`
         ${t=this.name,e=this.data,s=this.casedata,a=this.casepyStatusWork,this.numAttachments,this.displayActions,this.runAction,this.openCase,void 0===e.caseID&&s.content?E`
     <h2>${s.content.pyLabel}</h2>
     ${qs(s.assignments,a)}`:""===t||void 0===e.caseID?"":E`<h2>${e.name}</h2>`}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data"></form>
-      `:"workList"===this.action?Vs(this.cases,this.openCase):null):(this.sendData("authenticate",{}),null);var t,e,s,a}renderMainLayout=(t,e)=>((t,e,s,a)=>E`
+      `:"workList"===this.action?Hs(this.cases,this.openCase):null):(this.sendData("authenticate",{}),null);var t,e,s,a}renderMainLayout=(t,e)=>((t,e,s,a)=>E`
   <div>${Ts(t,e,!1)}</div>
   ${Ns(s)}
 `)(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null);renderReviewLayout=(t,e)=>((t,e,s,a)=>E`
@@ -548,40 +548,40 @@ ${Ne(t.value)}</textarea
         `:0===t.ValidationMessage.indexOf("Validation failed")?null:E`
     <li>${t.ValidationMessage}</li>
   `))}
-  </ul>`)(t);genLoadingIndicator=()=>Fs();setInlineError=(t,e)=>Us(t,e);validateForm=t=>Ps(t);reportFormValidity=t=>zs(t);clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const s=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),je(e,"click")?(this.refreshAssignment(e,He(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===s||"deleteRow"===s)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),je(e,"change")&&this.refreshAssignment(e,He(e,"change"))};focusHandler=t=>{const e=t.target;e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}customElements.define("pega-govfr",class extends Ws{createRenderRoot(){return this}getRenderRoot(){return this}render(){return E`
+  </ul>`)(t);genLoadingIndicator=()=>Fs();setInlineError=(t,e)=>Us(t,e);validateForm=t=>Ps(t);reportFormValidity=t=>zs(t);clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const s=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),je(e,"click")?(this.refreshAssignment(e,He(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===s||"deleteRow"===s)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),je(e,"change")&&this.refreshAssignment(e,He(e,"change"))};focusHandler=t=>{const e=t.target;e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}customElements.define("pega-govfr",class extends Vs{createRenderRoot(){return this}getRenderRoot(){return this}render(){return E`
       ${this.displayContent()}
-    `}});class Ks extends Ge{resetError=t=>{this.errorMsg="",this.validationMsg="",this.actionAreaCancel(t)};reloadWorkList=t=>{this.cases=[],this.requestUpdate(),this.actionAreaCancel(t)};actionAreaCancel=t=>{t&&t.preventDefault(),this.bShowConfirm=!1,this.bShowNew=!1,this.caseID="",this.data={},this.content={},this.pageInstructions=[],this.casedata={},this.attachmentcategories=[],this.casepyStatusWork="",this.assignmentID="",this.actionID="",this.errorMsg="",this.numAttachments=0,this.validationMsg="",this.name="","workList"===this.action&&this.fetchData("portal"),this.sendExternalEvent({type:"cancel"})};actionAreaSave=t=>{t&&t.preventDefault(),null===t.target.getAttribute("data-submit")&&(t.target.textContent="Saving...",t.target.disabled=!0);const e=this.getRenderRoot().querySelector("#case-data");e&&(Ke(e,this.content,this.pageInstructions,this.data.data.caseInfo.content),""!==this.assignmentID?this.sendData("savecase",{id:this.caseID,actionid:"",target:t.target}):this.sendData("savecase",{id:this.caseID,actionid:this.actionID,target:t.target}))};actionRefresh=()=>{const t=this.getRenderRoot().querySelector("#case-data");t&&(this.validationMsg="",Ke(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.fetchData("caseaction",{id:this.caseID,actionid:this.actionID}))};displayActions=()=>this.data.actions?this.genActionsList(this.name,this.data):this.casedata.actions?this.genActionsList(this.name,this.casedata):null;displayAttachments=t=>{this.fetchData("attachmentcategories",{id:this.caseID}),this.fetchData("attachments",{id:this.caseID,target:t})};submitForm=(t,e)=>{const s=this.getRenderRoot().querySelector("#case-data");return Ke(s,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.validateForm(s)?"create"!==e?""!==this.data.ID?this.sendData("submitassignment",{id:this.data.ID,actionid:this.actionID}):this.sendData("submitcaseaction",{id:this.data.caseID,actionid:this.actionID}):this.sendData("newwork",{id:this.casetype}):this.reportFormValidity(s),t.preventDefault(),!1};createCase=t=>{if(this.name="New Case",this.bShowNew=!0,t){let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&(this.casetype=e.getAttribute("data-value"),this.name=`New ${e.textContent} `)}this.content=this.initialContent,this.pageInstructions=[],this.caseID="",this.data={},this.casedata={},this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):(this.errorMsg=`Case '${this.casetype}' is not defined`,console.error(`Case '${this.casetype}' is not defined`)),this.requestUpdate()};runAction=t=>{let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&null!==e.getAttribute("data-value")&&(this.actionID=e.getAttribute("data-value"),this.name=e.innerText,this.data.ID="",this.actionRefresh());const s=this.getRenderRoot().querySelector("#case-data");null!=s&&M(this.genLoadingIndicator(),s)};openCase=t=>{t.preventDefault(),this.caseID=t.target.getAttribute("data-id"),this.name="",this.data={},this.casedata={},0===this.caseID.indexOf("ASSIGN-WORKLIST")?(this.sendExternalEvent({type:"openassignment",id:this.caseID}),this.assignmentID=this.caseID,this.caseID=""):(this.sendExternalEvent({type:"opencase",id:this.caseID}),this.assignmentID="");const e=this.getRenderRoot().querySelector("#case-data");null!=e&&M(this.genLoadingIndicator(),e),this.requestUpdate()};getData=(t,e)=>{this.dataPages[t]?M(this.showDataList(this.dataPages[t]),e.nextElementSibling):this.fetchData("data",{id:t,element:e})};applyAction=t=>{const e=this.getRenderRoot().querySelector("#case-data");let s=t;if(e){if(s){"path"===s.tagName&&(s=s.parentNode),"svg"===s.tagName&&(s=s.parentNode);const t=s.getAttribute("data-action-click"),e=s.getAttribute("data-ref");if(null!==e&&null!=t){if("addRow"===t){const t=ze(this.data.data.caseInfo.content,e,s.getAttribute("data-newrow"));return void(null!==t&&this.pageInstructions.push(t))}if("deleteRow"===t){const t=Fe(this.data.data.caseInfo.content,e);return void(null!==t&&this.pageInstructions.push(t))}}}Ke(e,this.content,this.pageInstructions,this.data.data.caseInfo.content)}};refreshAssignment=(t,e)=>{this.applyAction(t),!0===this.bShowNew?this.sendData("refreshnew",{id:this.casetype,refreshFor:e}):this.sendData("refreshassignment",{id:this.assignmentID,actionid:this.actionID,refreshFor:e})};genErrorMessage(t){this.clearLoadingIndicator(),t.message&&-1!==t.message.indexOf("JSON.parse")?console.error("Error:",t):t.message&&-1!==t.message.indexOf("Unexpected token")?(this.errorMsg="Error 404: Resource not found",this.requestUpdate(),console.error(this.errorMsg)):(t.status?""!==t.statusText?this.errorMsg=`Error ${t.status}: ${t.statusText}`:401===t.status?this.errorMsg="Error 401: Authentication error":423===t.status?this.errorMsg="Error 423: Resource is locked by another user":500===t.status?this.errorMsg="Error 500: Internal server error":this.errorMsg=`Error ${t.status}`:t.name&&t.message?this.errorMsg=`Error ${t.name}: ${t.message}`:this.errorMsg="string"==typeof t?t:"Critical error",this.requestUpdate(),console.error("Error:",t))}fetchData(t,e){const{id:s,actionid:a,target:i}=e||{};let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={method:"GET",headers:{"Content-Type":"application/json;charset=UTF-8",Authorization:n},mode:"cors"};let o=`${this.url}/api/application/v2/`;switch(t){case"portal":o+=`portals/${this.portalName}`;break;case"assignment":o+=`assignments/${s}`;break;case"view":o+=`cases/${s}/views/${a}`;break;case"caseaction":o+=`cases/${s}/actions/${a}`;break;case"attachment":o+=`attachments/${s}`;break;case"attachments":o+=`cases/${s}/attachments`;break;case"attachmentcategories":o+=`cases/${s}/attachment_categories`}fetch(o,r).then((s=>{if("assignment"===t)this.etag=s.headers.get("etag");else if("attachment"===t)return s.text();return s.ok||404===s.status?s.json():401===s.status?(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"fetchData"}),s.json()):Promise.reject(s)})).then((e=>{try{if(e.errors&&e.errors.length>0)return;if(e.pyLocalizedValue)return this.errorMsg=`Error: ${e.pyLocalizedValue}`,void this.requestUpdate();if(e.errorDetails&&e.errorDetails.length>0)return this.errorMsg=`Error ${e.errorDetails[0].message}: ${e.localizedValue}`,this.clearLoadingIndicator(),this.requestUpdate(),void console.error("Error:",e);const n=this.getRenderRoot().querySelector("#case-data");switch(t){case"portal":if(this.content={},this.pageInstructions=[],!this.casetypes){this.casetypes={};let t=[];e.data&&e.data.D_pzCasesAvailableToCreateForPortal&&e.data.D_pzCasesAvailableToCreateForPortal.pxResults?t=e.data.D_pzCasesAvailableToCreateForPortal.pxResults:e.data&&e.data.pyPortal&&e.data.pyPortal.pyCaseTypesAvailableToCreate&&(t=e.data.pyPortal.pyCaseTypesAvailableToCreate);for(const e of t)"workList"===this.action&&""!==this.casetype&&this.casetype!==e.pyClassName||(this.casetypes[e.pyClassName]={canCreate:!0,name:e.pyLabel})}this.cases=[];let t=[];if(e.data&&e.data.D_pyUserWorkList&&e.data.D_pyUserWorkList.pxResults?t=e.data.D_pyUserWorkList.pxResults:e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults&&(t=e.data[e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults.replace(".pxResults","")].pxResults),t.length>0)for(const e of t)this.cases.push({name:e.pyLabel,caseID:e.pxRefObjectKey,urgency:e.pxUrgencyAssign,ID:e.pzInsKey,label:e.pxTaskLabel});this.requestUpdate();break;case"assignment":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID=s;for(const t of this.casedata.assignments)if(s===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel;const r=this.getRenderRoot().querySelector("#case-data");r&&Ke(r,this.casedata.content),this.content={},M(this.renderMainLayout(e.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),n),this.requestUpdate(),n.focus();break;case"view":if(!n){console.error("Error: case data are not present when retrieving the page");break}this.content={},this.pageInstructions=[],this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.casedata.actions=this.casedata.availableActions,this.casedata.content.pyID=this.casedata.ID,this.data.ID=this.casedata.ID,this.casepyStatusWork=this.casedata.status,this.name=this.casedata.stageLabel,this.content={},"true"===this.bShowAttachments&&this.fetchData("attachments",{id:this.caseID}),this.name=e.data.caseInfo.name,M(this.renderReviewLayout(e.uiResources.resources.views[a],"Obj"),n),this.requestUpdate(),n.focus();break;case"caseaction":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID="",this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel,this.content={},M(this.renderMainLayout(e.uiResources.resources.views[e.uiResources.root.config.name],"Obj"),n),this.requestUpdate(),n.focus();break;case"attachments":let o=e.attachments;o||(o=[]),this.numAttachments=o.length,i&&M(Xe(i,o,this.caseID,this),i),this.requestUpdate();break;case"attachmentcategories":this.attachmentcategories=e.attachment_categories;break;case"attachment":i(e)}}catch(t){this.errorMsg=`Error: ${t}`,this.requestUpdate(),console.error("Error:",t)}})).catch((t=>{this.genErrorMessage(t)}))}sendData(t,e){const{id:s,actionid:a,target:i}=e;let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={"Content-Type":"application/json;charset=UTF-8",Authorization:n},o={method:"POST",headers:r,mode:"cors"},{pageInstructions:c,pageupdate:l}=Je(this.content,this.pageInstructions);let d=`${this.url}/api/application/v2/`;switch(this.validationMsg="",t){case"authenticate":"oauth2password"===this.authentication?o.body=`grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}&username=${this.username}&password=${this.password}`:"oauth2clientcredentials"===this.authentication?o.body=`grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`:"authorizationcode"===this.authentication&&(o.body=`grant_type=authorization_code&client_id=${this.clientid}&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${encodeURIComponent(`${window.location.href.substring(0,window.location.href.lastIndexOf("/"))}/auth.html`)}`),o.headers["Content-Type"]="application/x-www-form-urlencoded",d=`${this.url}/PRRestService/oauth2/v1/token`;break;case"newwork":d+="cases?viewType=form",o.body=JSON.stringify({caseTypeID:s,processID:"pyStartCase",content:{}});break;case"submitassignment":o.body=JSON.stringify({content:l,pageInstructions:c}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`assignments/${s}/actions/${a}?viewType=form`;break;case"submitcaseaction":o.body=JSON.stringify({content:l,pageInstructions:c}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`cases/${s}/actions/${a}?viewType=form`;break;case"refreshassignment":d+=`assignments/${s}/actions/${a}/refresh`,o.headers["If-Match"]=this.etag,o.method="PATCH",o.body=JSON.stringify({content:l,pageInstructions:c,contextData:!0});break;case"dataviews":d+=`data_views/${s}`,o.body=JSON.stringify(e.content);break;case"uploadattachment":d+="attachments/upload",delete r["Content-Type"];const t=new FormData;t.append("File",a,a.name),o.body=t;break;case"attachments":d+=`cases/${s}/attachments`,o.body=JSON.stringify({attachments:a});break;case"deleteattachment":d+=`attachments/${s}`,o.method="DELETE"}fetch(d,o).then((s=>"deleteattachment"===t||"attachments"===t?s.text():("submitassignment"!==t&&"newwork"!==t||(this.etag=s.headers.get("etag")),200===s.status||201===s.status||s.status>=400&&s.status<500||500===s.status?(401===s.status&&"authenticate"!==t&&(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"sendData"})),s.json()):s.ok?Promise.resolve("ok"):Promise.reject(s)))).then((s=>{if(s.errors&&s.errors.length>0)return this.errorMsg=`Error: ${s.errors[0].message.trim()}`,void this.requestUpdate();if(s.access_token)this.token=s.access_token,window.history.replaceState({token:this.token},"",window.location.href),e!=={}&&e.type&&e.cmd&&("sendData"===e.cmd?this.sendData(e.type,e):this.fetchData(e.type,e));else if(s.errorDetails&&s.errorDetails.length>0){if(s.errorDetails[0].localizedValue){const t=this.getRenderRoot().querySelector("#case-data");Ze(t,s.errorDetails,this),this.validationMsg=this.genPageValidationErrors(s,t)}else this.errorMsg=`Error ${s.errorDetails[0].message}: ${s.localizedValue}`;this.clearLoadingIndicator(),i&&(i.disabled=!1,i.textContent="Save"),"submitassignment"===t&&this.fetchData("assignment",{id:this.assignmentID})}else{const e=this.getRenderRoot().querySelector("#case-data");if("newwork"===t&&s.data.caseInfo.ID&&""!==s.data.caseInfo.ID&&this.sendExternalEvent({type:"newwork",id:s.data.caseInfo.ID}),"refreshassignment"===t)return void(e&&s.data.caseInfo&&s.data.caseInfo.content&&(this.data.data.caseInfo.content=s.data.caseInfo.content,this.casedata.content=s.data.caseInfo.content,M(this.renderMainLayout(this.data.uiResources.resources.views[this.actionID],"Obj"),e)));if("deleteattachment"===t)i&&!i.classList.contains("attach-files")&&this.fetchData("attachments",{id:this.caseID,target:i});else if("attachments"===t)this.fetchData("attachments",{id:this.caseID,target:i});else if("uploadattachment"===t){let t=a.name.lastIndexOf(".");-1===t&&(t=a.name.length);const e=a.name.substring(t+1),n=[{type:"File",category:a.category,fileType:e,name:a.displayName,ID:s.ID}];return void this.sendData("attachments",{id:this.caseID,actionid:n,target:i})}if(s.confirmationNote)this.bShowConfirm=!0,this.caseID=s.data.caseInfo.ID,this.fetchData("view",{id:this.caseID,actionid:"pyReview"});else if(s.uiResources){if(this.bShowNew=!1,this.content={},this.pageInstructions=[],this.assignmentID=s.nextAssignmentInfo.ID,this.data=s,this.casedata=s.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.caseID=this.casedata.content.pzInsKey,this.data.caseID=s.data.caseInfo.ID,this.data.ID=this.assignmentID,this.casedata.content.pyViewName=s.uiResources.root.config.name,this.actionID=this.casedata.content.pyViewName,this.casedata.assignments)for(const t of this.casedata.assignments)if("pzQuestionPageScr"===t.processID&&this.data.ID===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=s.data.caseInfo.status,this.data.actions=s.data.caseInfo.availableActions,this.name=s.data.caseInfo.stageLabel,e&&(M(this.genLoadingIndicator(),e),M(this.renderMainLayout(s.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),e),e.focus())}}this.requestUpdate()})).catch((t=>{this.genErrorMessage(t)}))}}const Zs=(t,e,s)=>{if(void 0===e)return null;const a=t.requiredstate?E`<span class="fr-input-asterix">*</span>`:"";return"field-checkbox"===s?t.label&&""!==t.label?E`<legend>${t.displaylabel}</legend>`:null:E`
+    `}});class Ws extends Ge{resetError=t=>{this.errorMsg="",this.validationMsg="",this.actionAreaCancel(t)};reloadWorkList=t=>{this.cases=[],this.requestUpdate(),this.actionAreaCancel(t)};actionAreaCancel=t=>{t&&t.preventDefault(),this.bShowConfirm=!1,this.bShowNew=!1,this.caseID="",this.data={},this.content={},this.pageInstructions=[],this.casedata={},this.attachmentcategories=[],this.casepyStatusWork="",this.assignmentID="",this.actionID="",this.errorMsg="",this.numAttachments=0,this.validationMsg="",this.name="","workList"===this.action&&this.fetchData("portal"),this.sendExternalEvent({type:"cancel"})};actionAreaSave=t=>{t&&t.preventDefault(),null===t.target.getAttribute("data-submit")&&(t.target.textContent="Saving...",t.target.disabled=!0);const e=this.getRenderRoot().querySelector("#case-data");e&&(Ke(e,this.content,this.pageInstructions,this.data.data.caseInfo.content),""!==this.assignmentID?this.sendData("savecase",{id:this.caseID,actionid:"",target:t.target}):this.sendData("savecase",{id:this.caseID,actionid:this.actionID,target:t.target}))};actionRefresh=()=>{const t=this.getRenderRoot().querySelector("#case-data");t&&(this.validationMsg="",Ke(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.fetchData("caseaction",{id:this.caseID,actionid:this.actionID}))};displayActions=()=>this.data.actions?this.genActionsList(this.name,this.data):this.casedata.actions?this.genActionsList(this.name,this.casedata):null;displayAttachments=t=>{this.fetchData("attachmentcategories",{id:this.caseID}),this.fetchData("attachments",{id:this.caseID,target:t})};submitForm=(t,e)=>{const s=this.getRenderRoot().querySelector("#case-data");return Ke(s,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.validateForm(s)?"create"!==e?""!==this.data.ID?this.sendData("submitassignment",{id:this.data.ID,actionid:this.actionID}):this.sendData("submitcaseaction",{id:this.data.caseID,actionid:this.actionID}):this.sendData("newwork",{id:this.casetype}):this.reportFormValidity(s),t.preventDefault(),!1};createCase=t=>{if(this.name="New Case",this.bShowNew=!0,t){let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&(this.casetype=e.getAttribute("data-value"),this.name=`New ${e.textContent} `)}this.content=this.initialContent,this.pageInstructions=[],this.caseID="",this.data={},this.casedata={},this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):(this.errorMsg=`Case '${this.casetype}' is not defined`,console.error(`Case '${this.casetype}' is not defined`)),this.requestUpdate()};runAction=t=>{let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&null!==e.getAttribute("data-value")&&(this.actionID=e.getAttribute("data-value"),this.name=e.innerText,this.data.ID="",this.actionRefresh());const s=this.getRenderRoot().querySelector("#case-data");null!=s&&M(this.genLoadingIndicator(),s)};openCase=t=>{t.preventDefault(),this.caseID=t.target.getAttribute("data-id"),this.name="",this.data={},this.casedata={},0===this.caseID.indexOf("ASSIGN-WORKLIST")?(this.sendExternalEvent({type:"openassignment",id:this.caseID}),this.assignmentID=this.caseID,this.caseID=""):(this.sendExternalEvent({type:"opencase",id:this.caseID}),this.assignmentID="");const e=this.getRenderRoot().querySelector("#case-data");null!=e&&M(this.genLoadingIndicator(),e),this.requestUpdate()};getData=(t,e)=>{this.dataPages[t]?M(this.showDataList(this.dataPages[t]),e.nextElementSibling):this.fetchData("data",{id:t,element:e})};applyAction=t=>{const e=this.getRenderRoot().querySelector("#case-data");let s=t;if(e){if(s){"path"===s.tagName&&(s=s.parentNode),"svg"===s.tagName&&(s=s.parentNode);const t=s.getAttribute("data-action-click"),e=s.getAttribute("data-ref");if(null!==e&&null!=t){if("addRow"===t){const t=ze(this.data.data.caseInfo.content,e,s.getAttribute("data-newrow"));return void(null!==t&&this.pageInstructions.push(t))}if("deleteRow"===t){const t=Fe(this.data.data.caseInfo.content,e);return void(null!==t&&this.pageInstructions.push(t))}}}Ke(e,this.content,this.pageInstructions,this.data.data.caseInfo.content)}};refreshAssignment=(t,e)=>{this.applyAction(t),!0===this.bShowNew?this.sendData("refreshnew",{id:this.casetype,refreshFor:e}):this.sendData("refreshassignment",{id:this.assignmentID,actionid:this.actionID,refreshFor:e})};genErrorMessage(t){this.clearLoadingIndicator(),t.message&&-1!==t.message.indexOf("JSON.parse")?console.error("Error:",t):t.message&&-1!==t.message.indexOf("Unexpected token")?(this.errorMsg="Error 404: Resource not found",this.requestUpdate(),console.error(this.errorMsg)):(t.status?""!==t.statusText?this.errorMsg=`Error ${t.status}: ${t.statusText}`:401===t.status?this.errorMsg="Error 401: Authentication error":423===t.status?this.errorMsg="Error 423: Resource is locked by another user":500===t.status?this.errorMsg="Error 500: Internal server error":this.errorMsg=`Error ${t.status}`:t.name&&t.message?this.errorMsg=`Error ${t.name}: ${t.message}`:this.errorMsg="string"==typeof t?t:"Critical error",this.requestUpdate(),console.error("Error:",t))}fetchData(t,e){const{id:s,actionid:a,target:i}=e||{};let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={method:"GET",headers:{"Content-Type":"application/json;charset=UTF-8",Authorization:n},mode:"cors"};let o=`${this.url}/api/application/v2/`;switch(t){case"portal":o+=`portals/${this.portalName}`;break;case"assignment":o+=`assignments/${s}`;break;case"view":o+=`cases/${s}/views/${a}`;break;case"caseaction":o+=`cases/${s}/actions/${a}`;break;case"attachment":o+=`attachments/${s}`;break;case"attachments":o+=`cases/${s}/attachments`;break;case"attachmentcategories":o+=`cases/${s}/attachment_categories`}fetch(o,r).then((s=>{if("assignment"===t)this.etag=s.headers.get("etag");else if("attachment"===t)return s.text();return s.ok||404===s.status?s.json():401===s.status?(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"fetchData"}),s.json()):Promise.reject(s)})).then((e=>{try{if(e.errors&&e.errors.length>0)return;if(e.pyLocalizedValue)return this.errorMsg=`Error: ${e.pyLocalizedValue}`,void this.requestUpdate();if(e.errorDetails&&e.errorDetails.length>0)return this.errorMsg=`Error ${e.errorDetails[0].message}: ${e.localizedValue}`,this.clearLoadingIndicator(),this.requestUpdate(),void console.error("Error:",e);const n=this.getRenderRoot().querySelector("#case-data");switch(t){case"portal":if(this.content={},this.pageInstructions=[],!this.casetypes){this.casetypes={};let t=[];e.data&&e.data.D_pzCasesAvailableToCreateForPortal&&e.data.D_pzCasesAvailableToCreateForPortal.pxResults?t=e.data.D_pzCasesAvailableToCreateForPortal.pxResults:e.data&&e.data.pyPortal&&e.data.pyPortal.pyCaseTypesAvailableToCreate&&(t=e.data.pyPortal.pyCaseTypesAvailableToCreate);for(const e of t)"workList"===this.action&&""!==this.casetype&&this.casetype!==e.pyClassName||(this.casetypes[e.pyClassName]={canCreate:!0,name:e.pyLabel})}this.cases=[];let t=[];if(e.data&&e.data.D_pyUserWorkList&&e.data.D_pyUserWorkList.pxResults?t=e.data.D_pyUserWorkList.pxResults:e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults&&(t=e.data[e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults.replace(".pxResults","")].pxResults),t.length>0)for(const e of t)this.cases.push({name:e.pyLabel,caseID:e.pxRefObjectKey,urgency:e.pxUrgencyAssign,ID:e.pzInsKey,label:e.pxTaskLabel});this.requestUpdate();break;case"assignment":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID=s;for(const t of this.casedata.assignments)if(s===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel;const r=this.getRenderRoot().querySelector("#case-data");r&&Ke(r,this.casedata.content),this.content={},M(this.renderMainLayout(e.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),n),this.requestUpdate(),n.focus();break;case"view":if(!n){console.error("Error: case data are not present when retrieving the page");break}this.content={},this.pageInstructions=[],this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.casedata.actions=this.casedata.availableActions,this.casedata.content.pyID=this.casedata.ID,this.data.ID=this.casedata.ID,this.casepyStatusWork=this.casedata.status,this.name=this.casedata.stageLabel,this.content={},"true"===this.bShowAttachments&&this.fetchData("attachments",{id:this.caseID}),this.name=e.data.caseInfo.name,M(this.renderReviewLayout(e.uiResources.resources.views[a],"Obj"),n),this.requestUpdate(),n.focus();break;case"caseaction":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID="",this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel,this.content={},M(this.renderMainLayout(e.uiResources.resources.views[e.uiResources.root.config.name],"Obj"),n),this.requestUpdate(),n.focus();break;case"attachments":let o=e.attachments;o||(o=[]),this.numAttachments=o.length,i&&M(Xe(i,o,this.caseID,this),i),this.requestUpdate();break;case"attachmentcategories":this.attachmentcategories=e.attachment_categories;break;case"attachment":i(e)}}catch(t){this.errorMsg=`Error: ${t}`,this.requestUpdate(),console.error("Error:",t)}})).catch((t=>{this.genErrorMessage(t)}))}sendData(t,e){const{id:s,actionid:a,target:i}=e;let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={"Content-Type":"application/json;charset=UTF-8",Authorization:n},o={method:"POST",headers:r,mode:"cors"},{pageInstructions:c,pageupdate:l}=Je(this.content,this.pageInstructions);let d=`${this.url}/api/application/v2/`;switch(this.validationMsg="",t){case"authenticate":"oauth2password"===this.authentication?o.body=`grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}&username=${this.username}&password=${this.password}`:"oauth2clientcredentials"===this.authentication?o.body=`grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`:"authorizationcode"===this.authentication&&(o.body=`grant_type=authorization_code&client_id=${this.clientid}&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${encodeURIComponent(`${window.location.href.substring(0,window.location.href.lastIndexOf("/"))}/auth.html`)}`),o.headers["Content-Type"]="application/x-www-form-urlencoded",d=`${this.url}/PRRestService/oauth2/v1/token`;break;case"newwork":d+="cases?viewType=form",o.body=JSON.stringify({caseTypeID:s,processID:"pyStartCase",content:{}});break;case"submitassignment":o.body=JSON.stringify({content:l,pageInstructions:c}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`assignments/${s}/actions/${a}?viewType=form`;break;case"submitcaseaction":o.body=JSON.stringify({content:l,pageInstructions:c}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`cases/${s}/actions/${a}?viewType=form`;break;case"refreshassignment":d+=`assignments/${s}/actions/${a}/refresh`,o.headers["If-Match"]=this.etag,o.method="PATCH",o.body=JSON.stringify({content:l,pageInstructions:c,contextData:!0});break;case"dataviews":d+=`data_views/${s}`,o.body=JSON.stringify(e.content);break;case"uploadattachment":d+="attachments/upload",delete r["Content-Type"];const t=new FormData;t.append("File",a,a.name),o.body=t;break;case"attachments":d+=`cases/${s}/attachments`,o.body=JSON.stringify({attachments:a});break;case"deleteattachment":d+=`attachments/${s}`,o.method="DELETE"}fetch(d,o).then((s=>"deleteattachment"===t||"attachments"===t?s.text():("submitassignment"!==t&&"newwork"!==t||(this.etag=s.headers.get("etag")),200===s.status||201===s.status||s.status>=400&&s.status<500||500===s.status?(401===s.status&&"authenticate"!==t&&(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"sendData"})),s.json()):s.ok?Promise.resolve("ok"):Promise.reject(s)))).then((s=>{if(s.errors&&s.errors.length>0)return this.errorMsg=`Error: ${s.errors[0].message.trim()}`,void this.requestUpdate();if(s.access_token)this.token=s.access_token,window.history.replaceState({token:this.token},"",window.location.href),e!=={}&&e.type&&e.cmd&&("sendData"===e.cmd?this.sendData(e.type,e):this.fetchData(e.type,e));else if(s.errorDetails&&s.errorDetails.length>0){if(s.errorDetails[0].localizedValue){const t=this.getRenderRoot().querySelector("#case-data");Ze(t,s.errorDetails,this),this.validationMsg=this.genPageValidationErrors(s,t)}else this.errorMsg=`Error ${s.errorDetails[0].message}: ${s.localizedValue}`;this.clearLoadingIndicator(),i&&(i.disabled=!1,i.textContent="Save"),"submitassignment"===t&&this.fetchData("assignment",{id:this.assignmentID})}else{const e=this.getRenderRoot().querySelector("#case-data");if("newwork"===t&&s.data.caseInfo.ID&&""!==s.data.caseInfo.ID&&this.sendExternalEvent({type:"newwork",id:s.data.caseInfo.ID}),"refreshassignment"===t)return void(e&&s.data.caseInfo&&s.data.caseInfo.content&&(this.data.data.caseInfo.content=s.data.caseInfo.content,this.casedata.content=s.data.caseInfo.content,M(this.renderMainLayout(this.data.uiResources.resources.views[this.actionID],"Obj"),e)));if("deleteattachment"===t)i&&!i.classList.contains("attach-files")&&this.fetchData("attachments",{id:this.caseID,target:i});else if("attachments"===t)this.fetchData("attachments",{id:this.caseID,target:i});else if("uploadattachment"===t){let t=a.name.lastIndexOf(".");-1===t&&(t=a.name.length);const e=a.name.substring(t+1),n=[{type:"File",category:a.category,fileType:e,name:a.displayName,ID:s.ID}];return void this.sendData("attachments",{id:this.caseID,actionid:n,target:i})}if(s.confirmationNote)this.bShowConfirm=!0,this.caseID=s.data.caseInfo.ID,this.fetchData("view",{id:this.caseID,actionid:"pyReview"});else if(s.uiResources){if(this.bShowNew=!1,this.content={},this.pageInstructions=[],this.assignmentID=s.nextAssignmentInfo.ID,this.data=s,this.casedata=s.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.caseID=this.casedata.content.pzInsKey,this.data.caseID=s.data.caseInfo.ID,this.data.ID=this.assignmentID,this.casedata.content.pyViewName=s.uiResources.root.config.name,this.actionID=this.casedata.content.pyViewName,this.casedata.assignments)for(const t of this.casedata.assignments)if("pzQuestionPageScr"===t.processID&&this.data.ID===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=s.data.caseInfo.status,this.data.actions=s.data.caseInfo.availableActions,this.name=s.data.caseInfo.stageLabel,e&&(M(this.genLoadingIndicator(),e),M(this.renderMainLayout(s.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),e),e.focus())}}this.requestUpdate()})).catch((t=>{this.genErrorMessage(t)}))}}const Ks=(t,e,s)=>{if(void 0===e)return null;const a=t.requiredstate?E`<span class="fr-input-asterix">*</span>`:"";return"field-checkbox"===s?t.label&&""!==t.label?E`<legend>${t.displaylabel}</legend>`:null:E`
     ${""!==t.label?E`<label class="fr-label"
-    for="${ss(e)}">${t.displaylabel}${a}${Js(t)}
+    for="${ss(e)}">${t.displaylabel}${a}${Zs(t)}
     </label>`:null}
-  `},Js=t=>t.helperText&&""!==t.helperText?E`<span class="fr-hint-text">${t.displayhelperText}</span>`:null,Ys=(t,e)=>{if(t.helperText&&""!==t.helperText)return`${e}-info`},Xs=t=>{if(t.placeholder&&""!==t.placeholder)return t.displayplaceholder},Gs=(t,e,s,a)=>void 0===e||""===e?E`
+  `},Zs=t=>t.helperText&&""!==t.helperText?E`<span class="fr-hint-text">${t.displayhelperText}</span>`:null,Js=(t,e)=>{if(t.helperText&&""!==t.helperText)return`${e}-info`},Ys=t=>{if(t.placeholder&&""!==t.placeholder)return t.displayplaceholder},Xs=(t,e,s,a)=>void 0===e||""===e?E`
       ${a}
     `:E`
     <div class="fr-input-group" ?disabled="${t.disabledstate}">
-      ${Zs(t,e,s)}${a}
+      ${Ks(t,e,s)}${a}
     </div>
-  `,Qs=(t,e,s,a,i)=>{if(!1===t.config.visibility)return null;let n=!1;if(t.config.displayvalue="",t.config.displaylabel=i18n.t(t.config.label),t.config.displayplaceholder=i18n.t(t.config.placeholder),t.config.displayhelperText=i18n.t(t.config.helperText),t.config.displaycaption=i18n.t(t.config.caption),t.config.value){let e=t.config.value.replace("@P .","");if(t.config.reference=void 0===i||""===i?e:`${i}.${e}`,t.config.displayvalue=Be(a.casedata.content,t.config.reference),"string"==typeof t.config.datasource&&0===t.config.datasource.indexOf("@ASSOCIATED")){e=t.config.datasource.replace("@ASSOCIATED .",""),-1!==e.indexOf(".")&&(e=e.substring(e.lastIndexOf(".")+1));let s="";a.data.context_data?s=a.data.context_data.content:a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content&&(s=a.data.uiResources.context_data.caseInfo.content);const n=""===i?s:Be(s,i);if(n&&(t.config.options=n.summary_of_associated_lists__[e]),void 0===t.config.options&&(s=a.data.uiResources.resources.fields[e],"object"==typeof s&&1===s.length&&(s=s[0]),s&&s.datasource))if(s.datasource.records)t.config.options=s.datasource.records;else if(s.datasource.name&&a.data.data.shared[s.datasource.name]){const e=a.data.data.shared[s.datasource.name];if(Object.keys(e).length>0){const a=Object.keys(e)[0];if(e[a].pxResults){const i=s.datasource.propertyForValue.replace("@P .",""),n=s.datasource.propertyForDisplayText.replace("@P .","");t.config.options=[];for(const s in e[a].pxResults){const r=e[a].pxResults[s];t.config.options[s]={key:r[i],value:r[n]}}}}}}else if("object"==typeof t.config.datasource&&t.config.datasource.source&&0===t.config.datasource.source.indexOf("@DATASOURCE")){const e=t.config.datasource.source.replace("@DATASOURCE ","").replace(".pxResults","");if(a.data.data[e]&&a.data.data[e].pxResults)t.config.options=a.data.data[e].pxResults;else if(a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content){const s=a.data.uiResources.context_data.caseInfo.content;if(s[i]&&s[i].summary_of_lists__[e]&&s[i].summary_of_lists__[e].pxResults){const n=s[i].summary_of_lists__[e].pxResults.replace(".pxResults","");if(a.data.data[n]&&a.data.data[n].pxResults){t.config.options=[];const e=t.config.datasource.fields.key.replace("@P .",""),s=t.config.datasource.fields.text.replace("@P .","");for(const i in a.data.data[n].pxResults){const r=a.data.data[n].pxResults[i];t.config.options[i]={key:r[e],value:r[s]}}}}}}t.config.options||(t.config.options=[]),t.config.displayvalue?"object"!=typeof t.config.displayvalue&&(t.config.displayvalue=`${t.config.displayvalue}`):t.config.displayvalue="",a.data.uiResources&&a.data.uiResources.resources&&a.data.uiResources.resources.fields&&a.data.uiResources.resources.fields[e]&&a.data.uiResources.resources.fields[e].isDeclarativeTarget&&(n=!0,a.isDeclarativeTarget=!0)}if(!0===s)return((t,e,s,a)=>E`<div>
+  `,Gs=(t,e,s,a,i)=>{if(!1===t.config.visibility)return null;let n=!1;if(t.config.displayvalue="",t.config.displaylabel=i18n.t(t.config.label),t.config.displayplaceholder=i18n.t(t.config.placeholder),t.config.displayhelperText=i18n.t(t.config.helperText),t.config.displaycaption=i18n.t(t.config.caption),t.config.value){let e=t.config.value.replace("@P .","");if(t.config.reference=void 0===i||""===i?e:`${i}.${e}`,t.config.displayvalue=Be(a.casedata.content,t.config.reference),"string"==typeof t.config.datasource&&0===t.config.datasource.indexOf("@ASSOCIATED")){e=t.config.datasource.replace("@ASSOCIATED .",""),-1!==e.indexOf(".")&&(e=e.substring(e.lastIndexOf(".")+1));let s="";a.data.context_data?s=a.data.context_data.content:a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content&&(s=a.data.uiResources.context_data.caseInfo.content);const n=""===i?s:Be(s,i);if(n&&(t.config.options=n.summary_of_associated_lists__[e]),void 0===t.config.options&&(s=a.data.uiResources.resources.fields[e],"object"==typeof s&&1===s.length&&(s=s[0]),s&&s.datasource))if(s.datasource.records)t.config.options=s.datasource.records;else if(s.datasource.name&&a.data.data.shared[s.datasource.name]){const e=a.data.data.shared[s.datasource.name];if(Object.keys(e).length>0){const a=Object.keys(e)[0];if(e[a].pxResults){const i=s.datasource.propertyForValue.replace("@P .",""),n=s.datasource.propertyForDisplayText.replace("@P .","");t.config.options=[];for(const s in e[a].pxResults){const r=e[a].pxResults[s];t.config.options[s]={key:r[i],value:r[n]}}}}}}else if("object"==typeof t.config.datasource&&t.config.datasource.source&&0===t.config.datasource.source.indexOf("@DATASOURCE")){const e=t.config.datasource.source.replace("@DATASOURCE ","").replace(".pxResults","");if(a.data.data[e]&&a.data.data[e].pxResults)t.config.options=a.data.data[e].pxResults;else if(a.data.uiResources.context_data&&a.data.uiResources.context_data.caseInfo&&a.data.uiResources.context_data.caseInfo.content){const s=a.data.uiResources.context_data.caseInfo.content;if(s[i]&&s[i].summary_of_lists__[e]&&s[i].summary_of_lists__[e].pxResults){const n=s[i].summary_of_lists__[e].pxResults.replace(".pxResults","");if(a.data.data[n]&&a.data.data[n].pxResults){t.config.options=[];const e=t.config.datasource.fields.key.replace("@P .",""),s=t.config.datasource.fields.text.replace("@P .","");for(const i in a.data.data[n].pxResults){const r=a.data.data[n].pxResults[i];t.config.options[i]={key:r[e],value:r[s]}}}}}}t.config.options||(t.config.options=[]),t.config.displayvalue?"object"!=typeof t.config.displayvalue&&(t.config.displayvalue=`${t.config.displayvalue}`):t.config.displayvalue="",a.data.uiResources&&a.data.uiResources.resources&&a.data.uiResources.resources.fields&&a.data.uiResources.resources.fields[e]&&a.data.uiResources.resources.fields[e].isDeclarativeTarget&&(n=!0,a.isDeclarativeTarget=!0)}if(!0===s)return((t,e,s,a)=>E`<div>
     <dt class="fr-input-group">
-      ${Zs(t,e,s)}
+      ${Ks(t,e,s)}
       </dt>
     <dd>${a}</dd>
     </div>
-  `)(t.config,e,"field-text",ta(t.config,t.type,e));"string"!=typeof t.config.visibility&&"string"!=typeof t.config.readOnly&&"string"!=typeof t.config.disabled&&"string"!=typeof t.config.required||(a.refreshOnChange=!0);const r=a.data.data.caseInfo.content;if("string"==typeof t.config.visibility&&"true"!==t.config.visibility){if(!We(t.config.visibility,r,i))return null}else if(!1===t.config.visibility||"false"===t.config.visibility)return null;if(t.config.readonlystate=!1,"string"==typeof t.config.readOnly&&"false"!==t.config.readOnly?t.config.readonlystate=We(t.config.readOnly,r,i):(!0===t.config.readOnly||"true"===t.config.readOnly||n)&&(t.config.readonlystate=!0),t.config.requiredstate=!1,"string"==typeof t.config.required&&"false"!==t.config.required?t.config.requiredstate=We(t.config.required,r,i):!0!==t.config.required&&"true"!==t.config.required||(t.config.requiredstate=!0),t.config.disabledstate=!1,"string"==typeof t.config.disabled&&"false"!==t.config.disabled?t.config.disabledstate=We(t.config.disabled,r,i):!0!==t.config.disabled&&"true"!==t.config.disabled||(t.config.disabledstate=!0),t.config.disabledstate&&(t.config.requiredstate=!1,t.config.readonlystate=!1),t.config.readonlystate)return Gs(t.config,e,"field-textinput",ta(t.config,e));switch(t.type){case"TextContent":return ta(t.config,t.type,e);case"Decimal":case"TextInput":return Gs(t.config,e,"field-textinput",ea(t.config,e));case"Phone":return Gs(t.config,e,"field-phoneinput",sa(t.config,e));case"Email":return Gs(t.config,e,"field-emailinput",ra(t.config,e));case"Integer":return Gs(t.config,e,"field-numberinput",aa(t.config,e));case"Percentage":return Gs(t.config,e,"field-percentage",ia(t.config,e));case"Currency":return Gs(t.config,e,"field-currencyinput",na(t.config,e));case"RadioButtons":return Gs(t.config,e,"field-radiogroup",la(t.config,e));case"TextArea":return Gs(t.config,e,"field-textarea",oa(t.config,e));case"Checkbox":return Gs(t.config,e,"field-checkbox",ca(t.config,e));case"Dropdown":return Gs(t.config,e,"field-dropdown",da(t.config,e));case"DateTime":return Gs(t.config,e,"field-datetime",ha(t.config,e));case"Date":return Gs(t.config,e,"field-date",ua(t.config,e));case"Time":return Gs(t.config,e,"field-time",pa(t.config,e));case"AutoComplete":return Gs(t.config,e,"field-autocomplete",ga(t.config,e));default:return null}},ta=(t,e,s)=>{let a=t.displayvalue;if(""!==a){if("Phone"===e)return E`<a data-ref="${t.reference}" id="${ss(s)}" href="${`tel:${a}`}">${a}</a>`;if("Date"===e){const e={year:"numeric",month:"short",day:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("DateTime"===e){a=Me(t.displayvalue);const e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("Time"===e){const e={hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}}if("TextContent"===e){if("Paragraph"===t.displayAs)return E`<p>${i18n.t(t.content)}</p>`;if("Heading 1"===t.displayAs)return E`<h1>${i18n.t(t.content)}</h1>`;if("Heading 2"===t.displayAs)return E`<h2>${i18n.t(t.content)}</h2>`;if("Heading 3"===t.displayAs)return E`<h3>${i18n.t(t.content)}</h3>`;if("Heading 4"===t.displayAs)return E`<h4>${i18n.t(t.content)}</h4>`}return E`
+  `)(t.config,e,"field-text",Qs(t.config,t.type,e));"string"!=typeof t.config.visibility&&"string"!=typeof t.config.readOnly&&"string"!=typeof t.config.disabled&&"string"!=typeof t.config.required||(a.refreshOnChange=!0);const r=a.data.data.caseInfo.content;if("string"==typeof t.config.visibility&&"true"!==t.config.visibility){if(!We(t.config.visibility,r,i))return null}else if(!1===t.config.visibility||"false"===t.config.visibility)return null;if(t.config.readonlystate=!1,"string"==typeof t.config.readOnly&&"false"!==t.config.readOnly?t.config.readonlystate=We(t.config.readOnly,r,i):(!0===t.config.readOnly||"true"===t.config.readOnly||n)&&(t.config.readonlystate=!0),t.config.requiredstate=!1,"string"==typeof t.config.required&&"false"!==t.config.required?t.config.requiredstate=We(t.config.required,r,i):!0!==t.config.required&&"true"!==t.config.required||(t.config.requiredstate=!0),t.config.disabledstate=!1,"string"==typeof t.config.disabled&&"false"!==t.config.disabled?t.config.disabledstate=We(t.config.disabled,r,i):!0!==t.config.disabled&&"true"!==t.config.disabled||(t.config.disabledstate=!0),t.config.disabledstate&&(t.config.requiredstate=!1,t.config.readonlystate=!1),t.config.readonlystate)return Xs(t.config,e,"field-textinput",Qs(t.config,e));switch(t.type){case"TextContent":return Qs(t.config,t.type,e);case"Decimal":case"TextInput":return Xs(t.config,e,"field-textinput",ta(t.config,e));case"Phone":return Xs(t.config,e,"field-phoneinput",ea(t.config,e));case"Email":return Xs(t.config,e,"field-emailinput",na(t.config,e));case"Integer":return Xs(t.config,e,"field-numberinput",sa(t.config,e));case"Percentage":return Xs(t.config,e,"field-percentage",aa(t.config,e));case"Currency":return Xs(t.config,e,"field-currencyinput",ia(t.config,e));case"RadioButtons":return Xs(t.config,e,"field-radiogroup",ca(t.config,e));case"TextArea":return Xs(t.config,e,"field-textarea",ra(t.config,e));case"Checkbox":return Xs(t.config,e,"field-checkbox",oa(t.config,e));case"Dropdown":return Xs(t.config,e,"field-dropdown",la(t.config,e));case"DateTime":return Xs(t.config,e,"field-datetime",da(t.config,e));case"Date":return Xs(t.config,e,"field-date",ha(t.config,e));case"Time":return Xs(t.config,e,"field-time",ua(t.config,e));case"AutoComplete":return Xs(t.config,e,"field-autocomplete",pa(t.config,e));default:return null}},Qs=(t,e,s)=>{let a=t.displayvalue;if(""!==a){if("Phone"===e)return E`<a data-ref="${t.reference}" id="${ss(s)}" href="${`tel:${a}`}">${a}</a>`;if("Date"===e){const e={year:"numeric",month:"short",day:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("DateTime"===e){a=Me(t.displayvalue);const e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("Time"===e){const e={hour:"numeric",minute:"numeric"};a=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}}if("TextContent"===e){if("Paragraph"===t.displayAs)return E`<p>${i18n.t(t.content)}</p>`;if("Heading 1"===t.displayAs)return E`<h1>${i18n.t(t.content)}</h1>`;if("Heading 2"===t.displayAs)return E`<h2>${i18n.t(t.content)}</h2>`;if("Heading 3"===t.displayAs)return E`<h3>${i18n.t(t.content)}</h3>`;if("Heading 4"===t.displayAs)return E`<h4>${i18n.t(t.content)}</h4>`}return E`
     <span class="dataValueRead" data-ref="${t.reference}" id="${ss(s)}">${Ne(a)}</span>
-  `},ea=(t,e)=>E`
+  `},ta=(t,e)=>E`
   <input
     class="fr-input"
     data-ref="${t.reference}"
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${ss(Xs(t))}"
+    placeholder="${ss(Ys(t))}"
     type="text"
-    aria-describedby="${ss(Ys(t,e))}"
+    aria-describedby="${ss(Js(t,e))}"
     id="${ss(e)}"
     value="${Ne(t.displayvalue)}"
   />
-`,sa=(t,e)=>{let s="";for(const e of t.options)0===t.displayvalue.indexOf(e.pyCallingCode)&&(s=e.pyCallingCode);return t.displayvalue=t.displayvalue.substring(s.length),E`
+`,ea=(t,e)=>{let s="";for(const e of t.options)0===t.displayvalue.indexOf(e.pyCallingCode)&&(s=e.pyCallingCode);return t.displayvalue=t.displayvalue.substring(s.length),E`
 <div class='field-phoneinput'>
 <select
   class="fr-select field-countrycode"
@@ -597,40 +597,40 @@ ${Ne(t.value)}</textarea
    ?required="${t.requiredstate}"
    ?readonly="${t.readonlystate}"
    ?disabled="${t.disabledstate}"
-   placeholder="${ss(Xs(t))}"
+   placeholder="${ss(Ys(t))}"
    type="tel"
-   aria-describedby="${ss(Ys(t,e))}"
+   aria-describedby="${ss(Js(t,e))}"
    id="${ss(e)}"
    value="${Ne(t.displayvalue)}"
  />
  </div>
-`},aa=(t,e)=>E`
+`},sa=(t,e)=>E`
   <input
     class="fr-input"
     data-ref="${t.reference}"
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${ss(Xs(t))}"
+    placeholder="${ss(Ys(t))}"
     type="number"
-    aria-describedby="${ss(Ys(t,e))}"
+    aria-describedby="${ss(Js(t,e))}"
     id="${ss(e)}"
     value="${Ne(t.displayvalue)}"
   />
-`,ia=(t,e)=>E`
+`,aa=(t,e)=>E`
  <input
    class="fr-input"
    data-ref="${t.reference}"
    ?required="${t.requiredstate}"
    ?readonly="${t.readonlystate}"
    ?disabled="${t.disabledstate}"
-   placeholder="${ss(Xs(t))}"
+   placeholder="${ss(Ys(t))}"
    type="text"
-   aria-describedby="${ss(Ys(t,e))}"
+   aria-describedby="${ss(Js(t,e))}"
    id="${ss(e)}"
    value="${Ne(t.displayvalue)}"
  />
-`,na=(t,e)=>E`
+`,ia=(t,e)=>E`
   <div ?readonly="${t.readOnly}">
   <span class="currency-symbol">$</span>
   <input
@@ -639,27 +639,27 @@ ${Ne(t.value)}</textarea
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${ss(Xs(t))}"
+    placeholder="${ss(Ys(t))}"
     type="number"
-    aria-describedby="${ss(Ys(t,e))}"
+    aria-describedby="${ss(Js(t,e))}"
     id="${ss(e)}"
     value="${Ne(t.displayvalue)}"
   />
   </div>
-`,ra=(t,e)=>E`
+`,na=(t,e)=>E`
   <input
     class="fr-input"
     data-ref="${t.reference}"
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${ss(Xs(t))}"
+    placeholder="${ss(Ys(t))}"
     type="email"
-    aria-describedby="${ss(Ys(t,e))}"
+    aria-describedby="${ss(Js(t,e))}"
     id="${ss(e)}"
     value="${Ne(t.displayvalue)}"
   />
-`,oa=(t,e)=>E`
+`,ra=(t,e)=>E`
   <textarea
     class="fr-input"
     rows="3"
@@ -667,26 +667,26 @@ ${Ne(t.value)}</textarea
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${ss(Xs(t))}"
+    placeholder="${ss(Ys(t))}"
     type="email"
-    aria-describedby="${ss(Ys(t,e))}"
+    aria-describedby="${ss(Js(t,e))}"
     id="${ss(e)}"
   >${Ne(t.displayvalue)}</textarea>
-`,ca=(t,e)=>{const s=t.requiredstate?"icon-required":"";return E`<div class="fr-checkbox-group"><input
+`,oa=(t,e)=>{const s=t.requiredstate?"icon-required":"";return E`<div class="fr-checkbox-group"><input
   class="fr-checkbox"
   data-ref="${t.reference}"
   ?required="${t.requiredstate}"
   ?readonly="${t.readonlystate}"
   onclick="${ss(t.readonlystate?"return false;":void 0)}"
   ?disabled="${t.disabledstate}"
-  aria-describedby="${ss(Ys(t,e))}"
+  aria-describedby="${ss(Js(t,e))}"
   id=${ss(e)}
   type="checkbox" ?checked=${"true"===t.displayvalue||!0===t.displayvalue}
   />
   <label class="fr-label ${s}" for=${ss(e)}>
   ${t.displaycaption}
     </label></div>
-`},la=(t,e)=>{let s=[{value:"true"},{value:"false"}];return t.options&&(s=t.options),E`<div class="fr-form-group"><fieldset class="fr-fieldset"><div class="fr-fieldset__content">
+`},ca=(t,e)=>{let s=[{value:"true"},{value:"false"}];return t.options&&(s=t.options),E`<div class="fr-form-group"><fieldset class="fr-fieldset"><div class="fr-fieldset__content">
     ${s.map(((s,a)=>{const i=`rb-${e}-${a}`;return E`
         <div class="fr-radio-group">
           <input
@@ -701,32 +701,32 @@ ${Ne(t.value)}</textarea
             onclick="${ss(t.readonlystate?"return false;":void 0)}"
             ?checked="${s.key===t.displayvalue}"
           />
-          <label class="fr-label" for="${i}">${s.value}</label>
+          <label class="fr-label" for="${i}">${i18n.t(s.value)}</label>
         </div>
       `}))}
-  </div></fieldset></div>`},da=(t,e)=>E`<select
+  </div></fieldset></div>`},la=(t,e)=>E`<select
   class="fr-select"
   data-ref="${t.reference}"
-  aria-describedby="${ss(Ys(t,e))}"
+  aria-describedby="${ss(Js(t,e))}"
   id=${ss(e)}
   ?required="${t.requiredstate}"
   ?readonly="${t.readonlystate}"
   ?disabled="${t.disabledstate}">
-  placeholder="${ss(Xs(t))}"
+  placeholder="${ss(Ys(t))}"
     <option value="" title="${i18n.t("Select...")}">${i18n.t("Select...")}</option>
-    ${t.options.map((e=>E`<option ?selected=${e.key===t.displayvalue} value='${e.key}'>${e.value}</option>`))}
-  </select>`,ha=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Me(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${e.getFullYear()}-${Re(e.getMonth()+1)}-${Re(e.getDate())}T${Re(e.getHours())}:${Re(e.getMinutes())}`):8===t.displayvalue.length?s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}T00:00`:24===t.displayvalue.length&&(s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}T${t.displayvalue.substring(11,13)}:${t.displayvalue.substring(14,16)}`)}return E`<input
+    ${t.options.map((e=>E`<option ?selected=${e.key===t.displayvalue} value='${e.key}'>${i18n.t(e.value)}</option>`))}
+  </select>`,da=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Me(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${e.getFullYear()}-${Re(e.getMonth()+1)}-${Re(e.getDate())}T${Re(e.getHours())}:${Re(e.getMinutes())}`):8===t.displayvalue.length?s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}T00:00`:24===t.displayvalue.length&&(s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}T${t.displayvalue.substring(11,13)}:${t.displayvalue.substring(14,16)}`)}return E`<input
       class="fr-input"
       data-ref="${t.reference}"
       ?required="${t.requiredstate}"
       ?readonly="${t.readonlystate}"
       ?disabled="${t.disabledstate}"
       type="datetime-local"
-      aria-describedby="${ss(Ys(t,e))}"
+      aria-describedby="${ss(Js(t,e))}"
       id="${ss(e)}"
       value="${s}"
     />
-  `},ua=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Me(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${e.getFullYear()}-${Re(e.getMonth()+1)}-${Re(e.getDate())}`):8===t.displayvalue.length?s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}`:24===t.displayvalue.length&&(s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}`)}return E`
+  `},ha=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Me(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${e.getFullYear()}-${Re(e.getMonth()+1)}-${Re(e.getDate())}`):8===t.displayvalue.length?s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}`:24===t.displayvalue.length&&(s=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}`)}return E`
    <input
       class="fr-input"
       data-ref="${t.reference}"
@@ -734,11 +734,11 @@ ${Ne(t.value)}</textarea
       ?readonly="${t.readonlystate}"
       ?disabled="${t.disabledstate}"
       type="date"
-      aria-describedby="${ss(Ys(t,e))}"
+      aria-describedby="${ss(Js(t,e))}"
       id="${ss(e)}"
       value="${s}"
     />
-  `},pa=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Me(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${Re(e.getHours())}-${Re(e.getMinutes())}-${Re(e.getSeconds())}`):8===t.displayvalue.length&&(s=`${t.displayvalue.substring(9,10)}:${t.displayvalue.substring(10,11)}:${t.displayvalue.substring(11,12)}`)}return E`
+  `},ua=(t,e)=>{let s=t.displayvalue;if(""!==s){let e=Me(s);e instanceof Date&&e.getTime()==e.getTime()?(e=new Date(e.getTime()+6e4*e.getTimezoneOffset()),s=`${Re(e.getHours())}-${Re(e.getMinutes())}-${Re(e.getSeconds())}`):8===t.displayvalue.length&&(s=`${t.displayvalue.substring(9,10)}:${t.displayvalue.substring(10,11)}:${t.displayvalue.substring(11,12)}`)}return E`
     <input
       class="fr-input"
       data-ref="${t.reference}"
@@ -746,11 +746,11 @@ ${Ne(t.value)}</textarea
       ?readonly="${t.readonlystate}"
       ?disabled="${t.disabledstate}"
       type="time"
-      aria-describedby="${ss(Ys(t,e))}"
+      aria-describedby="${ss(Js(t,e))}"
       id="${ss(e)}"
       value="${s}"
     />
-  `},ga=(t,e)=>t.options?E`
+  `},pa=(t,e)=>t.options?E`
     <div class="fr-combo-box loaded">
     <select class="fr-select"
         data-ref="${t.reference}"
@@ -758,53 +758,53 @@ ${Ne(t.value)}</textarea
         ?required="${t.requiredstate}"
         ?readonly="${t.readonlystate}"
         ?disabled="${t.disabledstate}"
-        placeholder="${ss(Xs(t))}"
+        placeholder="${ss(Ys(t))}"
         type="text"
-         aria-describedby="${ss(Ys(t,e))}"
+         aria-describedby="${ss(Js(t,e))}"
         id="${ss(e)}"
         value="${Ne(t.displayvalue)}"
       />
         ${t.options.map((t=>E`
             <option value="${t.key}">
-              ${t.value}
+              ${i18n.t(t.value)}
             </option>
           `))}
     </select>
-    </div>`:null,fa=(t,e)=>E`
+    </div>`:null,ga=(t,e)=>E`
   ${t.map((t=>E`
     <th scope='col'>${i18n.t(t.config.label)}</th>`))}${e?null:E`<th></th>`}
-`,ma=(t,e)=>{if(!e){const e=[];t.config.children[0].children.map(((t,s)=>(e[s]=t.config.value.replace("@P .",""),null)));const s=t.config.referenceList.replace("@P .","");return E`
+`,fa=(t,e)=>{if(!e){const e=[];t.config.children[0].children.map(((t,s)=>(e[s]=t.config.value.replace("@P .",""),null)));const s=t.config.referenceList.replace("@P .","");return E`
     <ul class="fr-btns-group fr-btns-group--inline">
         <li><button type="button" class="fr-btn"
         data-newrow="${e.join()}"
         data-ref=${s} data-action-click="addRow">Ajouter une ligne</button></li>
       </ul>
-    `}return null},ya=(t,e,s)=>{const a=t.config.referenceList.replace("@P .",""),i=t.config.children[0].children,n=Be(s.data.data.caseInfo.content,a);return n?E`
+    `}return null},ma=(t,e,s)=>{const a=t.config.referenceList.replace("@P .",""),i=t.config.children[0].children,n=Be(s.data.data.caseInfo.content,a);return n?E`
   ${n.map(((t,n)=>E`
     <tr>
     ${i.map((t=>E`
-    <td>${Qs(t,void 0,e,s,`${a}(${n+1})`)}</td>`))}${e?null:E`<td><button type="button" class="fr-btn"
+    <td>${Gs(t,void 0,e,s,`${a}(${n+1})`)}</td>`))}${e?null:E`<td><button type="button" class="fr-btn"
   data-ref=${`${a}(${n+1}).pyTemplate`}
   data-action-click='deleteRow'>Supprimer</button></td>`}
     </tr>`))}
-`:null},$a=(t,e,s,a,i)=>{if(void 0===t)return null;if(!t.config||!t.config.template)return E`${t.map(((t,n)=>{const r=`${e}-${n}`;if("Region"===t.type)return $a(t.children,`${e}-0`,!0,a,i);if("reference"===t.type&&"view"===t.config.type){let e="";if(t.config.context&&(e=t.config.context),t.config.inheritedProps&&1===t.config.inheritedProps.length&&"label"===t.config.inheritedProps[0].prop){const n=i18n.t(t.config.inheritedProps[0].value),o=a.data.uiResources.resources.views[t.config.name];if(o){const t="SimpleTable"===o.config.template||"ListView"===o.config.template?"field-table":"field-subview";return E`<div class='${t}'><h4>${n}</h4>${$a(o,r,s,a,""===i?e.substring(1):i+e)}</div>`}}return $a(a.data.uiResources.resources.views[t.config.name],r,s,a,i&&""!==i?i+e:e.substring(1))}return Qs(t,r,s,a,i)}))}`;if("SimpleTable"===t.config.template)return((t,e,s)=>{const a=e||"Editable"!==t.config.renderMode;return E`
+`:null},ya=(t,e,s,a,i)=>{if(void 0===t)return null;if(!t.config||!t.config.template)return E`${t.map(((t,n)=>{const r=`${e}-${n}`;if("Region"===t.type)return ya(t.children,`${e}-0`,!0,a,i);if("reference"===t.type&&"view"===t.config.type){let e="";if(t.config.context&&(e=t.config.context),t.config.inheritedProps&&1===t.config.inheritedProps.length&&"label"===t.config.inheritedProps[0].prop){const n=i18n.t(t.config.inheritedProps[0].value),o=a.data.uiResources.resources.views[t.config.name];if(o){const t="SimpleTable"===o.config.template||"ListView"===o.config.template?"field-table":"field-subview";return E`<div class='${t}'><h4>${n}</h4>${ya(o,r,s,a,""===i?e.substring(1):i+e)}</div>`}}return ya(a.data.uiResources.resources.views[t.config.name],r,s,a,i&&""!==i?i+e:e.substring(1))}return Gs(t,r,s,a,i)}))}`;if("SimpleTable"===t.config.template)return((t,e,s)=>{const a=e||"Editable"!==t.config.renderMode;return E`
   <table class="fr-table fr-table--no-caption" data-fr-js-table="true">
     <caption>${t.config.name}</caption>
     <thead>
       <tr>
-        ${fa(t.config.children[0].children,a)}
+        ${ga(t.config.children[0].children,a)}
       </tr>
     </thead>
     <tbody>
-      ${ya(t,a,s)}
+      ${ma(t,a,s)}
     </tbody>
   </table>
-  ${ma(t,a)}`})(t,s,a);if("ListView"===t.config.template)return((t,e,s)=>(s.sendData("dataviews",{id:t.config.referenceList,content:{paging:{pageNumber:1,pageSize:41}}}),E`
+  ${fa(t,a)}`})(t,s,a);if("ListView"===t.config.template)return((t,e,s)=>(s.sendData("dataviews",{id:t.config.referenceList,content:{paging:{pageNumber:1,pageSize:41}}}),E`
   <table class="fr-table fr-table--no-caption" data-fr-js-table="true">
     <caption>${t.config.name}</caption>
     <thead>
       <tr>
-        ${fa(t.config.presets[0].children[0].children,e)}
+        ${ga(t.config.presets[0].children[0].children,e)}
       </tr>
     </thead>
     <tbody>${Fs()}
@@ -812,45 +812,45 @@ ${Ne(t.value)}</textarea
   </table>`))(t,s,a);switch("DataReference"===t.config.template&&(a.isDeclarativeTarget=!0),"TwoColumn"===t.config.template&&1===t.children.length&&(t.config.template="OneColumn"),t.config.template){case"TwoColumn":return E`
         <div class="fr-container">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
-            <div class="fr-col-6">${$a(t.children[0].children,`${e}-0`,s,a,i)}</div>
-            <div class="fr-col-6">${$a(t.children[1].children,`${e}-0`,s,a,i)}</div>
+            <div class="fr-col-6">${ya(t.children[0].children,`${e}-0`,s,a,i)}</div>
+            <div class="fr-col-6">${ya(t.children[1].children,`${e}-0`,s,a,i)}</div>
           </div>
         </div>
         `;case"DefaultForm":case"OneColumn":return E`
           <div>
-            ${$a(t.children[0].children,`${e}-0`,s,a,i)}
+            ${ya(t.children[0].children,`${e}-0`,s,a,i)}
           </div>
         `;case"DataReference":return E`
           <div>
-            ${$a(t.children,`${e}-0`,s,a,i)}
+            ${ya(t.children,`${e}-0`,s,a,i)}
           </div>
         `;case"Details":return E`
           <div>
-            ${$a(t.children[0].children,`${e}-0`,!0,a,i)}
+            ${ya(t.children[0].children,`${e}-0`,!0,a,i)}
           </div>
-        `;default:return null}},ba=(t,e,s,a,i)=>{let n=i.data.name;return i.data&&i.data.data&&(n&&""!==n||(n=i.data.data.caseInfo.name),""!==i.data.data.caseInfo.assignments[0].instructions&&(n=i.data.data.caseInfo.assignments[0].instructions)),E`
-  <fieldset  class="fr-fieldset"><legend>${n}</legend>
-  ${$a(t,e,!1,i,"")}</fieldset>
+        `;default:return null}},$a=(t,e,s,a,i)=>{let n=i.data.name;return i.data&&i.data.data&&(n&&""!==n||(n=i.data.data.caseInfo.name),""!==i.data.data.caseInfo.assignments[0].instructions&&(n=i.data.data.caseInfo.assignments[0].instructions)),E`
+  <fieldset  class="fr-fieldset"><legend>${i18n.t(n)}</legend>
+  ${ya(t,e,!1,i,"")}</fieldset>
   ${Ns(s)}
-`};class va extends Ks{displayContent(){if(this.bShowSave="false",""!==this.errorMsg)return Hs(this.errorMsg,"true"===this.bShowCancel?this.resetError:null);if(("oauth2password"===this.authentication||"oauth2clientcredentials"===this.authentication)&&""===this.token)return this.sendData("authenticate",{}),null;if(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?"createNewWork"===this.action&&""===this.caseID&&this.casetypes&&this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("view",{id:this.caseID,actionid:"pyReview"})):(this.fetchData("portal"),"createNewWork"===this.action?this.bShowNew=!0:"workList"===this.action&&(this.bShowCancel="true")),this.bShowConfirm){this.data.ID.split(" ")[1];return Ms(this.casedata.name,this.casepyStatusWork,"true"===this.bShowAttachments&&this.displayAttachments)}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?E`
+`};class ba extends Ws{displayContent(){if(this.bShowSave="false",""!==this.errorMsg)return js(this.errorMsg,"true"===this.bShowCancel?this.resetError:null);if(("oauth2password"===this.authentication||"oauth2clientcredentials"===this.authentication)&&""===this.token)return this.sendData("authenticate",{}),null;if(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?"createNewWork"===this.action&&""===this.caseID&&this.casetypes&&this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("view",{id:this.caseID,actionid:"pyReview"})):(this.fetchData("portal"),"createNewWork"===this.action?this.bShowNew=!0:"workList"===this.action&&(this.bShowCancel="true")),this.bShowConfirm){this.data.ID.split(" ")[1];return Ms(this.casedata.name,this.casepyStatusWork,"true"===this.bShowAttachments&&this.displayAttachments)}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?E`
         ${this.name,t=this.data,e=this.casedata,s=this.openCase,void 0===t.caseID&&e.content?E`
     <div>
-      <h2>${t.data.caseInfo.name}</h2>
+      <h2>${i18n.t(t.data.caseInfo.name)}</h2>
     </div>
     ${qs(e.assignments,s)}`:""}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form class="fr-form" id="case-data"></form>
-      `:"workList"===this.action?Vs(this.cases,this.openCase):null;var t,e,s}renderMainLayout=(t,e)=>ba(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,0,this);renderReviewLayout=(t,e)=>((t,e,s,a)=>E`
-  <div>${$a(t,e,!0,a)}</div>
+      `:"workList"===this.action?Hs(this.cases,this.openCase):null;var t,e,s}renderMainLayout=(t,e)=>$a(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,0,this);renderReviewLayout=(t,e)=>((t,e,s,a)=>E`
+  <div>${ya(t,e,!0,a)}</div>
   ${Os(s)}
 `)(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,this);genPageValidationErrors=t=>(t=>t.errorDetails?E`
     <div role="alert" class="fr-alert fr-alert--error">
     <p class="fr-alert__title">Erreur</p>
-    ${t.errorDetails.map((t=>"Error_Validation_Fail"===t.message||"Validation failed: Errors Detected."===t.message?null:E`<p>${t.localizedValue}</p>`))}
+    ${t.errorDetails.map((t=>"Error_Validation_Fail"===t.message||"Validation failed: Errors Detected."===t.message?null:E`<p>${i18n.t(t.localizedValue)}</p>`))}
   </div>`:null)(t);showDataList=t=>E`
 ${t.pxResults.map((t=>E`
     <option>
       ${t.pyUserName}
-    </option>`))}`;genLoadingIndicator=()=>Fs();setInlineError=(t,e)=>Us(t,e);validateForm=t=>Ps(t);reportFormValidity=t=>zs(t);clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const s=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),je(e,"click")?(this.refreshAssignment(e,He(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===s||"deleteRow"===s)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;if(t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),je(e,"change")||this.isDeclarativeTarget)this.refreshAssignment(e,He(e,"change"));else if(this.refreshOnChange){const t=this.getRenderRoot().querySelector("#case-data");Ke(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),M(ba(this.data.uiResources.resources.views[this.casedata.content.pyViewName],"Obj","true"===this.bShowCancel?this.actionAreaCancel:null,0,this),t)}};focusHandler=t=>{const e=t.target;e.classList.contains("fr-combo-box")&&!e.classList.contains("loaded")?this.getData(e.getAttribute("data-pageid"),e):"INPUT"===e.tagName&&e.classList.contains("location")&&!e.classList.contains("pac-target-input")&&window.google&&window.google.maps&&window.google.maps.places&&new window.google.maps.places.Autocomplete(e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}customElements.define("pega-govfr-v2",class extends va{createRenderRoot(){return this}getRenderRoot(){return this}render(){return E`
+    </option>`))}`;genLoadingIndicator=()=>Fs();setInlineError=(t,e)=>Us(t,e);validateForm=t=>Ps(t);reportFormValidity=t=>zs(t);clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const s=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),je(e,"click")?(this.refreshAssignment(e,He(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===s||"deleteRow"===s)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;if(t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),je(e,"change")||this.isDeclarativeTarget)this.refreshAssignment(e,He(e,"change"));else if(this.refreshOnChange){const t=this.getRenderRoot().querySelector("#case-data");Ke(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),M($a(this.data.uiResources.resources.views[this.casedata.content.pyViewName],"Obj","true"===this.bShowCancel?this.actionAreaCancel:null,0,this),t)}};focusHandler=t=>{const e=t.target;e.classList.contains("fr-combo-box")&&!e.classList.contains("loaded")?this.getData(e.getAttribute("data-pageid"),e):"INPUT"===e.tagName&&e.classList.contains("location")&&!e.classList.contains("pac-target-input")&&window.google&&window.google.maps&&window.google.maps.places&&new window.google.maps.places.Autocomplete(e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}customElements.define("pega-govfr-v2",class extends ba{createRenderRoot(){return this}getRenderRoot(){return this}render(){return E`
       ${this.displayContent()}
     `}})}();

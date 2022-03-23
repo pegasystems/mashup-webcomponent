@@ -483,7 +483,7 @@ const RadioButtons = (data, path) => {
             onclick="${ifDefined(data.readonlystate ? 'return false;' : undefined)}"
             ?checked="${item.key === data.displayvalue}"
           />
-          <label class="fr-label" for="${innerpath}">${item.value}</label>
+          <label class="fr-label" for="${innerpath}">${i18n.t(item.value)}</label>
         </div>
       `;
   })}
@@ -504,7 +504,7 @@ const DropDown = (data, path) => html`<select
   placeholder="${ifDefined(GetPlaceholder(data))}"
     <option value="" title="${i18n.t('Select...')}">${i18n.t('Select...')}</option>
     ${data.options.map(
-    (item) => html`<option ?selected=${item.key === data.displayvalue} value='${item.key}'>${item.value}</option>`,
+    (item) => html`<option ?selected=${item.key === data.displayvalue} value='${item.key}'>${i18n.t(item.value)}</option>`,
   )}
   </select>`;
 
@@ -621,7 +621,7 @@ const Combobox = (data, path) => {
         ${data.options.map(
     (item) => html`
             <option value="${item.key}">
-              ${item.value}
+              ${i18n.t(item.value)}
             </option>
           `,
   )}
