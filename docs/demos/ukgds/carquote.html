@@ -152,6 +152,7 @@
         mytag.clientsecret = defaultCfg.clientsecret;
         mytag.portalName = defaultCfg.portalName;
         mytag.casetype = 'OPGO8L-CarInsur-Work-CarInsuranceQuote';
+        mytag.langTokens = window.langEN;
         elem.innerHTML = "";
         mytag.addEventListener("message", function (event) {
           const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
@@ -171,6 +172,7 @@
         elem.appendChild(mytag);
       }
     </script>
+    <script src="./assets/js/lang-en.js"></script>
     <script src="./pega-govuk.js"></script>
     <script>window.GOVUKFrontend.initAll();</script>
 </body>

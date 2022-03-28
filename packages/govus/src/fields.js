@@ -445,7 +445,7 @@ const TextArea = (data, path) => html`
  * Checkbox component
  */
 const Checkbox = (data, path) => {
-  const iconrequired = data.requiredstate ? 'icon-required' : '';
+  const iconrequired = data.requiredstate ? ' icon-required' : '';
   return html`<input
   class="usa-checkbox__input"
   data-ref="${data.reference}"
@@ -457,7 +457,7 @@ const Checkbox = (data, path) => {
   id=${ifDefined(path)}
   type="checkbox" ?checked=${data.displayvalue === 'true' || data.displayvalue === true}
   />
-  <label class="usa-checkbox__label ${iconrequired}" for=${ifDefined(path)}>
+  <label class="usa-checkbox__label${iconrequired}" for=${ifDefined(path)}>
   ${data.displaycaption}
     </label></div>
 `;

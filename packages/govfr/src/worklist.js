@@ -1,3 +1,4 @@
+/* global i18n */
 import { html } from 'lit';
 
 const WorkList = (cases, onOpen) => html`
@@ -16,8 +17,8 @@ const WorkList = (cases, onOpen) => html`
             ${cases.map(
     (item) => html`
                 <tr>
-                  <td scope="row">${item.name}</td>
-                  <td>${item.label}</td>
+                  <td scope="row">${i18n.t(item.name)}</td>
+                  <td>${i18n.t(item.label)}</td>
                   <td>
                     <button @click="${onOpen}" class="fr-btn" data-type="assignment" data-id="${item.ID}">
                       Ouvrir

@@ -510,8 +510,8 @@ ${Ne(t.value)}</textarea
           <tbody>
             ${t.map((t=>E`
                 <tr>
-                  <td scope="row">${t.name}</td>
-                  <td>${t.label}</td>
+                  <td scope="row">${i18n.t(t.name)}</td>
+                  <td>${i18n.t(t.label)}</td>
                   <td>
                     <button @click="${e}" class="fr-btn" data-type="assignment" data-id="${t.ID}">
                       Ouvrir

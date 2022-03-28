@@ -94,7 +94,8 @@ window.langFR = {
     'Log in to the application with one of the following:': "Connectez vous a l'application en utilisant",
     'Pega with popup': 'Pega avec une nouvelle fenetre',
     'Pega with full page redirect': 'Pega avec une redirection de la page',
-    'Enter personal information': 'Entrez vos informations personelles',
+    'Enter personal info': 'Entrez vos informations personelles',
+    'Confirm request': 'Confirmer la requete',
     'Error: view is not defined': 'Erreur: la UI n\'est pas supportée',
     'Error TypeError: Failed to fetch': 'Erreur: Serveur n\'est pas disponible',
     'Middle Name': 'Autres prénoms',
@@ -124,4 +125,5 @@ window.langFR = {
     'Be sure to include yourself if you meet all the requirements.': 'Comptez vous meme si vous remplissez les conditions',
     'The primary person is the primary taxpayer of the household. If a married couple files a joint return, either spouse may be the primary taxpayer.': 'La personne principale est celle qui paye l\'impot',
     'In what ZIP code did you live in 2020?': 'Dans quel code postal vivez vous?',
+    'Date of Birth': 'Date de naissance',
 };

@@ -280,7 +280,7 @@ class Se extends Dt{}Se.Encryptor=class extends Se{processBlock(t,e){const s=t,a
     aria-describedby="${Xe(Ge(t,e))}"
     id="${Xe(e)}"
   >${Le(t.displayvalue)}</textarea>
-`,cs=(t,e)=>{const s=t.requiredstate?"icon-required":"";return R`<input
+`,cs=(t,e)=>{const s=t.requiredstate?" icon-required":"";return R`<input
   class="usa-checkbox__input"
   data-ref="${t.reference}"
   ?required="${t.requiredstate}"
@@ -291,7 +291,7 @@ class Se extends Dt{}Se.Encryptor=class extends Se{processBlock(t,e){const s=t,a
   id=${Xe(e)}
   type="checkbox" ?checked=${"true"===t.displayvalue||!0===t.displayvalue}
   />
-  <label class="usa-checkbox__label ${s}" for=${Xe(e)}>
+  <label class="usa-checkbox__label${s}" for=${Xe(e)}>
   ${t.displaycaption}
     </label></div>
 `},ds=(t,e)=>{let s=[{value:"true"},{value:"false"}];return t.options&&(s=t.options),R`<fieldset class="usa-fieldset">

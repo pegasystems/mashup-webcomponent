@@ -120,6 +120,7 @@
         mytag.clientid = defaultCfg.clientid;
         mytag.clientsecret = defaultCfg.clientsecret;
         mytag.portalName = defaultCfg.portalName;
+        mytag.langTokens = window.langEN;
         mytag.addEventListener("message", function (event) {
           const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
           if (event.detail.type === "cancel") {
@@ -131,6 +132,7 @@
       var id = new URLSearchParams(window.location.search).get("case");
       startcase("OPGO8L-CARINSUR-WORK " + id);
     </script>
+    <script src="./assets/js/lang-en.js"></script>
     <script src="./pega-govuk.js"></script>
     <script>window.GOVUKFrontend.initAll();</script>
 </body>
