@@ -2,11 +2,24 @@
 import { html } from 'lit';
 import { Field } from './fields';
 import { SimpleTable, DisplayList } from './lists';
+import { getValue } from '../../utils/form-utils';
 
 export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
+  if (Array.isArray(data) && data.length === 1 && data[0].type === 'View') {
+    // eslint-disable-next-line no-param-reassign
+    data = data[0];
+  }
   if (data.config && data.config.template) {
     if (data.config.template === 'SimpleTable') {
+      if (data.config.multiRecordDisplayAs === 'fieldGroup') {
+        const propRef = data.config.referenceList.replace('@P .', '').replace('@USER .', '');
+        const rows = getValue(webcomp.data.data.caseInfo.content, propRef);
+        if (!rows) return null;
+        const heading = data.config.heading.replace('@L ', '');
+        return html`${rows.map((row, index) => html`<div><h4>${`${heading} ${index}`}</h4>
+        ${Layout(data.children[0].children, `${path}-fieldgroup-${index}`, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</div>`)}`;
+      }
       return SimpleTable(data, isReadOnly, webcomp);
     }
     if (data.config.template === 'ListView') {
@@ -64,8 +77,14 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
         if (item.config.context) newCtx = item.config.context;
         if (item.config.inheritedProps && item.config.inheritedProps.length === 1 && item.config.inheritedProps[0].prop === 'label') {
           const label = i18n.t(item.config.inheritedProps[0].value);
-          const subview = webcomp.data.uiResources.resources.views[item.config.name];
+          let subview = webcomp.data.uiResources.resources.views[item.config.name];
           if (subview) {
+            if (Array.isArray(subview) && subview.length === 1 && subview[0].type === 'View') {
+              subview = subview[0];
+            }
+            if (subview.config.multiRecordDisplayAs === 'fieldGroup') {
+              return Layout(subview, tmppath, isReadOnly, webcomp, context === '' ? newCtx.substring(1) : context + newCtx);
+            }
             const subviewclass = subview.config.template === 'SimpleTable' || subview.config.template === 'ListView' ? 'field-table' : 'field-subview';
             return html`<div class='flex content-item field-item ${subviewclass}'><h4>${label}</h4>${
               Layout(

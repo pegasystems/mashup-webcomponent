@@ -7,8 +7,8 @@ import { paperclipIcon } from './icons';
    have been completed and the confirm harness is rendered - this is different from the review screeen */
 export const showConfirm = (name, id, status, onDisplayAttachments) => html`
   <div class="flex layout-content-inline_middle main-header">
-    <h2>${i18n.t(name)} <span>(${id})</span></h2>
-    <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>
+    <h2>${i18n.t(name)} <span>(${id})</span>
+    <span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span></h2>
     ${onDisplayAttachments ? html`<div class="flex layout-content-inline_middle margin-l-auto">
         ${AttachmentButton('Attachments', paperclipIcon(), 'Simple', onDisplayAttachments)}
       </div>` : ''}

@@ -6,6 +6,7 @@ import { plusIcon } from '../../views/icons';
 
 export const SimpleTable = (item, path, isReadOnly) => html`
   ${ListTitle(item.layout)}
+  <div class='table-content'>
   <table>
   <caption class="sr-only">${item.layout.title}</caption>
     <thead>
@@ -17,6 +18,7 @@ export const SimpleTable = (item, path, isReadOnly) => html`
       ${Table(item.layout.rows, path)}
     </tbody>
   </table>
+  </div>
   ${ListAction(item.layout, isReadOnly)}
 `;
 /* The metadata doesn't provide the type of h2/h3 used */

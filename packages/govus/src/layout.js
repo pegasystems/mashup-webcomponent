@@ -5,6 +5,10 @@ import { SimpleTable, DisplayList } from './lists';
 
 export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
+  if (Array.isArray(data) && data.length === 1 && data[0].type === 'View') {
+    // eslint-disable-next-line no-param-reassign
+    data = data[0];
+  }
   if (data.config && data.config.template) {
     if (data.config.template === 'SimpleTable') {
       return SimpleTable(data, isReadOnly, webcomp);
@@ -64,8 +68,11 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
         if (item.config.context) newCtx = item.config.context;
         if (item.config.inheritedProps && item.config.inheritedProps.length === 1 && item.config.inheritedProps[0].prop === 'label') {
           const label = i18n.t(item.config.inheritedProps[0].value);
-          const subview = webcomp.data.uiResources.resources.views[item.config.name];
+          let subview = webcomp.data.uiResources.resources.views[item.config.name];
           if (subview) {
+            if (Array.isArray(subview) && subview.length === 1 && subview[0].type === 'View') {
+              subview = subview[0];
+            }
             const subviewclass = subview.config.template === 'SimpleTable' || subview.config.template === 'ListView' ? 'field-table' : 'field-subview';
             return html`<div class='${subviewclass}'><h4>${label}</h4>${
               Layout(

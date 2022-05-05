@@ -114,18 +114,20 @@ button.Light {
 }
 
 @supports (-webkit-appearance:none) {
-  input[type=date]::-webkit-inner-spin-button {
+  input[type="datetime-local"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
   }
 
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator,
   input[type="date"]::-webkit-calendar-picker-indicator {
     display: block;
     color: rgba(0, 0, 0, 0);
     opacity: 1;
     background: #fff
     url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNSAyNSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjE1Ij48dGl0bGU+ZXZlbnRzPC90aXRsZT48ZyBpZD0iYnVkaWNvbi1ldmVudHMiPjxwYXRoIGQ9Ik0yNCwySDE5Vi41YS41LjUsMCwwLDAtMSwwVjJIN1YuNWEuNS41LDAsMCwwLTEsMFYySDFBMSwxLDAsMCwwLDAsM1YyM2ExLDEsMCwwLDAsMSwxSDI0YTEsMSwwLDAsMCwxLTFWM0ExLDEsMCwwLDAsMjQsMlptMCwyMUgxVjhIMjRaTTI0LDdIMVYzSDI0Wm0tOSw2SDEzVjExaDJabTUsMEgxOFYxMWgyWk03LDE4SDVWMTZIN1ptNSwwSDEwVjE2aDJaIi8+PC9nPjwvc3ZnPg==')
-  no-repeat calc(100% - var(--spacing1x)) 50%;
+  no-repeat 100% 50%;
   }
 
   .field-combobox > input[type="text"]::-webkit-calendar-picker-indicator {
@@ -157,9 +159,9 @@ button.action-menu {
 }
 input,
 textarea {
-  padding: 3px 7px;
+  padding: 2px 7px;
   border-radius: 4px;
-  border: 1px solid#ccc;
+  border: 1px solid #ccc;
   resize: none;
   inline-size: auto;
 }
@@ -293,6 +295,7 @@ img {
 }
 .flex.main-header > h2 {
   margin-bottom:0;
+  flex:1;
 }
 .flex.main-header > h2 > span {
   white-space: nowrap;
@@ -313,9 +316,12 @@ img {
 .align-center {
   align-items: center;
 }
-.flex.field-item.field-table {
+.table-content {
   overflow-x: auto;
+  overflow-y:hidden;
+  padding-bottom: 16px;
   flex-flow: column nowrap;
+  display:flex;
 }
 .layout-content-default-form {
   display: grid;
@@ -331,7 +337,8 @@ img {
 .layout-content-default-form-2 .field-richtext,
 .layout-content-default-form-2 .field-textarea,
 .layout-content-default-form-2 .field-checkbox,
-.layout-content-default-form-2 .field-radiogroup {
+.layout-content-default-form-2 .field-radiogroup,
+.layout-content-default-form-2 .field-attachment {
   grid-column: 1 / span 2;
   margin-top: 0;
 }
@@ -344,7 +351,8 @@ img {
 .layout-content-default-form-3 .field-richtext,
 .layout-content-default-form-3 .field-textarea,
 .layout-content-default-form-3 .field-checkbox,
-.layout-content-default-form-3 .field-radiogroup {
+.layout-content-default-form-3 .field-radiogroup,
+.layout-content-default-form-3 .field-attachment  {
   grid-column: 1 / span 3;
   margin-top: 0;
 }
@@ -397,7 +405,6 @@ a:hover {
 }
 
 .field-item .field-caption {
-  margin-bottom:3px;
   min-height:20px;
   display:block;
 }
@@ -427,9 +434,13 @@ a:hover {
 }
 
 .field-phoneinput > div {
-  flex-flow: row;
+  flex-flow: row nowrap;
   align-items: center;
   display: flex;
+}
+
+.field-phoneinput > div > select {
+  margin-right:4px;
 }
 
 .field-phoneinput > div > input {

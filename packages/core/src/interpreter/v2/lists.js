@@ -8,7 +8,7 @@ import { getValue } from '../../utils/form-utils';
 export const SimpleTable = (data, isReadOnly, webcomp) => {
   const isreadonlytable = isReadOnly || data.config.renderMode !== 'Editable';
   return html`
-  <table class='responsive'>
+  <div class='table-content'><table class='responsive'>
     <thead>
       <tr>
         ${TableHeader(data.config.children[0].children, isreadonlytable)}
@@ -17,7 +17,7 @@ export const SimpleTable = (data, isReadOnly, webcomp) => {
     <tbody>
       ${TableContent(data, isreadonlytable, webcomp)}
     </tbody>
-  </table>
+  </table></div>
   ${ListAction(data, isreadonlytable)}`;
 };
 
@@ -44,10 +44,10 @@ const ListAction = (data, isReadOnly) => {
   if (!isReadOnly) {
     const newRowList = [];
     data.config.children[0].children.map((item, index) => {
-      newRowList[index] = item.config.value.replace('@P .', '');
+      newRowList[index] = item.config.value.replace('@P .', '').replace('@USER .', '');
       return null;
     });
-    const propRef = data.config.referenceList.replace('@P .', '');
+    const propRef = data.config.referenceList.replace('@P .', '').replace('@USER .', '');
     return html`
       <div class="table-action-area">
         <button type="button" class="pzhc pzbutton Simple" aria-label="${i18n.t('Add row')}" data-newrow="${newRowList.join()}"
@@ -59,7 +59,7 @@ const ListAction = (data, isReadOnly) => {
 };
 
 const TableContent = (data, isReadOnly, webcomp) => {
-  const propRef = data.config.referenceList.replace('@P .', '');
+  const propRef = data.config.referenceList.replace('@P .', '').replace('@USER .', '');
   const headers = data.config.children[0].children;
   const rows = getValue(webcomp.data.data.caseInfo.content, propRef);
   if (!rows) return null;
