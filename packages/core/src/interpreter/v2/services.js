@@ -510,7 +510,6 @@ export default class PegaServices extends PegaElement {
       headers,
       mode: 'cors',
     };
-    debugger;
     const { pageInstructions, pageupdate } = genContentPayload(this.content, this.pageInstructions);
     let apiurl = `${this.url}/api/application/v2/`;
     this.validationMsg = '';
