@@ -51,6 +51,11 @@ export default class PegaBase extends PegaServices {
         this.bShowCancel = 'true';
       }
     } else if (this.action === 'createNewWork' && this.caseID === '' && this.casetypes && this.casetypes[this.casetype]) {
+      this.content = this.initialContent;
+      this.pageInstructions = [];
+      this.caseID = '';
+      this.data = {};
+      this.casedata = {};
       this.sendData('newwork', { id: this.casetype });
     } else if (this.name === '') {
       if (this.action === 'openAssignment' && this.assignmentID === '') {
@@ -107,13 +112,13 @@ export default class PegaBase extends PegaServices {
     this.bShowCancel === 'true' ? this.actionAreaCancel : null,
     this.bShowSave === 'true' ? this.actionAreaSave : null,
     this,
-  )
+  );
 
-  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
-  genPageValidationErrors = (response) => genPageValidationErrors(response)
+  genPageValidationErrors = (response) => genPageValidationErrors(response);
 
-  showDataList = (id) => showDataList(id)
+  showDataList = (id) => showDataList(id);
 
   genActionsList = (name, data) => genActionsList(name, data);
 
@@ -125,7 +130,7 @@ export default class PegaBase extends PegaServices {
     el.setCustomValidity(unescapeHTML(msg));
     el.classList.add('error-field');
     el.reportValidity();
-  }
+  };
 
   validateForm = (form) => form.checkValidity();
 
