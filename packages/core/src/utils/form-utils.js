@@ -520,19 +520,29 @@ export const setFormInlineError = (form, errorMsg, webcomp) => {
   }
 };
 
+/* Note that this will only work for prop that are 1 or 2 level */
 export const genContentPayload = (content, initInstructions) => {
   const pageInstructions = initInstructions || [];
   const pageupdate = {};
   for (const [key, value] of Object.entries(content)) {
     if (typeof value === 'string' || typeof value === 'boolean') {
       pageupdate[key] = value;
-    } else if (typeof value === 'object' && Array.isArray(value)) {
-      for (const i in value) {
+    } else if (typeof value === 'object') {
+      if (Array.isArray(value)) {
+        for (const i in value) {
+          const inst = {
+            instruction: 'UPDATE',
+            target: key,
+            listIndex: parseInt(i, 10) + 1,
+            content: value[i],
+          };
+          pageInstructions.push(inst);
+        }
+      } else {
         const inst = {
           instruction: 'UPDATE',
           target: key,
-          listIndex: parseInt(i, 10) + 1,
-          content: value[i],
+          content: value,
         };
         pageInstructions.push(inst);
       }

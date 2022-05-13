@@ -218,7 +218,7 @@ export default class PegaServices extends PegaElement {
       }
       getFormData(form, this.content, this.pageInstructions, this.data.data.caseInfo.content);
     }
-  }
+  };
 
   refreshAssignment = (el, refreshFor) => {
     this.applyAction(el);
@@ -510,6 +510,7 @@ export default class PegaServices extends PegaElement {
       headers,
       mode: 'cors',
     };
+    debugger;
     const { pageInstructions, pageupdate } = genContentPayload(this.content, this.pageInstructions);
     let apiurl = `${this.url}/api/application/v2/`;
     this.validationMsg = '';
@@ -532,7 +533,8 @@ export default class PegaServices extends PegaElement {
         reqHeaders.body = JSON.stringify({
           caseTypeID: id,
           processID: 'pyStartCase',
-          content: {},
+          content: pageupdate,
+          pageInstructions,
         });
         break;
       case 'submitassignment':
