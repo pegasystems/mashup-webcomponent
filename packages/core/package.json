@@ -12,7 +12,6 @@
         "test:coverage": "jest --coverage --colors"
     },
     "dependencies": {
-        "crypto-es": "^1.2.7",
         "lit": "^2.2.2"
     }
 }

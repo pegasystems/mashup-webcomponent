@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>login</title>
@@ -7,35 +8,39 @@
     let t;
     function doLoad() {
       const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
-      if(window.opener === null) {
+      if (window.opener === null) {
         const urlParams = new URLSearchParams(window.location.search);
         window.history.replaceState(
-          { code: urlParams.get('code'),
-          verifier: urlParams.get('state')},
+          {
+            code: urlParams.get('code'),
+            verifier: urlParams.get('state')
+          },
           '',
           redirectURL,
         );
         location.reload(true);
       } else {
-        t = setTimeout("window.close()",1000);
+        t = setTimeout("window.close()", 1000);
       }
     }
     function refreshAndClose() {
       const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
       const urlParams = new URLSearchParams(window.location.search);
-      if(window.opener!== null) {
+      if (window.opener !== null) {
         window.opener.history.replaceState(
-          { code: urlParams.get('code'),
-          verifier: urlParams.get('state') },
+          {
+            code: urlParams.get('code'),
+            verifier: urlParams.get('state')
+          },
           '',
           redirectURL,
         );
-          window.opener.location.reload(true);
-          window.close();
+        window.opener.location.reload(true);
+        window.close();
       }
     }
-    </script>
+  </script>
 </head>
 
-  <body onbeforeunload="refreshAndClose();" onLoad='doLoad()''></body>
+<body onbeforeunload="refreshAndClose();" onLoad='doLoad()''></body>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Pega Mashup Web Component</title>
   <meta charset="utf-8" />
@@ -13,400 +14,418 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="pegamashupweb">
   <link rel="apple-touch-icon" href="apple-touch-icon-152x152.png">
-  <meta name="description" content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
+  <meta name="description"
+    content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta name="author" content="Pega Front-end Team" />
   <meta itemprop="name" content="Pega Mashup Web Component" />
   <meta itemprop="image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:title" content="Pega Mashup Web Component" />
-  <meta property="og:description" content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
+  <meta property="og:description"
+    content="The Pega Mashup Web Component implements a standalone DOM element that can process cases using the DX API." />
   <meta property="og:url" content="https://pegasystems.github.io/mashup-webcomponent/" />
   <meta property="og:image" content="https://pegasystems.github.io/mashup-webcomponent/app-icon.png" />
   <meta property="og:site_name" content="Pega Mashup Web Component" />
   <meta property="og:type" content="article" />
   <script src='lang-fr.js'></script>
   <style>
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN7rgOUuhpKKSTjw.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2) format('woff2');
-}
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2) format('woff2');
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  background: #efefef;
-  display:flex;
-  flex-flow: column nowrap;
-  position:relative;
-}
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN7rgOUuhpKKSTjw.woff2) format('woff2');
+    }
 
-.sr-only:not(:focus):not(:active) {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2) format('woff2');
+    }
 
-button,
-input,
-textarea,
-select,
-body {
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-  line-height: 1.24;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      background: #efefef;
+      display: flex;
+      flex-flow: column nowrap;
+      position: relative;
+    }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-ul {
-  margin:0;
-}
+    .sr-only:not(:focus):not(:active) {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
 
-header {
-  background: var(--brandColor);
-  height: 400px;
-  display: flex;
-  align-items: baseline;
-  padding: 16px 16px 0 16px;
-}
+    button,
+    input,
+    textarea,
+    select,
+    body {
+      font-family: "Open Sans", sans-serif;
+      font-size: 16px;
+      line-height: 1.24;
+    }
 
-header > div {
-  margin-left: auto;
-  display:flex;
-  align-items: center;
-}
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul {
+      margin: 0;
+    }
 
-footer {
-  border-top: 1px solid #d5d5d5;
-  padding: 16px 0;
-}
+    header {
+      background: var(--brandColor);
+      height: 400px;
+      display: flex;
+      align-items: baseline;
+      padding: 16px 16px 0 16px;
+    }
 
-footer > nav > ul,
-footer > nav > ul > li {
-  display:inline;
-  padding:0 16px;
-}
+    header>div {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
 
-main {
-  min-height: calc(100vh - 172px);
-  margin-top: -300px;
-  flex:1;
-}
+    footer {
+      border-top: 1px solid #d5d5d5;
+      padding: 16px 0;
+    }
 
-.workarea {
-  max-width: 900px;
-  padding: 0 21px;
-  margin: 0 auto 16px auto;
-  overflow: hidden;
-}
+    footer>nav>ul,
+    footer>nav>ul>li {
+      display: inline;
+      padding: 0 16px;
+    }
 
-.workarea h1 {
-  color: #FFF;
-  margin-bottom: 16px;
-}
+    main {
+      min-height: calc(100vh - 172px);
+      margin-top: -300px;
+      flex: 1;
+    }
 
-.logo {
-  height: 30px;
-}
+    .workarea {
+      max-width: 900px;
+      padding: 0 21px;
+      margin: 0 auto 16px auto;
+      overflow: hidden;
+    }
 
-header li {
-  list-style: none;
-  margin-right:30px;
-}
+    .workarea h1 {
+      color: #FFF;
+      margin-bottom: 16px;
+    }
 
-header ul {
-  display:flex;
-  flex-flow: row nowrap;
-  margin:0;
-  align-items: center;
-  padding: 0 0 0 30px;
-}
+    .logo {
+      height: 30px;
+    }
 
-header a,
-header a:visited {
-  color: #FFF;
-  font-weight: 700;
-  letter-spacing: .7px;
-  text-transform: uppercase;
-  text-decoration: none;;
-}
-header span,
-header a:hover,
-header a:active,
-header a:focus {
-  color: #FFF;
-}
+    header li {
+      list-style: none;
+      margin-right: 30px;
+    }
 
-footer a,
-footer a:hover,
-footer a:active,
-footer a:focus {
-  font-size: 18px;
-  color: #646363;
-}
+    header ul {
+      display: flex;
+      flex-flow: row nowrap;
+      margin: 0;
+      align-items: center;
+      padding: 0 0 0 30px;
+    }
 
-.main {
-  background: #FFF;
-  border-radius: 8px;
-  padding: 16px;
-  display:grid;
-  min-height: 400px;
-}
-.settings {
-  position: fixed;
-  right:0;
-  top: 62px;
-  bottom:0;
-  overflow-y: auto;
-  transition: transform ease-in-out 0.2s;
-}
+    header a,
+    header a:visited {
+      color: #FFF;
+      font-weight: 700;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      text-decoration: none;
+      ;
+    }
 
-.settings.hide {
-  transform: translateX(450px);
-  transition: transform ease-in-out 0.2s;
-}
+    header span,
+    header a:hover,
+    header a:active,
+    header a:focus {
+      color: #FFF;
+    }
 
-.settings > form {
-  background: #FFF;
-  border:1px solid #ccc;
-  padding: 16px;
-  max-width: 300px;
-  width: auto;
-}
+    footer a,
+    footer a:hover,
+    footer a:active,
+    footer a:focus {
+      font-size: 18px;
+      color: #646363;
+    }
 
-.toggle {
-  height: 0;
-  width: 0;
-  height: 0!important;
-  width: 0;
-  padding: 0;
-  font-size: 0;
-  opacity: 0;
-  margin-left:8px;
-}
+    .main {
+      background: #FFF;
+      border-radius: 8px;
+      padding: 16px;
+      display: grid;
+      min-height: 400px;
+    }
 
-.toggle + label {
-  cursor: pointer;
-  text-indent: -9999px;
-  width: 50px;
-  height: 30px;
-  background: #ccc;
-  display: block;
-  border-radius: 30px;
-  position: relative;
-  border: 1px solid #ccc;
-}
+    .settings {
+      position: fixed;
+      right: 0;
+      top: 62px;
+      bottom: 0;
+      overflow-y: auto;
+      transition: transform ease-in-out 0.2s;
+    }
 
-.toggle + label:after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 26px;
-  height: 26px;
-  background: #fff;
-  border-radius: 26px;
-  transition: 0.3s;
-}
+    .settings.hide {
+      transform: translateX(450px);
+      transition: transform ease-in-out 0.2s;
+    }
 
-.toggle:checked + label {
-  background: #020BFF;
-}
+    .settings>form {
+      background: #FFF;
+      border: 1px solid #ccc;
+      padding: 16px;
+      max-width: 300px;
+      width: auto;
+    }
 
-.toggle:checked + label:after {
-  left: calc(100% - 2px);
-  transform: translateX(-100%);
-}
+    .toggle {
+      height: 0;
+      width: 0;
+      height: 0 !important;
+      width: 0;
+      padding: 0;
+      font-size: 0;
+      opacity: 0;
+      margin-left: 8px;
+    }
 
-.toggle:focus + label,
-.toggle:hover + label,
-.toggle:active + label {
-  border-color: #020BFF;
-}
+    .toggle+label {
+      cursor: pointer;
+      text-indent: -9999px;
+      width: 50px;
+      height: 30px;
+      background: #ccc;
+      display: block;
+      border-radius: 30px;
+      position: relative;
+      border: 1px solid #ccc;
+    }
 
-@media only screen and (max-width: 800px) {
-  .logo {
-    height:20px;
-  }
-  body {
-    font-size: 14px;
-  }
-  .workarea h1 {
-    font-size: 16px;
-    color: #000;
-  }
-  header {
-    height:auto;
-    font-size:14px;
-    padding: 16px;
-  }
-  main {
-    min-height: calc(100vh - 127px);
-    margin-top: 8px;
-  }
-  header nav {
-    display:none;
-  }
-}
+    .toggle+label:after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 26px;
+      height: 26px;
+      background: #fff;
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+
+    .toggle:checked+label {
+      background: #020BFF;
+    }
+
+    .toggle:checked+label:after {
+      left: calc(100% - 2px);
+      transform: translateX(-100%);
+    }
+
+    .toggle:focus+label,
+    .toggle:hover+label,
+    .toggle:active+label {
+      border-color: #020BFF;
+    }
+
+    @media only screen and (max-width: 800px) {
+      .logo {
+        height: 20px;
+      }
+
+      body {
+        font-size: 14px;
+      }
+
+      .workarea h1 {
+        font-size: 16px;
+        color: #000;
+      }
+
+      header {
+        height: auto;
+        font-size: 14px;
+        padding: 16px;
+      }
+
+      main {
+        min-height: calc(100vh - 127px);
+        margin-top: 8px;
+      }
+
+      header nav {
+        display: none;
+      }
+    }
   </style>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body>
   <header>
-      <a href="#"><img src="./u+-logo.svg" alt="U+" class="logo" width="130" height="30"></a>
-      <nav aria-label="navigation for header">
-        <ul>
-          <li><a href="#">Link1</a></li>
-          <li><a href="#">Link2</a></li>
-          <li><a href="#">Link3</a></li>
-        </ul>
-      </nav>
-      <div>
-        <span>Show settings</span>
-        <input onchange="toggleSettings();" class='toggle' id="show-settings" type="checkbox"/><label for="show-settings">Show settings</label>
-      </div>
+    <a href="#"><img src="./u+-logo.svg" alt="U+" class="logo" width="130" height="30"></a>
+    <nav aria-label="navigation for header">
+      <ul>
+        <li><a href="#">Link1</a></li>
+        <li><a href="#">Link2</a></li>
+        <li><a href="#">Link3</a></li>
+      </ul>
+    </nav>
+    <div>
+      <span>Show settings</span>
+      <input onchange="toggleSettings();" class='toggle' id="show-settings" type="checkbox" /><label
+        for="show-settings">Show settings</label>
+    </div>
   </header>
   <main>
     <div class='workarea'>
       <h1>This web component uses the DX API to render a case as a Mashup</h1>
       <div class='main'></div>
       <div class='settings hide'>
-      <form>
-        <h2 class='sr-only'>Settings</h2>
+        <form>
+          <h2 class='sr-only'>Settings</h2>
 
-        <div class='layout-content-stacked flex'>
-          <h3>General</h3>
-          <div class='flex flex-col'>
-            <label for='action'>Action</label>
-            <select onchange="showFields(event); return false;" id='action'>
-              <option value="workList" selected>Display the worklist</option>
-              <option value="createNewWork">Create a new case</option>
-              <option value="openAssignment">Open an assignment</option>
-              <option value="openWorkByHandle">Open a case</option>
-            </select>
+          <div class='layout-content-stacked flex'>
+            <h3>General</h3>
+            <div class='flex flex-col'>
+              <label for='action'>Action</label>
+              <select onchange="showFields(event); return false;" id='action'>
+                <option value="workList" selected>Display the worklist</option>
+                <option value="createNewWork">Create a new case</option>
+                <option value="openAssignment">Open an assignment</option>
+                <option value="openWorkByHandle">Open a case</option>
+              </select>
+            </div>
+            <div class='flex align-center'>
+              <span>Hide create button on worklist</span>
+              <input class='toggle' type="checkbox" id="hide-create" /><label for="hide-create">Hide create button on
+                worklist</label>
+            </div>
+            <div class='flex align-center'>
+              <span>Create all case types</span>
+              <input onchange="showCaseType(event); return false;" class='toggle' type="checkbox"
+                id="create-all-casetypes" checked />
+              <label for="create-all-casetypes">Create all case types</label>
+            </div>
+            <div class='flex align-center' style='display:none'>
+              <span>Hide cancel button</span>
+              <input class='toggle' type="checkbox" id="hide-cancel" /><label for="hide-cancel">Hide cancel
+                button</label>
+            </div>
+            <div class='flex align-center' style='display:none'>
+              <span>Hide save button</span>
+              <input class='toggle' type="checkbox" id="hide-save" /><label for="hide-save">Hide save button</label>
+            </div>
+            <div class='flex align-center'>
+              <span>Support attachments</span>
+              <input class='toggle' type="checkbox" id="show-attachments" checked /><label for="show-attachments">Show
+                attachments</label>
+            </div>
+            <div class='flex flex-col' style='display:none'>
+              <label for='casetype'>Case type</label>
+              <input type='text' id='casetype'>
+            </div>
+            <div class='flex flex-col' style='display:none'>
+              <label for='caseid'>Case ID</label>
+              <input type='text' id='caseid'>
+            </div>
+            <h3>Configuration</h3>
+            <div class='flex align-center'>
+              <span>Use shadow DOM</span>
+              <input class='toggle' type="checkbox" id="switch-shadowDOM" /><label for="switch-shadowDOM">Use shadow
+                DOM</label>
+            </div>
+            <div class='flex flex-col'>
+              <label for='apiversion'>DX API version</label>
+              <select onchange="selectDXAPIVersion(event); return false;" id='apiversion'>
+                <option value="1" selected>Version 1</option>
+                <option value="2">Version 2 (Pega 8.5 or higher)</option>
+              </select>
+            </div>
+            <div class='flex flex-col'>
+              <label for='url'>URL</label>
+              <input type='text' id='url'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='portalName'>Portal Name</label>
+              <input type='text' id='portalName'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='language'>Language</label>
+              <select id='language'>
+                <option value="" selected>None</option>
+                <option value="French">French</option>
+              </select>
+            </div>
+            <div class='flex flex-col'>
+              <label for='googleapikey'>Google Map API Key</label>
+              <input type='text' id='googleapikey'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='authentication'>Authentication</label>
+              <select onchange="showAuthentication(event); return false;" id='authentication'>
+                <option value="basic" selected>Basic authentication</option>
+                <option value="jwttoken">Custom authentication with JWT Token</option>
+                <option value="oauth2password">OAuth 2.0 Password Grant Type</option>
+                <option value="oauth2clientcredentials">OAuth 2.0 Client Credentials Type</option>
+                <option value="authorizationcode">OAuth 2.0 Authorization Code (login page)</option>
+              </select>
+            </div>
+            <div class='flex flex-col'>
+              <label for='jwttoken'>JWT Token</label>
+              <input type='text' id='jwttoken'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='clientid'>Client ID</label>
+              <input type='text' id='clientid'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='clientsecret'>Client Secret</label>
+              <input type='text' id='clientsecret'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='username'>Username</label>
+              <input type='text' id='username'>
+            </div>
+            <div class='flex flex-col'>
+              <label for='password'>Password</label>
+              <input type='password' id='password'>
+            </div>
+            <button id="submit" onclick="resetState(); createMashup(); event.preventDefault(); return false;">Apply
+              changes</button>
+            <button id="reset" onclick="resetSettings(); event.preventDefault(); return false;">Reset
+              configuration</button>
           </div>
-          <div class='flex align-center'>
-            <span>Hide create button on worklist</span>
-            <input class='toggle' type="checkbox" id="hide-create" /><label for="hide-create">Hide create button on
-              worklist</label>
-          </div>
-          <div class='flex align-center'>
-            <span>Create all case types</span>
-            <input onchange="showCaseType(event); return false;" class='toggle' type="checkbox" id="create-all-casetypes" checked />
-            <label for="create-all-casetypes">Create all case types</label>
-          </div>
-          <div class='flex align-center' style='display:none'>
-            <span>Hide cancel button</span>
-            <input class='toggle' type="checkbox" id="hide-cancel" /><label for="hide-cancel">Hide cancel button</label>
-          </div>
-          <div class='flex align-center' style='display:none'>
-            <span>Hide save button</span>
-            <input class='toggle' type="checkbox" id="hide-save" /><label for="hide-save">Hide save button</label>
-          </div>
-          <div class='flex align-center'>
-            <span>Support attachments</span>
-            <input class='toggle' type="checkbox" id="show-attachments" checked/><label for="show-attachments">Show attachments</label>
-          </div>
-          <div class='flex flex-col' style='display:none'>
-            <label for='casetype'>Case type</label>
-            <input type='text' id='casetype'>
-          </div>
-          <div class='flex flex-col' style='display:none'>
-            <label for='caseid'>Case ID</label>
-            <input type='text' id='caseid'>
-          </div>
-          <h3>Configuration</h3>
-          <div class='flex align-center'>
-            <span>Use shadow DOM</span>
-            <input class='toggle' type="checkbox" id="switch-shadowDOM"/><label for="switch-shadowDOM">Use shadow
-              DOM</label>
-          </div>
-          <div class='flex flex-col'>
-            <label for='apiversion'>DX API version</label>
-            <select onchange="selectDXAPIVersion(event); return false;" id='apiversion'>
-              <option value="1" selected>Version 1</option>
-              <option value="2">Version 2 (Pega 8.5 or higher)</option>
-            </select>
-          </div>
-          <div class='flex flex-col'>
-            <label for='url'>URL</label>
-            <input type='text' id='url'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='portalName'>Portal Name</label>
-            <input type='text' id='portalName'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='language'>Language</label>
-            <select id='language'>
-              <option value="" selected>None</option>
-              <option value="French">French</option>
-            </select>
-          </div>
-          <div class='flex flex-col'>
-            <label for='googleapikey'>Google Map API Key</label>
-            <input type='text' id='googleapikey'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='authentication'>Authentication</label>
-            <select onchange="showAuthentication(event); return false;" id='authentication'>
-              <option value="basic" selected>Basic authentication</option>
-              <option value="jwttoken">Custom authentication with JWT Token</option>
-              <option value="oauth2password">OAuth 2.0 Password Grant Type</option>
-              <option value="oauth2clientcredentials">OAuth 2.0 Client Credentials Type</option>
-              <option value="authorizationcode">OAuth 2.0 Authorization Code (login page)</option>
-            </select>
-          </div>
-          <div class='flex flex-col'>
-            <label for='jwttoken'>JWT Token</label>
-            <input type='text' id='jwttoken'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='clientid'>Client ID</label>
-            <input type='text' id='clientid'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='clientsecret'>Client Secret</label>
-            <input type='text' id='clientsecret'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='username'>Username</label>
-            <input type='text' id='username'>
-          </div>
-          <div class='flex flex-col'>
-            <label for='password'>Password</label>
-            <input type='password' id='password'>
-          </div>
-          <button id="submit" onclick="createMashup(); event.preventDefault(); return false;">Apply changes</button>
-          <button id="reset" onclick="resetSettings(); event.preventDefault(); return false;">Reset configuration</button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
     </div>
   </main>
   <footer>
@@ -420,14 +439,17 @@ footer a:focus {
   </footer>
   <script src="./pega-mashup-webcomponent-all.js"></script>
   <script>
-    function resetSettings() {
+    function resetState() {
       const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
       localStorage.clear();
       window.history.replaceState(
-          { },
-          '',
-          redirectURL,
-        );
+        {},
+        '',
+        redirectURL,
+      );
+    }
+    function resetSettings() {
+      resetState();
       location.reload();
     }
     function toggleSettings() {
@@ -440,13 +462,13 @@ footer a:focus {
       var apiVersion = document.getElementById("apiversion").value;
       var mytag;
       if (document.getElementById("switch-shadowDOM").checked === false) {
-        if(apiVersion === "2") {
+        if (apiVersion === "2") {
           mytag = document.createElement("pega-mashup-light-v2");
         } else {
           mytag = document.createElement("pega-mashup-light");
         }
       } else {
-        if(apiVersion === "2") {
+        if (apiVersion === "2") {
           mytag = document.createElement("pega-mashup-v2");
         } else {
           mytag = document.createElement("pega-mashup");
@@ -466,7 +488,7 @@ footer a:focus {
       }
       mytag.setAttribute("url", document.getElementById("url").value);
 
-      if(apiVersion === "2") {
+      if (apiVersion === "2") {
         mytag.setAttribute("portalName", document.getElementById("portalName").value);
       }
 
@@ -499,7 +521,7 @@ footer a:focus {
       }
 
       /* pass the language tokens directly to the component */
-      if(apiVersion === "2" && document.getElementById("language").value === "French") {
+      if (apiVersion === "2" && document.getElementById("language").value === "French") {
         mytag.langTokens = window.langFR;
       }
 
@@ -518,23 +540,23 @@ footer a:focus {
       mainEl.appendChild(mytag);
       mytag.addEventListener("message", function (event) {
         console.log("event was sent by the web component", event.detail);
-        if(event.detail === "cancel") {
+        if (event.detail === "cancel") {
           mainEl.removeChild(mainEl.childNodes[0]);
         }
       });
 
       const mainconfig = {
-        url : document.getElementById("url").value,
-        portalName : document.getElementById("portalName").value,
+        url: document.getElementById("url").value,
+        portalName: document.getElementById("portalName").value,
         language: document.getElementById("language").value,
-        casetype:document.getElementById("casetype").value,
-        caseid:document.getElementById("caseid").value,
+        casetype: document.getElementById("casetype").value,
+        caseid: document.getElementById("caseid").value,
         action: document.getElementById("action").value,
         showAttachments: document.getElementById("show-attachments").checked,
         apiversion: document.getElementById("apiversion").value,
         authentication: document.getElementById("authentication").value,
         jwttoken: document.getElementById("jwttoken").value,
-        clientid : document.getElementById("clientid").value,
+        clientid: document.getElementById("clientid").value,
         clientsecret: document.getElementById("clientsecret").value,
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
@@ -545,7 +567,7 @@ footer a:focus {
     }
     function showFields(event) {
       var action = document.getElementById("action").value;
-      if(event) action = event.target.value;
+      if (event) action = event.target.value;
       var hideCreate = document.getElementById("hide-create").parentElement;
       var createAllCasetypes = document.getElementById("create-all-casetypes").parentElement;
       var hideCancel = document.getElementById("hide-cancel").parentElement;
@@ -577,9 +599,9 @@ footer a:focus {
     }
     function showCaseType(event) {
       var createAllCaseTypes = document.getElementById("create-all-casetypes").checked;
-      if(event) createAllCaseTypes = event.target.checked;
+      if (event) createAllCaseTypes = event.target.checked;
       var casetype = document.getElementById("casetype").parentElement;
-      if(createAllCaseTypes === true) {
+      if (createAllCaseTypes === true) {
         casetype.style.display = "none";
       } else {
         casetype.style.display = "";
@@ -587,11 +609,11 @@ footer a:focus {
     }
     function selectDXAPIVersion(event) {
       var apiVersion = document.getElementById("apiversion").value;
-      if(event) apiVersion = event.target.value;
+      if (event) apiVersion = event.target.value;
       var portalName = document.getElementById("portalName").parentElement;
       var language = document.getElementById("language").parentElement;
       var googleapikey = document.getElementById("googleapikey").parentElement;
-      if(apiVersion === "2") {
+      if (apiVersion === "2") {
         portalName.style.display = "";
         language.style.display = "";
         googleapikey.style.display = "";
@@ -603,7 +625,7 @@ footer a:focus {
     }
     function showAuthentication(event) {
       var action = document.getElementById("authentication").value;
-      if(event) action = event.target.value;
+      if (event) action = event.target.value;
       var username = document.getElementById("username").parentElement;
       var password = document.getElementById("password").parentElement;
       var jwttoken = document.getElementById("jwttoken").parentElement;
@@ -644,14 +666,14 @@ footer a:focus {
     /* Default values */
     // Retrieve the object from storage
     let defaultCfg = {
-      url : "https://pw16agenda-dt1.pegacloud.io/prweb",
+      url: "https://pw16agenda-dt1.pegacloud.io/prweb",
       portalName: "DemoReact1",
-      casetype:"OPGO8L-CarInsur-Work-CarInsuranceQuote",
+      casetype: "OPGO8L-CarInsur-Work-CarInsuranceQuote",
       language: "",
-      caseid:"",
+      caseid: "",
       username: "wssuser2",
       password: "install@123",
-      action : "workList",
+      action: "workList",
       showAttachments: false,
       apiversion: "1",
       jwttoken: "",
@@ -667,7 +689,7 @@ footer a:focus {
     }
     document.getElementById("url").value = defaultCfg.url;
     document.getElementById("portalName").value = defaultCfg.portalName;
-    document.getElementById("language").value  = defaultCfg.language;
+    document.getElementById("language").value = defaultCfg.language;
     document.getElementById("casetype").value = defaultCfg.casetype;
     document.getElementById("caseid").value = defaultCfg.caseid;
     document.getElementById("action").value = defaultCfg.action;
@@ -686,7 +708,7 @@ footer a:focus {
     showFields();
     showAuthentication();
     createMashup();
-    if(document.getElementById("googleapikey").value && document.getElementById("googleapikey").value!=='') {
+    if (document.getElementById("googleapikey").value && document.getElementById("googleapikey").value !== '') {
       const googlescript = document.createElement('script');
       googlescript.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=${document.getElementById("googleapikey").value}&libraries=places`);
       document.head.appendChild(googlescript);

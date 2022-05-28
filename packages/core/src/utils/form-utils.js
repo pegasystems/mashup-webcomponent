@@ -1,5 +1,4 @@
 /* eslint-disable no-self-compare */
-import CryptoES from 'crypto-es';
 
 /**
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
@@ -551,12 +550,48 @@ export const genContentPayload = (content, initInstructions) => {
   return { pageInstructions, pageupdate };
 };
 
-export const genOAuthURL = () => {
-  const salt = `${CryptoES.lib.WordArray.random(128 / 8)}`;
-  const verifier = CryptoES.SHA256(salt);
-  return {
-    urlparam: `response_type=code&scope=openid&code_challenge=${verifier}` +
-  '&code_challenge_method=S256&response_mode=query&authentication_service=pega',
-    verifier: salt,
-  };
-};
+function b64Uri(string) {
+  return btoa(string).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function runCallback(callback, verifier, digest) {
+  callback(null, {
+    verifier,
+    challenge: b64Uri(String.fromCharCode.apply(null, new Uint8Array(digest))),
+  });
+}
+
+function getPkce(length, callback) {
+  let tmplength = length;
+  if (!tmplength) { tmplength = 43; }
+  const cryptoLib = window.msCrypto || window.crypto;
+  const verifier = b64Uri(Array.prototype.map
+    .call(cryptoLib.getRandomValues(new Uint8Array(tmplength)), (number) => String.fromCharCode(number))
+    .join('')).substring(0, tmplength);
+  const randomArray = new Uint8Array(verifier.length);
+  for (let i = 0; i < verifier.length; i++) {
+    randomArray[i] = verifier.charCodeAt(i);
+  }
+  const digest = cryptoLib.subtle.digest('SHA-256', randomArray);
+  if (window.CryptoOperation) {
+    digest.onerror = callback;
+    digest.oncomplete = (event) => {
+      runCallback(callback, verifier, event.target.result);
+    };
+  } else {
+    digest
+      .then((digest1) => {
+        runCallback(callback, verifier, digest1);
+      })
+      .catch(callback);
+  }
+}
+
+export const genOAuthURL = () => new Promise((resolve, reject) => {
+  getPkce(43, (error, { verifier, challenge }) => {
+    if (!error) {
+      resolve({ verifier, challenge });
+    } else {
+      reject(new Error('error'));
+    }
+  });
+});
