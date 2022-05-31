@@ -15,7 +15,7 @@ export const SimpleTable = (item, path, isReadOnly) => html`
       </tr>
     </thead>
     <tbody>
-      ${Table(item.layout.rows, path)}
+      ${Table(item.layout.rows, path, isReadOnly)}
     </tbody>
   </table>
   </div>
@@ -62,10 +62,13 @@ const TableHeader = (data) => html`
     <th scope='col'>${item.caption ? html`${item.caption.value}` : ''}</th>`)}
 `;
 
-const Table = (data) => html`
-  ${data.map((item) => html`
+const Table = (data, path, isReadOnly) => html`
+  ${data.map((item, index) => {
+    const tmppath = `${path}-table-${index}`;
+    return html`
     <tr>
-      ${item.groups.map((tdItem) => html`
-      <td>${Field(tdItem.field)}</td>`)}
-    </tr>`)}
+      ${item.groups.map((tdItem, tdIndex) => html`
+      <td>${Field(tdItem.field, `${tmppath}-${tdIndex}`, isReadOnly)}</td>`)}
+    </tr>`;
+  })}
 `;

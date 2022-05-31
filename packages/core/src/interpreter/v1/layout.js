@@ -46,7 +46,7 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
         /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
           return SimpleTable(item, tmppath, isReadOnly);
         }
-        return SimpleList(item, tmppath, isReadOnly);
+        return SimpleList(item, tmppath, isReadOnly, webcomp);
       }
       return null;
     }
@@ -74,21 +74,21 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
   })}
 `;
 
-const SimpleList = (item, path, isReadOnly) => html`
+const SimpleList = (item, path, isReadOnly, webcomp) => html`
   ${ListTitle(item.layout)}
   <div class="rdl">
-    ${List(item.layout.rows, path, isReadOnly)}
+    ${List(item.layout.rows, path, isReadOnly, webcomp)}
   </div>
   ${ListAction(item.layout, isReadOnly)}
 `;
 
-const List = (data, path, isReadOnly) => html`
+const List = (data, path, isReadOnly, webcomp) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}-row${index}`;
     if (item.groups) {
       return html`
         <div>
-          ${Layout(item.groups, tmppath, isReadOnly)}
+          ${Layout(item.groups, tmppath, isReadOnly, webcomp)}
         </div>
       `;
     }

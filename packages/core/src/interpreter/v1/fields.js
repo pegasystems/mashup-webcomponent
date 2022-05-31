@@ -61,7 +61,7 @@ const DisplayLabel = (data, path, type) => {
 };
 
 const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
-  if (typeof path === 'undefined') {
+  if (typeof path === 'undefined' || path.indexOf('-table-') !== -1) {
     return html`
       ${ComponentTemplate}
     `;

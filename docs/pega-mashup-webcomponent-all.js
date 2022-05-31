@@ -152,7 +152,7 @@ var J,Y;null==Z||Z(O,q),(null!==(p=globalThis.litHtmlVersions)&&void 0!==p?p:glo
      * @license
      * Copyright 2017 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
-     */class Mt extends Rt{constructor(t){if(super(t),this.it=L,t.type!==Et)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(t){if(t===L||null==t)return this.ft=void 0,this.it=t;if(t===E)return t;if("string"!=typeof t)throw Error(this.constructor.directiveName+"() called with a non-string value");if(t===this.it)return this.ft;this.it=t;const e=[t];return e.raw=e,this.ft={_$litType$:this.constructor.resultType,strings:e,values:[]}}}Mt.directiveName="unsafeHTML",Mt.resultType=1;const zt=Lt(Mt),Nt=t=>null!=t?t:L,Ot=(t,e)=>{if(t.control&&t.control.actionSets&&t.control.actionSets.length>0)for(const a of t.control.actionSets)if(a.events.length>0&&a.actions.length>0&&a.events[0].event===e){let t=a.actions[0].action;return"refresh"===t&&""!==a.actions[0].refreshFor&&(t+=`-${a.actions[0].refreshFor}`),t}},Pt=t=>"pyTemplateButton"!==t.reference?t.reference:t.control&&t.control.modes?t.control.modes[1].tooltip:null,Ut=(t,e,a)=>{if(void 0===e)return null;const i=t.required&&!0!==t.readOnly?"icon-required":"";return"field-checkbox"===a?""!==t.label||!0===t.showLabel?T`<div class="field-caption dataLabelForWrite ${i}">${lt(t.label)}</div>`:null:"field-text"===a&&!0===t.readOnly&&"pxCheckbox"===t.control.type&&t.control.label?T`<label class="field-caption dataLabelForWrite">${lt(t.control.label)}</label>`:""!==t.label||!0===t.showLabel||!0===t.labelReserveSpace?T`<label class="field-caption dataLabelForWrite ${i}" for="${Nt(e)}">${lt(t.label)}</label>`:null},qt=(t,e,a,i)=>void 0===e?T`
+     */class Mt extends Rt{constructor(t){if(super(t),this.it=L,t.type!==Et)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(t){if(t===L||null==t)return this.ft=void 0,this.it=t;if(t===E)return t;if("string"!=typeof t)throw Error(this.constructor.directiveName+"() called with a non-string value");if(t===this.it)return this.ft;this.it=t;const e=[t];return e.raw=e,this.ft={_$litType$:this.constructor.resultType,strings:e,values:[]}}}Mt.directiveName="unsafeHTML",Mt.resultType=1;const zt=Lt(Mt),Nt=t=>null!=t?t:L,Ot=(t,e)=>{if(t.control&&t.control.actionSets&&t.control.actionSets.length>0)for(const a of t.control.actionSets)if(a.events.length>0&&a.actions.length>0&&a.events[0].event===e){let t=a.actions[0].action;return"refresh"===t&&""!==a.actions[0].refreshFor&&(t+=`-${a.actions[0].refreshFor}`),t}},Pt=t=>"pyTemplateButton"!==t.reference?t.reference:t.control&&t.control.modes?t.control.modes[1].tooltip:null,Ut=(t,e,a)=>{if(void 0===e)return null;const i=t.required&&!0!==t.readOnly?"icon-required":"";return"field-checkbox"===a?""!==t.label||!0===t.showLabel?T`<div class="field-caption dataLabelForWrite ${i}">${lt(t.label)}</div>`:null:"field-text"===a&&!0===t.readOnly&&"pxCheckbox"===t.control.type&&t.control.label?T`<label class="field-caption dataLabelForWrite">${lt(t.control.label)}</label>`:""!==t.label||!0===t.showLabel||!0===t.labelReserveSpace?T`<label class="field-caption dataLabelForWrite ${i}" for="${Nt(e)}">${lt(t.label)}</label>`:null},qt=(t,e,a,i)=>void 0===e||-1!==e.indexOf("-table-")?T`
       ${i}
     `:"field-button"!==a||(t=>!!(t.control&&t.control.actionSets&&t.control.actionSets.length>0))(t)?"field-radiogroup"===a?T`
     <div class="flex content-item field-item ${a}"><fieldset><legend>${Ut(t,e,a)}</legend>${i}</fielset></div>
@@ -375,12 +375,12 @@ ${lt(t.value)}</textarea
     `}return null},le=t=>T`
   ${t.map((t=>T`
     <th scope='col'>${t.caption?T`${t.caption.value}`:""}</th>`))}
-`,ce=t=>T`
-  ${t.map((t=>T`
+`,ce=(t,e,a)=>T`
+  ${t.map(((t,i)=>{const n=`${e}-table-${i}`;return T`
     <tr>
-      ${t.groups.map((t=>T`
-      <td>${Ht(t.field)}</td>`))}
-    </tr>`))}
+      ${t.groups.map(((t,e)=>T`
+      <td>${Ht(t.field,`${n}-${e}`,a)}</td>`))}
+    </tr>`}))}
 `,de=(t,e,a,i)=>T`
   ${t.map(((t,n)=>{const s=`${e}-${n}`;if(t.layout){""!==t.layout.groupFormat.trim()&&"CENTER"!==t.layout.groupFormat||(t.layout.groupFormat="default");const e=t.layout.groupFormat.replace(/ /g,"_").toLowerCase(),n=`flex content layout-content-${e} content-${e}`;if(t.layout.view&&t.layout.view.groups)return T`
           <div class="${n}">${de(t.layout.view.groups,s,a,i)}</div>
@@ -397,22 +397,22 @@ ${lt(t.value)}</textarea
       </tr>
     </thead>
     <tbody>
-      ${ce(t.layout.rows)}
+      ${ce(t.layout.rows,e,a)}
     </tbody>
   </table>
   </div>
   ${re(t.layout,a)}
-`)(t,0,a):he(t,s,a):null}if(t.paragraph)return T`<div class='flex content-item field-item flex-paragraph'>${zt(t.paragraph.value)}</div>`;if(t.field){if(t.field.control&&"pxAttachContent"===t.field.control.type)return kt("Upload file","Upload file","",i.displayAttachments);if(t.field.control&&t.field.control.actionSets&&t.field.control.actionSets.length>0&&t.field.control.actionSets[0]&&t.field.control.actionSets[0].actions[0]&&"localAction"===t.field.control.actionSets[0].actions[0].action){const e=i.actionID;return((t,e,a)=>{const i=t.control.actionSets[0].actions[0].actionProcess.localAction,n=t.control.actionSets[0].actions[0].actionProcess.target,s=t.control.modes[1].controlFormat?t.control.modes[1].controlFormat:"";if("modalDialog"===n){const n=a=>{M(St(t.control.label,X()),a),e(i,a)};return nt(i,t.control.label,s,n,a)}return T`<div><button type="button" @click="${()=>{e(i)}}" class="pzhc pzbutton ${s}">${i18n.t(t.control.label)}</button></<div>`})(t.field,i.displayLocalAction,(()=>{i.reloadAssignment(e)}))}return Ht(t.field,s,a)}return t.view&&t.view.groups?"pyAttachFieldOptional"===t.view.viewID&&"Embed-Attach-File"===t.view.appliesTo?kt("Upload file","Upload file","",i.displayAttachments):de(t.view.groups,s,a,i):null}))}
-`,he=(t,e,a)=>T`
+`)(t,s,a):he(t,s,a,i):null}if(t.paragraph)return T`<div class='flex content-item field-item flex-paragraph'>${zt(t.paragraph.value)}</div>`;if(t.field){if(t.field.control&&"pxAttachContent"===t.field.control.type)return kt("Upload file","Upload file","",i.displayAttachments);if(t.field.control&&t.field.control.actionSets&&t.field.control.actionSets.length>0&&t.field.control.actionSets[0]&&t.field.control.actionSets[0].actions[0]&&"localAction"===t.field.control.actionSets[0].actions[0].action){const e=i.actionID;return((t,e,a)=>{const i=t.control.actionSets[0].actions[0].actionProcess.localAction,n=t.control.actionSets[0].actions[0].actionProcess.target,s=t.control.modes[1].controlFormat?t.control.modes[1].controlFormat:"";if("modalDialog"===n){const n=a=>{M(St(t.control.label,X()),a),e(i,a)};return nt(i,t.control.label,s,n,a)}return T`<div><button type="button" @click="${()=>{e(i)}}" class="pzhc pzbutton ${s}">${i18n.t(t.control.label)}</button></<div>`})(t.field,i.displayLocalAction,(()=>{i.reloadAssignment(e)}))}return Ht(t.field,s,a)}return t.view&&t.view.groups?"pyAttachFieldOptional"===t.view.viewID&&"Embed-Attach-File"===t.view.appliesTo?kt("Upload file","Upload file","",i.displayAttachments):de(t.view.groups,s,a,i):null}))}
+`,he=(t,e,a,i)=>T`
   ${oe(t.layout)}
   <div class="rdl">
-    ${ue(t.layout.rows,e,a)}
+    ${ue(t.layout.rows,e,a,i)}
   </div>
   ${re(t.layout,a)}
-`,ue=(t,e,a)=>T`
-  ${t.map(((t,i)=>{const n=`${e}-row${i}`;return t.groups?T`
+`,ue=(t,e,a,i)=>T`
+  ${t.map(((t,n)=>{const s=`${e}-row${n}`;return t.groups?T`
         <div>
-          ${de(t.groups,n,a)}
+          ${de(t.groups,s,a,i)}
         </div>
       `:null}))}
 `,pe=(t,e,a,i,n,s,o,r,l)=>{const c=T`${at()}<span class='count-badge'>${n}</span>`;if(void 0===e.caseID&&a.content)return T`
