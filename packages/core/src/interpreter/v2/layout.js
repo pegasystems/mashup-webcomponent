@@ -32,6 +32,7 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
       data.config.template = 'OneColumn';
     }
     switch (data.config.template) {
+      case 'DetailsTwoColumn':
       case 'TwoColumn':
         return html`
           <div class="flex layout-content-inline_grid_double">

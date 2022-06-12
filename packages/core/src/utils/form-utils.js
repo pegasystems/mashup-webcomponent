@@ -78,7 +78,11 @@ export const setBodyContent = (content, path, pageinstructions, casedata, value)
   if (casedata) {
     const origVal = getValue(casedata, path);
     // eslint-disable-next-line eqeqeq
-    if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) return;
+    if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) {
+      return;
+    }
+    // update the casedata value
+    setObjectFromRef(casedata, path, value);
   }
   const propPath = path.lastIndexOf('.');
   if (propPath === -1) {

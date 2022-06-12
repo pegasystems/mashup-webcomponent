@@ -200,6 +200,7 @@ input[type='radio'] {
   min-height: 20px;
   margin-right: var(--spacing1x);
   min-width: 20px;
+  margin-top: 0;
 }
 select {
   height: 36px;
