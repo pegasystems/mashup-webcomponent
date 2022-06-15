@@ -29,7 +29,7 @@ export default class PegaElement extends LitElement {
   constructor() {
     super();
     this.url = '';
-    this.title = 'My worklist';
+    this.title = 'Your pending actions';
     this.caseID = '';
     this.username = '';
     this.password = '';
