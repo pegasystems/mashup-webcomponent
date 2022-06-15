@@ -16,13 +16,12 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
   </div>
   ${cases.length > 0
     ? html`
+    <div class='widgetborder'>
         <table class='responsive'>
-          <caption class='sr-only'>${i18n.t('My worklist')}</caption>
           <thead>
             <tr>
-              <th span='col'>${i18n.t('Name')}</th>
-              <th span='col'>${i18n.t('Case ID')}</th>
-              <th span='col' class="right-aligned">${i18n.t('Urgency')}</th>
+              <th span='col'>${i18n.t('Reference number')}</th>
+              <th span='col'>${i18n.t('Description')}</th>
               <th span='col' class="right-aligned">${i18n.t('Action')}</th>
             </tr>
           </thead>
@@ -30,9 +29,8 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
             ${cases.map(
     (item) => html`
                 <tr>
+                  <td data-title='Reference number'>${item.caseID.split(' ')[1]}</td>
                   <td data-title='Name'>${i18n.t(item.name)}</td>
-                  <td data-title='Case ID'>${item.caseID}</td>
-                  <td data-title='Urgency' class="right-aligned">${item.urgency}</td>
                   <td data-title='Action' class="right-aligned">
                     <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">
                     ${i18n.t('Open')}</button>
@@ -42,6 +40,7 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
   )}
           </tbody>
         </table>
+      </div>
       `
     : html`
         <div class="margin-t-2x">${i18n.t('no assignments')}</div>
