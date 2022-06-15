@@ -9,6 +9,7 @@ import { showConfirm } from '../../views/confirm';
 import { showErrorMessage } from '../../views/errormsg';
 import { shouldRefresh, getRefreshFor, unescapeHTML } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
+import { RecentActivity } from '../../views/recentactivity';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
@@ -21,8 +22,8 @@ export default class PegaBase extends PegaServices {
       this.sendData('authenticate', {});
       return null;
     }
-    /* We need to fetch the list of cases for the createNewWork and workList actions */
-    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList')) {
+    /* We need to fetch the list of cases for the createNewWork, workList and recentactivity actions */
+    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList' || this.action === 'recentactivity')) {
       this.fetchData('casetypes');
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
@@ -32,6 +33,9 @@ export default class PegaBase extends PegaServices {
       } else if (this.action === 'workList') {
         this.bShowCancel = 'true';
         this.fetchData('worklist');
+      } else if (this.action === 'recentactivity') {
+        this.bShowCancel = 'true';
+        this.fetchData('recentactivity');
       }
     } else if (this.name === '') {
       if (this.action === 'openAssignment' && this.assignmentID === '') {
@@ -52,8 +56,12 @@ export default class PegaBase extends PegaServices {
       );
     }
     if (this.caseID !== '' || this.assignmentID !== '' || this.bShowNew) {
+      if (this.action === 'recentactivity') {
+        this.casedata.assignments = '';
+      }
       return html`
-        ${CaseHeader(
+        <div class='widgetborder'>
+          ${CaseHeader(
     this.name,
     this.data,
     this.casedata,
@@ -64,12 +72,23 @@ export default class PegaBase extends PegaServices {
     this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null,
   )}
-        <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
-        <form id="case-data"></form>
-      `;
+          <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
+          <form id="case-data"></form>
+        </div>
+        `;
     }
     if (this.action === 'workList') {
       return WorkList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+    }
+    if (this.action === 'recentactivity') {
+      return RecentActivity(
+        this.title,
+        this.cases,
+        this.displayCasesTypes,
+        this.reloadWorkList,
+        this.bShowCreate === 'true' ? this.createCase : null,
+        this.openCase,
+      );
     }
     return null;
   }
@@ -80,7 +99,7 @@ export default class PegaBase extends PegaServices {
     this.bShowCancel === 'true' ? this.actionAreaCancel : null,
     this.bShowSave === 'true' ? this.actionAreaSave : null,
     this,
-  )
+  );
 
   renderSaveCaseLayout = (data, path) => saveCaseLayout(
     data,
@@ -88,15 +107,15 @@ export default class PegaBase extends PegaServices {
     this.bShowCancel === 'true' ? this.actionAreaCancel : null,
     this.bShowSave === 'true' ? this.actionAreaSave : null,
     this,
-  )
+  );
 
-  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
-  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null)
+  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null);
 
-  genPageValidationErrors = (response) => genPageValidationErrors(response)
+  genPageValidationErrors = (response) => genPageValidationErrors(response);
 
-  showDataList = (id) => showDataList(id)
+  showDataList = (id) => showDataList(id);
 
   genLoadingIndicator = () => LoadingIndicator();
 
@@ -108,7 +127,7 @@ export default class PegaBase extends PegaServices {
     el.setCustomValidity(unescapeHTML(msg));
     el.classList.add('error-field');
     el.reportValidity();
-  }
+  };
 
   clickHandler = (event) => {
     let el = event.target;
