@@ -117,6 +117,9 @@ export default class PegaServices extends PegaElement {
     if (this.action === 'workList') {
       this.fetchData('worklist');
     }
+    if (this.action === 'recentactivity') {
+      this.fetchData('recentactivity');
+    }
     this.sendExternalEvent({ type: 'cancel' });
   };
 
@@ -184,7 +187,7 @@ export default class PegaServices extends PegaElement {
   reloadAssignment = (actionid) => {
     this.actionID = actionid;
     this.fetchData('assignmentaction', { id: this.assignmentID, actionid });
-  }
+  };
 
   createCase = (event) => {
     this.name = 'New Case';
@@ -328,6 +331,9 @@ export default class PegaServices extends PegaElement {
       case 'worklist':
         apiurl += 'assignments';
         break;
+      case 'recentactivity':
+        apiurl += `data/D_ServiceItemsHistory?ID=${window.PegaCSWSS.ContactID}&Type=CONTACT`;
+        break;
       case 'casetypes':
         apiurl += 'casetypes';
         break;
@@ -396,7 +402,7 @@ export default class PegaServices extends PegaElement {
               this.casetypes = {};
               for (const obj of response.caseTypes) {
                 /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
-                if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.ID) {
+                if (this.action !== 'workList' || this.action !== 'recnetactivity' || this.casetype === '' || this.casetype === obj.ID) {
                   this.casetypes[obj.ID] = {
                     canCreate: obj.CanCreate,
                     name: obj.name,
@@ -410,6 +416,10 @@ export default class PegaServices extends PegaElement {
               break;
             case 'worklist':
               this.cases = response.assignments;
+              this.requestUpdate();
+              break;
+            case 'recentactivity':
+              this.cases = response.pxResults;
               this.requestUpdate();
               break;
             case 'assignment':
