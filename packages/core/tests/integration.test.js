@@ -48,7 +48,7 @@ describe(
         });
       }
       const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
-      expect(title).toContain('My worklist');
+      expect(title).toContain('Your pending actions');
       const cases = await page.evaluate(() => {
         const caseslist = Array.from(document.querySelectorAll('pega-mashup-light table button'));
         return caseslist.map((el) => el.getAttribute('data-id'));
@@ -190,7 +190,7 @@ describe(
         });
       }
       const title = await page.evaluate(() => document.querySelector('pega-mashup').shadowRoot.querySelector('h2').innerText);
-      expect(title).toContain('My worklist');
+      expect(title).toContain('Your pending actions');
     }, timeout);
   },
   timeout,
