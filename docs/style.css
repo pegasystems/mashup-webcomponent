@@ -320,7 +320,6 @@ img {
 .table-content {
   overflow-x: auto;
   overflow-y:hidden;
-  padding-bottom: 16px;
   flex-flow: column nowrap;
   display:flex;
 }
@@ -593,7 +592,7 @@ pega-mashup-light-v2,
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
-
+  overflow-x: hidden;
 }
 
 #case-data,

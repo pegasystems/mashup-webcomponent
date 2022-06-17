@@ -62,6 +62,9 @@ const DisplayLabel = (data, path, type) => {
 
 const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
   if (typeof path === 'undefined' || path.indexOf('-table-') !== -1) {
+    if (type === 'field-checkbox') {
+      return html`<div class="flex">${ComponentTemplate}</div>`;
+    }
     return html`
       ${ComponentTemplate}
     `;
@@ -250,6 +253,8 @@ const DisplayText = (data, path) => {
     }
   }
   if (data.control.type === 'pxCurrency') {
+    value = `$${value}`;
+  } else if (data.control.type === 'pxNumber' && data.readOnly && data.control.modes[1].numberSymbol === 'currency') {
     value = `$${value}`;
   }
   return html`

@@ -184,7 +184,7 @@ export default class PegaServices extends PegaElement {
   reloadAssignment = (actionid) => {
     this.actionID = actionid;
     this.fetchData('assignmentaction', { id: this.assignmentID, actionid });
-  }
+  };
 
   createCase = (event) => {
     this.name = 'New Case';
@@ -708,9 +708,9 @@ export default class PegaServices extends PegaElement {
               console.error('Error: case data are not present');
               return;
             }
-            if (type === 'refreshnew') {
+            if (type === 'refreshnew' && response.creation_page && response.creation_page.groups && response.creation_page.groups[0]) {
               render(this.renderCreateCaseLayout(response.creation_page.groups[0].layout.groups, 'Obj'), el);
-            } else {
+            } else if (response.view && response.view.groups) {
               render(this.renderMainLayout(response.view.groups, 'Obj'), el);
             }
           } else if (type === 'savecase') {

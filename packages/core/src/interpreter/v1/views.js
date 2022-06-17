@@ -130,7 +130,7 @@ export const genPageValidationErrors = (response) => {
   return html`
   <ul>
     ${response.errors[0].ValidationMessages.map((item) => {
-    if (item.Path) {
+    if (item.Path && item.Path !== '.pzErrorMessage') {
       return html`
           <li>${item.Path.substring(1)}: ${item.ValidationMessage}</li>
         `;
