@@ -42,7 +42,7 @@ export default class PegaServices extends PegaElement {
     this.numAttachments = 0;
     this.validationMsg = '';
     this.name = '';
-    if (this.action === 'workList') {
+    if (this.action === 'workList' || this.action === 'taskList') {
       this.fetchData('portal');
     }
     this.sendExternalEvent({ type: 'cancel' });
@@ -360,7 +360,7 @@ export default class PegaServices extends PegaElement {
                 }
                 for (const obj of listofcasestocreate) {
                   /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
-                  if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.pyClassName) {
+                  if ((this.action !== 'workList' && this.action !== 'taskList') || this.casetype === '' || this.casetype === obj.pyClassName) {
                     this.casetypes[obj.pyClassName] = {
                       canCreate: true,
                       name: obj.pyLabel,
@@ -639,7 +639,7 @@ export default class PegaServices extends PegaElement {
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'dataviews') {
-            // debugger;
+            // TODO;
           }
           if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {
             this.sendExternalEvent({ type: 'newwork', id: response.data.caseInfo.ID });

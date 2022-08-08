@@ -114,8 +114,11 @@ export default class PegaServices extends PegaElement {
     this.numAttachments = 0;
     this.validationMsg = '';
     this.name = '';
-    if (this.action === 'workList') {
+    if (this.action === 'workList' || this.action === 'taskList') {
       this.fetchData('worklist');
+    }
+    if (this.action === 'dataView') {
+      this.fetchData('dataview');
     }
     this.sendExternalEvent({ type: 'cancel' });
   };
@@ -328,6 +331,9 @@ export default class PegaServices extends PegaElement {
       case 'worklist':
         apiurl += 'assignments';
         break;
+      case 'dataview':
+        apiurl += `data/D_pyUserWorklist?ID=${window.PegaCSWSS.ContactID}&Type=CONTACT`;
+        break;
       case 'casetypes':
         apiurl += 'casetypes';
         break;
@@ -396,7 +402,7 @@ export default class PegaServices extends PegaElement {
               this.casetypes = {};
               for (const obj of response.caseTypes) {
                 /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
-                if (this.action !== 'workList' || this.casetype === '' || this.casetype === obj.ID) {
+                if ((this.action !== 'workList' && this.action !== 'taskList') || this.casetype === '' || this.casetype === obj.ID) {
                   this.casetypes[obj.ID] = {
                     canCreate: obj.CanCreate,
                     name: obj.name,
@@ -410,6 +416,10 @@ export default class PegaServices extends PegaElement {
               break;
             case 'worklist':
               this.cases = response.assignments;
+              this.requestUpdate();
+              break;
+            case 'dataView':
+              this.cases = response.pxResults;
               this.requestUpdate();
               break;
             case 'assignment':

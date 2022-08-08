@@ -9,6 +9,8 @@ import { showConfirm } from '../../views/confirm';
 import { showErrorMessage } from '../../views/errormsg';
 import { shouldRefresh, getRefreshFor, unescapeHTML } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
+import { TaskList } from '../../views/tasklist';
+import { DataView } from '../../views/dataview';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
@@ -22,16 +24,18 @@ export default class PegaBase extends PegaServices {
       return null;
     }
     /* We need to fetch the list of cases for the createNewWork and workList actions */
-    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList')) {
+    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList' || this.action === 'taskList' || this.action === 'dataView')) {
       this.fetchData('casetypes');
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
         if (this.casetypes[this.casetype]) {
           this.fetchData('newwork', { id: this.casetype });
         }
-      } else if (this.action === 'workList') {
+      } else if (this.action === 'workList' || this.action === 'taskList') {
         this.bShowCancel = 'true';
         this.fetchData('worklist');
+      } else if (this.action === 'dataView') {
+        this.fetchData('dataview');
       }
     } else if (this.name === '') {
       if (this.action === 'openAssignment' && this.assignmentID === '') {
@@ -63,6 +67,7 @@ export default class PegaBase extends PegaServices {
     this.runAction,
     this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null,
+    this.bShowActions,
   )}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data"></form>
@@ -70,6 +75,17 @@ export default class PegaBase extends PegaServices {
     }
     if (this.action === 'workList') {
       return WorkList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+    }
+    if (this.action === 'taskList') {
+      return TaskList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+    }
+    if (this.action === 'dataView') {
+      return DataView(
+        this.title,
+        this.cases,
+        this.reloadWorkList,
+        this.openCase,
+      );
     }
     return null;
   }
@@ -80,7 +96,7 @@ export default class PegaBase extends PegaServices {
     this.bShowCancel === 'true' ? this.actionAreaCancel : null,
     this.bShowSave === 'true' ? this.actionAreaSave : null,
     this,
-  )
+  );
 
   renderSaveCaseLayout = (data, path) => saveCaseLayout(
     data,
@@ -88,15 +104,15 @@ export default class PegaBase extends PegaServices {
     this.bShowCancel === 'true' ? this.actionAreaCancel : null,
     this.bShowSave === 'true' ? this.actionAreaSave : null,
     this,
-  )
+  );
 
-  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this)
+  renderReviewLayout = (data, path) => reviewLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null, this);
 
-  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null)
+  renderCreateCaseLayout = (data, path) => createCaseLayout(data, path, this.bShowCancel === 'true' ? this.actionAreaCancel : null);
 
-  genPageValidationErrors = (response) => genPageValidationErrors(response)
+  genPageValidationErrors = (response) => genPageValidationErrors(response);
 
-  showDataList = (id) => showDataList(id)
+  showDataList = (id) => showDataList(id);
 
   genLoadingIndicator = () => LoadingIndicator();
 
@@ -108,7 +124,7 @@ export default class PegaBase extends PegaServices {
     el.setCustomValidity(unescapeHTML(msg));
     el.classList.add('error-field');
     el.reportValidity();
-  }
+  };
 
   clickHandler = (event) => {
     let el = event.target;

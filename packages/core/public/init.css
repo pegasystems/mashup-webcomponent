@@ -1,0 +1,258 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0bf8pkAg.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN7rgOUuhpKKSTjw.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/opensans/v18/mem5YaGs126MiZpBA-UN8rsOUuhpKKSTjw.woff2) format('woff2');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #efefef;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+button,
+input,
+textarea,
+select,
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.24;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
+  margin: 0;
+}
+
+header {
+  background: var(--brandColor);
+  height: 400px;
+  display: flex;
+  align-items: baseline;
+  padding: 16px 16px 0 16px;
+}
+
+header>div {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+footer {
+  border-top: 1px solid #d5d5d5;
+  padding: 16px 0;
+}
+
+footer>nav>ul,
+footer>nav>ul>li {
+  display: inline;
+  padding: 0 16px;
+}
+
+main {
+  min-height: calc(100vh - 172px);
+  margin-top: -300px;
+  flex: 1;
+}
+
+.workarea {
+  max-width: 900px;
+  padding: 0 21px;
+  margin: 0 auto 16px auto;
+  overflow: hidden;
+}
+
+.workarea h1 {
+  color: #FFF;
+  margin-bottom: 16px;
+}
+
+.logo {
+  height: 30px;
+}
+
+header li {
+  list-style: none;
+  margin-right: 30px;
+}
+
+header ul {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 0;
+  align-items: center;
+  padding: 0 0 0 30px;
+}
+
+header a,
+header a:visited {
+  color: #FFF;
+  font-weight: 700;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  text-decoration: none;
+  ;
+}
+
+header span,
+header a:hover,
+header a:active,
+header a:focus {
+  color: #FFF;
+}
+
+footer a,
+footer a:hover,
+footer a:active,
+footer a:focus {
+  font-size: 18px;
+  color: #646363;
+}
+
+.main {
+  background: #FFF;
+  border-radius: 8px;
+  padding: 16px;
+  display: grid;
+  min-height: 400px;
+}
+
+.settings {
+  position: fixed;
+  right: 0;
+  top: 62px;
+  bottom: 0;
+  overflow-y: auto;
+  transition: transform ease-in-out 0.2s;
+}
+
+.settings.hide {
+  transform: translateX(450px);
+  transition: transform ease-in-out 0.2s;
+}
+
+.settings>form {
+  background: #FFF;
+  border: 1px solid #ccc;
+  padding: 16px;
+  max-width: 300px;
+  width: auto;
+}
+
+.toggle {
+  height: 0;
+  width: 0;
+  height: 0 !important;
+  width: 0;
+  padding: 0;
+  font-size: 0;
+  opacity: 0;
+  margin-left: 8px;
+  min-width: 0 !important;
+}
+
+.toggle+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  min-width: 50px;
+  height: 30px;
+  background: #ccc;
+  display: block;
+  border-radius: 30px;
+  position: relative;
+  border: 1px solid #ccc;
+}
+
+.toggle+label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 26px;
+  transition: 0.3s;
+}
+
+.toggle:checked+label {
+  background: #020BFF;
+}
+
+.toggle:checked+label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.toggle:focus+label,
+.toggle:hover+label,
+.toggle:active+label {
+  border-color: #020BFF;
+}
+
+@media only screen and (max-width: 800px) {
+  .logo {
+    height: 20px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .workarea h1 {
+    font-size: 16px;
+    color: #000;
+  }
+
+  header {
+    height: auto;
+    font-size: 14px;
+    padding: 16px;
+  }
+
+  main {
+    min-height: calc(100vh - 127px);
+    margin-top: 8px;
+  }
+
+  header nav {
+    display: none;
+  }
+}

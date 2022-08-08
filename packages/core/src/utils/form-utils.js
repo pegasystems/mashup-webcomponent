@@ -408,8 +408,7 @@ export const getFormData = (form, content, pageinstructions, casedata) => {
               dt = new Date(el.value);
             }
             if (dt && dt instanceof Date && dt.getTime() === dt.getTime()) {
-              dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-              setBodyContent(content, ref, pageinstructions, casedata, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate())}/${dt.getFullYear()}`);
+              setBodyContent(content, ref, pageinstructions, casedata, `${dt.getUTCFullYear()}${pad2char(dt.getUTCMonth() + 1)}${pad2char(dt.getUTCDate())}`);
             } else {
               setBodyContent(content, ref, pageinstructions, casedata, el.value);
             }
@@ -465,8 +464,7 @@ export const setFormData = (form, content) => {
             dt = new Date(el.value);
           }
           if (dt && dt instanceof Date && dt.getTime() === dt.getTime()) {
-            dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-            setObjectFromRef(content, ref, `${pad2char(dt.getMonth() + 1)}/${pad2char(dt.getDate())}/${dt.getFullYear()}`);
+            setObjectFromRef(content, ref, `${pad2char(dt.getUTCMonth() + 1)}/${pad2char(dt.getUTCDate())}/${dt.getUTCFullYear()}`);
           } else {
             setObjectFromRef(content, ref, el.value);
           }

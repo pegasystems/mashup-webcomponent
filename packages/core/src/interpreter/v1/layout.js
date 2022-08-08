@@ -52,7 +52,10 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
     }
     if (item.paragraph) {
       return html`<div class='flex content-item field-item flex-paragraph'>${unsafeHTML(item.paragraph.value)}</div>`;
-    } if (item.field) {
+    } if (item.caption && item.caption.visible) {
+      return html`<div class='flex content-item field-item flex-paragraph'>${unsafeHTML(item.caption.value)}</div>`;
+    }
+    if (item.field) {
       if (item.field.control && item.field.control.type === 'pxAttachContent') {
         return AttachmentButton('Upload file', 'Upload file', '', webcomp.displayAttachments);
       }

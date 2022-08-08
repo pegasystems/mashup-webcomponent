@@ -7,7 +7,6 @@ export const setInlineError = (el, msg) => {
   }
   const ref = el.getAttribute('data-ref');
   const errorElem = el.nextElementSibling;
-  debugger;
   if (ref !== null && ref !== 'pyID' && msg !== '') {
     if (errorElem && errorElem.className === 'fr-error-text') {
       errorElem.innerText = msg;

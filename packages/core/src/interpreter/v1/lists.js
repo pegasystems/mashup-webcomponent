@@ -4,7 +4,7 @@ import { Field } from './fields';
 import { getNewRowProps } from '../../utils/form-utils';
 import { plusIcon } from '../../views/icons';
 
-export const SimpleTable = (item, path, isReadOnly) => html`
+export const SimpleTable = (item, path, isReadOnly) => html`<div class='flex content layout-content-stacked content-stacked'>
   ${ListTitle(item.layout)}
   <div class='table-content'>
   <table>
@@ -19,7 +19,7 @@ export const SimpleTable = (item, path, isReadOnly) => html`
     </tbody>
   </table>
   </div>
-  ${ListAction(item.layout, isReadOnly)}
+  ${ListAction(item.layout, isReadOnly)}</div>
 `;
 /* The metadata doesn't provide the type of h2/h3 used */
 export const ListTitle = (data) => {

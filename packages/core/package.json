@@ -12,6 +12,6 @@
         "test:coverage": "jest --coverage --colors"
     },
     "dependencies": {
-        "lit": "^2.2.2"
+        "lit": "^2.2.7"
     }
 }

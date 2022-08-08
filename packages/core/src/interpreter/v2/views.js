@@ -67,7 +67,7 @@ const AssignmentList = (assignments, onOpen) => {
 };
 
 /* We also have the case priority in ${data.urgency} and the user assigned as ${data.routedTo} */
-export const CaseHeader = (name, data, casedata, status, numAttachments, onDisplayActions, onCreate, onOpen, onDisplayAttachments) => {
+export const CaseHeader = (name, data, casedata, status, numAttachments, onDisplayActions, onCreate, onOpen, onDisplayAttachments, bShowActions) => {
   /* Case of openCaseByHandle - not an assignment */
   const attachmentsLabel = html`${paperclipIcon()}<span class='count-badge'>${numAttachments}</span>`;
   if (typeof data.caseID === 'undefined' && casedata.content) {
@@ -78,7 +78,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
-        ${casedata.actions && casedata.actions.length > 0 ? html`
+        ${bShowActions === 'true' && casedata.actions && casedata.actions.length > 0 ? html`
           ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}` : ''}
       </div>
     </div>
@@ -93,7 +93,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
-      ${data.actions && data.actions.length > 0 ? html`
+      ${bShowActions === 'true' && data.actions && data.actions.length > 0 ? html`
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}` : ''}
     </div>
   </div>

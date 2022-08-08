@@ -385,10 +385,10 @@ const DropDown = (data, path) => html`<select
 const DateTimeInput = (data, path) => {
   let value = data.displayvalue;
   if (value !== '') { /* Should be formatted as yyyy-MM-ddThh:mm */
-    let dt = convertTimestampToDate(value);
+    const dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
-      dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}T${pad2char(dt.getHours())}:${pad2char(dt.getMinutes())}`;
+      value = `${dt.getUTCFullYear()}-${pad2char(dt.getUTCMonth() + 1)}-${pad2char(dt.getUTCDate())}` +
+      `T${pad2char(dt.getUTCHours())}:${pad2char(dt.getUTCMinutes())}`;
     } else if (data.displayvalue.length === 8) {
       value = `${data.displayvalue.substring(0, 4)}-${data.displayvalue.substring(4, 6)}-${data.displayvalue.substring(6, 8)}T00:00`;
     } else if (data.displayvalue.length === 24) {
@@ -416,10 +416,9 @@ const DateTimeInput = (data, path) => {
 const DateInput = (data, path) => {
   let value = data.displayvalue;
   if (value !== '') { /* Should be formatted as yyyy-MM-dd */
-    let dt = convertTimestampToDate(value);
+    const dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
-      dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-      value = `${dt.getFullYear()}-${pad2char(dt.getMonth() + 1)}-${pad2char(dt.getDate())}`;
+      value = `${dt.getUTCFullYear()}-${pad2char(dt.getUTCMonth() + 1)}-${pad2char(dt.getUTCDate())}`;
     } else if (data.displayvalue.length === 8) {
       value = `${data.displayvalue.substring(0, 4)}-${data.displayvalue.substring(4, 6)}-${data.displayvalue.substring(6, 8)}`;
     } else if (data.displayvalue.length === 24) {
@@ -447,10 +446,9 @@ const DateInput = (data, path) => {
 const TimeInput = (data, path) => {
   let value = data.displayvalue;
   if (value !== '') { /* Should be formatted as hh:mm:ss */
-    let dt = convertTimestampToDate(value);
+    const dt = convertTimestampToDate(value);
     if (dt instanceof Date && dt.getTime() === dt.getTime()) {
-      dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
-      value = `${pad2char(dt.getHours())}-${pad2char(dt.getMinutes())}-${pad2char(dt.getSeconds())}`;
+      value = `${pad2char(dt.getUTCHours())}-${pad2char(dt.getUTCMinutes())}-${pad2char(dt.getUTCSeconds())}`;
     } else if (data.displayvalue.length === 8) {
       value = `${data.displayvalue.substring(9, 10)}:${data.displayvalue.substring(10, 11)}:${data.displayvalue.substring(11, 12)}`;
     }

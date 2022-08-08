@@ -11,6 +11,7 @@ import {
   getFormData, shouldRefresh, getRefreshFor, unescapeHTML,
 } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
+import { TaskList } from '../../views/tasklist';
 import { ShowOAuthProvider } from '../../views/oauthprovider';
 
 export default class PegaBase extends PegaServices {
@@ -43,11 +44,11 @@ export default class PegaBase extends PegaServices {
       }
       return ShowOAuthProvider(this.url, this.clientid);
     }
-    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList')) {
+    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList' || this.action === 'taskList')) {
       this.fetchData('portal');
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
-      } else if (this.action === 'workList') {
+      } else if (this.action === 'workList' || this.action === 'taskList') {
         this.bShowCancel = 'true';
       }
     } else if (this.action === 'createNewWork' && this.caseID === '' && this.casetypes && this.casetypes[this.casetype]) {
@@ -88,6 +89,7 @@ export default class PegaBase extends PegaServices {
     this.runAction,
     this.openCase,
     this.bShowAttachments === 'true' ? this.displayAttachments : null,
+    this.bShowActions,
   )}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form id="case-data"></form>
@@ -102,6 +104,9 @@ export default class PegaBase extends PegaServices {
         this.bShowCreate === 'true' ? this.createCase : null,
         this.openCase,
       );
+    }
+    if (this.action === 'taskList') {
+      return TaskList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
     }
     return null;
   }

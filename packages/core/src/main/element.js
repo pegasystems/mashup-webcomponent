@@ -6,20 +6,22 @@ export default class PegaElement extends LitElement {
     return {
       url: {},
       caseID: {}, /* only used if the actions openAssignment or openWorkByHandle are used */
+      dataviewParams: {}, /* only used if the action dataView is used - passes a JSON object */
       username: {}, /* Username for authentication  */
       password: {}, /* This is for development and test only - use JWT token or oauth instead */
       title: {}, /* Title of the my worklist card  */
       bShowCreate: {}, /* Show the create button inside the worklist - if showing the worklist, you can filter the list of cases you can
                               create by setting the value of casetype  */
-      bShowCancel: {}, /* hide the close or cancel actions when the action type is not workList  */
-      bShowAttachments: {}, /* hide the attachments button  */
-      bShowSave: {}, /* hide the save action  */
+      bShowCancel: {}, /* Show or hide the close or cancel actions when the action type is not workList  */
+      bShowAttachments: {}, /* Show or hide the attachments button  */
+      bShowSave: {}, /* Show or hide the save action (v1 only)  */
+      bShowActions: {}, /* Show or hide the actions menu button when opening an assignment */
       authentication: {}, /* Authentication type - supported values: basic, jwttoken, oauth2password, oauth2clientcredentials  */
       token: {}, /* JWT Token for authentication  */
       clientid: {}, /* oAuth clientid for authentication  */
       clientsecret: {}, /* oAuth clientsecret for authentication  */
       initialContent: {}, /* Initial content when creating a new case - you can pass an object as { prop1: 'value1', prop2: 'value2' }  */
-      action: {}, /* 4 actions supported: createNewWork, workList, openAssignment and openWorkByHandle */
+      action: {}, /* 4 actions supported: createNewWork, workList, taskList, dataView, openAssignment and openWorkByHandle */
       casetype: {}, /* only used if the action createNewWork is used */
       portalName: {}, /* Name of the portal - only required for the v2 api to get the list of case types and your worklist */
       langTokens: {}, /* Language token - you can pass an object as { prop1: 'value1', prop2: 'value2' } */
@@ -37,6 +39,7 @@ export default class PegaElement extends LitElement {
     this.bShowCancel = 'true';
     this.bShowAttachments = 'false';
     this.bShowSave = 'true';
+    this.bShowActions = 'true';
     this.authentication = '';
     this.token = '';
     this.clientid = '';
