@@ -406,7 +406,7 @@ export const getFormData = (form, content, pageinstructions, casedata) => {
               dt = new Date(el.value);
             }
             if (dt && dt instanceof Date && dt.getTime() === dt.getTime()) {
-              setBodyContent(content, ref, pageinstructions, casedata, `${dt.getUTCFullYear()}${pad2char(dt.getUTCMonth() + 1)}${pad2char(dt.getUTCDate())}`);
+              setBodyContent(content, ref, pageinstructions, casedata, `${dt.getUTCFullYear()}-${pad2char(dt.getUTCMonth() + 1)}-${pad2char(dt.getUTCDate())}`);
             } else {
               setBodyContent(content, ref, pageinstructions, casedata, el.value);
             }

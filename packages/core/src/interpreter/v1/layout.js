@@ -44,7 +44,7 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
       if (item.layout.rows) {
         if (item.layout.header) {
         /* We could also use groupFormat (Grid vs Dynamic) or layoutFormat (REPEATINGROW vs REPEATINGLAYOUT) */
-          return SimpleTable(item, tmppath, isReadOnly);
+          return SimpleTable(item, tmppath, isReadOnly, webcomp);
         }
         return SimpleList(item, tmppath, isReadOnly, webcomp);
       }
@@ -65,7 +65,7 @@ export const Layout = (data, path, isReadOnly, webcomp) => html`
         const currentaction = webcomp.actionID;
         return ShowLocalAction(item.field, webcomp.displayLocalAction, () => { webcomp.reloadAssignment(currentaction); });
       }
-      return Field(item.field, tmppath, isReadOnly);
+      return Field(item.field, tmppath, isReadOnly, webcomp);
     }
     if (item.view && item.view.groups) {
       if (item.view.viewID === 'pyAttachFieldOptional' && item.view.appliesTo === 'Embed-Attach-File') {

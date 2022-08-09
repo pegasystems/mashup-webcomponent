@@ -4,7 +4,7 @@ import { Field } from './fields';
 import { getNewRowProps } from '../../utils/form-utils';
 import { plusIcon } from '../../views/icons';
 
-export const SimpleTable = (item, path, isReadOnly) => html`<div class='flex content layout-content-stacked content-stacked'>
+export const SimpleTable = (item, path, isReadOnly, webcomp) => html`<div class='flex content layout-content-stacked content-stacked'>
   ${ListTitle(item.layout)}
   <div class='table-content'>
   <table>
@@ -15,7 +15,7 @@ export const SimpleTable = (item, path, isReadOnly) => html`<div class='flex con
       </tr>
     </thead>
     <tbody>
-      ${Table(item.layout.rows, path, isReadOnly)}
+      ${Table(item.layout.rows, path, isReadOnly, webcomp)}
     </tbody>
   </table>
   </div>
@@ -62,13 +62,13 @@ const TableHeader = (data) => html`
     <th scope='col'>${item.caption ? html`${item.caption.value}` : ''}</th>`)}
 `;
 
-const Table = (data, path, isReadOnly) => html`
+const Table = (data, path, isReadOnly, webcomp) => html`
   ${data.map((item, index) => {
     const tmppath = `${path}-table-${index}`;
     return html`
     <tr>
       ${item.groups.map((tdItem, tdIndex) => html`
-      <td>${Field(tdItem.field, `${tmppath}-${tdIndex}`, isReadOnly)}</td>`)}
+      <td>${Field(tdItem.field, `${tmppath}-${tdIndex}`, isReadOnly, webcomp)}</td>`)}
     </tr>`;
   })}
 `;

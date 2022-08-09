@@ -1,7 +1,9 @@
 /* eslint-disable no-self-compare */
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined';
-import { unescapeHTML, pad2char, convertTimestampToDate } from '../../utils/form-utils';
+import {
+  unescapeHTML, pad2char, convertTimestampToDate, getValue, setObjectFromRef,
+} from '../../utils/form-utils';
 import { trashIcon } from '../../views/icons';
 
 const ActionSet = (data, eventType) => {
@@ -74,9 +76,7 @@ const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
       return null;
     }
     if (!data.showLabel) {
-      return html`
-      ${ComponentTemplate}
-    `;
+      return html`<div>${ComponentTemplate}</div>`;
     }
   }
 
@@ -97,7 +97,7 @@ const AddWrapperDiv = (data, path, type, ComponentTemplate) => {
 /**
  * Render a field - this includes rendering the label and the component
  */
-export const Field = (data, path, isReadOnly) => {
+export const Field = (data, path, isReadOnly, webcomp) => {
   if (typeof data === 'undefined' || typeof data.control === 'undefined' || typeof data.control.type === 'undefined') {
     return null;
   }
@@ -107,6 +107,19 @@ export const Field = (data, path, isReadOnly) => {
   if (isReadOnly === true || data.readOnly === true || data.control.type === 'pxHidden') {
     return AddWrapperDiv(data, path, 'field-text', DisplayText(data, path));
   }
+  /* Set the value of the field in the data object if not present */
+  if (webcomp.casedata && webcomp.casedata.content) {
+    const origVal = getValue(webcomp.casedata.content, data.reference);
+    if (!origVal) {
+      if (data.control.type === 'pxCheckbox') {
+        // eslint-disable-next-line eqeqeq
+        setObjectFromRef(webcomp.casedata.content, data.reference, data.value == 'true');
+      } else {
+        setObjectFromRef(webcomp.casedata.content, data.reference, data.value);
+      }
+    }
+  }
+
   switch (data.control.type) {
     case 'pxPhone':
     case 'pxTextInput':
