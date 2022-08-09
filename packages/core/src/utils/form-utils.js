@@ -21,13 +21,11 @@ export const convertTimestampToDate = (v) => {
     return new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T${v.substring(9, 11)}:${v.substring(11, 13)}:${v.substring(13, 19)}Z`);
   }
   if (v.length === 8) {
-    let dt = new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T00:00:00.000Z`);
-    dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+    const dt = new Date(`${v.substring(0, 4)}-${v.substring(4, 6)}-${v.substring(6, 8)}T00:00:00.000Z`);
     return dt;
   }
   if (v.length === 10) { // Convert MM/DD/YYYY
-    let dt = new Date(`${v.substring(6, 10)}-${v.substring(0, 2)}-${v.substring(3, 5)}T00:00:00.000Z`);
-    dt = new Date(dt.getTime() + dt.getTimezoneOffset() * 60000);
+    const dt = new Date(`${v.substring(6, 10)}-${v.substring(0, 2)}-${v.substring(3, 5)}T00:00:00.000Z`);
     return dt;
   }
   return null;
