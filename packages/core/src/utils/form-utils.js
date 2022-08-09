@@ -75,6 +75,8 @@ export const setBodyContent = (content, path, pageinstructions, casedata, value)
   // If no change, just return
   if (casedata) {
     const origVal = getValue(casedata, path);
+    // If the original value is not present in the case data - no need to send it
+    if (!origVal) return;
     // eslint-disable-next-line eqeqeq
     if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) {
       return;

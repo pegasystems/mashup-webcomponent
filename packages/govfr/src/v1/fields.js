@@ -148,7 +148,7 @@ const DisplayText = (data, path) => {
         switch (data.control.modes[1].dateFormat) {
           case 'DateTime-Short-YYYY':
           case 'Date-DayMonthYear-Custom':
-          case 'Date-Mediun':
+          case 'Date-Medium':
             options = {
               year: 'numeric', month: 'short', day: 'numeric',
             };
