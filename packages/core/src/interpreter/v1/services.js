@@ -625,7 +625,7 @@ export default class PegaServices extends PegaElement {
       case 'refreshnew':
         apiurl += `casetypes/${id}/refresh`;
         if (refreshFor && refreshFor !== '') {
-          apiurl += `?refreshFor=${refreshFor}`;
+          apiurl += `?refreshFor=${encodeURI(refreshFor)}`;
         }
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
@@ -637,7 +637,7 @@ export default class PegaServices extends PegaElement {
       case 'refreshassignment':
         apiurl += `assignments/${id}/actions/${actionid}/refresh`;
         if (refreshFor && refreshFor !== '') {
-          apiurl += `?refreshFor=${refreshFor}`;
+          apiurl += `?refreshFor=${encodeURI(refreshFor)}`;
         }
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';
@@ -649,7 +649,7 @@ export default class PegaServices extends PegaElement {
       case 'refreshcase':
         apiurl += `cases/${id}/actions/${actionid}/refresh`;
         if (refreshFor && refreshFor !== '') {
-          apiurl += `?refreshFor=${refreshFor}`;
+          apiurl += `?refreshFor=${encodeURI(refreshFor)}`;
         }
         reqHeaders.headers['If-Match'] = this.etag;
         reqHeaders.method = 'PUT';

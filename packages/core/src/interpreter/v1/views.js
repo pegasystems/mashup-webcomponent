@@ -77,7 +77,8 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
-        ${bShowActions === 'true' && casedata.actions && casedata.actions.length > 0 ? html`
+        ${bShowActions === 'true' && casedata.actions && (casedata.actions.length > 1 ||
+          (casedata.actions.length === 1 && casedata.actions[0].name !== name)) ? html`
           ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}` : ''}
       </div>
     </div>
@@ -93,7 +94,8 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
-      ${bShowActions === 'true' && data.actions && data.actions.length > 0 ? html`
+      ${bShowActions === 'true' && data.actions && (data.actions.length > 1 ||
+        (data.actions.length === 1 && data.actions[0].name !== name)) ? html`
         ${ButtonMenu('Actions', 'Start a new action', onDisplayActions, onCreate)}` : ''}
     </div>
   </div>

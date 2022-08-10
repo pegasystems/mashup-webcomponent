@@ -456,13 +456,13 @@ class Tt{constructor(t){this.Y=t}disconnect(){this.Y=void 0}reconnect(t){this.Y=
           <div class="flex layout-content-stacked_with_labels_left">
             ${ue(t.children[0].children,`${e}-0`,!0,i,s)}
           </div>
-        `;default:return null}},pe=(t,e,a,i,s,n,o,r,l,c)=>{const d=T`${at()}<span class='count-badge'>${s}</span>`;if(void 0===e.caseID&&a.content){const t=a.content.pyID.split(" ")[1];return T`
+        `;default:return null}},pe=(t,e,a,i,s,n,o,r,l,c)=>{const d=T`${at()}<span class='count-badge'>${s}</span>`;if(void 0===e.caseID&&a.content){const s=a.content.pyID.split(" ")[1];return T`
     <div class="flex layout-content-inline_middle main-header">
-      <h2>${i18n.t(e.data.caseInfo.name)} <span>(${t})</span>
+      <h2>${i18n.t(e.data.caseInfo.name)} <span>(${s})</span>
       ${""!==i?T`<span class='badge-bg-info centered'><span class='badge_text'>${i}</span></span>`:""}</h2>
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${l?Ct("Attachments",d,"Simple",l):""}
-        ${"true"===c&&a.actions&&a.actions.length>0?T`
+        ${"true"===c&&a.actions&&(a.actions.length>1||1===a.actions.length&&a.actions[0].name!==t)?T`
           ${bt("Actions","Start a new action",n,o)}`:""}
       </div>
     </div>
@@ -498,7 +498,7 @@ class Tt{constructor(t){this.Y=t}disconnect(){this.Y=void 0}reconnect(t){this.Y=
     ${""!==i?T`<span class='badge-bg-info centered'><span class='badge_text'>${i}</span></span>`:""}</h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${l?Ct("Attachments",d,"Simple",l):""}
-      ${"true"===c&&e.actions&&e.actions.length>0?T`
+      ${"true"===c&&e.actions&&(e.actions.length>1||1===e.actions.length&&e.actions[0].name!==t)?T`
         ${bt("Actions","Start a new action",n,o)}`:""}
     </div>
   </div>
