@@ -15,7 +15,7 @@
     "lerna": "^5.4.0",
     "nunjucks": "^3.2.3",
     "puppeteer": "^16.1.0",
-    "rollup": "^2.77.2",
+    "rollup": "^2.77.3",
     "rollup-plugin-copy": "^3.3.0",
     "rollup-plugin-html-minifier": "^2.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",

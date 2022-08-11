@@ -93,17 +93,19 @@ export const setBodyContent = (content, path, pageinstructions, casedata, value)
   }
   const data = {};
   let target = path.substring(0, propPath);
-  data[path.substring(propPath + 1)] = value;
   const startParens = target.lastIndexOf('(');
   if (startParens === -1) {
+    data[path.substring(propPath + 1)] = value;
     pageinstructions.push({
       instruction: 'UPDATE',
       target,
       content: data,
     });
   } else {
-    const idx = target.substring(startParens + 1, target.length - 1);
+    const endParens = target.lastIndexOf(')');
+    const idx = target.substring(startParens + 1, endParens);
     target = target.substring(0, startParens);
+    setObjectFromRef(data, path.substring(endParens + 2), value);
     pageinstructions.push({
       instruction: 'UPDATE',
       target,

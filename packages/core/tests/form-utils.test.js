@@ -293,7 +293,47 @@ describe('testing the getFormData API', () => {
     const output = [{
       instruction: 'UPDATE',
       target: 'key1.key2',
-      content: { test: '02/01/2019' },
+      content: { test: '2019-02-01' },
+    }];
+    const content = {};
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
+  });
+  test('it should correctly handle embedded data', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    input.setAttribute('type', 'date');
+    input.setAttribute('data-ref', 'key1(1).key2.test');
+    input.valueAsDate = new Date('2019/2/1');
+    form.elements.push(input);
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1',
+      listIndex: 1,
+      content: { key2: { test: '2019-02-01' } },
+    }];
+    const content = {};
+    const pageinstructions = [];
+    const casedata = {};
+    getFormData(form, content, pageinstructions, casedata);
+    expect(content).toEqual({});
+    expect(pageinstructions).toEqual(output);
+  });
+  test('it should correctly handle embedded data', () => {
+    const form = { elements: [] };
+    const input = document.createElement('input');
+    input.setAttribute('type', 'date');
+    input.setAttribute('data-ref', 'key1.key2(1).key3.test');
+    input.valueAsDate = new Date('2019/2/1');
+    form.elements.push(input);
+    const output = [{
+      instruction: 'UPDATE',
+      target: 'key1.key2',
+      listIndex: 1,
+      content: { key3: { test: '2019-02-01' } },
     }];
     const content = {};
     const pageinstructions = [];
