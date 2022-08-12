@@ -35,7 +35,8 @@ export default class PegaBase extends PegaServices {
         this.bShowCancel = 'true';
         this.fetchData('worklist');
       } else if (this.action === 'dataView') {
-        this.fetchData('dataview');
+        this.bShowCancel = 'true';
+        this.fetchData('dataview', { id: this.dataviewParams });
       }
     } else if (this.name === '') {
       if (this.action === 'openAssignment' && this.assignmentID === '') {
@@ -82,6 +83,7 @@ export default class PegaBase extends PegaServices {
     if (this.action === 'dataView') {
       return DataView(
         this.title,
+        this.dataviewParams,
         this.cases,
         this.reloadWorkList,
         this.openCase,

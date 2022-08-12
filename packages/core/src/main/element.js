@@ -6,7 +6,7 @@ export default class PegaElement extends LitElement {
     return {
       url: {},
       caseID: {}, /* only used if the actions openAssignment or openWorkByHandle are used */
-      dataviewParams: {}, /* only used if the action dataView is used - passes a JSON object */
+      dataviewParams: { type: Object }, /* only used if the action dataView is used - passes a JSON object */
       username: {}, /* Username for authentication  */
       password: {}, /* This is for development and test only - use JWT token or oauth instead */
       title: {}, /* Title of the my worklist card  */
@@ -60,6 +60,7 @@ export default class PegaElement extends LitElement {
     this.assignmentID = '';
     this.actionID = '';
     this.content = {};
+    this.dataviewParams = {};
     this.pageInstructions = [];
     this.errorMsg = '';
     this.validationMsg = '';

@@ -118,7 +118,7 @@ export default class PegaServices extends PegaElement {
       this.fetchData('worklist');
     }
     if (this.action === 'dataView') {
-      this.fetchData('dataview');
+      this.fetchData('dataview', { id: this.dataviewParams });
     }
     this.sendExternalEvent({ type: 'cancel' });
   };
@@ -332,7 +332,16 @@ export default class PegaServices extends PegaElement {
         apiurl += 'assignments';
         break;
       case 'dataview':
-        apiurl += `data/D_pyUserWorklist?ID=${window.PegaCSWSS.ContactID}&Type=CONTACT`;
+        const datareq = id;
+        let params = '';
+        if (datareq.params) {
+          for (const val of datareq.params) {
+            if (val.name && val.value) {
+              params += `${(params === '' ? '?' : '&') + val.name.trim()}=${val.value.trim()}`;
+            }
+          }
+        }
+        apiurl += `data/${datareq.name}${encodeURI(params)}`;
         break;
       case 'casetypes':
         apiurl += 'casetypes';
@@ -418,7 +427,7 @@ export default class PegaServices extends PegaElement {
               this.cases = response.assignments;
               this.requestUpdate();
               break;
-            case 'dataView':
+            case 'dataview':
               this.cases = response.pxResults;
               this.requestUpdate();
               break;

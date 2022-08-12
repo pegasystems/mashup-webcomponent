@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
+/* global defaultCfg */
 function resetState() {
   const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;
   localStorage.clear();
@@ -64,9 +65,7 @@ function createMashup() {
   if (action === 'dataView') {
     mytag.setAttribute('dataviewParams', document.getElementById('dataviewparams').value);
   }
-  if (action === 'taskList') {
-    mytag.setAttribute('title', 'Items for review');
-  }
+  mytag.setAttribute('title', document.getElementById('title').value);
   /* Instead of doing setAttribute and rendering the authentication credentials inside the DOM
      we pass the values directly to the components */
   const authenticationType = document.getElementById('authentication').value;
@@ -130,6 +129,8 @@ function createMashup() {
     password: document.getElementById('password').value,
     googleapikey: document.getElementById('googleapikey').value,
     useshadowdom: document.getElementById('switch-shadowDOM').checked,
+    dataviewparams: document.getElementById('dataviewparams').value,
+    title: document.getElementById('title').value,
   };
   localStorage.setItem('defaultcfg', JSON.stringify(mainconfig));
 }
@@ -143,14 +144,16 @@ function showFields(event) {
   const caseType = document.getElementById('casetype').parentElement;
   const caseID = document.getElementById('caseid').parentElement;
   const dataviewParams = document.getElementById('dataviewparams').parentElement;
+  const title = document.getElementById('title').parentElement;
   if (action === 'workList' || action === 'taskList') {
     hideCreate.style.display = '';
     createAllCasetypes.style.display = '';
     hideCancel.style.display = 'none';
     hideSave.style.display = 'none';
     caseType.style.display = 'none';
-    dataviewParams.style.display = 'none';
     caseID.style.display = 'none';
+    dataviewParams.style.display = 'none';
+    title.style.display = '';
   } else if (action === 'createNewWork') {
     hideCreate.style.display = 'none';
     createAllCasetypes.style.display = 'none';
@@ -159,6 +162,7 @@ function showFields(event) {
     caseType.style.display = '';
     caseID.style.display = 'none';
     dataviewParams.style.display = 'none';
+    title.style.display = 'none';
   } else if (action === 'dataView') {
     hideCreate.style.display = 'none';
     createAllCasetypes.style.display = 'none';
@@ -167,6 +171,7 @@ function showFields(event) {
     caseType.style.display = 'none';
     caseID.style.display = 'none';
     dataviewParams.style.display = '';
+    title.style.display = '';
   } else {
     hideCreate.style.display = 'none';
     createAllCasetypes.style.display = 'none';
@@ -175,6 +180,7 @@ function showFields(event) {
     caseType.style.display = 'none';
     caseID.style.display = '';
     dataviewParams.style.display = 'none';
+    title.style.display = 'none';
   }
 }
 function showCaseType(event) {
@@ -243,30 +249,9 @@ function showAuthentication(event) {
     clientsecret.style.display = '';
   }
 }
-/* Default values */
-// Retrieve the object from storage
-let defaultCfg = {
-  url: 'https://pw16agenda-dt1.pegacloud.io/prweb',
-  portalName: 'DemoReact1',
-  casetype: 'OPGO8L-CarInsur-Work-CarInsuranceQuote',
-  language: '',
-  caseid: '',
-  dataviewparams: '',
-  username: 'wssuser2',
-  password: 'install@123',
-  action: 'workList',
-  showAttachments: false,
-  apiversion: '1',
-  jwttoken: '',
-  clientid: '43524976946816519752',
-  clientsecret: '90863E0C04EF929425BBC22004949762',
-  authentication: 'basic',
-  googleapikey: '',
-  useshadowdom: false,
-};
 const defaultSettings = localStorage.getItem('defaultcfg');
 if (defaultSettings != null) {
-  defaultCfg = JSON.parse(defaultSettings);
+  window.defaultCfg = JSON.parse(defaultSettings);
 }
 document.getElementById('url').value = defaultCfg.url;
 document.getElementById('portalName').value = defaultCfg.portalName;
@@ -274,6 +259,7 @@ document.getElementById('language').value = defaultCfg.language;
 document.getElementById('casetype').value = defaultCfg.casetype;
 document.getElementById('caseid').value = defaultCfg.caseid;
 document.getElementById('dataviewparams').value = defaultCfg.dataviewparams;
+document.getElementById('title').value = defaultCfg.title;
 document.getElementById('action').value = defaultCfg.action;
 document.getElementById('show-attachments').checked = defaultCfg.showAttachments;
 document.getElementById('apiversion').value = defaultCfg.apiversion;

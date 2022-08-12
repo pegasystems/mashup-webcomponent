@@ -12,6 +12,7 @@ import {
 } from '../../utils/form-utils';
 import { WorkList } from '../../views/worklist';
 import { TaskList } from '../../views/tasklist';
+import { DataView } from '../../views/dataview';
 import { ShowOAuthProvider } from '../../views/oauthprovider';
 
 export default class PegaBase extends PegaServices {
@@ -44,12 +45,23 @@ export default class PegaBase extends PegaServices {
       }
       return ShowOAuthProvider(this.url, this.clientid);
     }
-    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList' || this.action === 'taskList')) {
+    if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList' || this.action === 'taskList' || this.action === 'dataView')) {
       this.fetchData('portal');
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
-      } else if (this.action === 'workList' || this.action === 'taskList') {
+      } else if (this.action === 'workList' || this.action === 'taskList' || this.action === 'dataView') {
         this.bShowCancel = 'true';
+        if (this.action === 'dataView') {
+          const params = {};
+          if (this.dataviewParams) {
+            for (const val of this.dataviewParams.params) {
+              if (val.name && val.value) {
+                params[val.name.trim()] = val.value.trim();
+              }
+            }
+          }
+          this.sendData('dataviews', { id: this.dataviewParams.name, content: { dataViewParameters: params } });
+        }
       }
     } else if (this.action === 'createNewWork' && this.caseID === '' && this.casetypes && this.casetypes[this.casetype]) {
       this.content = this.initialContent;
@@ -107,6 +119,15 @@ export default class PegaBase extends PegaServices {
     }
     if (this.action === 'taskList') {
       return TaskList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+    }
+    if (this.action === 'dataView') {
+      return DataView(
+        this.title,
+        this.dataviewParams,
+        this.data,
+        this.reloadWorkList,
+        this.openCase,
+      );
     }
     return null;
   }

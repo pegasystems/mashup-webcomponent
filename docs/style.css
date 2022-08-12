@@ -965,6 +965,7 @@ pega-mashup-light-v2,
     text-align: left;
     padding: var(--spacing05x) 0 var(--spacing05x) max(calc(30% + 8px), 168px);
     height:auto;
+    min-height: 17px;
   }
 
   table.responsive td:before {
@@ -976,8 +977,7 @@ pega-mashup-light-v2,
     max-width: calc(30% - 8px);
     display: flex;
     flex-flow: row wrap;
-    align-items: center;
-    height: 36px;
+    height: 28px;
     min-width: 160px;
   }
 
@@ -1033,6 +1033,7 @@ pega-mashup-light-v2,
     min-width:0;
     max-width:none;
     left:8px;
+    align-items: center;
   }
 
   .flex.main-header {

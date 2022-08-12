@@ -45,6 +45,17 @@ export default class PegaServices extends PegaElement {
     if (this.action === 'workList' || this.action === 'taskList') {
       this.fetchData('portal');
     }
+    if (this.action === 'dataView') {
+      const params = {};
+      if (this.dataviewParams) {
+        for (const val of this.dataviewParams.params) {
+          if (val.name && val.value) {
+            params[val.name.trim()] = val.value.trim();
+          }
+        }
+      }
+      this.sendData('dataviews', { id: this.dataviewParams.name, content: { dataViewParameters: params } });
+    }
     this.sendExternalEvent({ type: 'cancel' });
   };
 
@@ -622,8 +633,10 @@ export default class PegaServices extends PegaElement {
         } else if (response.errorDetails && response.errorDetails.length > 0) {
           if (response.errorDetails[0].localizedValue) {
             const form = this.getRenderRoot().querySelector('#case-data');
-            setFormInlineError(form, response.errorDetails, this);
-            this.validationMsg = this.genPageValidationErrors(response, form);
+            if (form) {
+              setFormInlineError(form, response.errorDetails, this);
+              this.validationMsg = this.genPageValidationErrors(response, form);
+            }
           } else {
             this.errorMsg = `Error ${response.errorDetails[0].message}: ${response.localizedValue}`;
           }
@@ -639,7 +652,7 @@ export default class PegaServices extends PegaElement {
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'dataviews') {
-            // TODO;
+            this.data = response.data ?? [];
           }
           if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {
             this.sendExternalEvent({ type: 'newwork', id: response.data.caseInfo.ID });

@@ -106,8 +106,12 @@
               <input type='text' id='caseid'>
             </div>
             <div class='flex flex-col' style='display:none'>
+              <label for='title'>Heading</label>
+              <input type='text' id='title'>
+            </div>
+            <div class='flex flex-col' style='display:none'>
               <label for='dataviewparams'>Data view parameters</label>
-              <textarea id='dataviewparams'></textarea>
+              <textarea rows="5" id='dataviewparams'></textarea>
             </div>
             <div class='flex align-center justify-end'>
               <span>Use shadow DOM</span>
@@ -188,6 +192,32 @@
       </ul>
     </nav>
   </footer>
+  <script>
+    /* Default values */
+    window.defaultCfg = {
+      url: 'https://pw16agenda-dt1.pegacloud.io/prweb',
+      portalName: 'DemoReact1',
+      casetype: 'OPGO8L-CarInsur-Work-CarInsuranceQuote',
+      language: '',
+      caseid: '',
+      dataviewparams: `{"name":"D_pyUserWorkList","noresults": "No result found","params": [ { "name": "ID", "value": "wssuser2"}], "fields": [ { "name": "pxRefObjectInsName", "label": "ID"},
+{ "name": "pxCreateDateTime", "label": "Create date", "type": "date"},
+ { "name": "pyInstructions", "label": "Instructions"},
+{"name": "pzInsKey", "label": "", "action": "Open"}]}`,
+      username: 'wssuser2',
+      password: 'install@123',
+      action: 'workList',
+      showAttachments: true,
+      apiversion: '1',
+      jwttoken: '',
+      clientid: '43524976946816519752',
+      clientsecret: '90863E0C04EF929425BBC22004949762',
+      authentication: 'basic',
+      googleapikey: '',
+      useshadowdom: false,
+      title: 'My worklist'
+    };
+  </script>
   <script src="./pega-mashup-webcomponent-all.js"></script>
   <script src="./main.js"></script>
 </body>
