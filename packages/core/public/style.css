@@ -325,7 +325,7 @@ img {
 }
 .flex-all {
   flex:1;
-  margin-right: var(--spacing1x);
+  margin: 0 var(--spacing1x);
 }
 .flex.margin-l-auto {
   margin-left: auto;

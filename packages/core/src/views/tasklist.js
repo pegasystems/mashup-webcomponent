@@ -1,6 +1,7 @@
 /* global i18n */
 import { html } from 'lit';
 import { ButtonMenu } from './button-menu';
+import { infoIcon } from './icons';
 
 const TaskList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) => html`
   <div class="flex layout-content-inline_middle main-header">
@@ -17,12 +18,13 @@ const TaskList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
     ? html`<div class='rdl'>${cases.map(
       (item) => html`
                 <div class="flex align-center">
-                  <div class="flex-all">
-                  ${i18n.t(item.name)}</div>
-                  <div>
+                  ${infoIcon()}
+                  <div class="flex flex-col flex-all">
+                    <h3>${i18n.t(item.name)}</h3>
+                    <div>${i18n.t(item.instructions)}</div>
+                  </div>
                     <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">
                     ${i18n.t('Begin')}</button>
-                  </div>
                 </div>
               `,
     )}</div>`
