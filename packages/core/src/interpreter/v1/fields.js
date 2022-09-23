@@ -122,6 +122,7 @@ export const Field = (data, path, isReadOnly, webcomp) => {
 
   switch (data.control.type) {
     case 'pxPhone':
+    case 'pxURL':
     case 'pxTextInput':
       return AddWrapperDiv(data, path, 'field-textinput', TextInput(data, path));
     case 'pxInteger':
@@ -144,7 +145,6 @@ export const Field = (data, path, isReadOnly, webcomp) => {
     case 'pxIcon':
       return AddWrapperDiv(data, path, 'field-icon', Icon(data, path));
     case 'pxLink':
-    case 'pxURL':
       return AddWrapperDiv(data, path, 'field-url', URL(data, path));
     case 'pxIconDeleteItem':
       return AddWrapperDiv(data, path, 'field-button', DeleteButton(data, path));
@@ -286,17 +286,22 @@ const DisplayText = (data, path) => {
 /**
  * TextInput component
  */
-const TextInput = (data, path) => html`
+const TextInput = (data, path) => {
+  let type = 'text';
+  if (data.control.type === 'pxPhone') type = 'tel';
+  else if (data.control.type === 'pxURL') type = 'url';
+  return html`
   <input
     data-ref="${data.reference}"
     ?required="${data.required === true}"
-    type="text"
+    ?disabled="${data.disabled === true}"
+    type="${type}"
     id="${ifDefined(path)}"
     value="${unescapeHTML(data.value)}"
     data-action-change="${ifDefined(ActionSet(data, 'change'))}"
     data-action-click="${ifDefined(ActionSet(data, 'click'))}"
-  />
-`;
+  />`;
+};
 
 /**
  * Slider component
@@ -305,6 +310,7 @@ const Slider = (data, path) => html`
   <input
     data-ref="${data.reference}"
     ?required="${data.required === true}"
+    ?disabled="${data.disabled === true}"
     type="range"
     id="${ifDefined(path)}"
     value="${unescapeHTML(data.value)}"
@@ -319,6 +325,7 @@ const NumberInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
     ?required="${data.required === true}"
+    ?disabled="${data.disabled === true}"
     type="number"
     id="${ifDefined(path)}"
     value="${data.value}"
@@ -334,6 +341,7 @@ const CurrencyInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
     ?required="${data.required === true}"
+    ?disabled="${data.disabled === true}"
     type="number"
     id="${ifDefined(path)}"
     value="${data.value}"
@@ -349,6 +357,7 @@ const EmailInput = (data, path) => html`
   <input
     data-ref="${data.reference}"
     ?required="${data.required === true}"
+    ?disabled="${data.disabled === true}"
     type="email"
     id="${ifDefined(path)}"
     value="${data.value}"
@@ -365,6 +374,7 @@ const TextArea = (data, path) => html`
     data-ref="${data.reference}"
     rows="3"
     ?required="${data.required === true}"
+    ?disabled="${data.disabled === true}"
     id="${ifDefined(path)}"
     data-action-change="${ifDefined(ActionSet(data, 'change'))}"
     data-action-click="${ifDefined(ActionSet(data, 'click'))}"
@@ -441,6 +451,7 @@ const DateTimeInput = (data, path) => {
     <input
       data-ref="${data.reference}"
       ?required="${data.required === true}"
+      ?disabled="${data.disabled === true}"
       type="datetime-local"
       id="${ifDefined(path)}"
       value="${value}"
@@ -467,6 +478,7 @@ const DateInputInput = (data, path) => {
     <input
       data-ref="${data.reference}"
       ?required="${data.required === true}"
+      ?disabled="${data.disabled === true}"
       type="date"
       id="${ifDefined(path)}"
       value="${value}"
@@ -493,6 +505,7 @@ const TimeInput = (data, path) => {
     <input
       data-ref="${data.reference}"
       ?required="${data.required === true}"
+      ?disabled="${data.disabled === true}"
       type="time"
       id="${ifDefined(path)}"
       value="${value}"
@@ -525,6 +538,7 @@ const RadioButtons = (data, path) => {
             type="radio"
             value="${item.key}"
             ?required="${data.required === true}"
+            ?disabled="${data.disabled === true}"
             ?checked="${item.key === data.value}"
             data-action-change="${ifDefined(ActionSet(data, 'change'))}"
           />
@@ -559,6 +573,7 @@ const DropDown = (data, path) => {
       data-ref="${data.reference}"
       id=${ifDefined(path)}
       ?required="${data.required === true}"
+      ?disabled="${data.disabled === true}"
       data-action-change="${ifDefined(ActionSet(data, 'change'))}"
       data-action-click="${ifDefined(ActionSet(data, 'click'))}">
         <option value="" title="Select...">Select...</option>
@@ -574,6 +589,7 @@ const DropDown = (data, path) => {
       data-ref="${data.reference}"
       id=${ifDefined(path)}
       ?required="${data.required === true}"
+      ?disabled="${data.disabled === true}"
       data-action-change="${ifDefined(ActionSet(data, 'change'))}"
       data-action-click="${ifDefined(ActionSet(data, 'click'))}">
       </input>`;
@@ -590,6 +606,7 @@ const Combobox = (data, path) => {
         data-ref="${data.reference}"
         list="${data.reference}"
         ?required="${data.required === true}"
+        ?disabled="${data.disabled === true}"
         type="text"
         class="combobox loaded"
         id="${ifDefined(path)}"
@@ -618,6 +635,7 @@ const Combobox = (data, path) => {
       list="${data.reference}"
       data-pageid="${dataPageID}"
       ?required="${data.required === true}"
+      ?disabled="${data.disabled === true}"
       type="text"
       class="combobox"
       id="${ifDefined(path)}"

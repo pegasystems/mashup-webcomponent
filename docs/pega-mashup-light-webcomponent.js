@@ -14,13 +14,13 @@ var PegaMashupLightWebComponent=function(t){"use strict";
      * Copyright 2017 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
      */
-var $;m.finalized=!0,m.elementProperties=new Map,m.elementStyles=[],m.shadowRootOptions={mode:"open"},null==h||h({ReactiveElement:m}),(null!==(o=l.reactiveElementVersions)&&void 0!==o?o:l.reactiveElementVersions=[]).push("1.4.0");const f=window,v=f.trustedTypes,b=v?v.createPolicy("lit-html",{createHTML:t=>t}):void 0,y=`lit$${(Math.random()+"").slice(9)}$`,C="?"+y,w=`<${C}>`,A=document,D=(t="")=>A.createComment(t),k=t=>null===t||"object"!=typeof t&&"function"!=typeof t,x=Array.isArray,S=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,I=/-->/g,_=/>/g,E=RegExp(">|[ \t\n\f\r](?:([^\\s\"'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r\"'`<>=]|(\"|')|))|$)","g"),T=/'/g,L=/"/g,U=/^(?:script|style|textarea|title)$/i,N=(t=>(e,...a)=>({_$litType$:t,strings:e,values:a}))(1),M=Symbol.for("lit-noChange"),R=Symbol.for("lit-nothing"),P=new WeakMap,O=(t,e,a)=>{var i,s;const n=null!==(i=null==a?void 0:a.renderBefore)&&void 0!==i?i:e;let r=n._$litPart$;if(void 0===r){const t=null!==(s=null==a?void 0:a.renderBefore)&&void 0!==s?s:null;n._$litPart$=r=new V(e.insertBefore(D(),t),t,void 0,null!=a?a:{})}return r._$AI(t),r},z=A.createTreeWalker(A,129,null,!1),q=(t,e)=>{const a=t.length-1,i=[];let s,n=2===e?"<svg>":"",r=S;for(let e=0;e<a;e++){const a=t[e];let o,l,c=-1,d=0;for(;d<a.length&&(r.lastIndex=d,l=r.exec(a),null!==l);)d=r.lastIndex,r===S?"!--"===l[1]?r=I:void 0!==l[1]?r=_:void 0!==l[2]?(U.test(l[2])&&(s=RegExp("</"+l[2],"g")),r=E):void 0!==l[3]&&(r=E):r===E?">"===l[0]?(r=null!=s?s:S,c=-1):void 0===l[1]?c=-2:(c=r.lastIndex-l[2].length,o=l[1],r=void 0===l[3]?E:'"'===l[3]?L:T):r===L||r===T?r=E:r===I||r===_?r=S:(r=E,s=void 0);const h=r===E&&t[e+1].startsWith("/>")?" ":"";n+=r===S?a+w:c>=0?(i.push(o),a.slice(0,c)+"$lit$"+a.slice(c)+y+h):a+y+(-2===c?(i.push(void 0),e):h)}const o=n+(t[a]||"<?>")+(2===e?"</svg>":"");if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return[void 0!==b?b.createHTML(o):o,i]};class F{constructor({strings:t,_$litType$:e},a){let i;this.parts=[];let s=0,n=0;const r=t.length-1,o=this.parts,[l,c]=q(t,e);if(this.el=F.createElement(l,a),z.currentNode=this.el.content,2===e){const t=this.el.content,e=t.firstChild;e.remove(),t.append(...e.childNodes)}for(;null!==(i=z.nextNode())&&o.length<r;){if(1===i.nodeType){if(i.hasAttributes()){const t=[];for(const e of i.getAttributeNames())if(e.endsWith("$lit$")||e.startsWith(y)){const a=c[n++];if(t.push(e),void 0!==a){const t=i.getAttribute(a.toLowerCase()+"$lit$").split(y),e=/([.?@])?(.*)/.exec(a);o.push({type:1,index:s,name:e[2],strings:t,ctor:"."===e[1]?Z:"?"===e[1]?Y:"@"===e[1]?J:B})}else o.push({type:6,index:s})}for(const e of t)i.removeAttribute(e)}if(U.test(i.tagName)){const t=i.textContent.split(y),e=t.length-1;if(e>0){i.textContent=v?v.emptyScript:"";for(let a=0;a<e;a++)i.append(t[a],D()),z.nextNode(),o.push({type:2,index:++s});i.append(t[e],D())}}}else if(8===i.nodeType)if(i.data===C)o.push({type:2,index:s});else{let t=-1;for(;-1!==(t=i.data.indexOf(y,t+1));)o.push({type:7,index:s}),t+=y.length-1}s++}}static createElement(t,e){const a=A.createElement("template");return a.innerHTML=t,a}}function H(t,e,a=t,i){var s,n,r,o;if(e===M)return e;let l=void 0!==i?null===(s=a._$Cl)||void 0===s?void 0:s[i]:a._$Cu;const c=k(e)?void 0:e._$litDirective$;return(null==l?void 0:l.constructor)!==c&&(null===(n=null==l?void 0:l._$AO)||void 0===n||n.call(l,!1),void 0===c?l=void 0:(l=new c(t),l._$AT(t,a,i)),void 0!==i?(null!==(r=(o=a)._$Cl)&&void 0!==r?r:o._$Cl=[])[i]=l:a._$Cu=l),void 0!==l&&(e=H(t,l._$AS(t,e.values),l,i)),e}class j{constructor(t,e){this.v=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}p(t){var e;const{el:{content:a},parts:i}=this._$AD,s=(null!==(e=null==t?void 0:t.creationScope)&&void 0!==e?e:A).importNode(a,!0);z.currentNode=s;let n=z.nextNode(),r=0,o=0,l=i[0];for(;void 0!==l;){if(r===l.index){let e;2===l.type?e=new V(n,n.nextSibling,this,t):1===l.type?e=new l.ctor(n,l.name,l.strings,this,t):6===l.type&&(e=new K(n,this,t)),this.v.push(e),l=i[++o]}r!==(null==l?void 0:l.index)&&(n=z.nextNode(),r++)}return s}m(t){let e=0;for(const a of this.v)void 0!==a&&(void 0!==a.strings?(a._$AI(t,a,e),e+=a.strings.length-2):a._$AI(t[e])),e++}}class V{constructor(t,e,a,i){var s;this.type=2,this._$AH=R,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=a,this.options=i,this._$C_=null===(s=null==i?void 0:i.isConnected)||void 0===s||s}get _$AU(){var t,e;return null!==(e=null===(t=this._$AM)||void 0===t?void 0:t._$AU)&&void 0!==e?e:this._$C_}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=H(this,t,e),k(t)?t===R||null==t||""===t?(this._$AH!==R&&this._$AR(),this._$AH=R):t!==this._$AH&&t!==M&&this.$(t):void 0!==t._$litType$?this.T(t):void 0!==t.nodeType?this.k(t):(t=>x(t)||"function"==typeof(null==t?void 0:t[Symbol.iterator]))(t)?this.O(t):this.$(t)}S(t,e=this._$AB){return this._$AA.parentNode.insertBefore(t,e)}k(t){this._$AH!==t&&(this._$AR(),this._$AH=this.S(t))}$(t){this._$AH!==R&&k(this._$AH)?this._$AA.nextSibling.data=t:this.k(A.createTextNode(t)),this._$AH=t}T(t){var e;const{values:a,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=F.createElement(i.h,this.options)),i);if((null===(e=this._$AH)||void 0===e?void 0:e._$AD)===s)this._$AH.m(a);else{const t=new j(s,this),e=t.p(this.options);t.m(a),this.k(e),this._$AH=t}}_$AC(t){let e=P.get(t.strings);return void 0===e&&P.set(t.strings,e=new F(t)),e}O(t){x(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let a,i=0;for(const s of t)i===e.length?e.push(a=new V(this.S(D()),this.S(D()),this,this.options)):a=e[i],a._$AI(s),i++;i<e.length&&(this._$AR(a&&a._$AB.nextSibling,i),e.length=i)}_$AR(t=this._$AA.nextSibling,e){var a;for(null===(a=this._$AP)||void 0===a||a.call(this,!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){var e;void 0===this._$AM&&(this._$C_=t,null===(e=this._$AP)||void 0===e||e.call(this,t))}}class B{constructor(t,e,a,i,s){this.type=1,this._$AH=R,this._$AN=void 0,this.element=t,this.name=e,this._$AM=i,this.options=s,a.length>2||""!==a[0]||""!==a[1]?(this._$AH=Array(a.length-1).fill(new String),this.strings=a):this._$AH=R}get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}_$AI(t,e=this,a,i){const s=this.strings;let n=!1;if(void 0===s)t=H(this,t,e,0),n=!k(t)||t!==this._$AH&&t!==M,n&&(this._$AH=t);else{const i=t;let r,o;for(t=s[0],r=0;r<s.length-1;r++)o=H(this,i[a+r],e,r),o===M&&(o=this._$AH[r]),n||(n=!k(o)||o!==this._$AH[r]),o===R?t=R:t!==R&&(t+=(null!=o?o:"")+s[r+1]),this._$AH[r]=o}n&&!i&&this.P(t)}P(t){t===R?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,null!=t?t:"")}}class Z extends B{constructor(){super(...arguments),this.type=3}P(t){this.element[this.name]=t===R?void 0:t}}const W=v?v.emptyScript:"";class Y extends B{constructor(){super(...arguments),this.type=4}P(t){t&&t!==R?this.element.setAttribute(this.name,W):this.element.removeAttribute(this.name)}}class J extends B{constructor(t,e,a,i,s){super(t,e,a,i,s),this.type=5}_$AI(t,e=this){var a;if((t=null!==(a=H(this,t,e,0))&&void 0!==a?a:R)===M)return;const i=this._$AH,s=t===R&&i!==R||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,n=t!==R&&(i===R||s);s&&this.element.removeEventListener(this.name,this,i),n&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){var e,a;"function"==typeof this._$AH?this._$AH.call(null!==(a=null===(e=this.options)||void 0===e?void 0:e.host)&&void 0!==a?a:this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,e,a){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=a}get _$AU(){return this._$AM._$AU}_$AI(t){H(this,t)}}const X=f.litHtmlPolyfillSupport;
+var $;m.finalized=!0,m.elementProperties=new Map,m.elementStyles=[],m.shadowRootOptions={mode:"open"},null==h||h({ReactiveElement:m}),(null!==(o=l.reactiveElementVersions)&&void 0!==o?o:l.reactiveElementVersions=[]).push("1.4.1");const f=window,v=f.trustedTypes,b=v?v.createPolicy("lit-html",{createHTML:t=>t}):void 0,y=`lit$${(Math.random()+"").slice(9)}$`,C="?"+y,w=`<${C}>`,A=document,D=(t="")=>A.createComment(t),k=t=>null===t||"object"!=typeof t&&"function"!=typeof t,x=Array.isArray,S=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,I=/-->/g,_=/>/g,E=RegExp(">|[ \t\n\f\r](?:([^\\s\"'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r\"'`<>=]|(\"|')|))|$)","g"),T=/'/g,L=/"/g,U=/^(?:script|style|textarea|title)$/i,N=(t=>(e,...a)=>({_$litType$:t,strings:e,values:a}))(1),M=Symbol.for("lit-noChange"),R=Symbol.for("lit-nothing"),P=new WeakMap,O=(t,e,a)=>{var i,s;const n=null!==(i=null==a?void 0:a.renderBefore)&&void 0!==i?i:e;let r=n._$litPart$;if(void 0===r){const t=null!==(s=null==a?void 0:a.renderBefore)&&void 0!==s?s:null;n._$litPart$=r=new V(e.insertBefore(D(),t),t,void 0,null!=a?a:{})}return r._$AI(t),r},z=A.createTreeWalker(A,129,null,!1),q=(t,e)=>{const a=t.length-1,i=[];let s,n=2===e?"<svg>":"",r=S;for(let e=0;e<a;e++){const a=t[e];let o,l,c=-1,d=0;for(;d<a.length&&(r.lastIndex=d,l=r.exec(a),null!==l);)d=r.lastIndex,r===S?"!--"===l[1]?r=I:void 0!==l[1]?r=_:void 0!==l[2]?(U.test(l[2])&&(s=RegExp("</"+l[2],"g")),r=E):void 0!==l[3]&&(r=E):r===E?">"===l[0]?(r=null!=s?s:S,c=-1):void 0===l[1]?c=-2:(c=r.lastIndex-l[2].length,o=l[1],r=void 0===l[3]?E:'"'===l[3]?L:T):r===L||r===T?r=E:r===I||r===_?r=S:(r=E,s=void 0);const h=r===E&&t[e+1].startsWith("/>")?" ":"";n+=r===S?a+w:c>=0?(i.push(o),a.slice(0,c)+"$lit$"+a.slice(c)+y+h):a+y+(-2===c?(i.push(void 0),e):h)}const o=n+(t[a]||"<?>")+(2===e?"</svg>":"");if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return[void 0!==b?b.createHTML(o):o,i]};class F{constructor({strings:t,_$litType$:e},a){let i;this.parts=[];let s=0,n=0;const r=t.length-1,o=this.parts,[l,c]=q(t,e);if(this.el=F.createElement(l,a),z.currentNode=this.el.content,2===e){const t=this.el.content,e=t.firstChild;e.remove(),t.append(...e.childNodes)}for(;null!==(i=z.nextNode())&&o.length<r;){if(1===i.nodeType){if(i.hasAttributes()){const t=[];for(const e of i.getAttributeNames())if(e.endsWith("$lit$")||e.startsWith(y)){const a=c[n++];if(t.push(e),void 0!==a){const t=i.getAttribute(a.toLowerCase()+"$lit$").split(y),e=/([.?@])?(.*)/.exec(a);o.push({type:1,index:s,name:e[2],strings:t,ctor:"."===e[1]?Z:"?"===e[1]?Y:"@"===e[1]?J:B})}else o.push({type:6,index:s})}for(const e of t)i.removeAttribute(e)}if(U.test(i.tagName)){const t=i.textContent.split(y),e=t.length-1;if(e>0){i.textContent=v?v.emptyScript:"";for(let a=0;a<e;a++)i.append(t[a],D()),z.nextNode(),o.push({type:2,index:++s});i.append(t[e],D())}}}else if(8===i.nodeType)if(i.data===C)o.push({type:2,index:s});else{let t=-1;for(;-1!==(t=i.data.indexOf(y,t+1));)o.push({type:7,index:s}),t+=y.length-1}s++}}static createElement(t,e){const a=A.createElement("template");return a.innerHTML=t,a}}function H(t,e,a=t,i){var s,n,r,o;if(e===M)return e;let l=void 0!==i?null===(s=a._$Cl)||void 0===s?void 0:s[i]:a._$Cu;const c=k(e)?void 0:e._$litDirective$;return(null==l?void 0:l.constructor)!==c&&(null===(n=null==l?void 0:l._$AO)||void 0===n||n.call(l,!1),void 0===c?l=void 0:(l=new c(t),l._$AT(t,a,i)),void 0!==i?(null!==(r=(o=a)._$Cl)&&void 0!==r?r:o._$Cl=[])[i]=l:a._$Cu=l),void 0!==l&&(e=H(t,l._$AS(t,e.values),l,i)),e}class j{constructor(t,e){this.v=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}p(t){var e;const{el:{content:a},parts:i}=this._$AD,s=(null!==(e=null==t?void 0:t.creationScope)&&void 0!==e?e:A).importNode(a,!0);z.currentNode=s;let n=z.nextNode(),r=0,o=0,l=i[0];for(;void 0!==l;){if(r===l.index){let e;2===l.type?e=new V(n,n.nextSibling,this,t):1===l.type?e=new l.ctor(n,l.name,l.strings,this,t):6===l.type&&(e=new K(n,this,t)),this.v.push(e),l=i[++o]}r!==(null==l?void 0:l.index)&&(n=z.nextNode(),r++)}return s}m(t){let e=0;for(const a of this.v)void 0!==a&&(void 0!==a.strings?(a._$AI(t,a,e),e+=a.strings.length-2):a._$AI(t[e])),e++}}class V{constructor(t,e,a,i){var s;this.type=2,this._$AH=R,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=a,this.options=i,this._$C_=null===(s=null==i?void 0:i.isConnected)||void 0===s||s}get _$AU(){var t,e;return null!==(e=null===(t=this._$AM)||void 0===t?void 0:t._$AU)&&void 0!==e?e:this._$C_}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=H(this,t,e),k(t)?t===R||null==t||""===t?(this._$AH!==R&&this._$AR(),this._$AH=R):t!==this._$AH&&t!==M&&this.$(t):void 0!==t._$litType$?this.T(t):void 0!==t.nodeType?this.k(t):(t=>x(t)||"function"==typeof(null==t?void 0:t[Symbol.iterator]))(t)?this.O(t):this.$(t)}S(t,e=this._$AB){return this._$AA.parentNode.insertBefore(t,e)}k(t){this._$AH!==t&&(this._$AR(),this._$AH=this.S(t))}$(t){this._$AH!==R&&k(this._$AH)?this._$AA.nextSibling.data=t:this.k(A.createTextNode(t)),this._$AH=t}T(t){var e;const{values:a,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=F.createElement(i.h,this.options)),i);if((null===(e=this._$AH)||void 0===e?void 0:e._$AD)===s)this._$AH.m(a);else{const t=new j(s,this),e=t.p(this.options);t.m(a),this.k(e),this._$AH=t}}_$AC(t){let e=P.get(t.strings);return void 0===e&&P.set(t.strings,e=new F(t)),e}O(t){x(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let a,i=0;for(const s of t)i===e.length?e.push(a=new V(this.S(D()),this.S(D()),this,this.options)):a=e[i],a._$AI(s),i++;i<e.length&&(this._$AR(a&&a._$AB.nextSibling,i),e.length=i)}_$AR(t=this._$AA.nextSibling,e){var a;for(null===(a=this._$AP)||void 0===a||a.call(this,!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){var e;void 0===this._$AM&&(this._$C_=t,null===(e=this._$AP)||void 0===e||e.call(this,t))}}class B{constructor(t,e,a,i,s){this.type=1,this._$AH=R,this._$AN=void 0,this.element=t,this.name=e,this._$AM=i,this.options=s,a.length>2||""!==a[0]||""!==a[1]?(this._$AH=Array(a.length-1).fill(new String),this.strings=a):this._$AH=R}get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}_$AI(t,e=this,a,i){const s=this.strings;let n=!1;if(void 0===s)t=H(this,t,e,0),n=!k(t)||t!==this._$AH&&t!==M,n&&(this._$AH=t);else{const i=t;let r,o;for(t=s[0],r=0;r<s.length-1;r++)o=H(this,i[a+r],e,r),o===M&&(o=this._$AH[r]),n||(n=!k(o)||o!==this._$AH[r]),o===R?t=R:t!==R&&(t+=(null!=o?o:"")+s[r+1]),this._$AH[r]=o}n&&!i&&this.P(t)}P(t){t===R?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,null!=t?t:"")}}class Z extends B{constructor(){super(...arguments),this.type=3}P(t){this.element[this.name]=t===R?void 0:t}}const W=v?v.emptyScript:"";class Y extends B{constructor(){super(...arguments),this.type=4}P(t){t&&t!==R?this.element.setAttribute(this.name,W):this.element.removeAttribute(this.name)}}class J extends B{constructor(t,e,a,i,s){super(t,e,a,i,s),this.type=5}_$AI(t,e=this){var a;if((t=null!==(a=H(this,t,e,0))&&void 0!==a?a:R)===M)return;const i=this._$AH,s=t===R&&i!==R||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,n=t!==R&&(i===R||s);s&&this.element.removeEventListener(this.name,this,i),n&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){var e,a;"function"==typeof this._$AH?this._$AH.call(null!==(a=null===(e=this.options)||void 0===e?void 0:e.host)&&void 0!==a?a:this.element,t):this._$AH.handleEvent(t)}}class K{constructor(t,e,a){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=a}get _$AU(){return this._$AM._$AU}_$AI(t){H(this,t)}}const X=f.litHtmlPolyfillSupport;
 /**
      * @license
      * Copyright 2017 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
      */
-var G,Q;null==X||X(F,V),(null!==($=f.litHtmlVersions)&&void 0!==$?$:f.litHtmlVersions=[]).push("2.3.0");class tt extends m{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){var t,e;const a=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=a.firstChild),a}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=O(e,this.renderRoot,this.renderOptions)}connectedCallback(){var t;super.connectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!0)}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!1)}render(){return M}}tt.finalized=!0,tt._$litElement$=!0,null===(G=globalThis.litElementHydrateSupport)||void 0===G||G.call(globalThis,{LitElement:tt});const et=globalThis.litElementPolyfillSupport;null==et||et({LitElement:tt}),(null!==(Q=globalThis.litElementVersions)&&void 0!==Q?Q:globalThis.litElementVersions=[]).push("3.2.2");const at=()=>N`
+var G,Q;null==X||X(F,V),(null!==($=f.litHtmlVersions)&&void 0!==$?$:f.litHtmlVersions=[]).push("2.3.1");class tt extends m{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){var t,e;const a=super.createRenderRoot();return null!==(t=(e=this.renderOptions).renderBefore)&&void 0!==t||(e.renderBefore=a.firstChild),a}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=O(e,this.renderRoot,this.renderOptions)}connectedCallback(){var t;super.connectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!0)}disconnectedCallback(){var t;super.disconnectedCallback(),null===(t=this._$Do)||void 0===t||t.setConnected(!1)}render(){return M}}tt.finalized=!0,tt._$litElement$=!0,null===(G=globalThis.litElementHydrateSupport)||void 0===G||G.call(globalThis,{LitElement:tt});const et=globalThis.litElementPolyfillSupport;null==et||et({LitElement:tt}),(null!==(Q=globalThis.litElementVersions)&&void 0!==Q?Q:globalThis.litElementVersions=[]).push("3.2.2");const at=()=>N`
 <span class="loading">
     <span class="dot"></span>
     <span class="dot"></span>
@@ -158,7 +158,7 @@ class St extends class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e
     <div class="flex content-item field-item ${a}">${i}</div>
   `:N`
     <div class="flex content-item field-item ${a}">${Lt(t,e,a)}${i}</div>
-  `},Nt=(t,e,a,i)=>{if(void 0===t||void 0===t.control||void 0===t.control.type)return null;if(t.customAttributes&&"none"===t.customAttributes.display)return null;if(!0===a||!0===t.readOnly||"pxHidden"===t.control.type)return Ut(t,e,"field-text",Mt(t,e));if(i.casedata&&i.casedata.content){gt(i.casedata.content,t.reference)||("pxCheckbox"===t.control.type?pt(i.casedata.content,t.reference,"true"==t.value):pt(i.casedata.content,t.reference,t.value))}switch(t.control.type){case"pxPhone":case"pxTextInput":return Ut(t,e,"field-textinput",Rt(t,e));case"pxInteger":case"pxNumber":return Ut(t,e,"field-numberinput",Ot(t,e));case"pxCurrency":return Ut(t,e,"field-currencyinput",zt(t,e));case"pxEmail":return Ut(t,e,"field-emailinput",qt(t,e));case"pxTextArea":return Ut(t,e,"field-textarea",Ft(t,e));case"pxRadioButtons":return Ut(t,e,"field-radiogroup",Jt(t,e));case"pxCheckbox":return Ut(t,e,"field-checkbox",Kt(t,e));case"pxDropdown":return Ut(t,e,"field-dropdown",Xt(t,e));case"pxDisplayText":return Ut(t,e,"field-text",Mt(t,e));case"pxIcon":return Ut(t,e,"field-icon",Ht(t,e));case"pxLink":case"pxURL":return Ut(t,e,"field-url",jt(t,e));case"pxIconDeleteItem":return Ut(t,e,"field-button",Bt(t,e));case"pxButton":return Ut(t,e,"field-button",Vt(t,e));case"pxDateTime":return"TimeOfDay"===t.type?Ut(t,e,"field-time",Yt(t,e)):"Date"===t.type?Ut(t,e,"field-date",Wt(t,e)):Ut(t,e,"field-datetime",Zt(t,e));case"pxAutoComplete":return Ut(t,e,"field-combobox",Gt(t,e));case"pxSlider":return Ut(t,e,"field-slider",Pt(t,e));default:return null}},Mt=(t,e)=>{if("pxDate"===t.control.type){let a=dt(t.value);if(a)if(t.control&&2===t.control.modes.length){let e={};switch(t.control.modes[1].dateFormat){case"DateTime-Short-YYYY":case"Date-DayMonthYear-Custom":case"Date-Medium":e={year:"numeric",month:"short",day:"numeric"};break;case"Date-Short":e={year:"numeric",month:"numeric",day:"numeric"};break;case"Date-Long":e={year:"numeric",month:"long",day:"numeric"};break;case"Date-Full":e={weekday:"long",year:"numeric",month:"long",day:"numeric"};break;default:e={}}a=new Intl.DateTimeFormat([],e).format(a)}else a=(new Intl.DateTimeFormat).format(a);else a=t.value;return N`
+  `},Nt=(t,e,a,i)=>{if(void 0===t||void 0===t.control||void 0===t.control.type)return null;if(t.customAttributes&&"none"===t.customAttributes.display)return null;if(!0===a||!0===t.readOnly||"pxHidden"===t.control.type)return Ut(t,e,"field-text",Mt(t,e));if(i.casedata&&i.casedata.content){gt(i.casedata.content,t.reference)||("pxCheckbox"===t.control.type?pt(i.casedata.content,t.reference,"true"==t.value):pt(i.casedata.content,t.reference,t.value))}switch(t.control.type){case"pxPhone":case"pxURL":case"pxTextInput":return Ut(t,e,"field-textinput",Rt(t,e));case"pxInteger":case"pxNumber":return Ut(t,e,"field-numberinput",Ot(t,e));case"pxCurrency":return Ut(t,e,"field-currencyinput",zt(t,e));case"pxEmail":return Ut(t,e,"field-emailinput",qt(t,e));case"pxTextArea":return Ut(t,e,"field-textarea",Ft(t,e));case"pxRadioButtons":return Ut(t,e,"field-radiogroup",Jt(t,e));case"pxCheckbox":return Ut(t,e,"field-checkbox",Kt(t,e));case"pxDropdown":return Ut(t,e,"field-dropdown",Xt(t,e));case"pxDisplayText":return Ut(t,e,"field-text",Mt(t,e));case"pxIcon":return Ut(t,e,"field-icon",Ht(t,e));case"pxLink":return Ut(t,e,"field-url",jt(t,e));case"pxIconDeleteItem":return Ut(t,e,"field-button",Bt(t,e));case"pxButton":return Ut(t,e,"field-button",Vt(t,e));case"pxDateTime":return"TimeOfDay"===t.type?Ut(t,e,"field-time",Yt(t,e)):"Date"===t.type?Ut(t,e,"field-date",Wt(t,e)):Ut(t,e,"field-datetime",Zt(t,e));case"pxAutoComplete":return Ut(t,e,"field-combobox",Gt(t,e));case"pxSlider":return Ut(t,e,"field-slider",Pt(t,e));default:return null}},Mt=(t,e)=>{if("pxDate"===t.control.type){let a=dt(t.value);if(a)if(t.control&&2===t.control.modes.length){let e={};switch(t.control.modes[1].dateFormat){case"DateTime-Short-YYYY":case"Date-DayMonthYear-Custom":case"Date-Medium":e={year:"numeric",month:"short",day:"numeric"};break;case"Date-Short":e={year:"numeric",month:"numeric",day:"numeric"};break;case"Date-Long":e={year:"numeric",month:"long",day:"numeric"};break;case"Date-Full":e={weekday:"long",year:"numeric",month:"long",day:"numeric"};break;default:e={}}a=new Intl.DateTimeFormat([],e).format(a)}else a=(new Intl.DateTimeFormat).format(a);else a=t.value;return N`
       <span class="dataValueRead" data-ref="${t.reference}" id="${_t(e)}">${a}</span>
     `}if("pxDateTime"===t.control.type){let a=dt(t.value);if(a)if(t.control&&2===t.control.modes.length){let e={};if("DateTime-Short-YYYY"===t.control.modes[1].dateTimeFormat)e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};else e={};a=new Intl.DateTimeFormat([],e).format(a)}else a=(new Intl.DateTimeFormat).format(a);else a=t.value;return N`
       <span class="dataValueRead" data-ref="${t.reference}" id="${_t(e)}">${a}</span>
@@ -168,20 +168,21 @@ class St extends class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e
     <input type="text" style="display:none" data-ref="${t.reference}" id="${_t(e)}" value="${ht(t.value)}"/>
     `;let a=t.value;if(t.control&&2===t.control.modes.length&&"locallist"===t.control.modes[0].listSource)for(const e of t.control.modes[0].options)e.key===a&&(a=e.value);return("pxCurrency"===t.control.type||"pxNumber"===t.control.type&&t.readOnly&&"currency"===t.control.modes[1].numberSymbol)&&(a=`$${a}`),N`
     <span class="dataValueRead" data-ref="${t.reference}" id="${_t(e)}">${ht(a)}</span>
-  `},Rt=(t,e)=>N`
+  `},Rt=(t,e)=>{let a="text";return"pxPhone"===t.control.type?a="tel":"pxURL"===t.control.type&&(a="url"),N`
   <input
     data-ref="${t.reference}"
     ?required="${!0===t.required}"
-    type="text"
+    ?disabled="${!0===t.disabled}"
+    type="${a}"
     id="${_t(e)}"
     value="${ht(t.value)}"
     data-action-change="${_t(Et(t,"change"))}"
     data-action-click="${_t(Et(t,"click"))}"
-  />
-`,Pt=(t,e)=>N`
+  />`},Pt=(t,e)=>N`
   <input
     data-ref="${t.reference}"
     ?required="${!0===t.required}"
+    ?disabled="${!0===t.disabled}"
     type="range"
     id="${_t(e)}"
     value="${ht(t.value)}"
@@ -192,6 +193,7 @@ class St extends class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e
   <input
     data-ref="${t.reference}"
     ?required="${!0===t.required}"
+    ?disabled="${!0===t.disabled}"
     type="number"
     id="${_t(e)}"
     value="${t.value}"
@@ -202,6 +204,7 @@ class St extends class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e
   <input
     data-ref="${t.reference}"
     ?required="${!0===t.required}"
+    ?disabled="${!0===t.disabled}"
     type="number"
     id="${_t(e)}"
     value="${t.value}"
@@ -212,6 +215,7 @@ class St extends class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e
   <input
     data-ref="${t.reference}"
     ?required="${!0===t.required}"
+    ?disabled="${!0===t.disabled}"
     type="email"
     id="${_t(e)}"
     value="${t.value}"
@@ -223,6 +227,7 @@ class St extends class{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e
     data-ref="${t.reference}"
     rows="3"
     ?required="${!0===t.required}"
+    ?disabled="${!0===t.disabled}"
     id="${_t(e)}"
     data-action-change="${_t(Et(t,"change"))}"
     data-action-click="${_t(Et(t,"click"))}"
@@ -259,6 +264,7 @@ ${ht(t.value)}</textarea
     <input
       data-ref="${t.reference}"
       ?required="${!0===t.required}"
+      ?disabled="${!0===t.disabled}"
       type="datetime-local"
       id="${_t(e)}"
       value="${a}"
@@ -269,6 +275,7 @@ ${ht(t.value)}</textarea
     <input
       data-ref="${t.reference}"
       ?required="${!0===t.required}"
+      ?disabled="${!0===t.disabled}"
       type="date"
       id="${_t(e)}"
       value="${a}"
@@ -279,6 +286,7 @@ ${ht(t.value)}</textarea
     <input
       data-ref="${t.reference}"
       ?required="${!0===t.required}"
+      ?disabled="${!0===t.disabled}"
       type="time"
       id="${_t(e)}"
       value="${a}"
@@ -295,6 +303,7 @@ ${ht(t.value)}</textarea
             type="radio"
             value="${a.key}"
             ?required="${!0===t.required}"
+            ?disabled="${!0===t.disabled}"
             ?checked="${a.key===t.value}"
             data-action-change="${_t(Et(t,"change"))}"
           />
@@ -315,6 +324,7 @@ ${ht(t.value)}</textarea
       data-ref="${t.reference}"
       id=${_t(e)}
       ?required="${!0===t.required}"
+      ?disabled="${!0===t.disabled}"
       data-action-change="${_t(Et(t,"change"))}"
       data-action-click="${_t(Et(t,"click"))}">
         <option value="" title="Select...">Select...</option>
@@ -326,6 +336,7 @@ ${ht(t.value)}</textarea
       data-ref="${t.reference}"
       id=${_t(e)}
       ?required="${!0===t.required}"
+      ?disabled="${!0===t.disabled}"
       data-action-change="${_t(Et(t,"change"))}"
       data-action-click="${_t(Et(t,"click"))}">
       </input>`,Gt=(t,e)=>{if(t.control.modes&&t.control.modes[0]&&t.control.modes[0].options)return N`
@@ -333,6 +344,7 @@ ${ht(t.value)}</textarea
         data-ref="${t.reference}"
         list="${t.reference}"
         ?required="${!0===t.required}"
+        ?disabled="${!0===t.disabled}"
         type="text"
         class="combobox loaded"
         id="${_t(e)}"
@@ -353,6 +365,7 @@ ${ht(t.value)}</textarea
       list="${t.reference}"
       data-pageid="${a}"
       ?required="${!0===t.required}"
+      ?disabled="${!0===t.disabled}"
       type="text"
       class="combobox"
       id="${_t(e)}"
