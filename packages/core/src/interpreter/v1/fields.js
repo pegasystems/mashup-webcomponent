@@ -558,6 +558,7 @@ const Checkbox = (data, path) => html`
   id="${ifDefined(path)}"
   type="checkbox"
   ?checked=${data.value === 'true'}
+  ?disabled="${data.disabled === true}"
   data-action-change="${ifDefined(ActionSet(data, 'change'))}"
   data-action-click="${ifDefined(ActionSet(data, 'click'))}"
   />

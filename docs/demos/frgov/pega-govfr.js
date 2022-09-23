@@ -338,6 +338,7 @@ ${ct(t.value)}</textarea
   id="${Tt(e)}"
   type="checkbox"
   ?checked=${"true"===t.value}
+  ?disabled="${!0===t.disabled}"
   data-action-change="${Tt(Lt(t,"change"))}"
   data-action-click="${Tt(Lt(t,"click"))}"
   />
