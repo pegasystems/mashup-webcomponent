@@ -379,7 +379,7 @@ ${ht(t.value)}</textarea
       <div class="header-bar">
         <div class="header-content"><h3 class="header-title">${t.title}</h3></div>
       </div>
-    `:null,te=(t,e)=>{let a=t.fieldListID;if(void 0!==t.reference&&(a=t.reference),"."===a.charAt(0)&&(a=a.substring(1)),t.newRow&&!0!==e){const e=[];return $t(t.newRow,e),N`
+    `:null,te=(t,e)=>{let a=t.fieldListID;if(void 0!==t.reference&&(a=t.reference),"."===a.charAt(0)&&(a=a.substring(1)),t.newRow&&!0!==e&&!0!==t.readOnly){const e=[];return $t(t.newRow,e),N`
       <div class="table-action-area">
         <button type="button" class="pzhc pzbutton Simple" data-newrow="${_t(e.join())}"
         data-ref=${a} data-action-click="addRow">${N`
@@ -486,8 +486,7 @@ ${ht(t.value)}</textarea
           </td>
         </tr>`))}
   </tbody>
-  </table>`:null)(a.childCases,o)}
-    <h3>Case information</h3>`;if(""===t||void 0===e.caseID)return"";const h=e.caseID.split(" ")[1];return N`
+  </table>`:null)(a.childCases,o)}`;if(""===t||void 0===e.caseID)return"";const h=e.caseID.split(" ")[1];return N`
   <div class="flex layout-content-inline_middle main-header">
     <h2>${e.name} <span>(${h})</span>
     ${""!==i?N`<span class='badge-bg-info centered'><span class='badge_text'>${i}</span></span>`:""}</h2>
@@ -588,7 +587,6 @@ ${t.pxResults.map((t=>N`
   <div class="flex layout-content-inline_middle success">
     ${i18n.t("Thank you. Your information has been submitted.")}
   </div>
-  <h3>${i18n.t("Case information")}</h3>
   <div id="case-data"></div>`):""!==this.caseID||""!==this.assignmentID||this.bShowNew?N`
         ${re(this.name,this.data,this.casedata,this.casepyStatusWork,this.numAttachments,this.displayActions,this.runAction,this.openCase,"true"===this.bShowAttachments?this.displayAttachments:null,this.bShowActions)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>

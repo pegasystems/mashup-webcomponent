@@ -475,8 +475,7 @@ var Y,Q;null==X||X(z,B),(null!==(v=m.litHtmlVersions)&&void 0!==v?v:m.litHtmlVer
           </td>
         </tr>`))}
   </tbody>
-  </table> `:null)(a.assignments,s)}
-    <h3>${i18n.t("Case information")}</h3>`:""===t||void 0===e.caseID?"":L`
+  </table> `:null)(a.assignments,s)}`:""===t||void 0===e.caseID?"":L`
   <div>
     <h2 class='govuk-heading-m'>${i18n.t(t)}</h2>
   </div>`,Xt=(t,e,a,s,i)=>L`
@@ -507,7 +506,6 @@ var Y,Q;null==X||X(z,B),(null!==(v=m.litHtmlVersions)&&void 0!==v?v:m.litHtmlVer
   <div>
     ${i18n.t("Thank you. Your information has been submitted.")}
   </div>
-  <h3>${i18n.t("Case information")}</h3>
   <div id="case-data"></div>`}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?L`
         ${Gt(this.name,this.data,this.casedata,this.openCase)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>

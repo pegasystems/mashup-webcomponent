@@ -44,7 +44,7 @@ export const ListAction = (data, isReadOnly) => {
 
   /* If the array 'newRow' is present, then the table or RDL is editable.
   It is preferable to show the delete button on each row - so will not show the delete action here */
-  if (data.newRow && isReadOnly !== true) {
+  if (data.newRow && isReadOnly !== true && data.readOnly !== true) {
     const newRowList = [];
     getNewRowProps(data.newRow, newRowList);
     return html`

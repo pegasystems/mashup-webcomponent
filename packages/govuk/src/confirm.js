@@ -10,5 +10,4 @@ export const showConfirm = (name) => html`
   <div>
     ${i18n.t('Thank you. Your information has been submitted.')}
   </div>
-  <h3>${i18n.t('Case information')}</h3>
   <div id="case-data"></div>`;

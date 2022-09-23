@@ -83,8 +83,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
       </div>
     </div>
     ${AssignmentList(casedata.assignments, onOpen)}
-    ${RelatedCases(casedata.childCases, onOpen)}
-    <h3>Case information</h3>`;
+    ${RelatedCases(casedata.childCases, onOpen)}`;
   }
   if (name === '' || typeof data.caseID === 'undefined') return '';
   const id = data.caseID.split(' ')[1];

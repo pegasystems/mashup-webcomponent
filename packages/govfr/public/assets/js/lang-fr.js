@@ -71,7 +71,6 @@ window.langFR = {
     'Make': 'Constructeur',
     'Body type': 'Type de chassis',
     'Thank you. Your information has been submitted.': 'Merci. Vos informations ont été soumises.',
-    'Case information': 'Informations sur le dossier',
     'Review': 'Finalisation to contract',
     'or add a ': 'ou add a',
     'no attachments found': 'pas de pieces jointes',

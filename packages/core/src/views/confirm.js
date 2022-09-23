@@ -16,5 +16,4 @@ export const showConfirm = (name, id, status, onDisplayAttachments) => html`
   <div class="flex layout-content-inline_middle success">
     ${i18n.t('Thank you. Your information has been submitted.')}
   </div>
-  <h3>${i18n.t('Case information')}</h3>
   <div id="case-data"></div>`;

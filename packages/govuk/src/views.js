@@ -75,8 +75,7 @@ export const CaseHeader = (name, data, casedata, onOpen) => {
     <div>
       <h2 class='govuk-heading-m'>${i18n.t(name)}</h2>
     </div>
-    ${AssignmentList(casedata.assignments, onOpen)}
-    <h3>${i18n.t('Case information')}</h3>`;
+    ${AssignmentList(casedata.assignments, onOpen)}`;
   }
   if (name === '' || typeof data.caseID === 'undefined') return '';
   return html`

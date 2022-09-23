@@ -155,17 +155,6 @@ describe(
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
       await page.waitForTimeout(4500);
       await page.waitForSelector('#case-data', { visible: true });
-
-      title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
-      expect(title).toBe('Case information');
-      if (bDebug) {
-        console.log(`generate screenshot test${iTestCount}.jpg`);
-        await page.screenshot({
-          path: `./test-results/test${iTestCount++}.jpg`,
-          fullpage: true,
-          type: 'jpeg',
-        });
-      }
     }, timeout);
 
     it('Check if the shadow DOM component correctly renders', async () => {

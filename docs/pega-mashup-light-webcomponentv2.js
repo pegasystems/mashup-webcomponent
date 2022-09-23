@@ -491,8 +491,7 @@ class Nt{constructor(t){this.Y=t}disconnect(){this.Y=void 0}reconnect(t){this.Y=
           </td>
         </tr>`))}
   </tbody>
-  </table> `:null)(a.assignments,r)}
-    <h3>${i18n.t("Case information")}</h3>`}if(""===t||void 0===e.caseID)return"";const h=e.caseID.split(" ")[1];return N`
+  </table> `:null)(a.assignments,r)}`}if(""===t||void 0===e.caseID)return"";const h=e.caseID.split(" ")[1];return N`
   <div class="flex layout-content-inline_middle main-header">
     <h2>${i18n.t(e.data.caseInfo.name)} <span>(${h})</span>
     ${""!==i?N`<span class='badge-bg-info centered'><span class='badge_text'>${i}</span></span>`:""}</h2>
@@ -563,7 +562,6 @@ class Nt{constructor(t){this.Y=t}disconnect(){this.Y=void 0}reconnect(t){this.Y=
   <div class="flex layout-content-inline_middle success">
     ${i18n.t("Thank you. Your information has been submitted.")}
   </div>
-  <h3>${i18n.t("Case information")}</h3>
   <div id="case-data"></div>`)(this.casedata.name,t,this.casepyStatusWork,"true"===this.bShowAttachments?this.displayAttachments:null)}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?N`
         ${me(this.name,this.data,this.casedata,this.casepyStatusWork,this.numAttachments,this.displayActions,this.runAction,this.openCase,"true"===this.bShowAttachments?this.displayAttachments:null,this.bShowActions)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
