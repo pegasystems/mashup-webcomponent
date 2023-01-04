@@ -4,14 +4,14 @@
     "description": "Pega Mashup Web Component",
     "license": "Apache 2.0",
     "scripts": {
-        "dev": "rollup --config rollup.config.dev.js --watch",
-        "build": "rollup --config rollup.config.prod.js",
+        "dev": "rollup --bundleConfigAsCjs --config rollup.config.dev.js --watch",
+        "build": "rollup --bundleConfigAsCjs --config rollup.config.prod.js",
         "lint": "eslint src/**/*.js --fix; exit 0",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage --colors"
     },
     "dependencies": {
-        "lit": "^2.3.1"
+        "lit": "^2.5.0"
     }
 }

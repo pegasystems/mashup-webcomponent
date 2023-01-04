@@ -65,7 +65,7 @@ function createMashup() {
   if (action === 'dataView') {
     mytag.setAttribute('dataviewParams', document.getElementById('dataviewparams').value);
   }
-  mytag.setAttribute('title', document.getElementById('title').value);
+  mytag.setAttribute('headingLabel', document.getElementById('title').value);
   /* Instead of doing setAttribute and rendering the authentication credentials inside the DOM
      we pass the values directly to the components */
   const authenticationType = document.getElementById('authentication').value;

@@ -73,7 +73,7 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
   if (typeof data.caseID === 'undefined' && casedata.content) {
     return html`
     <div class="flex layout-content-inline_middle main-header">
-      <h2>${casedata.content.pyLabel} <span>(${casedata.content.pyID})</span>
+      <h2>${casedata.content.pyLabel}</span>
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
@@ -86,10 +86,9 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
     ${RelatedCases(casedata.childCases, onOpen)}`;
   }
   if (name === '' || typeof data.caseID === 'undefined') return '';
-  const id = data.caseID.split(' ')[1];
   return html`
   <div class="flex layout-content-inline_middle main-header">
-    <h2>${data.name} <span>(${id})</span>
+    <h2>${data.name}</span>
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}

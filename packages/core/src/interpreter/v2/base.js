@@ -109,7 +109,7 @@ export default class PegaBase extends PegaServices {
     }
     if (this.action === 'workList') {
       return WorkList(
-        this.title,
+        this.headingLabel,
         this.cases,
         this.displayCasesTypes,
         this.reloadWorkList,
@@ -118,11 +118,18 @@ export default class PegaBase extends PegaServices {
       );
     }
     if (this.action === 'taskList') {
-      return TaskList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+      return TaskList(
+        this.headingLabel,
+        this.cases,
+        this.displayCasesTypes,
+        this.reloadWorkList,
+        this.bShowCreate === 'true' ? this.createCase : null,
+        this.openCase,
+      );
     }
     if (this.action === 'dataView') {
       return DataView(
-        this.title,
+        this.headingLabel,
         this.dataviewParams,
         this.data,
         this.reloadWorkList,

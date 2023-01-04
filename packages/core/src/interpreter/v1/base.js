@@ -28,7 +28,7 @@ export default class PegaBase extends PegaServices {
       this.fetchData('casetypes');
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
-        if (this.casetypes[this.casetype]) {
+        if (this.casetypes && this.casetypes[this.casetype]) {
           this.fetchData('newwork', { id: this.casetype });
         }
       } else if (this.action === 'workList' || this.action === 'taskList') {
@@ -75,14 +75,28 @@ export default class PegaBase extends PegaServices {
       `;
     }
     if (this.action === 'workList') {
-      return WorkList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+      return WorkList(
+        this.headingLabel,
+        this.cases,
+        this.displayCasesTypes,
+        this.reloadWorkList,
+        this.bShowCreate === 'true' ? this.createCase : null,
+        this.openCase,
+      );
     }
     if (this.action === 'taskList') {
-      return TaskList(this.title, this.cases, this.displayCasesTypes, this.reloadWorkList, this.bShowCreate === 'true' ? this.createCase : null, this.openCase);
+      return TaskList(
+        this.headingLabel,
+        this.cases,
+        this.displayCasesTypes,
+        this.reloadWorkList,
+        this.bShowCreate === 'true' ? this.createCase : null,
+        this.openCase,
+      );
     }
     if (this.action === 'dataView') {
       return DataView(
-        this.title,
+        this.headingLabel,
         this.dataviewParams,
         this.cases,
         this.reloadWorkList,

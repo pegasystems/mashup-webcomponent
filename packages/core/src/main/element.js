@@ -9,7 +9,7 @@ export default class PegaElement extends LitElement {
       dataviewParams: { type: Object }, /* only used if the action dataView is used - passes a JSON object */
       username: {}, /* Username for authentication  */
       password: {}, /* This is for development and test only - use JWT token or oauth instead */
-      title: {}, /* Title of the my worklist card  */
+      headingLabel: {}, /* Header for the worklist card  */
       bShowCreate: {}, /* Show the create button inside the worklist - if showing the worklist, you can filter the list of cases you can
                               create by setting the value of casetype  */
       bShowCancel: {}, /* Show or hide the close or cancel actions when the action type is not workList  */
@@ -31,7 +31,7 @@ export default class PegaElement extends LitElement {
   constructor() {
     super();
     this.url = '';
-    this.title = 'My worklist';
+    this.headingLabel = 'My worklist';
     this.caseID = '';
     this.username = '';
     this.password = '';

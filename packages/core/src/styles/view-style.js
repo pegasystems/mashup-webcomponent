@@ -373,7 +373,16 @@ export const viewStyle = () => html`
     }
     .flex-all {
       flex:1;
-      margin-right: 8px;
+      margin: 0 var(--spacing1x);
+    }
+    .flex.margin-l-auto {
+      margin-left: auto;
+    }
+    .align-center {
+      align-items: center;
+    }
+    .justify-end {
+      justify-content: end;
     }
     .flex.layout-content-inline_grid_double > div {
       width: calc(50% - var(--spacing1x));
@@ -441,9 +450,14 @@ export const viewStyle = () => html`
     }
     .flex.main-header > h2 {
       margin-bottom:0;
+      flex:1;
+      display: flex;
+      align-items: center;
     }
     .flex.main-header > h2 > span {
       white-space: nowrap;
+      display: flex;
+      margin-left: 6px;
     }
     .flex.layout-content-inline > *,
     .flex.layout-content-inline_middle > * {
@@ -501,6 +515,22 @@ export const viewStyle = () => html`
       width: -webkit-fill-available;
       inline-size: -moz-available;
     }
+    .rdl > div {
+      border-bottom: 1px solid var(--generalBorderColor);
+      padding-bottom: var(--spacing1x);
+      padding-top: var(--spacing1x);
+    }
+    .rdl > div:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .rdl > div:first-child {
+      padding-top: 0;
+    }
+    .rdl h3 {
+      margin-bottom: 0;
+    }
+
     .button-menu {
       position: relative;
       display: inline-block;

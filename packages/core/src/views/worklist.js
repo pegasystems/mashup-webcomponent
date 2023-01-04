@@ -21,24 +21,28 @@ const WorkList = (title, cases, onDisplayCaseTypes, onReload, onCreate, onOpen) 
           <thead>
             <tr>
               <th span='col'>${i18n.t('Name')}</th>
-              <th span='col'>${i18n.t('Case ID')}</th>
+              <th span='col'>${i18n.t('Reference ID')}</th>
               <th span='col' class="right-aligned">${i18n.t('Urgency')}</th>
               <th span='col' class="right-aligned">${i18n.t('Action')}</th>
             </tr>
           </thead>
           <tbody>
             ${cases.map(
-    (item) => html`
+    (item) => {
+      const caseArr = item.caseID.split(' ');
+      const id = caseArr[caseArr.length - 1];
+      return html`
                 <tr>
                   <td data-title='Name'>${i18n.t(item.name)}</td>
-                  <td data-title='Case ID'>${item.caseID}</td>
+                  <td data-title='Case ID'>${id}</td>
                   <td data-title='Urgency' class="right-aligned">${item.urgency}</td>
                   <td data-title='Action' class="right-aligned">
                     <button @click="${onOpen}" class="pzhc pzbutton" data-type="assignment" data-id="${item.ID}">
                     ${i18n.t('Open')}</button>
                   </td>
                 </tr>
-              `,
+              `;
+    },
   )}
           </tbody>
         </table>

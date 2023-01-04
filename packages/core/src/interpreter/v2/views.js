@@ -71,10 +71,9 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
   /* Case of openCaseByHandle - not an assignment */
   const attachmentsLabel = html`${paperclipIcon()}<span class='count-badge'>${numAttachments}</span>`;
   if (typeof data.caseID === 'undefined' && casedata.content) {
-    const id = casedata.content.pyID.split(' ')[1];
     return html`
     <div class="flex layout-content-inline_middle main-header">
-      <h2>${i18n.t(data.data.caseInfo.name)} <span>(${id})</span>
+      <h2>${i18n.t(data.data.caseInfo.name)}</span>
       ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
       <div class="flex layout-content-inline_middle margin-l-auto">
         ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
@@ -86,10 +85,9 @@ export const CaseHeader = (name, data, casedata, status, numAttachments, onDispl
     ${AssignmentList(casedata.assignments, onOpen)}`;
   }
   if (name === '' || typeof data.caseID === 'undefined') return '';
-  const id = data.caseID.split(' ')[1];
   return html`
   <div class="flex layout-content-inline_middle main-header">
-    <h2>${i18n.t(data.data.caseInfo.name)} <span>(${id})</span>
+    <h2>${i18n.t(data.data.caseInfo.name)}</span>
     ${status !== '' ? html`<span class='badge-bg-info centered'><span class='badge_text'>${status}</span></span>` : ''}</h2>
     <div class="flex layout-content-inline_middle margin-l-auto">
       ${onDisplayAttachments ? AttachmentButton('Attachments', attachmentsLabel, 'Simple', onDisplayAttachments) : ''}
