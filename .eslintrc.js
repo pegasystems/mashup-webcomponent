@@ -7,6 +7,7 @@ module.exports = {
   parser: '@babel/eslint-parser',
   extends: 'airbnb-base',
   rules: {
+    'import/no-extraneous-dependencies': 'off',
     'operator-linebreak': 'off',
     'prefer-destructuring': 'off',
     'guard-for-in': 'off',
