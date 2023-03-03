@@ -1,7 +1,5 @@
 import puppeteer from 'puppeteer';
 
-const { AxePuppeteer } = require('axe-puppeteer');
-
 const bDebug = false;
 const bHeadless = true;
 const dir = process.cwd();

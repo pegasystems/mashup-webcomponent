@@ -1,6 +1,5 @@
-import puppeteer from 'puppeteer';
-
-const { AxePuppeteer } = require('axe-puppeteer');
+const { AxePuppeteer } = require('@axe-core/puppeteer');
+const puppeteer = require('puppeteer');
 
 const bDebug = false;
 const bHeadless = true;

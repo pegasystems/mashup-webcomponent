@@ -1,7 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import copy from 'rollup-plugin-copy';
-import minifyHTML from 'rollup-plugin-html-minifier';
 import eslint from '@rollup/plugin-eslint';
 import { NunjucksPlugin } from './nunjunk';
 
@@ -31,7 +30,6 @@ export default [
       eslint({
         fix: true,
       }),
-      minifyHTML(),
       terser(),
     ],
   },

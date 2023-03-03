@@ -1,7 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import copy from 'rollup-plugin-copy';
-import minifyHTML from 'rollup-plugin-html-minifier';
 import eslint from '@rollup/plugin-eslint';
 
 export default [
@@ -25,7 +24,6 @@ export default [
       eslint({
         fix: true,
       }),
-      minifyHTML(),
       terser(),
     ],
   },
@@ -44,7 +42,6 @@ export default [
       eslint({
         fix: true,
       }),
-      minifyHTML(),
       terser(),
     ],
   },
@@ -63,7 +60,6 @@ export default [
       eslint({
         fix: true,
       }),
-      minifyHTML(),
       terser(),
     ],
   },
@@ -82,7 +78,6 @@ export default [
       eslint({
         fix: true,
       }),
-      minifyHTML(),
       terser(),
     ],
   },
