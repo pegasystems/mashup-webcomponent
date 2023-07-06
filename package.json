@@ -29,7 +29,6 @@
     "dev:govuk": "lerna run dev --scope pega-govuk",
     "dev:govus": "lerna run dev --scope pega-govus",
     "dev:govfr": "lerna run dev --scope pega-govfr",
-    "install": "lerna bootstrap",
     "build": "lerna run build",
     "test": "jest",
     "lint": "lerna run lint"
