@@ -1,0 +1,42 @@
+{% include "header.html" %}
+<main id="full-content">
+</main>
+{% include "footer.html" %}
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+<script type="module" src="./assets/js/dsfr.module.min.js"></script>
+<script src="./pega-govfr.js"></script>
+<script>
+  let defaultCfg = {
+    url: "https://frontend-app.pega.net/prweb",
+    portalName: "WebPortal",
+    clientid: "57140757226253941237",
+    clientsecret: "C7F6B222AA4F12EA82D7148CD2F88A47"
+  };
+  const elem = document.querySelector("main");
+  const mytag = document.createElement("pega-govfr-v2");
+  mytag.action = 'workTable';
+  mytag.url = defaultCfg.url;
+  mytag.authentication = 'oauth2clientcredentials';
+  mytag.clientid = defaultCfg.clientid;
+  mytag.clientsecret = defaultCfg.clientsecret;
+  mytag.portalName = defaultCfg.portalName;
+  mytag.addEventListener("message", function (event) {
+    const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}`;
+    if (event.detail.type === "openassignment") {
+      let id = event.detail.id.replace("!", " ").split(" ");
+      if (id.length > 3) {
+        window.history.replaceState(
+          {},
+          '',
+          `${redirectURL}/case.html?case=${id[2]}`,
+        );
+      }
+    } else if (event.detail.type === "cancel") {
+      window.location.href = `${redirectURL}/worklist.html`;
+    }
+  });
+  elem.appendChild(mytag);
+</script>
+</body>
+
+</html>

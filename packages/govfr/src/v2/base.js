@@ -14,6 +14,7 @@ import {
   getFormData, shouldRefresh, getRefreshFor,
 } from '../../../core/src/utils/form-utils';
 import { WorkList } from '../worklist';
+import { WorkTable } from '../worktable';
 
 export default class PegaBase extends PegaServices {
   displayContent() {
@@ -60,6 +61,9 @@ export default class PegaBase extends PegaServices {
     }
     if (this.action === 'workList') {
       return WorkList(this.cases, this.openCase);
+    }
+    if (this.action === 'workTable') {
+      return WorkTable(this);
     }
     return null;
   }

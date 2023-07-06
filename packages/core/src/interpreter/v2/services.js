@@ -571,7 +571,11 @@ export default class PegaServices extends PegaElement {
         break;
       case 'dataviews':
         apiurl += `data_views/${id}`;
-        reqHeaders.body = JSON.stringify(props.content);
+        if (typeof props.content === 'function') {
+          reqHeaders.body = props.content();
+        } else {
+          reqHeaders.body = JSON.stringify(props.content);
+        }
         break;
       case 'uploadattachment':
         apiurl += 'attachments/upload';
@@ -653,6 +657,10 @@ export default class PegaServices extends PegaElement {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'dataviews') {
             this.data = response.data ?? [];
+            if (typeof props.response === 'function') {
+              props.response(this);
+              return;
+            }
           }
           if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {
             this.sendExternalEvent({ type: 'newwork', id: response.data.caseInfo.ID });

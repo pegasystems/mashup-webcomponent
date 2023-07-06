@@ -18,6 +18,14 @@ body > main {
   min-height: 40vh;
 }
 
+#full-content {
+  max-width: 80%;
+  min-width: 80%;
+  margin: 0 auto;
+  padding: var(--xl-base);
+  min-height: 40vh;
+}
+
 table {
   width:100%;
 }
