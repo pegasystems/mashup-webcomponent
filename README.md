@@ -78,6 +78,4 @@ npm run test
 - Core application: https://pegasystems.github.io/mashup-webcomponent
 - UK Government Design system: https://pegasystems.github.io/mashup-webcomponent/demos/ukgds/main.html and https://pegasystems.github.io/mashup-webcomponent/demos/ukgds/worklist.html
 - US WDS: https://pegasystems.github.io/mashup-webcomponent/demos/uswds/main.html and https://pegasystems.github.io/mashup-webcomponent/demos/uswds/main1.html
-- France Design system de l'etat: https://pegasystems.github.io/mashup-webcomponent/demos/frgov/main.html and https://pegasystems.github.io/mashup-webcomponent/demos/frgov/demo.html
-
-
+- France Design system de l'etat: https://pegasystems.github.io/mashup-webcomponent/demos/frgov/main.html and https://pegasystems.github.io/mashup-webcomponent/demos/frgov/demo.html and and https://pegasystems.github.io/mashup-webcomponent/demos/frgov/worktable.html
