@@ -125,37 +125,42 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
         ${w(e)}
       </form>
     `}
-  `};class Dt extends it{static get properties(){return{url:{},caseID:{},dataviewParams:{type:Object},username:{},password:{},headingLabel:{},bShowCreate:{},bShowCancel:{},bShowAttachments:{},bShowSave:{},bShowActions:{},authentication:{},token:{},clientid:{},clientsecret:{},initialContent:{},action:{},casetype:{},portalName:{},langTokens:{}}}constructor(){super(),this.url="",this.headingLabel="My worklist",this.caseID="",this.username="",this.password="",this.bShowCreate="true",this.bShowCancel="true",this.bShowAttachments="false",this.bShowSave="true",this.bShowActions="true",this.authentication="",this.token="",this.clientid="",this.clientsecret="",this.initialContent="",this.action="",this.casetype="",this.portalName="",this.cases=[],this.dataPages={},this.name="",this.etag="",this.casepyStatusWork="",this.casedata={},this.data={},this.numAttachments=0,this.attachmentcategories=[],this.assignmentID="",this.actionID="",this.content={},this.dataviewParams={},this.pageInstructions=[],this.errorMsg="",this.validationMsg="",this.bShowConfirm=!1,this.bShowNew=!1,this.refreshOnChange=!1,this.isDeclarativeTarget=!1;const t=this;window.i18n||(window.i18n={t:function(e){if(!e)return"";if("string"!=typeof e)return e;let a=e;if(0===a.indexOf("@L ")&&(a=a.substring(3)),a=a.replace(/^"|"$/g,"").trim(),a=pt(a),"object"!=typeof t.langTokens)return a;const s=t.langTokens[a];return s&&""!==s?s.trim():(console.log(a),a)}})}clearLoadingIndicator(){const t=this.getRenderRoot().querySelector("#case-data");t&&null!==t.querySelector(".loading")&&et(null,t)}sendExternalEvent(t){this.dispatchEvent(new CustomEvent("message",{detail:{...t}}))}}class It extends Dt{resetError=t=>{this.errorMsg="",this.validationMsg="",this.actionAreaCancel(t)};reloadWorkList=t=>{this.cases=[],this.requestUpdate(),this.actionAreaCancel(t)};actionAreaCancel=t=>{if(t&&t.preventDefault(),this.bShowConfirm=!1,this.bShowNew=!1,this.caseID="",this.data={},this.content={},this.pageInstructions=[],this.casedata={},this.attachmentcategories=[],this.casepyStatusWork="",this.assignmentID="",this.actionID="",this.errorMsg="",this.numAttachments=0,this.validationMsg="",this.name="","workList"!==this.action&&"taskList"!==this.action||this.fetchData("portal"),"dataView"===this.action){const t={};if(this.dataviewParams)for(const e of this.dataviewParams.params)e.name&&e.value&&(t[e.name.trim()]=e.value.trim());this.sendData("dataviews",{id:this.dataviewParams.name,content:{dataViewParameters:t}})}this.sendExternalEvent({type:"cancel"})};actionAreaSave=t=>{t&&t.preventDefault(),null===t.target.getAttribute("data-submit")&&(t.target.textContent="Saving...",t.target.disabled=!0);const e=this.getRenderRoot().querySelector("#case-data");e&&(wt(e,this.content,this.pageInstructions,this.data.data.caseInfo.content),""!==this.assignmentID?this.sendData("savecase",{id:this.caseID,actionid:"",target:t.target}):this.sendData("savecase",{id:this.caseID,actionid:this.actionID,target:t.target}))};actionRefresh=()=>{const t=this.getRenderRoot().querySelector("#case-data");t&&(this.validationMsg="",wt(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.fetchData("caseaction",{id:this.caseID,actionid:this.actionID}))};displayActions=()=>this.data.actions?this.genActionsList(this.name,this.data):this.casedata.actions?this.genActionsList(this.name,this.casedata):null;displayAttachments=t=>{this.fetchData("attachmentcategories",{id:this.caseID}),this.fetchData("attachments",{id:this.caseID,target:t})};submitForm=(t,e)=>{const a=this.getRenderRoot().querySelector("#case-data");return wt(a,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.validateForm(a)?"create"!==e?""!==this.data.ID?this.sendData("submitassignment",{id:this.data.ID,actionid:this.actionID}):this.sendData("submitcaseaction",{id:this.data.caseID,actionid:this.actionID}):this.sendData("newwork",{id:this.casetype}):this.reportFormValidity(a),t.preventDefault(),!1};createCase=t=>{if(this.name="New Case",this.bShowNew=!0,t){let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&(this.casetype=e.getAttribute("data-value"),this.name=`New ${e.textContent} `)}this.content=this.initialContent,this.pageInstructions=[],this.caseID="",this.data={},this.casedata={},this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):(this.errorMsg=`Case '${this.casetype}' is not defined`,console.error(`Case '${this.casetype}' is not defined`)),this.requestUpdate()};runAction=t=>{let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&null!==e.getAttribute("data-value")&&(this.actionID=e.getAttribute("data-value"),this.name=e.innerText,this.data.ID="",this.actionRefresh());const a=this.getRenderRoot().querySelector("#case-data");null!=a&&et(this.genLoadingIndicator(),a)};openCase=t=>{t.preventDefault(),this.caseID=t.target.getAttribute("data-id"),this.name="",this.data={},this.casedata={},0===this.caseID.indexOf("ASSIGN-WORKLIST")?(this.sendExternalEvent({type:"openassignment",id:this.caseID}),this.assignmentID=this.caseID,this.caseID=""):(this.sendExternalEvent({type:"opencase",id:this.caseID}),this.assignmentID="");const e=this.getRenderRoot().querySelector("#case-data");null!=e&&et(this.genLoadingIndicator(),e),this.requestUpdate()};getData=(t,e)=>{this.dataPages[t]?et(this.showDataList(this.dataPages[t]),e.nextElementSibling):this.fetchData("data",{id:t,element:e})};applyAction=t=>{const e=this.getRenderRoot().querySelector("#case-data");let a=t;if(e){if(a){"path"===a.tagName&&(a=a.parentNode),"svg"===a.tagName&&(a=a.parentNode);const t=a.getAttribute("data-action-click"),e=a.getAttribute("data-ref");if(null!==e&&null!=t){if("addRow"===t){const t=((t,e,a)=>{let s=$t(t,e);if(null===s&&(s=[],ft(t,e,s)),!Array.isArray(s))return null;if(a&&"string"==typeof a){const t={},i=a.split(",");for(const e in i)t[i[e]]="";return s.push(t),{instruction:"APPEND",target:e,content:t}}if(0===s.length)return null;const i={...s[0]};return mt(i),s.push(i),{instruction:"APPEND",target:e,content:i}})(this.data.data.caseInfo.content,e,a.getAttribute("data-newrow"));return void(null!==t&&this.pageInstructions.push(t))}if("deleteRow"===t){const t=((t,e)=>{let a,s=e;-1!==e.indexOf(").pyTemplate")&&(a=parseInt(s.substring(e.lastIndexOf("(")+1,e.lastIndexOf(")")),10),s=s.substring(0,e.lastIndexOf("(")));const i=$t(t,s);if(!Array.isArray(i))return null;if(1===i.length){for(const t in i[0])"pxObjClass"!==t&&(i[0][t]="");return null}return a?i.length<a?null:(i.splice(a-1,1),{instruction:"DELETE",target:s,listIndex:a}):(i.length-=1,{instruction:"DELETE",target:s,listIndex:i.length})})(this.data.data.caseInfo.content,e);return void(null!==t&&this.pageInstructions.push(t))}}}wt(e,this.content,this.pageInstructions,this.data.data.caseInfo.content)}};refreshAssignment=(t,e)=>{this.applyAction(t),!0===this.bShowNew?this.sendData("refreshnew",{id:this.casetype,refreshFor:e}):this.sendData("refreshassignment",{id:this.assignmentID,actionid:this.actionID,refreshFor:e})};genErrorMessage(t){this.clearLoadingIndicator(),t.message&&-1!==t.message.indexOf("JSON.parse")?console.error("Error:",t):t.message&&-1!==t.message.indexOf("Unexpected token")?(this.errorMsg="Error 404: Resource not found",this.requestUpdate(),console.error(this.errorMsg)):(t.status?""!==t.statusText?this.errorMsg=`Error ${t.status}: ${t.statusText}`:401===t.status?this.errorMsg="Error 401: Authentication error":423===t.status?this.errorMsg="Error 423: Resource is locked by another user":500===t.status?this.errorMsg="Error 500: Internal server error":this.errorMsg=`Error ${t.status}`:t.name&&t.message?this.errorMsg=`Error ${t.name}: ${t.message}`:this.errorMsg="string"==typeof t?t:"Critical error",this.requestUpdate(),console.error("Error:",t))}fetchData(t,e){const{id:a,actionid:s,target:i}=e||{};let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={method:"GET",headers:{"Content-Type":"application/json;charset=UTF-8",Authorization:n},mode:"cors"};let o=`${this.url}/api/application/v2/`;switch(t){case"portal":o+=`portals/${this.portalName}`;break;case"assignment":o+=`assignments/${a}`;break;case"view":o+=`cases/${a}/views/${s}`;break;case"caseaction":o+=`cases/${a}/actions/${s}`;break;case"attachment":o+=`attachments/${a}`;break;case"attachments":o+=`cases/${a}/attachments`;break;case"attachmentcategories":o+=`cases/${a}/attachment_categories`}fetch(o,r).then((a=>{if("assignment"===t)this.etag=a.headers.get("etag");else if("attachment"===t)return a.text();return a.ok||404===a.status?a.json():401===a.status?(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"fetchData"}),a.json()):Promise.reject(a)})).then((e=>{try{if(e.errors&&e.errors.length>0)return;if(e.pyLocalizedValue)return this.errorMsg=`Error: ${e.pyLocalizedValue}`,void this.requestUpdate();if(e.errorDetails&&e.errorDetails.length>0)return this.errorMsg=`Error ${e.errorDetails[0].message}: ${e.localizedValue}`,this.clearLoadingIndicator(),this.requestUpdate(),void console.error("Error:",e);const n=this.getRenderRoot().querySelector("#case-data");switch(t){case"portal":if(this.content={},this.pageInstructions=[],!this.casetypes){this.casetypes={};let t=[];e.data&&e.data.D_pzCasesAvailableToCreateForPortal&&e.data.D_pzCasesAvailableToCreateForPortal.pxResults?t=e.data.D_pzCasesAvailableToCreateForPortal.pxResults:e.data&&e.data.pyPortal&&e.data.pyPortal.pyCaseTypesAvailableToCreate&&(t=e.data.pyPortal.pyCaseTypesAvailableToCreate);for(const e of t)("workList"!==this.action&&"taskList"!==this.action||""===this.casetype||this.casetype===e.pyClassName)&&(this.casetypes[e.pyClassName]={canCreate:!0,name:e.pyLabel})}this.cases=[];let t=[];if(e.data&&e.data.D_pyUserWorkList&&e.data.D_pyUserWorkList.pxResults?t=e.data.D_pyUserWorkList.pxResults:e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults&&(t=e.data[e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults.replace(".pxResults","")].pxResults),t.length>0)for(const e of t)this.cases.push({name:e.pyLabel,caseID:e.pxRefObjectKey,urgency:e.pxUrgencyAssign,ID:e.pzInsKey,label:e.pxTaskLabel});this.requestUpdate();break;case"assignment":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID=a;for(const t of this.casedata.assignments)if(a===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel;const r=this.getRenderRoot().querySelector("#case-data");r&&wt(r,this.casedata.content),this.content={},et(this.renderMainLayout(e.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),n),this.requestUpdate(),n.focus();break;case"view":if(!n){console.error("Error: case data are not present when retrieving the page");break}this.content={},this.pageInstructions=[],this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.casedata.actions=this.casedata.availableActions,this.casedata.content.pyID=this.casedata.ID,this.data.ID=this.casedata.ID,this.casepyStatusWork=this.casedata.status,this.name=this.casedata.stageLabel,this.content={},"true"===this.bShowAttachments&&this.fetchData("attachments",{id:this.caseID}),this.name=e.data.caseInfo.name,et(this.renderReviewLayout(e.uiResources.resources.views[s],"Obj"),n),this.requestUpdate(),n.focus();break;case"caseaction":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID="",this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel,this.content={},et(this.renderMainLayout(e.uiResources.resources.views[e.uiResources.root.config.name],"Obj"),n),this.requestUpdate(),n.focus();break;case"attachments":let o=e.attachments;o||(o=[]),this.numAttachments=o.length,i&&et(At(i,o,this.caseID,this),i),this.requestUpdate();break;case"attachmentcategories":this.attachmentcategories=e.attachment_categories;break;case"attachment":i(e)}}catch(t){this.errorMsg=`Error: ${t}`,this.requestUpdate(),console.error("Error:",t)}})).catch((t=>{this.genErrorMessage(t)}))}sendData(t,e){const{id:a,actionid:s,target:i}=e;let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={"Content-Type":"application/json;charset=UTF-8",Authorization:n},o={method:"POST",headers:r,mode:"cors"},{pageInstructions:l,pageupdate:c}=((t,e)=>{const a=e||[],s={};for(const[e,i]of Object.entries(t))if("string"==typeof i||"boolean"==typeof i)s[e]=i;else if("object"==typeof i)if(Array.isArray(i))for(const t in i){const s={instruction:"UPDATE",target:e,listIndex:parseInt(t,10)+1,content:i[t]};a.push(s)}else{const t={instruction:"UPDATE",target:e,content:i};a.push(t)}return{pageInstructions:a,pageupdate:s}})(this.content,this.pageInstructions);let d=`${this.url}/api/application/v2/`;switch(this.validationMsg="",t){case"authenticate":"oauth2password"===this.authentication?o.body=`grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}&username=${this.username}&password=${this.password}`:"oauth2clientcredentials"===this.authentication?o.body=`grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`:"authorizationcode"===this.authentication&&(o.body=`grant_type=authorization_code&client_id=${this.clientid}&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${encodeURIComponent(`${window.location.href.substring(0,window.location.href.lastIndexOf("/"))}/auth.html`)}`),o.headers["Content-Type"]="application/x-www-form-urlencoded",d=`${this.url}/PRRestService/oauth2/v1/token`;break;case"newwork":d+="cases?viewType=form",o.body=JSON.stringify({caseTypeID:a,processID:"pyStartCase",content:c,pageInstructions:l});break;case"submitassignment":o.body=JSON.stringify({content:c,pageInstructions:l}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`assignments/${a}/actions/${s}?viewType=form`;break;case"submitcaseaction":o.body=JSON.stringify({content:c,pageInstructions:l}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`cases/${a}/actions/${s}?viewType=form`;break;case"refreshassignment":d+=`assignments/${a}/actions/${s}/refresh`,o.headers["If-Match"]=this.etag,o.method="PATCH",o.body=JSON.stringify({content:c,pageInstructions:l,contextData:!0});break;case"dataviews":d+=`data_views/${a}`,"function"==typeof e.content?o.body=e.content():o.body=JSON.stringify(e.content);break;case"uploadattachment":d+="attachments/upload",delete r["Content-Type"];const t=new FormData;t.append("File",s,s.name),o.body=t;break;case"attachments":d+=`cases/${a}/attachments`,o.body=JSON.stringify({attachments:s});break;case"deleteattachment":d+=`attachments/${a}`,o.method="DELETE"}fetch(d,o).then((a=>"deleteattachment"===t||"attachments"===t?a.text():("submitassignment"!==t&&"newwork"!==t||(this.etag=a.headers.get("etag")),200===a.status||201===a.status||a.status>=400&&a.status<500||500===a.status?(401===a.status&&"authenticate"!==t&&(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"sendData"})),a.json()):a.ok?Promise.resolve("ok"):Promise.reject(a)))).then((a=>{if(a.errors&&a.errors.length>0)return this.errorMsg=`Error: ${a.errors[0].message.trim()}`,void this.requestUpdate();if(a.access_token)this.token=a.access_token,window.history.replaceState({token:this.token},"",window.location.href),e!=={}&&e.type&&e.cmd&&("sendData"===e.cmd?this.sendData(e.type,e):this.fetchData(e.type,e));else if(a.errorDetails&&a.errorDetails.length>0){if(a.errorDetails[0].localizedValue){const t=this.getRenderRoot().querySelector("#case-data");t&&(((t,e,a)=>{for(const s of t.elements)if("INPUT"===s.tagName||"TEXTAREA"===s.tagName||"SELECT"===s.tagName){const t=`.${s.getAttribute("data-ref")}`;if(null!==t&&"pyID"!==t)for(const i in e){if(e[i].Path===t){a.setInlineError(s,e[i].ValidationMessage);break}if(e[i].erroneousInputOutputFieldInPage===t){a.setInlineError(s,e[i].localizedValue);break}}}})(t,a.errorDetails,this),this.validationMsg=this.genPageValidationErrors(a,t))}else this.errorMsg=`Error ${a.errorDetails[0].message}: ${a.localizedValue}`;this.clearLoadingIndicator(),i&&(i.disabled=!1,i.textContent="Save"),"submitassignment"===t&&this.fetchData("assignment",{id:this.assignmentID})}else{const n=this.getRenderRoot().querySelector("#case-data");if("dataviews"===t&&(this.data=a.data??[],"function"==typeof e.response))return void e.response(this);if("newwork"===t&&a.data.caseInfo.ID&&""!==a.data.caseInfo.ID&&this.sendExternalEvent({type:"newwork",id:a.data.caseInfo.ID}),"refreshassignment"===t)return void(n&&a.data.caseInfo&&a.data.caseInfo.content&&(this.data.data.caseInfo.content=a.data.caseInfo.content,this.casedata.content=a.data.caseInfo.content,et(this.renderMainLayout(this.data.uiResources.resources.views[this.actionID],"Obj"),n)));if("deleteattachment"===t)i&&!i.classList.contains("attach-files")&&this.fetchData("attachments",{id:this.caseID,target:i});else if("attachments"===t)this.fetchData("attachments",{id:this.caseID,target:i});else if("uploadattachment"===t){let t=s.name.lastIndexOf(".");-1===t&&(t=s.name.length);const e=s.name.substring(t+1),n=[{type:"File",category:s.category,fileType:e,name:s.displayName,ID:a.ID}];return void this.sendData("attachments",{id:this.caseID,actionid:n,target:i})}if(a.confirmationNote)this.bShowConfirm=!0,this.caseID=a.data.caseInfo.ID,this.fetchData("view",{id:this.caseID,actionid:"pyReview"});else if(a.uiResources){if(this.bShowNew=!1,this.content={},this.pageInstructions=[],this.assignmentID=a.nextAssignmentInfo.ID,this.data=a,this.casedata=a.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.caseID=this.casedata.content.pzInsKey,this.data.caseID=a.data.caseInfo.ID,this.data.ID=this.assignmentID,this.casedata.content.pyViewName=a.uiResources.root.config.name,this.actionID=this.casedata.content.pyViewName,this.casedata.assignments)for(const t of this.casedata.assignments)if("pzQuestionPageScr"===t.processID&&this.data.ID===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=a.data.caseInfo.status,this.data.actions=a.data.caseInfo.availableActions,this.name=a.data.caseInfo.stageLabel,n&&(et(this.genLoadingIndicator(),n),et(this.renderMainLayout(a.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),n),n.focus())}}this.requestUpdate()})).catch((t=>{this.genErrorMessage(t)}))}}
+  `};class Dt extends it{static get properties(){return{url:{},caseID:{},dataviewParams:{type:Object},username:{},password:{},headingLabel:{},bShowCreate:{},bShowCancel:{},bShowAttachments:{},bShowSave:{},bShowActions:{},authentication:{},token:{},clientid:{},clientsecret:{},initialContent:{},action:{},casetype:{},portalName:{},langTokens:{}}}constructor(){super(),this.url="",this.headingLabel="My worklist",this.caseID="",this.username="",this.password="",this.bShowCreate="true",this.bShowCancel="true",this.bShowAttachments="false",this.bShowSave="true",this.bShowActions="true",this.authentication="",this.token="",this.clientid="",this.clientsecret="",this.initialContent="",this.action="",this.casetype="",this.portalName="",this.cases=[],this.dataPages={},this.name="",this.etag="",this.casepyStatusWork="",this.casedata={},this.data={},this.numAttachments=0,this.attachmentcategories=[],this.assignmentID="",this.actionID="",this.content={},this.dataviewParams={},this.pageInstructions=[],this.errorMsg="",this.validationMsg="",this.bShowConfirm=!1,this.bShowNew=!1,this.refreshOnChange=!1,this.isDeclarativeTarget=!1;const t=this;window.i18n||(window.i18n={t:function(e){if(!e)return"";if("string"!=typeof e)return e;let a=e;if(0===a.indexOf("@L ")&&(a=a.substring(3)),a=a.replace(/^"|"$/g,"").trim(),a=pt(a),"object"!=typeof t.langTokens)return a;const s=t.langTokens[a];return s&&""!==s?s.trim():(console.log(a),a)}})}clearLoadingIndicator(){const t=this.getRenderRoot().querySelector("#case-data");t&&null!==t.querySelector(".loading")&&et(null,t)}sendExternalEvent(t){this.dispatchEvent(new CustomEvent("message",{detail:{...t}}))}}
 /**
      * @license
-     * Copyright 2018 Google LLC
+     * Copyright 2017 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
-     */const xt=t=>null!=t?t:q,St=(t,e)=>{if(t.helperText&&""!==t.helperText)return`${e}-info`},Et=t=>{if(t.placeholder&&""!==t.placeholder)return t.displayplaceholder},kt=(t,e,a,s)=>void 0===e||""===e?O`
+     */const It=2;class xt{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e,a){this._$Ct=t,this._$AM=e,this._$Ci=a}_$AS(t,e){return this.update(t,e)}update(t,e){return this.render(...e)}}class St extends Dt{resetError=t=>{this.errorMsg="",this.validationMsg="",this.actionAreaCancel(t)};reloadWorkList=t=>{this.cases=[],this.requestUpdate(),this.actionAreaCancel(t)};actionAreaCancel=t=>{if(t&&t.preventDefault(),this.bShowConfirm=!1,this.bShowNew=!1,this.caseID="",this.data={},this.content={},this.pageInstructions=[],this.casedata={},this.attachmentcategories=[],this.casepyStatusWork="",this.assignmentID="",this.actionID="",this.errorMsg="",this.numAttachments=0,this.validationMsg="",this.name="","workList"!==this.action&&"taskList"!==this.action||this.fetchData("portal"),"dataView"===this.action){const t={};if(this.dataviewParams)for(const e of this.dataviewParams.params)e.name&&e.value&&(t[e.name.trim()]=e.value.trim());this.sendData("dataviews",{id:this.dataviewParams.name,content:{dataViewParameters:t}})}this.sendExternalEvent({type:"cancel"})};actionAreaSave=t=>{t&&t.preventDefault(),null===t.target.getAttribute("data-submit")&&(t.target.textContent="Saving...",t.target.disabled=!0);const e=this.getRenderRoot().querySelector("#case-data");e&&(wt(e,this.content,this.pageInstructions,this.data.data.caseInfo.content),""!==this.assignmentID?this.sendData("savecase",{id:this.caseID,actionid:"",target:t.target}):this.sendData("savecase",{id:this.caseID,actionid:this.actionID,target:t.target}))};actionRefresh=()=>{const t=this.getRenderRoot().querySelector("#case-data");t&&(this.validationMsg="",wt(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.fetchData("caseaction",{id:this.caseID,actionid:this.actionID}))};displayActions=()=>this.data.actions?this.genActionsList(this.name,this.data):this.casedata.actions?this.genActionsList(this.name,this.casedata):null;displayAttachments=t=>{this.fetchData("attachmentcategories",{id:this.caseID}),this.fetchData("attachments",{id:this.caseID,target:t})};submitForm=(t,e)=>{const a=this.getRenderRoot().querySelector("#case-data");return wt(a,this.content,this.pageInstructions,this.data.data.caseInfo.content),this.validateForm(a)?"create"!==e?""!==this.data.ID?this.sendData("submitassignment",{id:this.data.ID,actionid:this.actionID}):this.sendData("submitcaseaction",{id:this.data.caseID,actionid:this.actionID}):this.sendData("newwork",{id:this.casetype}):this.reportFormValidity(a),t.preventDefault(),!1};createCase=t=>{if(this.name="New Case",this.bShowNew=!0,t){let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&(this.casetype=e.getAttribute("data-value"),this.name=`New ${e.textContent} `)}this.content=this.initialContent,this.pageInstructions=[],this.caseID="",this.data={},this.casedata={},this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):(this.errorMsg=`Case '${this.casetype}' is not defined`,console.error(`Case '${this.casetype}' is not defined`)),this.requestUpdate()};runAction=t=>{let e=t.target;t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e&&null!==e.getAttribute("data-value")&&(this.actionID=e.getAttribute("data-value"),this.name=e.innerText,this.data.ID="",this.actionRefresh());const a=this.getRenderRoot().querySelector("#case-data");null!=a&&et(this.genLoadingIndicator(),a)};openCase=t=>{t.preventDefault(),this.caseID=t.target.getAttribute("data-id"),this.name="",this.data={},this.casedata={},0===this.caseID.indexOf("ASSIGN-WORKLIST")?(this.sendExternalEvent({type:"openassignment",id:this.caseID}),this.assignmentID=this.caseID,this.caseID=""):(this.sendExternalEvent({type:"opencase",id:this.caseID}),this.assignmentID="");const e=this.getRenderRoot().querySelector("#case-data");null!=e&&et(this.genLoadingIndicator(),e),this.requestUpdate()};getData=(t,e)=>{this.dataPages[t]?et(this.showDataList(this.dataPages[t]),e.nextElementSibling):this.fetchData("data",{id:t,element:e})};applyAction=t=>{const e=this.getRenderRoot().querySelector("#case-data");let a=t;if(e){if(a){"path"===a.tagName&&(a=a.parentNode),"svg"===a.tagName&&(a=a.parentNode);const t=a.getAttribute("data-action-click"),e=a.getAttribute("data-ref");if(null!==e&&null!=t){if("addRow"===t){const t=((t,e,a)=>{let s=$t(t,e);if(null===s&&(s=[],ft(t,e,s)),!Array.isArray(s))return null;if(a&&"string"==typeof a){const t={},i=a.split(",");for(const e in i)t[i[e]]="";return s.push(t),{instruction:"APPEND",target:e,content:t}}if(0===s.length)return null;const i={...s[0]};return mt(i),s.push(i),{instruction:"APPEND",target:e,content:i}})(this.data.data.caseInfo.content,e,a.getAttribute("data-newrow"));return void(null!==t&&this.pageInstructions.push(t))}if("deleteRow"===t){const t=((t,e)=>{let a,s=e;-1!==e.indexOf(").pyTemplate")&&(a=parseInt(s.substring(e.lastIndexOf("(")+1,e.lastIndexOf(")")),10),s=s.substring(0,e.lastIndexOf("(")));const i=$t(t,s);if(!Array.isArray(i))return null;if(1===i.length){for(const t in i[0])"pxObjClass"!==t&&(i[0][t]="");return null}return a?i.length<a?null:(i.splice(a-1,1),{instruction:"DELETE",target:s,listIndex:a}):(i.length-=1,{instruction:"DELETE",target:s,listIndex:i.length})})(this.data.data.caseInfo.content,e);return void(null!==t&&this.pageInstructions.push(t))}}}wt(e,this.content,this.pageInstructions,this.data.data.caseInfo.content)}};refreshAssignment=(t,e)=>{this.applyAction(t),!0===this.bShowNew?this.sendData("refreshnew",{id:this.casetype,refreshFor:e}):this.sendData("refreshassignment",{id:this.assignmentID,actionid:this.actionID,refreshFor:e})};genErrorMessage(t){this.clearLoadingIndicator(),t.message&&-1!==t.message.indexOf("JSON.parse")?console.error("Error:",t):t.message&&-1!==t.message.indexOf("Unexpected token")?(this.errorMsg="Error 404: Resource not found",this.requestUpdate(),console.error(this.errorMsg)):(t.status?""!==t.statusText?this.errorMsg=`Error ${t.status}: ${t.statusText}`:401===t.status?this.errorMsg="Error 401: Authentication error":423===t.status?this.errorMsg="Error 423: Resource is locked by another user":500===t.status?this.errorMsg="Error 500: Internal server error":this.errorMsg=`Error ${t.status}`:t.name&&t.message?this.errorMsg=`Error ${t.name}: ${t.message}`:this.errorMsg="string"==typeof t?t:"Critical error",this.requestUpdate(),console.error("Error:",t))}fetchData(t,e){const{id:a,actionid:s,target:i}=e||{};let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={method:"GET",headers:{"Content-Type":"application/json;charset=UTF-8",Authorization:n},mode:"cors"};let o=`${this.url}/api/application/v2/`;switch(t){case"portal":o+=`portals/${this.portalName}`;break;case"assignment":o+=`assignments/${a}`;break;case"view":o+=`cases/${a}/views/${s}`;break;case"caseaction":o+=`cases/${a}/actions/${s}`;break;case"attachment":o+=`attachments/${a}`;break;case"attachments":o+=`cases/${a}/attachments`;break;case"attachmentcategories":o+=`cases/${a}/attachment_categories`}fetch(o,r).then((a=>{if("assignment"===t)this.etag=a.headers.get("etag");else if("attachment"===t)return a.text();return a.ok||404===a.status?a.json():401===a.status?(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"fetchData"}),a.json()):Promise.reject(a)})).then((e=>{try{if(e.errors&&e.errors.length>0)return;if(e.pyLocalizedValue)return this.errorMsg=`Error: ${e.pyLocalizedValue}`,void this.requestUpdate();if(e.errorDetails&&e.errorDetails.length>0)return this.errorMsg=`Error ${e.errorDetails[0].message}: ${e.localizedValue}`,this.clearLoadingIndicator(),this.requestUpdate(),void console.error("Error:",e);const n=this.getRenderRoot().querySelector("#case-data");switch(t){case"portal":if(this.content={},this.pageInstructions=[],!this.casetypes){this.casetypes={};let t=[];e.data&&e.data.D_pzCasesAvailableToCreateForPortal&&e.data.D_pzCasesAvailableToCreateForPortal.pxResults?t=e.data.D_pzCasesAvailableToCreateForPortal.pxResults:e.data&&e.data.pyPortal&&e.data.pyPortal.pyCaseTypesAvailableToCreate&&(t=e.data.pyPortal.pyCaseTypesAvailableToCreate);for(const e of t)("workList"!==this.action&&"taskList"!==this.action||""===this.casetype||this.casetype===e.pyClassName)&&(this.casetypes[e.pyClassName]={canCreate:!0,name:e.pyLabel})}this.cases=[];let t=[];if(e.data&&e.data.D_pyUserWorkList&&e.data.D_pyUserWorkList.pxResults?t=e.data.D_pyUserWorkList.pxResults:e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults&&(t=e.data[e.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults.replace(".pxResults","")].pxResults),t.length>0)for(const e of t)this.cases.push({name:e.pyLabel,caseID:e.pxRefObjectKey,urgency:e.pxUrgencyAssign,ID:e.pzInsKey,label:e.pxTaskLabel});this.requestUpdate();break;case"assignment":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID=a;for(const t of this.casedata.assignments)if(a===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel;const r=this.getRenderRoot().querySelector("#case-data");r&&wt(r,this.casedata.content),this.content={},et(this.renderMainLayout(e.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),n),this.requestUpdate(),n.focus();break;case"view":if(!n){console.error("Error: case data are not present when retrieving the page");break}this.content={},this.pageInstructions=[],this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.casedata.actions=this.casedata.availableActions,this.casedata.content.pyID=this.casedata.ID,this.data.ID=this.casedata.ID,this.casepyStatusWork=this.casedata.status,this.name=this.casedata.stageLabel,this.content={},"true"===this.bShowAttachments&&this.fetchData("attachments",{id:this.caseID}),this.name=e.data.caseInfo.name,et(this.renderReviewLayout(e.uiResources.resources.views[s],"Obj"),n),this.requestUpdate(),n.focus();break;case"caseaction":this.content={},this.pageInstructions=[],this.isDeclarativeTarget=!1,this.refreshOnChange=!1,this.data=e,this.casedata=e.data.caseInfo,this.data.name=this.casedata.content.pyLabel,this.caseID=this.casedata.ID,this.data.caseID=this.caseID,this.data.ID="",this.casepyStatusWork=this.casedata.status,this.data.actions=this.casedata.availableActions,this.name=this.casedata.stageLabel,this.content={},et(this.renderMainLayout(e.uiResources.resources.views[e.uiResources.root.config.name],"Obj"),n),this.requestUpdate(),n.focus();break;case"attachments":let o=e.attachments;o||(o=[]),this.numAttachments=o.length,i&&et(At(i,o,this.caseID,this),i),this.requestUpdate();break;case"attachmentcategories":this.attachmentcategories=e.attachment_categories;break;case"attachment":i(e)}}catch(t){this.errorMsg=`Error: ${t}`,this.requestUpdate(),console.error("Error:",t)}})).catch((t=>{this.genErrorMessage(t)}))}sendData(t,e){const{id:a,actionid:s,target:i}=e;let n="";""!==this.authentication&&"basic"!==this.authentication||(n=`Basic ${btoa(`${this.username}:${this.password}`)}`),""!==this.token&&(n=`Bearer ${this.token}`);const r={"Content-Type":"application/json;charset=UTF-8",Authorization:n},o={method:"POST",headers:r,mode:"cors"},{pageInstructions:l,pageupdate:c}=((t,e)=>{const a=e||[],s={};for(const[e,i]of Object.entries(t))if("string"==typeof i||"boolean"==typeof i)s[e]=i;else if("object"==typeof i)if(Array.isArray(i))for(const t in i){const s={instruction:"UPDATE",target:e,listIndex:parseInt(t,10)+1,content:i[t]};a.push(s)}else{const t={instruction:"UPDATE",target:e,content:i};a.push(t)}return{pageInstructions:a,pageupdate:s}})(this.content,this.pageInstructions);let d=`${this.url}/api/application/v2/`;switch(this.validationMsg="",t){case"authenticate":"oauth2password"===this.authentication?o.body=`grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}&username=${this.username}&password=${this.password}`:"oauth2clientcredentials"===this.authentication?o.body=`grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`:"authorizationcode"===this.authentication&&(o.body=`grant_type=authorization_code&client_id=${this.clientid}&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${encodeURIComponent(`${window.location.href.substring(0,window.location.href.lastIndexOf("/"))}/auth.html`)}`),o.headers["Content-Type"]="application/x-www-form-urlencoded",d=`${this.url}/PRRestService/oauth2/v1/token`;break;case"newwork":d+="cases?viewType=form",o.body=JSON.stringify({caseTypeID:a,processID:"pyStartCase",content:c,pageInstructions:l});break;case"submitassignment":o.body=JSON.stringify({content:c,pageInstructions:l}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`assignments/${a}/actions/${s}?viewType=form`;break;case"submitcaseaction":o.body=JSON.stringify({content:c,pageInstructions:l}),o.method="PATCH",o.headers["If-Match"]=this.etag,d+=`cases/${a}/actions/${s}?viewType=form`;break;case"refreshassignment":d+=`assignments/${a}/actions/${s}/refresh`,o.headers["If-Match"]=this.etag,o.method="PATCH",o.body=JSON.stringify({content:c,pageInstructions:l,contextData:!0});break;case"dataviews":d+=`data_views/${a}`,"function"==typeof e.content?o.body=e.content():o.body=JSON.stringify(e.content);break;case"uploadattachment":d+="attachments/upload",delete r["Content-Type"];const t=new FormData;t.append("File",s,s.name),o.body=t;break;case"attachments":d+=`cases/${a}/attachments`,o.body=JSON.stringify({attachments:s});break;case"deleteattachment":d+=`attachments/${a}`,o.method="DELETE"}fetch(d,o).then((a=>"deleteattachment"===t||"attachments"===t?a.text():("submitassignment"!==t&&"newwork"!==t||(this.etag=a.headers.get("etag")),200===a.status||201===a.status||a.status>=400&&a.status<500||500===a.status?(401===a.status&&"authenticate"!==t&&(this.token="",this.sendData("authenticate",{...e,type:t,cmd:"sendData"})),a.json()):a.ok?Promise.resolve("ok"):Promise.reject(a)))).then((a=>{if(a.errors&&a.errors.length>0)return this.errorMsg=`Error: ${a.errors[0].message.trim()}`,void this.requestUpdate();if(a.access_token)this.token=a.access_token,window.history.replaceState({token:this.token},"",window.location.href),e!=={}&&e.type&&e.cmd&&("sendData"===e.cmd?this.sendData(e.type,e):this.fetchData(e.type,e));else if(a.errorDetails&&a.errorDetails.length>0){if(a.errorDetails[0].localizedValue){const t=this.getRenderRoot().querySelector("#case-data");t&&(((t,e,a)=>{for(const s of t.elements)if("INPUT"===s.tagName||"TEXTAREA"===s.tagName||"SELECT"===s.tagName){const t=`.${s.getAttribute("data-ref")}`;if(null!==t&&"pyID"!==t)for(const i in e){if(e[i].Path===t){a.setInlineError(s,e[i].ValidationMessage);break}if(e[i].erroneousInputOutputFieldInPage===t){a.setInlineError(s,e[i].localizedValue);break}}}})(t,a.errorDetails,this),this.validationMsg=this.genPageValidationErrors(a,t))}else this.errorMsg=`Error ${a.errorDetails[0].message}: ${a.localizedValue}`;this.clearLoadingIndicator(),i&&(i.disabled=!1,i.textContent="Save"),"submitassignment"===t&&this.fetchData("assignment",{id:this.assignmentID})}else{const n=this.getRenderRoot().querySelector("#case-data");if("dataviews"===t&&(this.data=a.data??[],"function"==typeof e.response))return void e.response(this);if("newwork"===t&&a.data.caseInfo.ID&&""!==a.data.caseInfo.ID&&this.sendExternalEvent({type:"newwork",id:a.data.caseInfo.ID}),"refreshassignment"===t)return void(n&&a.data.caseInfo&&a.data.caseInfo.content&&(this.data.data.caseInfo.content=a.data.caseInfo.content,this.casedata.content=a.data.caseInfo.content,et(this.renderMainLayout(this.data.uiResources.resources.views[this.actionID],"Obj"),n)));if("deleteattachment"===t)i&&!i.classList.contains("attach-files")&&this.fetchData("attachments",{id:this.caseID,target:i});else if("attachments"===t)this.fetchData("attachments",{id:this.caseID,target:i});else if("uploadattachment"===t){let t=s.name.lastIndexOf(".");-1===t&&(t=s.name.length);const e=s.name.substring(t+1),n=[{type:"File",category:s.category,fileType:e,name:s.displayName,ID:a.ID}];return void this.sendData("attachments",{id:this.caseID,actionid:n,target:i})}if(a.confirmationNote)this.bShowConfirm=!0,this.caseID=a.data.caseInfo.ID,this.fetchData("view",{id:this.caseID,actionid:"pyReview"});else if(a.uiResources){if(this.bShowNew=!1,this.content={},this.pageInstructions=[],this.assignmentID=a.nextAssignmentInfo.ID,this.data=a,this.casedata=a.data.caseInfo,this.data.name=this.casedata.content.pyLabel?this.casedata.content.pyLabel:this.casedata.name,this.caseID=this.casedata.content.pzInsKey,this.data.caseID=a.data.caseInfo.ID,this.data.ID=this.assignmentID,this.casedata.content.pyViewName=a.uiResources.root.config.name,this.actionID=this.casedata.content.pyViewName,this.casedata.assignments)for(const t of this.casedata.assignments)if("pzQuestionPageScr"===t.processID&&this.data.ID===t.ID&&t.actions&&t.actions.length>0){this.actionID=t.actions[0].ID;break}this.casepyStatusWork=a.data.caseInfo.status,this.data.actions=a.data.caseInfo.availableActions,this.name=a.data.caseInfo.stageLabel,n&&(et(this.genLoadingIndicator(),n),et(this.renderMainLayout(a.uiResources.resources.views[this.casedata.content.pyViewName],"Obj"),n),n.focus())}}this.requestUpdate()})).catch((t=>{this.genErrorMessage(t)}))}}
+/**
+     * @license
+     * Copyright 2017 Google LLC
+     * SPDX-License-Identifier: BSD-3-Clause
+     */class Et extends xt{constructor(t){if(super(t),this.et=q,t.type!==It)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(t){if(t===q||null==t)return this.ft=void 0,this.et=t;if(t===M)return t;if("string"!=typeof t)throw Error(this.constructor.directiveName+"() called with a non-string value");if(t===this.et)return this.ft;this.et=t;const e=[t];return e.raw=e,this.ft={_$litType$:this.constructor.resultType,strings:e,values:[]}}}Et.directiveName="unsafeHTML",Et.resultType=1;const kt=(t=>(...e)=>({_$litDirective$:t,values:e}))(Et),Tt=t=>null!=t?t:q,Rt=(t,e)=>{if(t.helperText&&""!==t.helperText)return`${e}-info`},Lt=t=>{if(t.placeholder&&""!==t.placeholder)return t.displayplaceholder},Nt=(t,e,a,s)=>void 0===e||""===e?O`
       ${s}
     `:O`
     <div class="usa-field" ?disabled="${t.disabledstate}">
       ${((t,e,a)=>{if(void 0===e)return null;const s=t.requiredstate?O` <abbr title="required" class="usa-hint usa-hint--required">*</abbr>`:"";return"field-checkbox"===a?t.label&&""!==t.label?O`<legend>${t.displaylabel}</legend>`:null:O`
     ${""!==t.label?O`<label class="usa-label"
-    for="${xt(e)}">${t.displaylabel}${s}
+    for="${Tt(e)}">${t.displaylabel}${s}
     </label>`:null}
   `})(t,e,a)}${((t,e)=>t.helperText&&""!==t.helperText?O`<div id=${`${e}-info`} class="usa-hint">${t.displayhelperText}</div>`:null)(t,e)}${s}
     </div>
-  `,Tt=(t,e,a,s,i)=>{const n=((t,e,a,s,i)=>{if(!1===t.config.visibility)return null;let n=!1;if(t.config.displayvalue="",t.config.displaylabel=i18n.t(t.config.label),t.config.displayplaceholder=i18n.t(t.config.placeholder),t.config.displayhelperText=i18n.t(t.config.helperText),t.config.displaycaption=i18n.t(t.config.caption),t.config.value){let e=t.config.value.replace("@P .","").replace("@USER .","");if(t.config.reference=void 0===i||""===i?e:`${i}.${e}`,t.config.displayvalue=$t(s.casedata.content,t.config.reference),"string"==typeof t.config.datasource&&0===t.config.datasource.indexOf("@ASSOCIATED")){e=t.config.datasource.replace("@ASSOCIATED .",""),-1!==e.indexOf(".")&&(e=e.substring(e.lastIndexOf(".")+1));let a="";s.data.context_data?a=s.data.context_data.content:s.data.uiResources.context_data&&s.data.uiResources.context_data.caseInfo&&s.data.uiResources.context_data.caseInfo.content&&(a=s.data.uiResources.context_data.caseInfo.content);const n=""===i?a:$t(a,i);if(n&&(t.config.options=n.summary_of_associated_lists__[e]),void 0===t.config.options&&(a=s.data.uiResources.resources.fields[e],Array.isArray(a)&&1===a.length&&(a=a[0]),a&&a.datasource))if(a.datasource.records)t.config.options=a.datasource.records;else if(a.datasource.name&&s.data.data.shared[a.datasource.name]){const e=s.data.data.shared[a.datasource.name];if(Object.keys(e).length>0){const s=Object.keys(e)[0];if(e[s].pxResults){const i=a.datasource.propertyForValue.replace("@P .",""),n=a.datasource.propertyForDisplayText.replace("@P .","");t.config.options=[];for(const a in e[s].pxResults){const r=e[s].pxResults[a];t.config.options[a]={key:r[i],value:r[n]}}}}}}else if("object"==typeof t.config.datasource&&t.config.datasource.source&&0===t.config.datasource.source.indexOf("@DATASOURCE")){const e=t.config.datasource.source.replace("@DATASOURCE ","").replace(".pxResults","");if(s.data.data[e]&&s.data.data[e].pxResults)t.config.options=s.data.data[e].pxResults;else if(s.data.uiResources.context_data&&s.data.uiResources.context_data.caseInfo&&s.data.uiResources.context_data.caseInfo.content){const a=s.data.uiResources.context_data.caseInfo.content;if(a[i]&&a[i].summary_of_lists__[e]&&a[i].summary_of_lists__[e].pxResults){const n=a[i].summary_of_lists__[e].pxResults.replace(".pxResults","");if(s.data.data[n]&&s.data.data[n].pxResults){t.config.options=[];const e=t.config.datasource.fields.key.replace("@P .",""),a=t.config.datasource.fields.text.replace("@P .","");for(const i in s.data.data[n].pxResults){const r=s.data.data[n].pxResults[i];t.config.options[i]={key:r[e],value:r[a]}}}}}}if(t.config.options||(t.config.options=[]),t.config.displayvalue?"object"!=typeof t.config.displayvalue&&(t.config.displayvalue=`${t.config.displayvalue}`):t.config.displayvalue="",s.data.uiResources&&s.data.uiResources.resources&&s.data.uiResources.resources.fields&&s.data.uiResources.resources.fields[e]){let t=s.data.uiResources.resources.fields[e];Array.isArray(t)&&1===t.length&&(t=t[0]),(t.isDeclarativeTarget||t.isSpecial)&&(n=!0,s.isDeclarativeTarget=!0)}}"string"!=typeof t.config.visibility&&"string"!=typeof t.config.readOnly&&"string"!=typeof t.config.disabled&&"string"!=typeof t.config.required||(s.refreshOnChange=!0);const r=s.data.data.caseInfo.content;if("string"==typeof t.config.visibility&&"true"!==t.config.visibility){if(!Ct(t.config.visibility,r,i))return null}else if(!1===t.config.visibility||"false"===t.config.visibility)return null;return t.config.readonlystate=!1,"string"==typeof t.config.readOnly&&"false"!==t.config.readOnly?t.config.readonlystate=Ct(t.config.readOnly,r,i):(!0===t.config.readOnly||"true"===t.config.readOnly||n)&&(t.config.readonlystate=!0),t.config.requiredstate=!1,"string"==typeof t.config.required&&"false"!==t.config.required?t.config.requiredstate=Ct(t.config.required,r,i):!0!==t.config.required&&"true"!==t.config.required||(t.config.requiredstate=!0),t.config.disabledstate=!1,"string"==typeof t.config.disabled&&"false"!==t.config.disabled?t.config.disabledstate=Ct(t.config.disabled,r,i):!0!==t.config.disabled&&"true"!==t.config.disabled||(t.config.disabledstate=!0),t.config.disabledstate&&(t.config.requiredstate=!1,t.config.readonlystate=!1),"OK"})(t,0,0,s,i);if("OK"!==n)return n;if(!0===a||t.config.readonlystate)return kt(t.config,e,"field-text",Rt(t.config,t.type,e));switch(t.type){case"TextContent":return Rt(t.config,t.type,e);case"Decimal":case"TextInput":return kt(t.config,e,"field-textinput",Lt(t.config,e));case"Phone":return kt(t.config,e,"field-phoneinput",Nt(t.config,e));case"Email":return kt(t.config,e,"field-emailinput",Mt(t.config,e));case"Integer":return kt(t.config,e,"field-numberinput",Ut(t.config,e));case"Percentage":return kt(t.config,e,"field-percentage",Pt(t.config,e));case"Currency":return kt(t.config,e,"field-currencyinput",Ot(t.config,e));case"RadioButtons":return kt(t.config,e,"field-radiogroup",jt(t.config,e));case"TextArea":return kt(t.config,e,"field-textarea",qt(t.config,e));case"Checkbox":return kt(t.config,e,"field-checkbox",Ht(t.config,e));case"Dropdown":return kt(t.config,e,"field-dropdown",zt(t.config,e));case"DateTime":return kt(t.config,e,"field-datetime",Vt(t.config,e));case"Date":return kt(t.config,e,"field-date",Bt(t.config,e));case"Time":return kt(t.config,e,"field-time",Ft(t.config,e));case"AutoComplete":return kt(t.config,e,"field-autocomplete",Wt(t.config,e));case"SemanticLink":return kt(t.config,e,"field-semanticlink",Zt(t.config));case"Location":return kt(t.config,e,"field-location",Kt(t.config,e));default:return null}},Rt=(t,e,a)=>{let s=t.displayvalue;if(""!==s){if("Phone"===e)return O`<a data-ref="${t.reference}" id="${xt(a)}" href="${`tel:${s}`}">${s}</a>`;if("Date"===e){const e={year:"numeric",month:"short",day:"numeric"};s=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("DateTime"===e){s=ht(t.displayvalue);const e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};s=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("Time"===e){const e={hour:"numeric",minute:"numeric"};s=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}}if("TextContent"===e){if("Paragraph"===t.displayAs)return O`<p>${i18n.t(t.content)}</p>`;if("Heading 1"===t.displayAs)return O`<h1>${i18n.t(t.content)}</h1>`;if("Heading 2"===t.displayAs)return O`<h2>${i18n.t(t.content)}</h2>`;if("Heading 3"===t.displayAs)return O`<h3>${i18n.t(t.content)}</h3>`;if("Heading 4"===t.displayAs)return O`<h4>${i18n.t(t.content)}</h4>`}return O`
-    <span class="dataValueRead" data-ref="${t.reference}" id="${xt(a)}">${pt(s)}</span>
-  `},Lt=(t,e)=>O`
+  `,Ut=(t,e,a,s,i)=>{const n=((t,e,a,s,i)=>{if(!1===t.config.visibility)return null;let n=!1;if(t.config.displayvalue="",t.config.displaylabel=i18n.t(t.config.label),t.config.displayplaceholder=i18n.t(t.config.placeholder),t.config.displayhelperText=i18n.t(t.config.helperText),t.config.displaycaption=i18n.t(t.config.caption),t.config.value){let e=t.config.value.replace("@P .","").replace("@USER .","");if(t.config.reference=void 0===i||""===i?e:`${i}.${e}`,t.config.displayvalue=$t(s.casedata.content,t.config.reference),"string"==typeof t.config.datasource&&0===t.config.datasource.indexOf("@ASSOCIATED")){e=t.config.datasource.replace("@ASSOCIATED .",""),-1!==e.indexOf(".")&&(e=e.substring(e.lastIndexOf(".")+1));let a="";s.data.context_data?a=s.data.context_data.content:s.data.uiResources.context_data&&s.data.uiResources.context_data.caseInfo&&s.data.uiResources.context_data.caseInfo.content&&(a=s.data.uiResources.context_data.caseInfo.content);const n=""===i?a:$t(a,i);if(n&&(t.config.options=n.summary_of_associated_lists__[e]),void 0===t.config.options&&(a=s.data.uiResources.resources.fields[e],Array.isArray(a)&&1===a.length&&(a=a[0]),a&&a.datasource))if(a.datasource.records)t.config.options=a.datasource.records;else if(a.datasource.name&&s.data.data.shared[a.datasource.name]){const e=s.data.data.shared[a.datasource.name];if(Object.keys(e).length>0){const s=Object.keys(e)[0];if(e[s].pxResults){const i=a.datasource.propertyForValue.replace("@P .",""),n=a.datasource.propertyForDisplayText.replace("@P .","");t.config.options=[];for(const a in e[s].pxResults){const r=e[s].pxResults[a];t.config.options[a]={key:r[i],value:r[n]}}}}}}else if("object"==typeof t.config.datasource&&t.config.datasource.source&&0===t.config.datasource.source.indexOf("@DATASOURCE")){const e=t.config.datasource.source.replace("@DATASOURCE ","").replace(".pxResults","");if(s.data.data[e]&&s.data.data[e].pxResults)t.config.options=s.data.data[e].pxResults;else if(s.data.uiResources.context_data&&s.data.uiResources.context_data.caseInfo&&s.data.uiResources.context_data.caseInfo.content){const a=s.data.uiResources.context_data.caseInfo.content;if(a[i]&&a[i].summary_of_lists__[e]&&a[i].summary_of_lists__[e].pxResults){const n=a[i].summary_of_lists__[e].pxResults.replace(".pxResults","");if(s.data.data[n]&&s.data.data[n].pxResults){t.config.options=[];const e=t.config.datasource.fields.key.replace("@P .",""),a=t.config.datasource.fields.text.replace("@P .","");for(const i in s.data.data[n].pxResults){const r=s.data.data[n].pxResults[i];t.config.options[i]={key:r[e],value:r[a]}}}}}}if(t.config.options||(t.config.options=[]),t.config.displayvalue?"object"!=typeof t.config.displayvalue&&(t.config.displayvalue=`${t.config.displayvalue}`):t.config.displayvalue="",s.data.uiResources&&s.data.uiResources.resources&&s.data.uiResources.resources.fields&&s.data.uiResources.resources.fields[e]){let t=s.data.uiResources.resources.fields[e];Array.isArray(t)&&1===t.length&&(t=t[0]),(t.isDeclarativeTarget||t.isSpecial)&&(n=!0,s.isDeclarativeTarget=!0)}}"string"!=typeof t.config.visibility&&"string"!=typeof t.config.readOnly&&"string"!=typeof t.config.disabled&&"string"!=typeof t.config.required||(s.refreshOnChange=!0);const r=s.data.data.caseInfo.content;if("string"==typeof t.config.visibility&&"true"!==t.config.visibility){if(!Ct(t.config.visibility,r,i))return null}else if(!1===t.config.visibility||"false"===t.config.visibility)return null;return t.config.readonlystate=!1,"string"==typeof t.config.readOnly&&"false"!==t.config.readOnly?t.config.readonlystate=Ct(t.config.readOnly,r,i):(!0===t.config.readOnly||"true"===t.config.readOnly||n)&&(t.config.readonlystate=!0),t.config.requiredstate=!1,"string"==typeof t.config.required&&"false"!==t.config.required?t.config.requiredstate=Ct(t.config.required,r,i):!0!==t.config.required&&"true"!==t.config.required||(t.config.requiredstate=!0),t.config.disabledstate=!1,"string"==typeof t.config.disabled&&"false"!==t.config.disabled?t.config.disabledstate=Ct(t.config.disabled,r,i):!0!==t.config.disabled&&"true"!==t.config.disabled||(t.config.disabledstate=!0),t.config.disabledstate&&(t.config.requiredstate=!1,t.config.readonlystate=!1),"OK"})(t,0,0,s,i);if("OK"!==n)return n;if(!0===a||t.config.readonlystate)return Nt(t.config,e,"field-text",Pt(t.config,t.type,e));switch(t.type){case"TextContent":return Pt(t.config,t.type,e);case"Decimal":case"TextInput":return Nt(t.config,e,"field-textinput",Ot(t.config,e));case"Phone":return Nt(t.config,e,"field-phoneinput",Mt(t.config,e));case"Email":return Nt(t.config,e,"field-emailinput",zt(t.config,e));case"Integer":return Nt(t.config,e,"field-numberinput",qt(t.config,e));case"Percentage":return Nt(t.config,e,"field-percentage",Ht(t.config,e));case"Currency":return Nt(t.config,e,"field-currencyinput",jt(t.config,e));case"RadioButtons":return Nt(t.config,e,"field-radiogroup",Ft(t.config,e));case"TextArea":return Nt(t.config,e,"field-textarea",Vt(t.config,e));case"Checkbox":return Nt(t.config,e,"field-checkbox",Bt(t.config,e));case"Dropdown":return Nt(t.config,e,"field-dropdown",Wt(t.config,e));case"DateTime":return Nt(t.config,e,"field-datetime",Zt(t.config,e));case"Date":return Nt(t.config,e,"field-date",Kt(t.config,e));case"Time":return Nt(t.config,e,"field-time",Jt(t.config,e));case"AutoComplete":return Nt(t.config,e,"field-autocomplete",Gt(t.config,e));case"SemanticLink":return Nt(t.config,e,"field-semanticlink",Yt(t.config));case"Location":return Nt(t.config,e,"field-location",Xt(t.config,e));default:return null}},Pt=(t,e,a)=>{let s=t.displayvalue;if(""!==s){if("Phone"===e)return O`<a data-ref="${t.reference}" id="${Tt(a)}" href="${`tel:${s}`}">${s}</a>`;if("Date"===e){const e={year:"numeric",month:"short",day:"numeric"};s=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("DateTime"===e){s=ht(t.displayvalue);const e={year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric"};s=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}else if("Time"===e){const e={hour:"numeric",minute:"numeric"};s=new Intl.DateTimeFormat([],e).format(new Date(t.displayvalue))}}if("TextContent"===e){if("Paragraph"===t.displayAs)return O`<p>${i18n.t(t.content)}</p>`;if("Heading 1"===t.displayAs)return O`<h1>${i18n.t(t.content)}</h1>`;if("Heading 2"===t.displayAs)return O`<h2>${i18n.t(t.content)}</h2>`;if("Heading 3"===t.displayAs)return O`<h3>${i18n.t(t.content)}</h3>`;if("Heading 4"===t.displayAs)return O`<h4>${i18n.t(t.content)}</h4>`}return O`
+    <span class="dataValueRead" data-ref="${t.reference}" id="${Tt(a)}">${pt(s)}</span>
+  `},Ot=(t,e)=>O`
   <input
     class="usa-input"
     data-ref="${t.reference}"
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${xt(Et(t))}"
+    placeholder="${Tt(Lt(t))}"
     type="text"
-    aria-describedby="${xt(St(t,e))}"
-    id="${xt(e)}"
+    aria-describedby="${Tt(Rt(t,e))}"
+    id="${Tt(e)}"
     value="${pt(t.displayvalue)}"
   />
-`,Nt=(t,e)=>{let a="";for(const e of t.options)0===t.displayvalue.indexOf(e.pyCallingCode)&&(a=e.pyCallingCode);return t.displayvalue=t.displayvalue.substring(a.length),O`
+`,Mt=(t,e)=>{let a="";for(const e of t.options)0===t.displayvalue.indexOf(e.pyCallingCode)&&(a=e.pyCallingCode);return t.displayvalue=t.displayvalue.substring(a.length),O`
 <div class='field-phoneinput'>
 <select
   class="usa-select field-countrycode"
@@ -171,40 +176,40 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
    ?required="${t.requiredstate}"
    ?readonly="${t.readonlystate}"
    ?disabled="${t.disabledstate}"
-   placeholder="${xt(Et(t))}"
+   placeholder="${Tt(Lt(t))}"
    type="tel"
-   aria-describedby="${xt(St(t,e))}"
-   id="${xt(e)}"
+   aria-describedby="${Tt(Rt(t,e))}"
+   id="${Tt(e)}"
    value="${pt(t.displayvalue)}"
  />
  </div>
-`},Ut=(t,e)=>O`
+`},qt=(t,e)=>O`
   <input
     class="usa-input"
     data-ref="${t.reference}"
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${xt(Et(t))}"
+    placeholder="${Tt(Lt(t))}"
     type="number"
-    aria-describedby="${xt(St(t,e))}"
-    id="${xt(e)}"
+    aria-describedby="${Tt(Rt(t,e))}"
+    id="${Tt(e)}"
     value="${pt(t.displayvalue)}"
   />
-`,Pt=(t,e)=>O`
+`,Ht=(t,e)=>O`
  <input
    class="usa-input"
    data-ref="${t.reference}"
    ?required="${t.requiredstate}"
    ?readonly="${t.readonlystate}"
    ?disabled="${t.disabledstate}"
-   placeholder="${xt(Et(t))}"
+   placeholder="${Tt(Lt(t))}"
    type="text"
-   aria-describedby="${xt(St(t,e))}"
-   id="${xt(e)}"
+   aria-describedby="${Tt(Rt(t,e))}"
+   id="${Tt(e)}"
    value="${pt(t.displayvalue)}"
  />
-`,Ot=(t,e)=>O`
+`,jt=(t,e)=>O`
   <div ?readonly="${t.readOnly}">
   <span class="currency-symbol">$</span>
   <input
@@ -213,27 +218,27 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${xt(Et(t))}"
+    placeholder="${Tt(Lt(t))}"
     type="number"
-    aria-describedby="${xt(St(t,e))}"
-    id="${xt(e)}"
+    aria-describedby="${Tt(Rt(t,e))}"
+    id="${Tt(e)}"
     value="${pt(t.displayvalue)}"
   />
   </div>
-`,Mt=(t,e)=>O`
+`,zt=(t,e)=>O`
   <input
     class="usa-input"
     data-ref="${t.reference}"
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${xt(Et(t))}"
+    placeholder="${Tt(Lt(t))}"
     type="email"
-    aria-describedby="${xt(St(t,e))}"
-    id="${xt(e)}"
+    aria-describedby="${Tt(Rt(t,e))}"
+    id="${Tt(e)}"
     value="${pt(t.displayvalue)}"
   />
-`,qt=(t,e)=>O`
+`,Vt=(t,e)=>O`
   <textarea
     class="usa-textarea"
     rows="3"
@@ -241,69 +246,69 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
     ?required="${t.requiredstate}"
     ?readonly="${t.readonlystate}"
     ?disabled="${t.disabledstate}"
-    placeholder="${xt(Et(t))}"
+    placeholder="${Tt(Lt(t))}"
     type="email"
-    aria-describedby="${xt(St(t,e))}"
-    id="${xt(e)}"
+    aria-describedby="${Tt(Rt(t,e))}"
+    id="${Tt(e)}"
   >${pt(t.displayvalue)}</textarea>
-`,Ht=(t,e)=>{const a=t.requiredstate?" icon-required":"";return O`<input
+`,Bt=(t,e)=>{const a=t.requiredstate?" icon-required":"";return O`<input
   class="usa-checkbox__input"
   data-ref="${t.reference}"
   ?required="${t.requiredstate}"
   ?readonly="${t.readonlystate}"
-  onclick="${xt(t.readonlystate?"return false;":void 0)}"
+  onclick="${Tt(t.readonlystate?"return false;":void 0)}"
   ?disabled="${t.disabledstate}"
-  aria-describedby="${xt(St(t,e))}"
-  id=${xt(e)}
+  aria-describedby="${Tt(Rt(t,e))}"
+  id=${Tt(e)}
   type="checkbox" ?checked=${"true"===t.displayvalue||!0===t.displayvalue}
   />
-  <label class="usa-checkbox__label${a}" for=${xt(e)}>
+  <label class="usa-checkbox__label${a}" for=${Tt(e)}>
   ${t.displaycaption}
     </label></div>
-`},jt=(t,e)=>{let a=[{value:"true"},{value:"false"}];return t.options&&(a=t.options),O`<fieldset class="usa-fieldset">
+`},Ft=(t,e)=>{let a=[{value:"true"},{value:"false"}];return t.options&&(a=t.options),O`<fieldset class="usa-fieldset">
     ${a.map(((a,s)=>{const i=`rb-${e}-${s}`;return O`
         <div class="usa-radio">
           <input
             class="usa-radio__input"
             data-ref="${t.reference}"
-            name=${xt(e)}
+            name=${Tt(e)}
             id=${i}
             type="radio"
             ?required="${t.requiredstate}"
             ?readonly="${t.readonlystate}"
             ?disabled="${t.disabledstate}"
             value="${a.key}"
-            onclick="${xt(t.readonlystate?"return false;":void 0)}"
+            onclick="${Tt(t.readonlystate?"return false;":void 0)}"
             ?checked="${a.key===t.displayvalue}"
           />
           <label class="usa-radio__label" for="${i}">${a.value}</label>
         </div>
       `}))}
-  </div>`},zt=(t,e)=>O`<select
+  </div>`},Wt=(t,e)=>O`<select
   class="usa-select"
   data-ref="${t.reference}"
-  aria-describedby="${xt(St(t,e))}"
-  id=${xt(e)}
+  aria-describedby="${Tt(Rt(t,e))}"
+  id=${Tt(e)}
   ?required="${t.requiredstate}"
   ?readonly="${t.readonlystate}"
   ?disabled="${t.disabledstate}">
-  placeholder="${xt(Et(t))}"
+  placeholder="${Tt(Lt(t))}"
     <option value="" title="${i18n.t("Select...")}">${i18n.t("Select...")}</option>
     ${t.options.map((e=>O`<option ?selected=${e.key===t.displayvalue} value='${e.key}'>${e.value}</option>`))}
-  </select>`,Vt=(t,e)=>{let a=t.displayvalue;if(""!==a){const e=ht(a);e instanceof Date&&e.getTime()==e.getTime()?a=`${e.getUTCFullYear()}-${dt(e.getUTCMonth()+1)}-${dt(e.getUTCDate())}T${dt(e.getUTCHours())}:${dt(e.getUTCMinutes())}`:8===t.displayvalue.length?a=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}T00:00`:24===t.displayvalue.length&&(a=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}T${t.displayvalue.substring(11,13)}:${t.displayvalue.substring(14,16)}`)}return O`
+  </select>`,Zt=(t,e)=>{let a=t.displayvalue;if(""!==a){const e=ht(a);e instanceof Date&&e.getTime()==e.getTime()?a=`${e.getUTCFullYear()}-${dt(e.getUTCMonth()+1)}-${dt(e.getUTCDate())}T${dt(e.getUTCHours())}:${dt(e.getUTCMinutes())}`:8===t.displayvalue.length?a=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(4,6)}-${t.displayvalue.substring(6,8)}T00:00`:24===t.displayvalue.length&&(a=`${t.displayvalue.substring(0,4)}-${t.displayvalue.substring(5,7)}-${t.displayvalue.substring(8,10)}T${t.displayvalue.substring(11,13)}:${t.displayvalue.substring(14,16)}`)}return O`
     <input
       data-ref="${t.reference}"
       ?required="${t.requiredstate}"
       ?readonly="${t.readonlystate}"
       ?disabled="${t.disabledstate}"
       type="datetime-local"
-      aria-describedby="${xt(St(t,e))}"
-      id="${xt(e)}"
+      aria-describedby="${Tt(Rt(t,e))}"
+      id="${Tt(e)}"
       value="${a}"
     />
-  `},Bt=(t,e)=>{let a=t.displayvalue,s="",i="",n="";if(""!==a){const e=ht(a);e instanceof Date&&e.getTime()==e.getTime()?(n=e.getUTCFullYear(),s=e.getUTCMonth()+1,i=e.getUTCDate()):8===t.displayvalue.length&&(n=t.displayvalue.substring(0,4),s=t.displayvalue.substring(4,6),i=t.displayvalue.substring(6,8)),a=e}return O`
-  <div class="input-date usa-memorable-date" id="${xt(e)}"
-  aria-describedby="${xt(St(t,e))}" data-ref="${t.reference}">
+  `},Kt=(t,e)=>{let a=t.displayvalue,s="",i="",n="";if(""!==a){const e=ht(a);e instanceof Date&&e.getTime()==e.getTime()?(n=e.getUTCFullYear(),s=e.getUTCMonth()+1,i=e.getUTCDate()):8===t.displayvalue.length&&(n=t.displayvalue.substring(0,4),s=t.displayvalue.substring(4,6),i=t.displayvalue.substring(6,8)),a=e}return O`
+  <div class="input-date usa-memorable-date" id="${Tt(e)}"
+  aria-describedby="${Tt(Rt(t,e))}" data-ref="${t.reference}">
   <div class="usa-form-group usa-form-group--month">
       <label class="usa-label" for="${`${e}-month`}">
       ${i18n.t("Month")}
@@ -331,18 +336,18 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
       ?disabled="${t.disabledstate}" class="input-date-year usa-input usa-input--inline" value="${n}"
       id="${`${e}-year`}" name="${`${e}-year`}" type="text" pattern="[0-9]*" inputmode="numeric">
     </div>
-</div>`},Ft=(t,e)=>{let a=t.displayvalue;if(""!==a){const e=ht(a);e instanceof Date&&e.getTime()==e.getTime()?a=`${dt(e.getUTCHours())}-${dt(e.getUTCMinutes())}-${dt(e.getUTCSeconds())}`:8===t.displayvalue.length&&(a=`${t.displayvalue.substring(9,10)}:${t.displayvalue.substring(10,11)}:${t.displayvalue.substring(11,12)}`)}return O`
+</div>`},Jt=(t,e)=>{let a=t.displayvalue;if(""!==a){const e=ht(a);e instanceof Date&&e.getTime()==e.getTime()?a=`${dt(e.getUTCHours())}-${dt(e.getUTCMinutes())}-${dt(e.getUTCSeconds())}`:8===t.displayvalue.length&&(a=`${t.displayvalue.substring(9,10)}:${t.displayvalue.substring(10,11)}:${t.displayvalue.substring(11,12)}`)}return O`
     <input
       data-ref="${t.reference}"
       ?required="${t.requiredstate}"
       ?readonly="${t.readonlystate}"
       ?disabled="${t.disabledstate}"
       type="time"
-      aria-describedby="${xt(St(t,e))}"
-      id="${xt(e)}"
+      aria-describedby="${Tt(Rt(t,e))}"
+      id="${Tt(e)}"
       value="${a}"
     />
-  `},Wt=(t,e)=>t.options?O`
+  `},Gt=(t,e)=>t.options?O`
     <div class="usa-combo-box loaded">
     <select class="usa-select"
         data-ref="${t.reference}"
@@ -350,10 +355,10 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
         ?required="${t.requiredstate}"
         ?readonly="${t.readonlystate}"
         ?disabled="${t.disabledstate}"
-        placeholder="${xt(Et(t))}"
+        placeholder="${Tt(Lt(t))}"
         type="text"
-         aria-describedby="${xt(St(t,e))}"
-        id="${xt(e)}"
+         aria-describedby="${Tt(Rt(t,e))}"
+        id="${Tt(e)}"
         value="${pt(t.displayvalue)}"
       />
         ${t.options.map((t=>O`
@@ -362,82 +367,87 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
             </option>
           `))}
     </select>
-    </div>`:null,Zt=()=>O`
+    </div>`:null,Yt=()=>O`
  <a>semantic link</a>
-`,Kt=(t,e)=>O`<input
+`,Xt=(t,e)=>O`<input
  class="usa-input location"
  data-ref="${t.reference}"
  ?required="${t.requiredstate}"
  ?readonly="${t.readonlystate}"
  ?disabled="${t.disabledstate}"
- placeholder="${xt(Et(t))}"
+ placeholder="${Tt(Lt(t))}"
  type="text"
- aria-describedby="${xt(St(t,e))}"
- id="${xt(e)}"
+ aria-describedby="${Tt(Rt(t,e))}"
+ id="${Tt(e)}"
  value="${pt(t.displayvalue)}"
-/>`,Jt=()=>O`
+/>`,Qt=()=>O`
 <span class="loading">
     <span class="dot"></span>
     <span class="dot"></span>
     <span class="dot"></span>
 </span>
-`,Gt=(t,e)=>O`
+`,te=(t,e)=>O`
   ${t.map((t=>O`
     <th scope='col'>${i18n.t(t.config.label)}</th>`))}${e?null:O`<th></th>`}
-`,Yt=(t,e)=>{if(!e){const e=[];t.config.children[0].children.map(((t,a)=>(e[a]=t.config.value.replace("@P .",""),null)));const a=t.config.referenceList.replace("@P .","");return O`
+`,ee=(t,e)=>{if(!e){const e=[];t.config.children[0].children.map(((t,a)=>(e[a]=t.config.value.replace("@P .",""),null)));const a=t.config.referenceList.replace("@P .","");return O`
       <div class="table-action-area">
         <button type="button" class="usa-button"
         aria-label="${i18n.t("Add row")}" data-newrow="${e.join()}"
         data-ref=${a} data-action-click="addRow">${i18n.t("Add item")}</button>
       </div>
-    `}return null},Xt=(t,e,a)=>{const s=t.config.referenceList.replace("@P .",""),i=t.config.children[0].children,n=$t(a.data.data.caseInfo.content,s);return n?O`
+    `}return null},ae=(t,e,a)=>{const s=t.config.referenceList.replace("@P .",""),i=t.config.children[0].children,n=$t(a.data.data.caseInfo.content,s);return n?O`
   ${n.map(((t,n)=>O`
     <tr>
     ${i.map((t=>O`
-    <td>${Tt(t,void 0,e,a,`${s}(${n+1})`)}</td>`))}${e?null:O`<td><button type="button" class="usa-button"
+    <td>${Ut(t,void 0,e,a,`${s}(${n+1})`)}</td>`))}${e?null:O`<td><button type="button" class="usa-button"
   aria-label="${i18n.t("Delete item")}" data-ref=${`${s}(${n+1}).pyTemplate`}
   data-action-click='deleteRow'>Delete</button></td>`}
     </tr>`))}
-`:null},Qt=(t,e,a,s,i)=>{if(void 0===t)return null;if(Array.isArray(t)&&1===t.length&&"View"===t[0].type&&(t=t[0]),!t.config||!t.config.template)return O`${t.map(((t,n)=>{const r=`${e}-${n}`;if("Region"===t.type)return Qt(t.children,`${e}-0`,!0,s,i);if("reference"===t.type&&"view"===t.config.type){let e="";if(t.config.context&&(e=t.config.context),t.config.inheritedProps&&1===t.config.inheritedProps.length&&"label"===t.config.inheritedProps[0].prop){const n=i18n.t(t.config.inheritedProps[0].value);let o=s.data.uiResources.resources.views[t.config.name];if(o){Array.isArray(o)&&1===o.length&&"View"===o[0].type&&(o=o[0]);const t="SimpleTable"===o.config.template||"ListView"===o.config.template?"field-table":"field-subview";return O`<div class='${t}'><h4>${n}</h4>${Qt(o,r,a,s,""===i?e.substring(1):i+e)}</div>`}}return Qt(s.data.uiResources.resources.views[t.config.name],r,a,s,i&&""!==i?i+e:e.substring(1))}return Tt(t,r,a,s,i)}))}`;if("SimpleTable"===t.config.template)return((t,e,a)=>{const s=e||"Editable"!==t.config.renderMode;return O`
+`:null},se=(t,e,a,s,i)=>{if(void 0===t)return null;if(Array.isArray(t)&&1===t.length&&"View"===t[0].type&&(t=t[0]),!t.config||!t.config.template)return O`${t.map(((t,n)=>{const r=`${e}-${n}`;if("Region"===t.type)return se(t.children,`${e}-0`,!0,s,i);if("reference"===t.type&&"view"===t.config.type){let e="";if(t.config.context&&(e=t.config.context),t.config.inheritedProps&&1===t.config.inheritedProps.length&&"label"===t.config.inheritedProps[0].prop){const n=i18n.t(t.config.inheritedProps[0].value);let o=s.data.uiResources.resources.views[t.config.name];if(o){Array.isArray(o)&&1===o.length&&"View"===o[0].type&&(o=o[0]);const t="SimpleTable"===o.config.template||"ListView"===o.config.template?"field-table":"field-subview";return O`<div class='${t}'><h4>${n}</h4>${se(o,r,a,s,""===i?e.substring(1):i+e)}</div>`}}return se(s.data.uiResources.resources.views[t.config.name],r,a,s,i&&""!==i?i+e:e.substring(1))}return Ut(t,r,a,s,i)}))}`;if("SimpleTable"===t.config.template)return((t,e,a)=>{const s=e||"Editable"!==t.config.renderMode;return O`
   <table class="usa-table usa-table--borderless">
     <caption class="sr-only">${t.config.name}</caption>
     <thead>
       <tr>
-        ${Gt(t.config.children[0].children,s)}
+        ${te(t.config.children[0].children,s)}
       </tr>
     </thead>
     <tbody>
-      ${Xt(t,s,a)}
+      ${ae(t,s,a)}
     </tbody>
   </table>
-  ${Yt(t,s)}`})(t,a,s);if("ListView"===t.config.template)return((t,e,a)=>(a.sendData("dataviews",{id:t.config.referenceList,content:{paging:{pageNumber:1,pageSize:41}}}),O`
+  ${ee(t,s)}`})(t,a,s);if("ListView"===t.config.template)return((t,e,a)=>(a.sendData("dataviews",{id:t.config.referenceList,content:{paging:{pageNumber:1,pageSize:41}}}),O`
   <table class="usa-table usa-table--borderless">
     <caption class="sr-only">${t.config.name}</caption>
     <thead>
       <tr>
-        ${Gt(t.config.presets[0].children[0].children,e)}
+        ${te(t.config.presets[0].children[0].children,e)}
       </tr>
     </thead>
-    <tbody>${Jt()}
+    <tbody>${Qt()}
     </tbody>
   </table>`))(t,a,s);switch("DataReference"===t.config.template&&(s.isDeclarativeTarget=!0),"TwoColumn"===t.config.template&&1===t.children.length&&(t.config.template="OneColumn"),t.config.template){case"TwoColumn":return O`
           <div class='grid-row grid-gap'>
-            <div class='mobile-lg:grid-col-6'>${Qt(t.children[0].children,`${e}-0`,a,s,i)}</div>
-            <div class='mobile-lg:grid-col-6'>${Qt(t.children[1].children,`${e}-1`,a,s,i)}</div>
+            <div class='mobile-lg:grid-col-6'>${se(t.children[0].children,`${e}-0`,a,s,i)}</div>
+            <div class='mobile-lg:grid-col-6'>${se(t.children[1].children,`${e}-1`,a,s,i)}</div>
           </div>
-        `;case"DefaultForm":case"OneColumn":return O`
+        `;case"DefaultForm":return O`
           <div>
-            ${Qt(t.children[0].children,`${e}-0`,a,s,i)}
+            ${((t,e)=>{if(!t)return null;const a=e.data.uiResources.resources.paragraphs[t.replace("@PARAGRAPH ","")];return"object"==typeof a&&1===a.length&&a[0].content?O`${kt(a[0].content)}`:null})(t.config.instructions,s)}
+            ${se(t.children[0].children,`${e}-0`,a,s,i)}
           </div>
         `;case"DataReference":return O`
           <div>
-            ${Qt(t.children,`${e}-0`,a,s,i)}
+            ${se(t.children,`${e}-0`,a,s,i)}
+          </div>
+        `;case"OneColumn":return O`
+          <div>
+            ${se(t.children[0].children,`${e}-0`,a,s,i)}
           </div>
         `;case"Details":return O`
           <div>
-            ${Qt(t.children[0].children,`${e}-0`,!0,s,i)}
+            ${se(t.children[0].children,`${e}-0`,!0,s,i)}
           </div>
-        `;default:return null}},te=(t,e,a,s)=>{return void 0===e.caseID&&a.content?O`
+        `;default:return null}},ie=(t,e,a,s)=>{return void 0===e.caseID&&a.content?O`
     <div>
       <h2>${i18n.t(e.data.caseInfo.name)}</h2>
     </div>
@@ -446,13 +456,13 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
     <ol class="usa-step-indicator__segments">
     ${i.map((t=>{let e,a="";return"success"===t.visited_status?a="usa-step-indicator__segment--complete":"current"===t.visited_status&&(a="usa-step-indicator__segment--current",e="current"),O`<li
       class=${`usa-step-indicator__segment ${a}`}
-      aria-current=${xt(e)}>
+      aria-current=${Tt(e)}>
       <span class="usa-step-indicator__segment-label">${t.name}
       <span class="usa-sr-only">completed</span></span>
     </li>`}))}
-    </ol></div>`:null:"";var i},ee=(t,e,a,s,i)=>{let n=i.data.name;return i.data&&i.data.data&&(n&&""!==n||(n=i.data.data.caseInfo.name),""!==i.data.data.caseInfo.assignments[0].instructions&&(n=i.data.data.caseInfo.assignments[0].instructions)),O`
+    </ol></div>`:null:"";var i},ne=(t,e,a,s,i)=>{let n=i.data.name;return i.data&&i.data.data&&(n&&""!==n||(n=i.data.data.caseInfo.name),""!==i.data.data.caseInfo.assignments[0].instructions&&(n=i.data.data.caseInfo.assignments[0].instructions)),O`
   <fieldset class='usa-fieldset'><legend class="usa-legend usa-legend--large">${i18n.t(n)}</legend>
-  ${Qt(t,e,!1,i,"")}</fieldset>
+  ${se(t,e,!1,i,"")}</fieldset>
   ${((t,e)=>O`
 <ul class="usa-button-group">
     ${null!==t?O`<li class="usa-button-group__item">
@@ -463,14 +473,19 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
     <button type="button" data-submit="submit" class="usa-button">${i18n.t("Submit")}</button></li>
   </ul>
 `)(a,s)}
-`},ae=(t,e,a,s)=>O`
-  <div>${Qt(t,e,!0,s)}</div>
+`},re=(t,e,a,s)=>O`
+  <div>${se(t,e,!0,s)}</div>
   ${(t=>null===t?null:O`
   <ul class="usa-button-group">
   ${null!==t?O`<li class="usa-button-group__item"><button type="button" class="usa-button"
   @click="${t}">${i18n.t("Close")}</button></li>`:""}
   </ul>`)(a)}
-`;class se extends It{displayContent(){if(this.bShowSave="false",""!==this.errorMsg)return t=this.errorMsg,e="true"===this.bShowCancel?this.resetError:null,O`
+`;
+/**
+     * @license
+     * Copyright 2018 Google LLC
+     * SPDX-License-Identifier: BSD-3-Clause
+     */class oe extends St{displayContent(){if(this.bShowSave="false",""!==this.errorMsg)return t=this.errorMsg,e="true"===this.bShowCancel?this.resetError:null,O`
 <div class="usa-alert usa-alert--error" role="alert">
   <div class="usa-alert__body">
     <h4 class="usa-alert__heading">${t}</h4>
@@ -480,7 +495,7 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
   </div>
   </div>`;var t,e,a,s;if(("oauth2password"===this.authentication||"oauth2clientcredentials"===this.authentication)&&""===this.token)return this.sendData("authenticate",{}),null;if(this.casetypes||"createNewWork"!==this.action&&"workList"!==this.action?"createNewWork"===this.action&&""===this.caseID&&this.casetypes&&this.casetypes[this.casetype]?this.sendData("newwork",{id:this.casetype}):""===this.name&&("openAssignment"===this.action&&""===this.assignmentID&&(this.assignmentID=this.caseID),""!==this.assignmentID?this.fetchData("assignment",{id:this.assignmentID}):""!==this.caseID&&this.fetchData("view",{id:this.caseID,actionid:"pyReview"})):(this.fetchData("portal"),"createNewWork"===this.action?this.bShowNew=!0:"workList"===this.action&&(this.bShowCancel="true")),this.bShowConfirm){this.data.ID.split(" ")[1];return this.casedata.name,this.casepyStatusWork,"true"===this.bShowAttachments&&this.displayAttachments,O`
   <div id="case-data"></div>`}return""!==this.caseID||""!==this.assignmentID||this.bShowNew?O`
-        ${te(this.name,this.data,this.casedata,this.openCase)}
+        ${ie(this.name,this.data,this.casedata,this.openCase)}
         <div class="validation" role="alert" aria-live="assertive">${this.validationMsg}</div>
         <form class="usa-form" id="case-data"></form>
       `:"workList"===this.action?(a=this.cases,s=this.openCase,O`
@@ -513,7 +528,7 @@ var m;$[f]=!0,$.elementProperties=new Map,$.elementStyles=[],$.shadowRootOptions
       `:O`
         <div style='line-height: 50px;text-align:center'>${i18n.t("you do not have any pending cases.")}</div>
       `}
-`):null}renderMainLayout=(t,e)=>ee(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this);renderReviewLayout=(t,e)=>ae(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,this);genPageValidationErrors=t=>(t=>t.errorDetails?O`<div class="usa-alert usa-alert--error" role="alert">
+`):null}renderMainLayout=(t,e)=>ne(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this);renderReviewLayout=(t,e)=>re(t,e,"true"===this.bShowCancel?this.actionAreaCancel:null,this);genPageValidationErrors=t=>(t=>t.errorDetails?O`<div class="usa-alert usa-alert--error" role="alert">
     <div class="usa-alert__body">
       <h4 class="usa-alert__heading">Error</h4>
       ${t.errorDetails.map((t=>"Error_Validation_Fail"===t.message||"Validation failed: Errors Detected."===t.message?null:O`<p class="usa-alert__text">${i18n.t(t.localizedValue)}</p>`))}
@@ -530,6 +545,6 @@ ${t.pxResults.map((t=>O`
         <li role="menuitem" tabindex="-1" data-value="${t[0]}">${i18n.t(t[1].name)}</li>
       `);return O`
     ${e}
-  `})(this.casetypes);genLoadingIndicator=()=>Jt();setInlineError=(t,e)=>{t.setCustomValidity(pt(e)),t.classList.add("error-field"),t.reportValidity()};validateForm=t=>t.checkValidity();reportFormValidity=t=>t.reportValidity();clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const a=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),yt(e,"click")?(this.refreshAssignment(e,vt(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===a||"deleteRow"===a)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;if(t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),yt(e,"change")||this.isDeclarativeTarget)this.refreshAssignment(e,vt(e,"change"));else if(this.refreshOnChange){const t=this.getRenderRoot().querySelector("#case-data");wt(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),et(ee(this.data.uiResources.resources.views[this.casedata.content.pyViewName],"Obj","true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this),t)}};focusHandler=t=>{const e=t.target;e.classList.contains("usa-combo-box")&&!e.classList.contains("loaded")?this.getData(e.getAttribute("data-pageid"),e):"INPUT"===e.tagName&&e.classList.contains("location")&&!e.classList.contains("pac-target-input")&&window.google&&window.google.maps&&window.google.maps.places&&new window.google.maps.places.Autocomplete(e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}class ie extends se{createRenderRoot(){return this}getRenderRoot(){return this}render(){return O`
+  `})(this.casetypes);genLoadingIndicator=()=>Qt();setInlineError=(t,e)=>{t.setCustomValidity(pt(e)),t.classList.add("error-field"),t.reportValidity()};validateForm=t=>t.checkValidity();reportFormValidity=t=>t.reportValidity();clickHandler=t=>{let e=t.target;"path"===e.tagName&&(e=e.parentNode),"svg"===e.tagName&&(e=e.parentNode);const a=e.getAttribute("data-action-click");e.classList.contains("combobox")&&!e.classList.contains("loaded")&&this.getData(e.getAttribute("data-pageid"),e),yt(e,"click")?(this.refreshAssignment(e,vt(e,"click")),t.preventDefault()):"BUTTON"===e.tagName&&(t.preventDefault(),null!==e.getAttribute("data-submit")&&"save"!==e.getAttribute("data-submit")?this.submitForm(t,e.getAttribute("data-submit")):("addRow"===a||"deleteRow"===a)&&this.refreshAssignment(e))};changeHandler=t=>{let e=t.target;if(t.path&&t.path.length>0?e=t.path[0]:t.originalTarget&&(e=t.originalTarget),e.setCustomValidity(""),e.classList.remove("error-field"),yt(e,"change")||this.isDeclarativeTarget)this.refreshAssignment(e,vt(e,"change"));else if(this.refreshOnChange){const t=this.getRenderRoot().querySelector("#case-data");wt(t,this.content,this.pageInstructions,this.data.data.caseInfo.content),et(ne(this.data.uiResources.resources.views[this.casedata.content.pyViewName],"Obj","true"===this.bShowCancel?this.actionAreaCancel:null,"true"===this.bShowSave?this.actionAreaSave:null,this),t)}};focusHandler=t=>{const e=t.target;e.classList.contains("usa-combo-box")&&!e.classList.contains("loaded")?this.getData(e.getAttribute("data-pageid"),e):"INPUT"===e.tagName&&e.classList.contains("location")&&!e.classList.contains("pac-target-input")&&window.google&&window.google.maps&&window.google.maps.places&&new window.google.maps.places.Autocomplete(e)};async firstUpdated(){const t=this.getRenderRoot();t&&(t.addEventListener("click",this.clickHandler),t.addEventListener("focusin",this.focusHandler),t.addEventListener("change",this.changeHandler))}}class le extends oe{createRenderRoot(){return this}getRenderRoot(){return this}render(){return O`
       ${this.displayContent()}
-    `}}return customElements.define("pega-govus",ie),t.PegaGovUS=ie,t}({});
+    `}}return customElements.define("pega-govus",le),t.PegaGovUS=le,t}({});
