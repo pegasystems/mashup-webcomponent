@@ -3,14 +3,15 @@ import { html } from 'lit';
 import { Layout } from './layout';
 import { StepIndicator } from './screenflow';
 
-const SubmitActionArea = (onCancel, onSave) => html`
+const SubmitActionArea = (onCancel, onSave, isPrevious, submitBtnLabel) => html`
 <ul class="usa-button-group">
     ${onCancel !== null ? html`<li class="usa-button-group__item">
     <button type="button" class="usa-button" @click="${onCancel}">${i18n.t('Cancel')}</button></li>` : ''}
     ${onSave !== null ? html`<li class="usa-button-group__item">
     <button type="button" class="usa-button" @click="${onSave}">${i18n.t('Save')}</button></li>` : ''}
     <li class="usa-button-group__item">
-    <button type="button" data-submit="submit" class="usa-button">${i18n.t('Submit')}</button></li>
+    ${isPrevious ? html`<button type="button" data-submit="previous" class="usa-button">${i18n.t('Previous')}</button>` : ''}
+    <button type="button" data-submit="submit" class="usa-button">${i18n.t(submitBtnLabel)}</button></li>
   </ul>
 `;
 
@@ -63,16 +64,30 @@ export const CaseHeader = (name, data, casedata, onOpen) => {
 
 export const mainLayout = (data, path, onCancel, onSave, webcomp) => {
   let title = webcomp.data.name;
+  let submitBtnLabel = 'Submit';
+  let isPrevious = false;
   if (webcomp.data && webcomp.data.data) {
     if (!title || title === '') title = webcomp.data.data.caseInfo.name;
     if (webcomp.data.data.caseInfo.assignments[0].instructions !== '') {
       title = webcomp.data.data.caseInfo.assignments[0].instructions;
     }
+    if (webcomp.data.data.caseInfo.assignments[0].isMultiStep === 'true' && webcomp.data.data.caseInfo.assignments[0].processName !== 'Create') {
+      submitBtnLabel = 'Next';
+      const secondaryactions = webcomp.data?.uiResources?.actionButtons?.secondary;
+      secondaryactions.forEach((val) => {
+        if (val.actionID === 'back') {
+          isPrevious = true;
+        }
+      });
+    }
+    if (webcomp.data.data.caseInfo.assignments[0].processName === 'Create') {
+      submitBtnLabel = 'Create';
+    }
   }
   return html`
   <fieldset class='usa-fieldset'><legend class="usa-legend usa-legend--large">${i18n.t(title)}</legend>
   ${Layout(data, path, false, webcomp, '')}</fieldset>
-  ${SubmitActionArea(onCancel, onSave)}
+  ${SubmitActionArea(onCancel, onSave, isPrevious, submitBtnLabel)}
 `;
 };
 

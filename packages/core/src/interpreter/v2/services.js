@@ -108,7 +108,11 @@ export default class PegaServices extends PegaElement {
     if (this.validateForm(form)) {
       if (type !== 'create') {
         if (this.data.ID !== '') {
-          this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
+          if (type === 'previous') {
+            this.sendData('previousstep', { id: this.data.ID });
+          } else {
+            this.sendData('submitassignment', { id: this.data.ID, actionid: this.actionID });
+          }
         } else {
           this.sendData('submitcaseaction', { id: this.data.caseID, actionid: this.actionID });
         }
@@ -553,6 +557,12 @@ export default class PegaServices extends PegaElement {
         reqHeaders.headers['If-Match'] = this.etag;
         apiurl += `assignments/${id}/actions/${actionid}?viewType=form`;
         break;
+      case 'previousstep':
+        reqHeaders.body = JSON.stringify({ content: pageupdate, pageInstructions });
+        reqHeaders.method = 'PATCH';
+        reqHeaders.headers['If-Match'] = this.etag;
+        apiurl += `assignments/${id}/navigation_steps/previous?viewType=form`;
+        break;
       case 'submitcaseaction':
         reqHeaders.body = JSON.stringify({ content: pageupdate, pageInstructions });
         reqHeaders.method = 'PATCH';
@@ -600,7 +610,7 @@ export default class PegaServices extends PegaElement {
         if (type === 'deleteattachment' || type === 'attachments') {
           return res.text();
         }
-        if (type === 'submitassignment' || type === 'newwork') {
+        if (type === 'previousstep' || type === 'submitassignment' || type === 'newwork') {
           this.etag = res.headers.get('etag');
         }
         if (res.status === 200 || res.status === 201 || (res.status >= 400 && res.status < 500) || res.status === 500) {
@@ -627,7 +637,7 @@ export default class PegaServices extends PegaElement {
             '',
             window.location.href,
           );
-          if (props !== {} && props.type && props.cmd) {
+          if (props.type && props.cmd) {
             if (props.cmd === 'sendData') {
               this.sendData(props.type, props);
             } else {
@@ -649,7 +659,7 @@ export default class PegaServices extends PegaElement {
             target.disabled = false;
             target.textContent = 'Save';
           }
-          if (type === 'submitassignment') {
+          if (type === 'submitassignment' || type === 'previousstep') {
             /* In case of error - the etag is invalid - we need to get a new one */
             this.fetchData('assignment', { id: this.assignmentID });
           }

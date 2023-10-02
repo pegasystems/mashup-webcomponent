@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 
 const bDebug = false;
-const bHeadless = true;
+const headless = 'new';
 const dir = process.cwd();
 const URL = `file://${dir}/docs/demos/frgov/main.html`;
 const timeout = 20000;
@@ -16,7 +16,7 @@ describe(
     beforeAll(async () => {
       browser = await puppeteer.launch({
         args: ['--disable-web-security'],
-        headless: bHeadless,
+        headless,
         devtools: bDebug,
         slowMo: 10,
       });

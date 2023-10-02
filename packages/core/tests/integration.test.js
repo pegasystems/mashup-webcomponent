@@ -2,7 +2,7 @@ const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 
 const bDebug = false;
-const bHeadless = true;
+const headless = 'new';
 const dir = process.cwd();
 const URL = `file://${dir}/docs/index.html`;
 // const URL = 'https://pegasystems.github.io/mashup-webcomponent/index.html';
@@ -18,7 +18,7 @@ describe(
     beforeAll(async () => {
       browser = await puppeteer.launch({
         args: ['--disable-web-security'],
-        headless: bHeadless,
+        headless,
         devtools: bDebug,
         slowMo: 10,
       });
