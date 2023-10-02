@@ -27,7 +27,7 @@
     <nav aria-label="Primary navigation" class="usa-nav">
       <div class="usa-nav__inner">
         <button class="usa-nav__close">
-          <img src="assets/img/close.svg" role="img" alt="Close">
+          <img src="assets/img/usa-icons/close.svg" role="img" alt="Close">
         </button>
         <ul class="usa-nav__primary usa-accordion">
           <li class="usa-nav__primary-item">
@@ -97,15 +97,15 @@
               <a href="">Log out</a>
             </li>
           </ul>
-          <form class="usa-search usa-search--small" role="search">
-            <label class="usa-sr-only" for="extended-search-field-en-small">
-              Search
-            </label>
-            <input class="usa-input" id="extended-search-field-en-small" type="search" name="search">
-            <button class="usa-button" type="submit">
-              <span class="usa-sr-only">Search</span>
-            </button>
-          </form>
+          <section aria-label="Search component">
+            <form class="usa-search usa-search--small" role="search">
+              <label class="usa-sr-only" for="search-field">Search</label>
+              <input class="usa-input" id="search-field" type="search" name="search" />
+              <button class="usa-button" type="submit">
+                <img src="assets/img/usa-icons-bg/search--white.svg" class="usa-search__submit-icon" alt="Search" />
+              </button>
+            </form>
+          </section>
         </div>
       </div>
     </nav>
@@ -115,9 +115,6 @@
     <div id="main-content"></div>
   </main>
   <footer class="usa-footer">
-    <div class="grid-container usa-footer__return-to-top">
-      <a href="#">Return to top</a>
-    </div>
     <div class="usa-footer__primary-section">
       <nav class="usa-footer__nav" aria-label="Footer navigation">
         <ul class="grid-row grid-gap">
@@ -143,55 +140,6 @@
           </li>
         </ul>
       </nav>
-    </div>
-
-    <div class="usa-footer__secondary-section">
-      <div class="grid-container">
-        <div class="grid-row grid-gap">
-          <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
-            <div class="mobile-lg:grid-col-auto">
-              <p class="usa-footer__logo-heading">
-                US Agency
-              </p>
-            </div>
-          </div>
-          <div class="usa-footer__contact-links mobile-lg:grid-col-6">
-            <div class="usa-footer__social-links grid-row grid-gap-1">
-
-              <div class="grid-col-auto">
-                <a class="usa-social-link usa-social-link--facebook" href="javascript:void(0);">
-                  <span>Facebook</span>
-                </a>
-              </div>
-
-              <div class="grid-col-auto">
-                <a class="usa-social-link usa-social-link--twitter" href="javascript:void(0);">
-                  <span>Twitter</span>
-                </a>
-              </div>
-
-              <div class="grid-col-auto">
-                <a class="usa-social-link usa-social-link--youtube" href="javascript:void(0);">
-                  <span>YouTube</span>
-                </a>
-              </div>
-
-              <div class="grid-col-auto">
-                <a class="usa-social-link usa-social-link--instagram" href="javascript:void(0);">
-                  <span>Instagram</span>
-                </a>
-              </div>
-
-              <div class="grid-col-auto">
-                <a class="usa-social-link usa-social-link--rss" href="javascript:void(0);">
-                  <span>RSS</span>
-                </a>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </footer>
   <script src="./assets/js/uswds.min.js"></script>
