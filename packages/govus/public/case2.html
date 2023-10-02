@@ -198,16 +198,12 @@
   <script src="./pega-govus.js"></script>
   <script>
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-    const defaultSettings = localStorage.getItem('defaultcfg');
     let defaultCfg = {
       url: "https://ssi.pegatsdemo.com/prweb",
       portalName: "WebPortal",
       clientid: "52611610458100286192",
       clientsecret: "6CA6065BFA4D9F40B6D5C01836B5F1FF"
     };
-    if (defaultSettings != null) {
-      defaultCfg = JSON.parse(defaultSettings);
-    }
     function startcase(id) {
       const elem = document.querySelector("#main-content");
       const mytag = document.createElement("pega-govus");

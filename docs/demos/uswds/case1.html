@@ -198,7 +198,6 @@
   <script src="./pega-govus.js"></script>
   <script>
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-    const defaultSettings = localStorage.getItem('defaultcfg');
     let defaultCfg = {
       url: "https://frontend-app.pega.net/prweb",
       portalName: "DemoReact1",
@@ -207,9 +206,6 @@
       clientid: "43524976946816519752",
       clientsecret: "90863E0C04EF929425BBC22004949762",
     };
-    if (defaultSettings != null) {
-      defaultCfg = JSON.parse(defaultSettings);
-    }
     function startcase(id) {
       const elem = document.querySelector("#main-content");
       const mytag = document.createElement("pega-govus");
