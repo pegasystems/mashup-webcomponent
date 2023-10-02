@@ -1,8 +1,18 @@
 /* global i18n */
 import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html';
+
 import { Field } from './fields';
 import { SimpleTable, DisplayList } from './lists';
 
+const Instructions = (paragraph, webcomp) => {
+  if (!paragraph) return null;
+  const paragraphObj = webcomp.data.uiResources.resources.paragraphs[paragraph.replace('@PARAGRAPH ', '')];
+  if (typeof paragraphObj === 'object' && paragraphObj.length === 1 && paragraphObj[0].content) {
+    return html`${unsafeHTML(paragraphObj[0].content)}`;
+  }
+  return null;
+};
 export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
   if (Array.isArray(data) && data.length === 1 && data[0].type === 'View') {
@@ -33,6 +43,7 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
       case 'DefaultForm':
         return html`
           <div>
+            ${Instructions(data.config.instructions, webcomp)}
             ${Layout(data.children[0].children, `${path}-0`, isReadOnly, webcomp, context)}
           </div>
         `;
