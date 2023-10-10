@@ -6,8 +6,8 @@ import { Field } from './fields';
 import { SimpleTable, DisplayList } from './lists';
 
 const Instructions = (paragraph, webcomp) => {
-  if (!paragraph) return null;
-  const paragraphObj = webcomp.data.uiResources.resources.paragraphs[paragraph.replace('@PARAGRAPH ', '')];
+  if (!paragraph || paragraph === 'none') return null;
+  const paragraphObj = webcomp.data.uiResources?.resources?.paragraphs[paragraph.replace('@PARAGRAPH ', '')];
   if (typeof paragraphObj === 'object' && paragraphObj.length === 1 && paragraphObj[0].content) {
     return html`${unsafeHTML(paragraphObj[0].content)}`;
   }
