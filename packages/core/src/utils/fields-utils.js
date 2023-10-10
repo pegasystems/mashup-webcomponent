@@ -109,28 +109,31 @@ export const FieldPreProcessing = (data, path, isReadOnly, webcomp, context) => 
 
   /* Visibility condition */
   if (typeof data.config.visibility === 'string' && data.config.visibility !== 'true') {
-    if (!isValidExpression(data.config.visibility, content, context)) return null;
+    if (data.config.visibility.startsWith('@W ')) {
+      webcomp.isDeclarativeTarget = true;
+    }
+    if (!isValidExpression(data.config.visibility, content, webcomp, context)) return null;
   } else if (data.config.visibility === false || data.config.visibility === 'false') {
     return null;
   }
   /* Read-only condition */
   data.config.readonlystate = false;
   if (typeof data.config.readOnly === 'string' && data.config.readOnly !== 'false') {
-    data.config.readonlystate = isValidExpression(data.config.readOnly, content, context);
+    data.config.readonlystate = isValidExpression(data.config.readOnly, content, webcomp, context);
   } else if (data.config.readOnly === true || data.config.readOnly === 'true' || isDeclarativeTarget) {
     data.config.readonlystate = true;
   }
   /* Required condition */
   data.config.requiredstate = false;
   if (typeof data.config.required === 'string' && data.config.required !== 'false') {
-    data.config.requiredstate = isValidExpression(data.config.required, content, context);
+    data.config.requiredstate = isValidExpression(data.config.required, content, webcomp, context);
   } else if (data.config.required === true || data.config.required === 'true') {
     data.config.requiredstate = true;
   }
   /* Disabled condition */
   data.config.disabledstate = false;
   if (typeof data.config.disabled === 'string' && data.config.disabled !== 'false') {
-    data.config.disabledstate = isValidExpression(data.config.disabled, content, context);
+    data.config.disabledstate = isValidExpression(data.config.disabled, content, webcomp, context);
   } else if (data.config.disabled === true || data.config.disabled === 'true') {
     data.config.disabledstate = true;
   }

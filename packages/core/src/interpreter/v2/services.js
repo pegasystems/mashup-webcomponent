@@ -679,6 +679,7 @@ export default class PegaServices extends PegaElement {
             if (el && response.data.caseInfo && response.data.caseInfo.content) {
               this.data.data.caseInfo.content = response.data.caseInfo.content;
               this.casedata.content = response.data.caseInfo.content;
+              this.data.uiResources.context_data = response.uiResources.context_data;
               render(this.renderMainLayout(this.data.uiResources.resources.views[this.actionID], 'Obj'), el);
             }
             return;

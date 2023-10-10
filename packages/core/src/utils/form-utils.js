@@ -338,37 +338,39 @@ function compare(post, operator, value) {
  * Check if the condition is true - INCOMPLETE - does not handle all use cases like OR and AND
  *
  */
-export const isValidExpression = (expression, content, context) => {
-  const exprs = expression.replace('@E ', '').split('&&');
-  for (const expr in exprs) {
-    const ops = exprs[expr].trim().match(/[\w.]+|[><=!]+|'[^']+'/g);
-    if (ops.length === 3) {
-      const val = context === '' ? content[ops[0].substring(1)] : getValue(content, context + ops[0]);
-      if (typeof val !== 'undefined') {
-        if (!compare(val, ops[1], ops[2].replace(/^'|'$/g, ''))) {
-          return false;
+export const isValidExpression = (expression, content, webcomp, context) => {
+  if (expression.startsWith('@E ')) {
+    const exprs = expression.replace('@E ', '').split('&&');
+    for (const expr in exprs) {
+      const ops = exprs[expr].trim().match(/[\w.]+|[><=!]+|'[^']+'/g);
+      if (ops.length === 3) {
+        const val = context === '' ? content[ops[0].substring(1)] : getValue(content, context + ops[0]);
+        if (typeof val !== 'undefined') {
+          if (!compare(val, ops[1], ops[2].replace(/^'|'$/g, ''))) {
+            return false;
+          }
         }
+      } else if (ops.length === 2 && ops[1] === 'IS_NOT_NULL') {
+        const val = context === '' ? content[ops[0].substring(1)] : getValue(content, context + ops[0]);
+        if (typeof val !== 'undefined') {
+          if (!compare(val, '!=', '')) {
+            return false;
+          }
+        }
+      }
+    }
+  } else if (expression.startsWith('@W ')) {
+    const exprs = expression.replace('@W ', '').split('&&');
+    // eslint-disable-next-line no-underscore-dangle
+    const listWhen = webcomp?.data?.uiResources?.context_data?.caseInfo?.content?.summary_of_when_conditions__;
+    if (listWhen) {
+      for (const expr in exprs) {
+        const ops = exprs[expr];
+        if (!listWhen[ops]) return false;
       }
     }
   }
   return true;
-};
-
-/**
- * Apply the visibility conditions - Work in progress not used currently - instead do refresh
- */
-export const applyVisibleToForm = (form, content) => {
-  const els = form.querySelectorAll('[data-visibility]');
-  for (let i = 0; i < els.length; i++) {
-    const expression = els[i].getAttribute('data-visibility');
-    if (expression !== null) {
-      if (isValidExpression(expression, content)) {
-        els[i].style = 'display:none';
-      } else {
-        els[i].style = '';
-      }
-    }
-  }
 };
 
 /**
