@@ -1,3 +1,4 @@
+/* eslint-disable no-promise-executor-return */
 const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 
@@ -94,7 +95,7 @@ describe(
           type: 'jpeg',
         });
       }
-      await page.waitForTimeout(1000);
+      await new Promise((r) => setTimeout(r, 1000));
       const title = await page.$eval('pega-mashup-light h2', (el) => el.innerText);
       expect(title).toContain('Car Insurance quote');
       await page.type('#case-data #Obj-0-1', 'john');
@@ -118,7 +119,7 @@ describe(
       }
       await page.click('.action-button-area > .Strong', { waitUntil: 'networkidle0' });
       await page.waitForSelector('#case-data', { visible: true });
-      await page.waitForTimeout(1000);
+      await new Promise((r) => setTimeout(r, 1000));
     }, timeout);
 
     it('Process the case - step1', async () => {
@@ -127,32 +128,32 @@ describe(
       await page.type('#case-data #Obj-0-0-0-2', '03/03/2000');
       await page.type('#case-data #Obj-0-0-0-5', '567892345');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(1500);
+      await new Promise((r) => setTimeout(r, 1500));
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
-      expect(title).toBe('Drivers');
+      expect(title).toBe('add cars');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(1500);
+      await new Promise((r) => setTimeout(r, 1500));
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
-      expect(title).toBe('Cars');
-      await page.type('#case-data #Obj-0-row0-0-0-0', 'Omega');
+      expect(title).toBe('Set Drivers');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(1500);
+      await new Promise((r) => setTimeout(r, 1500));
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Select coverage');
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(1500);
+      await new Promise((r) => setTimeout(r, 1500));
       await page.waitForSelector('#case-data', { visible: true });
 
       title = await page.$eval('pega-mashup-light h3', (el) => el.innerText);
       expect(title).toBe('Review');
+      await new Promise((r) => setTimeout(r, 4500));
       await page.click("pega-mashup-light button[data-submit='submit']", { waitUntil: 'networkidle0' });
-      await page.waitForTimeout(4500);
+      await new Promise((r) => setTimeout(r, 4500));
       await page.waitForSelector('#case-data', { visible: true });
     }, timeout);
 
