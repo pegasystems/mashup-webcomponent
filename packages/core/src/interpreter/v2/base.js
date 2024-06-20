@@ -34,7 +34,7 @@ export default class PegaBase extends PegaServices {
     if (window.history.state && window.history.state.token) {
       this.token = window.history.state.token;
     }
-    if ((this.authentication === 'oauth2password' || this.authentication === 'oauth2clientcredentials') && this.token === '') {
+    if ((this.authentication === 'oauth2password' || this.authentication === 'oauth2clientcredentials' || this.authentication === 'custombearer') && this.token === '') {
       this.sendData('authenticate', {});
       return null;
     }

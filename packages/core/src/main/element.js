@@ -16,7 +16,7 @@ export default class PegaElement extends LitElement {
       bShowAttachments: {}, /* Show or hide the attachments button  */
       bShowSave: {}, /* Show or hide the save action (v1 only)  */
       bShowActions: {}, /* Show or hide the actions menu button when opening an assignment */
-      authentication: {}, /* Authentication type - supported values: basic, jwttoken, oauth2password, oauth2clientcredentials  */
+      authentication: {}, /* Authentication type - supported values: basic, jwttoken, oauth2password, oauth2clientcredentials, custombearer  */
       token: {}, /* JWT Token for authentication  */
       clientid: {}, /* oAuth clientid for authentication  */
       clientsecret: {}, /* oAuth clientsecret for authentication  */

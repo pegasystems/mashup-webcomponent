@@ -80,6 +80,9 @@ function createMashup() {
     mytag.password = document.getElementById('password').value;
     mytag.clientid = document.getElementById('clientid').value;
     mytag.clientsecret = document.getElementById('clientsecret').value;
+  } else if (authenticationType === 'custombearer') {
+    mytag.username = document.getElementById('username').value;
+    mytag.clientid = document.getElementById('clientid').value;
   } else if (authenticationType === 'authorizationcode') {
     mytag.clientid = document.getElementById('clientid').value;
   } else {
@@ -235,6 +238,12 @@ function showAuthentication(event) {
     jwttoken.style.display = 'none';
     clientid.style.display = '';
     clientsecret.style.display = '';
+  } else if (action === 'custombearer') {
+    username.style.display = '';
+    password.style.display = 'none';
+    jwttoken.style.display = 'none';
+    clientid.style.display = '';
+    clientsecret.style.display = 'none';
   } else if (action === 'authorizationcode') {
     username.style.display = 'none';
     password.style.display = 'none';

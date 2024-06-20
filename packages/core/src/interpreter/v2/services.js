@@ -531,16 +531,22 @@ export default class PegaServices extends PegaElement {
     switch (type) {
       case 'authenticate':
         if (this.authentication === 'oauth2password') {
-          reqHeaders.body = `grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}` +
+          reqHeaders.body = `grant_type=password&client_id=${this.clientid}&client_secret=${this.clientsecret}&enable_psyncId=true` +
           `&username=${this.username}&password=${this.password}`;
         } else if (this.authentication === 'oauth2clientcredentials') {
-          reqHeaders.body = `grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}`;
+          reqHeaders.body = `grant_type=client_credentials&client_id=${this.clientid}&client_secret=${this.clientsecret}&enable_psyncId=true`;
         } else if (this.authentication === 'authorizationcode') {
           reqHeaders.body = `grant_type=authorization_code&client_id=${this.clientid}` +
           `&code_verifier=${window.history.state.verifier}&code=${window.history.state.code}&redirect_uri=${encodeURIComponent(GetRedirectURL())}`;
+        } if (this.authentication === 'custombearer') {
+          reqHeaders.body = `grant_type=custom-bearer&client_id=${this.clientid}&enable_psyncId=true&userIdentifier=${this.username}`;
         }
         reqHeaders.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         apiurl = `${this.url}/PRRestService/oauth2/v1/token`;
+        const prwebIndex = this.url.indexOf('/prweb');
+        if (prwebIndex !== -1) {
+          apiurl = `${this.url.substring(0, prwebIndex + 6)}/PRRestService/oauth2/v1/token`;
+        }
         break;
       case 'newwork':
         apiurl += 'cases?viewType=form';

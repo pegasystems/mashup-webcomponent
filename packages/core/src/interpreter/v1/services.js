@@ -603,6 +603,10 @@ export default class PegaServices extends PegaElement {
         }
         reqHeaders.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         apiurl = `${this.url}/PRRestService/oauth2/v1/token`;
+        const prwebIndex = this.url.indexOf('/prweb');
+        if (prwebIndex !== -1) {
+          apiurl = `${this.url.substring(0, prwebIndex + 6)}/PRRestService/oauth2/v1/token`;
+        }
         break;
       case 'newwork':
         apiurl += 'cases';

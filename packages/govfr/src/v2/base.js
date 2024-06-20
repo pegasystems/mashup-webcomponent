@@ -24,7 +24,7 @@ export default class PegaBase extends PegaServices {
       return showErrorMessage(this.errorMsg, this.bShowCancel === 'true' ? this.resetError : null);
     }
     /* No need to continue if authentication has not be done */
-    if ((this.authentication === 'oauth2password' || this.authentication === 'oauth2clientcredentials') && this.token === '') {
+    if ((this.authentication === 'oauth2password' || this.authentication === 'oauth2clientcredentials' || this.authentication === 'custombearer') && this.token === '') {
       this.sendData('authenticate', {});
       return null;
     }
