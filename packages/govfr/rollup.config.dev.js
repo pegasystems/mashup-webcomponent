@@ -1,6 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
-import eslint from '@rollup/plugin-eslint';
 import { NunjucksPlugin } from './nunjunk';
 
 export default {
@@ -18,9 +17,6 @@ export default {
       template: 'fragment',
     }),
     resolve(),
-    eslint({
-      fix: true,
-    }),
     serve({
       open: true,
       openPage: '/main.html',

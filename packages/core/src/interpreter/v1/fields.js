@@ -1,4 +1,4 @@
-/* eslint-disable no-self-compare */
+ 
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined';
 import {
@@ -112,7 +112,7 @@ export const Field = (data, path, isReadOnly, webcomp) => {
     const origVal = getValue(webcomp.casedata.content, data.reference);
     if (!origVal) {
       if (data.control.type === 'pxCheckbox') {
-        // eslint-disable-next-line eqeqeq
+         
         setObjectFromRef(webcomp.casedata.content, data.reference, data.value == 'true');
       } else {
         setObjectFromRef(webcomp.casedata.content, data.reference, data.value);

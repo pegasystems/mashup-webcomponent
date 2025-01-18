@@ -1,5 +1,5 @@
 /* global i18n */
-/* eslint-disable no-self-compare */
+ 
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined';
 import { unescapeHTML, pad2char, convertTimestampToDate } from '../../utils/form-utils';
@@ -392,7 +392,7 @@ const DateTimeInput = (data, path) => {
     } else if (data.displayvalue.length === 8) {
       value = `${data.displayvalue.substring(0, 4)}-${data.displayvalue.substring(4, 6)}-${data.displayvalue.substring(6, 8)}T00:00`;
     } else if (data.displayvalue.length === 24) {
-      // eslint-disable-next-line max-len
+       
       value = `${data.displayvalue.substring(0, 4)}-${data.displayvalue.substring(5, 7)}-${data.displayvalue.substring(8, 10)}T${data.displayvalue.substring(11, 13)}:${data.displayvalue.substring(14, 16)}`;
     }
   }

@@ -1,5 +1,5 @@
 /* global i18n */
-/* eslint-disable no-underscore-dangle */
+ 
 import {
   getValue, isValidExpression,
 } from './form-utils';

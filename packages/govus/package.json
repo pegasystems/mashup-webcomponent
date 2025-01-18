@@ -3,12 +3,13 @@
     "version": "1.0.0",
     "description": "Pega UI using US WDS",
     "license": "Apache 2.0",
+    "type": "module",
     "scripts": {
         "dev": "rollup --bundleConfigAsCjs --config rollup.config.dev.js --watch",
         "build": "rollup --bundleConfigAsCjs --config rollup.config.prod.js",
-        "lint": "eslint src/**/*.js --fix; exit 0"
+        "lint": "eslint --fix --color --cache --cache-location node_modules/.cache/eslint/ --max-warnings 0 ."
     },
     "dependencies": {
-        "lit": "^3.1.4"
+        "lit": "^3.2.1"
     }
 }

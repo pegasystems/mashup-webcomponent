@@ -1,7 +1,6 @@
 import resolve from 'rollup-plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import copy from 'rollup-plugin-copy';
-import eslint from '@rollup/plugin-eslint';
 
 export default [
   {
@@ -20,9 +19,6 @@ export default [
       }),
       resolve({
         browser: true,
-      }),
-      eslint({
-        fix: true,
       }),
       terser(),
     ],

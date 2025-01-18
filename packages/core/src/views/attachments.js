@@ -1,5 +1,5 @@
 /* global i18n */
-/* eslint-disable no-param-reassign */
+ 
 import { render, html } from 'lit';
 import { LoadingIndicator } from './loading';
 import {

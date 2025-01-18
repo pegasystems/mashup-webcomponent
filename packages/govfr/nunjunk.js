@@ -1,6 +1,6 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
+ 
+ 
+ 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const nunjucks = require('nunjucks');

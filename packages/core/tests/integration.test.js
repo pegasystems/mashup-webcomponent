@@ -1,4 +1,4 @@
-/* eslint-disable no-promise-executor-return */
+ 
 const { AxePuppeteer } = require('@axe-core/puppeteer');
 const puppeteer = require('puppeteer');
 

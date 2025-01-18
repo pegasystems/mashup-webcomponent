@@ -1,5 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-new */
+ 
+ 
 import { render, html } from 'lit';
 import { pad2char } from '../../core/src/utils/form-utils';
 

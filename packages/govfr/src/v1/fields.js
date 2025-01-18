@@ -1,4 +1,4 @@
-/* eslint-disable no-self-compare */
+ 
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined';
 import { unescapeHTML, pad2char, convertTimestampToDate } from '../../../core/src/utils/form-utils';

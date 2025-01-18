@@ -1,6 +1,6 @@
-/* eslint-disable max-len */
-/* eslint-disable indent */
-/* eslint-disable quote-props */
+ 
+ 
+ 
 window.langFR = {
     'Body Injury': 'Blessure corporelle',
     'Select...': 'Sélectionner...',

@@ -76,6 +76,7 @@ export default class PegaElement extends LitElement {
           if (typeof msg !== 'string') return msg;
           let key = msg;
           if (key.indexOf('@L ') === 0) key = key.substring(3);
+          if (key.indexOf('@FL ') === 0) key = key.substring(4);
           key = key.replace(/^"|"$/g, '').trim();
           key = unescapeHTML(key);
           if (typeof that.langTokens !== 'object') return key;

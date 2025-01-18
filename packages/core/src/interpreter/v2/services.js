@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+
 import { render } from 'lit';
 import { genAttachmentsList } from '../../views/attachments';
 import {
@@ -43,7 +43,8 @@ export default class PegaServices extends PegaElement {
     this.validationMsg = '';
     this.name = '';
     if (this.action === 'workList' || this.action === 'taskList') {
-      this.fetchData('portal');
+      this.fetchData('dataviews', { id: 'D_pxAvailableCaseTypesForPortal', actionid: this.portalName });
+      this.sendData('dataviews', { id: 'D_pyMyWorkList' });
     }
     if (this.action === 'dataView') {
       const params = {};
@@ -304,14 +305,15 @@ export default class PegaServices extends PegaElement {
     };
     let apiurl = `${this.url}/api/application/v2/`;
     switch (type) {
-      case 'portal':
-        apiurl += `portals/${this.portalName}`;
-        break;
       case 'assignment':
         apiurl += `assignments/${id}`;
         break;
       case 'view':
         apiurl += `cases/${id}/views/${actionid}`;
+        break;
+      case 'dataviews':
+        const URLparams = JSON.stringify({ PortalName: actionid });
+        apiurl += `data_views/${id}?dataViewParameters=${encodeURI(URLparams)}`;
         break;
       case 'caseaction':
         apiurl += `cases/${id}/actions/${actionid}`;
@@ -362,18 +364,10 @@ export default class PegaServices extends PegaElement {
           }
           const el = this.getRenderRoot().querySelector('#case-data');
           switch (type) {
-            case 'portal':
-              this.content = {};
-              this.pageInstructions = [];
-              if (!this.casetypes) {
+            case 'dataviews':
+              if(id === 'D_pxAvailableCaseTypesForPortal') {
                 this.casetypes = {};
-                let listofcasestocreate = [];
-                if (response.data && response.data.D_pzCasesAvailableToCreateForPortal && response.data.D_pzCasesAvailableToCreateForPortal.pxResults) {
-                  listofcasestocreate = response.data.D_pzCasesAvailableToCreateForPortal.pxResults;
-                } else if (response.data && response.data.pyPortal && response.data.pyPortal.pyCaseTypesAvailableToCreate) {
-                  listofcasestocreate = response.data.pyPortal.pyCaseTypesAvailableToCreate;
-                }
-                for (const obj of listofcasestocreate) {
+                for (const obj of response.pyCaseTypesAvailableToCreate) {
                   /* If the action is worklist and the createCase is set on the mashup component, we need to filter the list */
                   if ((this.action !== 'workList' && this.action !== 'taskList') || this.casetype === '' || this.casetype === obj.pyClassName) {
                     this.casetypes[obj.pyClassName] = {
@@ -381,27 +375,6 @@ export default class PegaServices extends PegaElement {
                       name: obj.pyLabel,
                     };
                   }
-                }
-              }
-              this.cases = [];
-              let myworklist = [];
-              if (response.data && response.data.D_pyUserWorkList && response.data.D_pyUserWorkList.pxResults) {
-                myworklist = response.data.D_pyUserWorkList.pxResults;
-              } else if (response.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults) {
-                myworklist = response.data[response.uiResources.context_data.pyPortal.summary_of_lists__.D_pyMyWorkList.pxResults
-                  .replace('.pxResults', '')].pxResults;
-              }
-              if (myworklist.length > 0) {
-                for (const obj of myworklist) {
-                  this.cases.push(
-                    {
-                      name: obj.pyLabel,
-                      caseID: obj.pxRefObjectKey,
-                      urgency: obj.pxUrgencyAssign,
-                      ID: obj.pzInsKey,
-                      label: obj.pxTaskLabel,
-                    },
-                  );
                 }
               }
               this.requestUpdate();
@@ -672,10 +645,27 @@ export default class PegaServices extends PegaElement {
         } else {
           const el = this.getRenderRoot().querySelector('#case-data');
           if (type === 'dataviews') {
-            this.data = response.data ?? [];
-            if (typeof props.response === 'function') {
-              props.response(this);
-              return;
+            if (id === 'D_pyMyWorkList') {
+              this.cases = [];
+              if (response.data?.length > 0) {
+                for (const obj of response.data) {
+                  this.cases.push(
+                    {
+                      name: obj.pyLabel,
+                      caseID: obj.pxRefObjectKey,
+                      urgency: obj.pxUrgencyAssign,
+                      ID: obj.pzInsKey,
+                      label: obj.pxTaskLabel,
+                    },
+                  );
+                }
+              }
+            } else {
+              this.data = response.data ?? [];
+              if (typeof props.response === 'function') {
+                props.response(this);
+                return;
+              }
             }
           }
           if (type === 'newwork' && response.data.caseInfo.ID && response.data.caseInfo.ID !== '') {

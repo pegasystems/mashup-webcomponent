@@ -29,7 +29,8 @@ export default class PegaBase extends PegaServices {
       return null;
     }
     if (!this.casetypes && (this.action === 'createNewWork' || this.action === 'workList')) {
-      this.fetchData('portal');
+      this.fetchData('dataviews', { id: 'D_pxAvailableCaseTypesForPortal', actionid: this.portalName });
+      this.sendData('dataviews', { id: 'D_pyMyWorkList' });
       if (this.action === 'createNewWork') {
         this.bShowNew = true;
       } else if (this.action === 'workList') {
@@ -149,7 +150,7 @@ export default class PegaBase extends PegaServices {
       window.google.maps &&
       window.google.maps.places
     ) {
-      // eslint-disable-next-line no-new
+
       new window.google.maps.places.Autocomplete(el);
     }
   };

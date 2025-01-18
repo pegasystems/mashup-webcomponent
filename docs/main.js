@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable max-len */
+ 
 /* global defaultCfg */
 function resetState() {
   const redirectURL = `${window.location.href.substring(0, window.location.href.lastIndexOf('/'))}/index.html`;

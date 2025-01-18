@@ -7,7 +7,7 @@ import { getValue } from '../../utils/form-utils';
 export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
   if (Array.isArray(data) && data.length === 1 && data[0].type === 'View') {
-    // eslint-disable-next-line no-param-reassign
+
     data = data[0];
   }
   if (data.config && data.config.template) {
@@ -16,7 +16,7 @@ export const Layout = (data, path, isReadOnly, webcomp, context) => {
         const propRef = data.config.referenceList.replace('@P .', '').replace('@USER .', '');
         const rows = getValue(webcomp.data.data.caseInfo.content, propRef);
         if (!rows) return null;
-        const heading = data.config.heading.replace('@L ', '');
+        const heading = data.config.heading.replace('@L ', '').replace('@FL ', '');
         return html`${rows.map((row, index) => html`<div><h4>${`${heading} ${index}`}</h4>
         ${Layout(data.children[0].children, `${path}-fieldgroup-${index}`, isReadOnly, webcomp, `${propRef}(${index + 1})`)}</div>`)}`;
       }

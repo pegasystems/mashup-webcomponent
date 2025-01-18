@@ -1,4 +1,4 @@
-/* eslint-disable no-self-compare */
+
 
 /**
  * always make sure that the return value is a string with 2 digits - prepend 0 in front
@@ -79,7 +79,7 @@ export const setBodyContent = (content, path, pageinstructions, casedata, value)
   // If no change, just return
   if (casedata) {
     const origVal = getValue(casedata, path);
-    // eslint-disable-next-line eqeqeq
+
     if (origVal === value || (`${origVal}` === `${value}`) || (origVal === null && value === '')) {
       return;
     }
@@ -324,13 +324,13 @@ function compare(post, operator, value) {
       case '<': return parseInt(post, 10) < parseInt(value, 10);
       case '>=': return parseInt(post, 10) >= parseInt(value, 10);
       case '<=': return parseInt(post, 10) <= parseInt(value, 10);
-        // eslint-disable-next-line eqeqeq
+
       case '==': return `${post}` == `${value}`;
-        // eslint-disable-next-line eqeqeq
+
       case '!=': return `${post}` != `${value}`;
     }
   // eslint-disable-next-line no-empty
-  } catch (e) {}
+  } catch {}
   return false;
 }
 
@@ -361,7 +361,7 @@ export const isValidExpression = (expression, content, webcomp, context) => {
     }
   } else if (expression.startsWith('@W ')) {
     const exprs = expression.replace('@W ', '').split('&&');
-    // eslint-disable-next-line no-underscore-dangle
+
     const listWhen = webcomp?.data?.uiResources?.context_data?.caseInfo?.content?.summary_of_when_conditions__;
     if (listWhen) {
       for (const expr in exprs) {

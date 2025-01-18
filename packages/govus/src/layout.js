@@ -16,7 +16,7 @@ const Instructions = (paragraph, webcomp) => {
 export const Layout = (data, path, isReadOnly, webcomp, context) => {
   if (typeof data === 'undefined') return null;
   if (Array.isArray(data) && data.length === 1 && data[0].type === 'View') {
-    // eslint-disable-next-line no-param-reassign
+     
     data = data[0];
   }
   if (data.config && data.config.template) {
